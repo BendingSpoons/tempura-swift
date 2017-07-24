@@ -7,16 +7,31 @@
 //
 
 import UIKit
+import Katana
+import Tempura
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   var window: UIWindow?
-
+  var store: Store<AppState> = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.installRoot(identifier: Screen.main.rawValue) {
+      self.window?.makeKeyAndVisible()
+    }
+    
     return true
+  }
+  
+  func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
+    if identifier == Screen.main.rawValue {
+      let mainViewController = MainViewController(store: self.store)
+      self.window?.rootViewController = mainViewController
+      completion()
+    }
   }
 
   func applicationWillResignActive(_ application: UIApplication) {

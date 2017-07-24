@@ -103,6 +103,13 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
     super.viewWillDisappear(animated)
   }
   
+  open override func viewDidLoad() {
+    self.setupInteraction()
+  }
+  
+  /// ask to setup the interaction with the managed view
+  open func setupInteraction() {}
+  
   // not necessary?
   deinit {
     self.unsubscribe?()
