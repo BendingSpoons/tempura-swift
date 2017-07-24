@@ -40,7 +40,11 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   
   /// used internally to load the specific main view managed by this view controller
   open override func loadView() {
-    self.view = V()
+    let v = V()
+    v.viewController = self
+    v.setup()
+    v.style()
+    self.view = v
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes

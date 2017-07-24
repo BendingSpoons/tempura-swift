@@ -24,10 +24,20 @@ open class ModellableView<VM: ViewModel>: UIView {
     }
   }
   
+  /// used to access navigationBar
+  weak var viewController: UIViewController?
+  
+  /// shortcut to the navigationBar, if present
+  public var navigationBar: UINavigationBar? {
+    return viewController?.navigationController?.navigationBar
+  }
+  /// shortcut to the navigationItem, if present
+  public var navigationItem: UINavigationItem? {
+    return viewController?.navigationController?.navigationItem
+  }
+  
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    self.setup()
-    self.style()
   }
   
   open func setup() {}
