@@ -40,7 +40,7 @@ public protocol Routable {
                    completion: @escaping RoutingCompletion) -> Bool
 }
 
-extension Routable {
+public extension Routable {
   public func push(identifier: RouteElementIdentifier,
                         animated: Bool,
                         completion: @escaping RoutingCompletion) {
@@ -60,7 +60,7 @@ extension Routable {
     fatalError("This Routable element cannot change the navigation, the implementation of \(#function) is missing")
   }
   
-  func handleModal(from: UIViewController,
+  public func handleModal(from: UIViewController,
                    modal: RouteElementIdentifier,
                    animated: Bool,
                    completion: @escaping RoutingCompletion) -> Bool {

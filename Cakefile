@@ -48,7 +48,8 @@ demo = target do |target|
     target.type = :application
     
     target.include_files = [
-        "Demo/**/*.swift"
+        "Demo/**/*.swift",
+	"Demo/Resources/photo.png"
     ]
 
     target.all_configurations.each do |configuration|

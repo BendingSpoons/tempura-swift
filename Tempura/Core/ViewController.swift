@@ -28,7 +28,7 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   }
   
   /// the store the viewController will use to receive state updates
-  private var store: AnyStore
+  public var store: AnyStore
   
   /// closure used to unsubscribe the viewController from state updates
   private var unsubscribe: StoreUnsubscribe?
@@ -44,8 +44,9 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
-  public init(store: AnyStore) {
+  public init(store: AnyStore, connected: Bool = true) {
     self.store = store
+    self.connected = true
     super.init(nibName: nil, bundle: nil)
   }
   

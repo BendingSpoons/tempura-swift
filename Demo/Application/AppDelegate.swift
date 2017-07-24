@@ -19,16 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     self.window = UIWindow(frame: UIScreen.main.bounds)
-    self.installRoot(identifier: Screen.main.rawValue) {
+    self.installRoot(identifier: Screen.tabbar.rawValue) {
       self.window?.makeKeyAndVisible()
     }
-    
     return true
   }
   
   func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
-    if identifier == Screen.main.rawValue {
-      let mainViewController = MainViewController(store: self.store)
+    if identifier == Screen.tabbar.rawValue {
+      let mainViewController = TabBarController(store: self.store)
       self.window?.rootViewController = mainViewController
       completion()
     }

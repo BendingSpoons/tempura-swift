@@ -38,13 +38,42 @@ public class Navigator {
     self.rootInstaller?(self.window, self.getStore(), self.root, nil)
   }*/
   
-  public func routeDidChange(newRoute: Route, isAnimated: Bool) {
+  public func changeRoute(newRoute: Route, animated: Bool) {
     var oldRoute: Route = []
     DispatchQueue.main.sync {
       oldRoute = UIApplication.shared.currentRoute
     }
     let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
-    routeChanges.forEach { routeChange in
+    
+    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+  }
+  
+  public func push(to route: Route, animated: Bool) {
+    var oldRoute: Route = []
+    DispatchQueue.main.sync {
+      oldRoute = UIApplication.shared.currentRoute
+    }
+    let newRoute: Route = oldRoute + route
+    let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
+    
+    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+  }
+  
+  public func pop(animated: Bool) {
+    var oldRoute: Route = []
+    DispatchQueue.main.sync {
+      oldRoute = UIApplication.shared.currentRoute
+    }
+    var newRoute: Route = oldRoute
+    newRoute.removeLast()
+    let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
+    
+    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+  }
+  
+  private func routeDidChange(changes: [RouteChange], isAnimated: Bool) {
+    
+    changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
       // only one routing action can run at any given time. This is important for using this
@@ -55,21 +84,30 @@ public class Navigator {
         switch routeChange {
         case .pop( let currentRouteElementIdentifier, let toPop):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else { semaphore.signal(); return }
+            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
+              semaphore.signal()
+              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to pop '\(toPop)'")
+            }
             currentRoutable.pop(identifier: toPop, animated: isAnimated, completion: {
               semaphore.signal()
             })
           }
         case .push(let currentRouteElementIdentifier, let routeElementToPush):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else { semaphore.signal(); return }
+            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
+              semaphore.signal()
+              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to push '\(routeElementToPush)'")
+            }
             let _ = currentRoutable.push(identifier: routeElementToPush, animated: isAnimated, completion: {
               semaphore.signal()
             })
           }
         case .change(let currentRouteElementIdentifier, let from, let to):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else { semaphore.signal(); return }
+            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
+              semaphore.signal()
+              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to change to '\(to)'")
+            }
             let _ = currentRoutable.change(from: from, to: to, animated: isAnimated, completion: {
               semaphore.signal()
             })
@@ -163,7 +201,7 @@ extension UIApplication {
   var currentRoute: Route {
     let controllers = self.currentViewControllers
     let route: Route = controllers.flatMap {
-      return ($0 as? Routable)?.routeIdentifier
+      return ($0 as? Routable)?.routeIdentifier ?? String(describing: type(of:$0))
     }
     return route
   }
