@@ -28,7 +28,7 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   }
   
   /// the store the viewController will use to receive state updates
-  private var store: Store<S>
+  private var store: AnyStore
   
   /// closure used to unsubscribe the viewController from state updates
   private var unsubscribe: StoreUnsubscribe?
@@ -44,7 +44,7 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
-  public init(store: Store<S>) {
+  public init(store: AnyStore) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
   }
@@ -77,7 +77,7 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
   
   /// this method is called every time the store trigger a state update
   private func storeDidChange() {
-    let newState = self.store.state
+    guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
     self.update(with: newState)
   }
   
