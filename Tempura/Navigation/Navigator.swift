@@ -125,44 +125,43 @@ public class Navigator {
           }
         case .presentModally(routeElementToPresentModally: let identifier):
           DispatchQueue.main.async {
-            let routables = UIApplication.shared.currentRoutables
+            let routables = UIApplication.shared.currentRoutables.reversed()
             let topViewController = UIApplication.shared.currentViewControllers.last!
             var handled = false
-            var currentRoutableIndex = routables.count - 1
-            while !handled && currentRoutableIndex >= 0 {
-              let currentRoutable = routables[currentRoutableIndex]
-              handled = currentRoutable.presentModally(from: topViewController,
+            
+            for routable in routables where !handled {
+              handled = routable.presentModally(from: topViewController,
                                                        modal: identifier,
                                                        animated: isAnimated,
                                                        completion: {
                                                         semaphore.signal()
               })
-              currentRoutableIndex -= 1
             }
-            if currentRoutableIndex < 0 && !handled {
+            
+            if !handled {
               semaphore.signal()
               fatalError("modal presentation of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
           }
         case .dismissModally(routeElementToDismissModally: let identifier):
           DispatchQueue.main.async {
-            let routables = UIApplication.shared.currentRoutables
+            let routables = UIApplication.shared.currentRoutables.reversed()
             guard let viewControllerToDismiss = UIApplication.shared.routable(for: identifier) as? UIViewController else {
               fatalError("there is no Routable element with identifier '\(identifier)' or the Routable element is not a UIViewController subclass")
             }
             var handled = false
-            var currentRoutableIndex = routables.count - 1
-            while !handled && currentRoutableIndex >= 0 {
-              let currentRoutable = routables[currentRoutableIndex]
-              handled = currentRoutable.dismissModally(identifier: identifier,
+            
+            for routable in routables where !handled {
+              handled = routable.dismissModally(identifier: identifier,
                                                        vcToDismiss: viewControllerToDismiss,
                                                        animated: isAnimated,
                                                        completion: {
                                                         semaphore.signal()
-                  })
-              currentRoutableIndex -= 1
+              })
             }
-            if currentRoutableIndex < 0 && !handled {
+            
+            
+            if !handled {
               semaphore.signal()
               fatalError("modal dismissal of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
