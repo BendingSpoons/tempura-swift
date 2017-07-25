@@ -34,10 +34,17 @@ public protocol Routable {
   /// animated: specify if the presentation should be animated
   /// completion: this completion handler MUST be called when the presentation is complete
   /// return true if self is handling the presentation of the modal
-  func handleModal(from: UIViewController,
+  func presentModally(from: UIViewController,
                    modal: RouteElementIdentifier,
                    animated: Bool,
                    completion: @escaping RoutingCompletion) -> Bool
+  
+  
+  // ATTENTION: you should call completion only if you return true
+  func dismissModally(identifier: RouteElementIdentifier,
+                      vcToDismiss: UIViewController,
+                      animated: Bool,
+                      completion: @escaping RoutingCompletion) -> Bool
 }
 
 public extension Routable {
@@ -60,10 +67,17 @@ public extension Routable {
     fatalError("This Routable element cannot change the navigation, the implementation of \(#function) is missing")
   }
   
-  public func handleModal(from: UIViewController,
-                   modal: RouteElementIdentifier,
-                   animated: Bool,
-                   completion: @escaping RoutingCompletion) -> Bool {
+  public func presentModally(from: UIViewController,
+                             modal: RouteElementIdentifier,
+                             animated: Bool,
+                             completion: @escaping RoutingCompletion) -> Bool {
+    return false
+  }
+  
+  public func dismissModally(identifier: RouteElementIdentifier,
+                             vcToDismiss: UIViewController,
+                             animated: Bool,
+                             completion: @escaping RoutingCompletion) -> Bool {
     return false
   }
 }

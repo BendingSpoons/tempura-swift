@@ -48,6 +48,17 @@ public class Navigator {
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
+  public func presentModally(routeElementID: RouteElementIdentifier, animated: Bool) {
+    let change = RouteChange.presentModally(routeElementToPresentModally: routeElementID)
+    self.routeDidChange(changes: [change], isAnimated: animated)
+    
+  }
+  
+  public func dismissModally(routeElementID: RouteElementIdentifier, animated: Bool) {
+    let change = RouteChange.dismissModally(routeElementToDismissModally: routeElementID)
+    self.routeDidChange(changes: [change], isAnimated: animated)
+  }
+  
   public func push(to route: Route, animated: Bool) {
     var oldRoute: Route = []
     DispatchQueue.main.sync {
@@ -111,6 +122,50 @@ public class Navigator {
             let _ = currentRoutable.change(from: from, to: to, animated: isAnimated, completion: {
               semaphore.signal()
             })
+          }
+        case .presentModally(routeElementToPresentModally: let identifier):
+          DispatchQueue.main.async {
+            let routables = UIApplication.shared.currentRoutables
+            let topViewController = UIApplication.shared.currentViewControllers.last!
+            var handled = false
+            var currentRoutableIndex = routables.count - 1
+            while !handled && currentRoutableIndex >= 0 {
+              let currentRoutable = routables[currentRoutableIndex]
+              handled = currentRoutable.presentModally(from: topViewController,
+                                                       modal: identifier,
+                                                       animated: isAnimated,
+                                                       completion: {
+                                                        semaphore.signal()
+              })
+              currentRoutableIndex -= 1
+            }
+            if currentRoutableIndex < 0 && !handled {
+              semaphore.signal()
+              fatalError("modal presentation of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
+            }
+          }
+        case .dismissModally(routeElementToDismissModally: let identifier):
+          DispatchQueue.main.async {
+            let routables = UIApplication.shared.currentRoutables
+            guard let viewControllerToDismiss = UIApplication.shared.routable(for: identifier) as? UIViewController else {
+              fatalError("there is no Routable element with identifier '\(identifier)' or the Routable element is not a UIViewController subclass")
+            }
+            var handled = false
+            var currentRoutableIndex = routables.count - 1
+            while !handled && currentRoutableIndex >= 0 {
+              let currentRoutable = routables[currentRoutableIndex]
+              handled = currentRoutable.dismissModally(identifier: identifier,
+                                                       vcToDismiss: viewControllerToDismiss,
+                                                       animated: isAnimated,
+                                                       completion: {
+                                                        semaphore.signal()
+                  })
+              currentRoutableIndex -= 1
+            }
+            if currentRoutableIndex < 0 && !handled {
+              semaphore.signal()
+              fatalError("modal dismissal of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
+            }
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
@@ -191,8 +246,15 @@ public class Navigator {
   
   enum RouteChange {
     case push(currentRouteElementIdentifier: RouteElementIdentifier, routeElementToPush: RouteElementIdentifier)
+    
     case pop(currentRouteElementIdentifier: RouteElementIdentifier, routeElementToPop: RouteElementIdentifier)
+    
     case change(currentRouteElementIdentifier: RouteElementIdentifier, from: RouteElementIdentifier, to: RouteElementIdentifier)
+    
+    case presentModally(routeElementToPresentModally: RouteElementIdentifier)
+    
+    case dismissModally(routeElementToDismissModally: RouteElementIdentifier)
+    
     case rootChange(from: RouteElementIdentifier, to: RouteElementIdentifier)
   }
 }
@@ -217,7 +279,7 @@ extension UIApplication {
 
 extension UIApplication {
   func routable(for identifier: RouteElementIdentifier) -> Routable? {
-    let routables = self.currentRoutables
+    let routables = self.currentRoutables.reversed()
     return routables.first(where: { routable -> Bool in
       routable.routeIdentifier == identifier
     })

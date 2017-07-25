@@ -15,6 +15,7 @@ enum Screen: String {
   case home
   case storyCover
   case storyChat
+  case modalTest
 }
 
 // HOME
@@ -50,5 +51,49 @@ extension RoutableNavigationController: Routable {
 extension StoryCoverViewController: Routable {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.storyCover.rawValue
+  }
+}
+
+// MODAL TEST
+extension ModalTestViewController: Routable {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.modalTest.rawValue
+  }
+}
+
+// TABBAR
+extension TabBarController: Routable {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.tabbar.rawValue
+  }
+  
+  func presentModally(from: UIViewController,
+                      modal: RouteElementIdentifier,
+                      animated: Bool,
+                      completion: @escaping RoutingCompletion) -> Bool {
+    if modal == Screen.modalTest.rawValue {
+      let vc = ModalTestViewController(store: self.store)
+      from.present(vc, animated: animated, completion: {
+        completion()
+      })
+      return true
+    }
+    return false
+  }
+  
+  func dismissModally(identifier: RouteElementIdentifier,
+                      vcToDismiss: UIViewController,
+                      animated: Bool,
+                      completion: @escaping RoutingCompletion) -> Bool {
+    // check if the vcToDismiss has been presented modally
+    // this is because the same ModalTestViewController is also present in the navigation stack as a child of the TabBarController
+    if vcToDismiss.presentingViewController != nil {
+      vcToDismiss.dismiss(animated: animated) {
+        completion()
+      }
+      return true
+    }
+    completion()
+    return true
   }
 }

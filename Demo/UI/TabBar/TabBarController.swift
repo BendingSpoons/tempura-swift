@@ -44,15 +44,15 @@ class TabBarController: UITabBarController {
     let profile = UIViewController()
     profile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 3)
     
-    // SETTINGS
-    let settings = UIViewController()
-    settings.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 4)
+    // MODAL TEST
+    let modalTest = ModalTestViewController(store: self.store)
+    modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 4)
     
     self.viewControllers = [homeNavigationController,
                             discover,
                             newStory,
                             profile,
-                            settings
+                            modalTest
                           ]
   }
 
