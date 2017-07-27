@@ -16,6 +16,11 @@ class StoryCoverViewController: ViewController<StoryCoverView, AppState, StoryCo
     }
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    self.rootView.backgroundImage.heroID = "coverBackground"
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     

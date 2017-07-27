@@ -14,9 +14,14 @@ import Tempura
 class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   var window: UIWindow?
-  var store: Store<AppState> = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
+  var store: Store<AppState>?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    self.store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
+    // set this store as the default for the Tempura ViewControllers
+    Tempura.store = self.store
+    // set this helper to access dependencies globally in the app
+    App.dependencies = self.store!.dependencies as? DependenciesContainer
     // Override point for customization after application launch.
     self.window = UIWindow(frame: UIScreen.main.bounds)
     self.installRoot(identifier: Screen.tabbar.rawValue) {
@@ -27,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   
   func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
     if identifier == Screen.tabbar.rawValue {
-      let mainViewController = TabBarController(store: self.store)
+      let mainViewController = TabBarController(store: self.store!)
       self.window?.rootViewController = mainViewController
       completion()
     }

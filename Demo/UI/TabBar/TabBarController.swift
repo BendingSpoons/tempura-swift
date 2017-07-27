@@ -32,26 +32,18 @@ class TabBarController: UITabBarController {
     homeNavigationController.heroNavigationAnimationType = .fade
     homeNavigationController.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
     homeNavigationController.setNavigationBarHidden(true, animated: false)
-    // DISCOVER
-    let discover = UIViewController()
-    discover.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
     
-    // NEW STORY
-    let newStory = UIViewController()
-    newStory.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
-    
-    // PROFILE
-    let profile = UIViewController()
-    profile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 3)
+    // DEPENDENCIES TEST
+    guard let fakeManager = App.dependencies?.fakeManager else { fatalError("fakeManager is needed") }
+    let dependenciesTest = DependenciesTestViewController(dependency: fakeManager)
+    dependenciesTest.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 3)
     
     // MODAL TEST
     let modalTest = ModalTestViewController(store: self.store)
     modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 4)
     
     self.viewControllers = [homeNavigationController,
-                            discover,
-                            newStory,
-                            profile,
+                            dependenciesTest,
                             modalTest
                           ]
   }

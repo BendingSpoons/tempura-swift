@@ -15,11 +15,11 @@ target 'Tempura' do
   end
 
   target 'Demo' do
-  pod 'Tempura', :path => './'
-  pod 'PinLayout'
-  pod 'BonMot'
-  pod 'Hero'
-  pod 'Chocolate'
+    pod 'Tempura', :path => './'
+    pod 'PinLayout'
+    pod 'BonMot'
+    pod 'Hero'
+    pod 'Chocolate'
   end
 end
 

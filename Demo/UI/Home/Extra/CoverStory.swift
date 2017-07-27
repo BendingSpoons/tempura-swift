@@ -123,22 +123,22 @@ class CoverStory: UICollectionReusableView {
     self.overlayView.backgroundColor = UIColor(white: 0, alpha: 0.3)
     
     self.titleLabel.attributedText = self.title.uppercased().styled(with: StringStyle(
-      .font(AppFont.AvenirNext.bold(size: 29)),
+      .font(App.Style.Font.AvenirNext.bold(size: 29)),
       .color(UIColor(rgbHex: "#F4EDE8"))
     ))
     
     let genrePart = self.subtitle.genre.styled(with: StringStyle(
-      .font(AppFont.h3.boldVersion),
+      .font(App.Style.Font.h3.boldVersion),
       .color(UIColor(rgbHex: "#E1D8C7"))
     ))
     
     let connectorPart = self.subtitle.connector.styled(with: StringStyle(
-      .font(AppFont.h3),
+      .font(App.Style.Font.h3),
       .color(UIColor(rgbHex: "#E1D8C7"))
     ))
     
     let authorPart = self.subtitle.author.styled(with: StringStyle(
-      .font(AppFont.h3.boldVersion),
+      .font(App.Style.Font.h3.boldVersion),
       .color(UIColor(rgbHex: "#E1D8C7"))
     ))
     

@@ -16,6 +16,7 @@ import Katana
  - update the viewModel when a new state is available
  - feed the view with the updated viewModel
  */
+
 open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController where VM.S == S {
   
   /// true if the viewController is connected to the store, false otherwise
@@ -52,6 +53,12 @@ open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController
     self.store = store
     self.connected = true
     super.init(nibName: nil, bundle: nil)
+  }
+  
+  /// convenience initializer that uses the global Tempura store
+  public convenience init(connected: Bool = true) {
+    guard let store = Tempura.store else { fatalError("Tempura.store is not specified") }
+    self.init(store: store, connected: connected)
   }
   
   /// shortcut to the dispatch function

@@ -39,7 +39,6 @@ public protocol Routable {
                    animated: Bool,
                    completion: @escaping RoutingCompletion) -> Bool
   
-  
   // ATTENTION: you should call completion only if you return true
   func dismissModally(identifier: RouteElementIdentifier,
                       vcToDismiss: UIViewController,

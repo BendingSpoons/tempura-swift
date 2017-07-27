@@ -10,21 +10,26 @@ import Foundation
 import UIKit
 import Chocolate
 
-enum AppPalette {
-  static var white = UIColor(rgbHex: "#ECEEEB")
-  static var yellowish = UIColor(rgbHex: "#D8C9A7")
-  static var dirtWhite = UIColor(rgbHex: "#D2CFC7")
-}
-
-enum AppFont {
-  static var h1: UIFont = AppFont.AvenirNext.bold(size: 36.0)
-  static var h2: UIFont = AppFont.AvenirNext.bold(size: 20.0)
-  static var h3: UIFont = AppFont.AvenirNext.regular(size: 16.0)
-  static var body: UIFont = UIFont.systemFont(ofSize: 16.0)
+extension App {
+  enum Style {
+    enum Palette {
+      static var white = UIColor(rgbHex: "#ECEEEB")
+      static var yellowish = UIColor(rgbHex: "#D8C9A7")
+      static var dirtWhite = UIColor(rgbHex: "#D2CFC7")
+      static var black = UIColor(rgbHex: "#050505")
+    }
+    
+    enum Font {
+      static var h1: UIFont = AvenirNext.bold(size: 36.0)
+      static var h2: UIFont = AvenirNext.bold(size: 20.0)
+      static var h3: UIFont = AvenirNext.regular(size: 16.0)
+      static var body: UIFont = UIFont.systemFont(ofSize: 16.0)
+    }
+  }
 }
 
 // Avenir Next
-extension AppFont {
+extension App.Style.Font {
   enum AvenirNext {
     static func bold(size: CGFloat) -> UIFont {
       print(UIFont(name: "AvenirNext-Bold", size: size)!)

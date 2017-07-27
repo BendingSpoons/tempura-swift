@@ -15,6 +15,8 @@ final class DependenciesContainer: NavigationProvider {
   
   var getAppState: () -> AppState
   
+  var fakeManager: FakeManager = FakeManager()
+  
   var getState: () -> State {
     return self.getAppState
   }
@@ -22,7 +24,6 @@ final class DependenciesContainer: NavigationProvider {
   required init(dispatch: @escaping StoreDispatch, getAppState: @escaping () -> AppState) {
     self.dispatch = dispatch
     self.getAppState = getAppState
-    
   }
 }
 

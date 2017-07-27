@@ -27,7 +27,7 @@ extension HomeViewController: Routable {
   func push(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
     // HOME -> STORY COVER
     if identifier == Screen.storyCover.rawValue {
-      let sc = StoryCoverViewController(store: self.store)
+      let sc = StoryCoverViewController()
       sc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(sc, animated: animated)
       completion()
@@ -72,7 +72,7 @@ extension TabBarController: Routable {
                       animated: Bool,
                       completion: @escaping RoutingCompletion) -> Bool {
     if modal == Screen.modalTest.rawValue {
-      let vc = ModalTestViewController(store: self.store)
+      let vc = ModalTestViewController()
       from.present(vc, animated: animated, completion: {
         completion()
       })

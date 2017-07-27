@@ -76,11 +76,11 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   // MARK: - STYLE
   override func style() {
     self.title.textAlignment = .left
-    self.title.font = AppFont.h1
-    self.title.textColor = AppPalette.white
+    self.title.font = App.Style.Font.h1
+    self.title.textColor = App.Style.Palette.white
     self.subtitle.textAlignment = .left
     self.descr.textAlignment = .left
-    self.descr.textColor = AppPalette.dirtWhite
+    self.descr.textColor = App.Style.Palette.dirtWhite
   }
   
   // MARK: -  UPDATE
@@ -93,8 +93,8 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   
   private func attributedStringForSubtitleComponents(components: StoryCoverViewModel.SubtitleComponents) -> NSAttributedString {
     let firstFont = UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold)
-    let color = AppPalette.yellowish
-    let secondFont = AppFont.system(size: 20)
+    let color = App.Style.Palette.yellowish
+    let secondFont = App.Style.Font.system(size: 20)
     let partOne = NSMutableAttributedString(string: components.0 + " ",
                                             attributes: [
                                               NSForegroundColorAttributeName: color,
