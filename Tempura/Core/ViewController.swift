@@ -17,7 +17,7 @@ import Katana
  - feed the view with the updated viewModel
  */
 
-open class ViewController<V: ModellableView<VM>, S: State, VM>: UIViewController where VM.S == S {
+open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController where VM.S == S {
   
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store

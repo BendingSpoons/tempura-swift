@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class StoryCoverViewController: ViewController<StoryCoverView, AppState, StoryCoverViewModel> {
+class StoryCoverViewController: ViewController<StoryCoverView, StoryCoverViewModel, AppState> {
   var forcedViewModel: StoryCoverViewModel? {
     didSet {
       self.manageForcedViewModelChange()

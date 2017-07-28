@@ -9,7 +9,7 @@
 import Foundation
 import Tempura
 
-class MainViewController: ViewController<MainView, AppState, MainViewModel> {
+class MainViewController: ViewController<MainView, MainViewModel, AppState> {
   
   // MARK: - Interaction
   override func setupInteraction() {

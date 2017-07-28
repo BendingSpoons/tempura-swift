@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class StoryChatViewController: ViewController<StoryChatView, AppState, StoryChatViewModel> {
+class StoryChatViewController: ViewController<StoryChatView, StoryChatViewModel, AppState> {
     
 }
 
