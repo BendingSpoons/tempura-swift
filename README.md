@@ -16,8 +16,8 @@ With Tempura you can use Katana to handle the logic part of your app while still
 
 
 # Anatomy of a Screen
-In Tempura a Screen is composed by three components that interoperate to get the actual pixels to the screen and to keep them updated when the state changes.
-These are `ViewController`, `View` and `ViewModel`.
+In Tempura, a Screen is composed by three different components that interoperate to get the actual pixels on the screen and to keep them updated when the state changes.
+These are: `ViewController`, `View` and `ViewModel`.
 
 ![AnatomyOfAScreen](./readme.png)
 
