@@ -34,6 +34,14 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   /// closure used to unsubscribe the viewController from state updates
   private var unsubscribe: StoreUnsubscribe?
   
+  /// used to have the last viewModel available if we want to update it for local state changes
+  public var viewModel: VM = VM() {
+    didSet {
+      // the viewModel is changed, update the View
+      self.rootView.model = viewModel
+    }
+  }
+  
   /// use the rootView to access the main view managed by this viewController
   open var rootView: V {
     return self.view as! V
@@ -95,8 +103,10 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   
   /// handle the state update, create a new updated viewModel and feed the view with that
   private func update(with state: S) {
-    let viewModel = VM(state: state)
-    self.rootView.model = viewModel
+    // update the view model using the new state available
+    // note that the updated method should take into account the local state that should remain untouched
+    let viewModel = self.viewModel.updated(with: state)
+    self.viewModel = viewModel
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates
