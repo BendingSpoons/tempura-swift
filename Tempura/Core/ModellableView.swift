@@ -33,7 +33,7 @@ open class ModellableView<VM: ViewModel>: UIView {
   }
   /// shortcut to the navigationItem, if present
   public var navigationItem: UINavigationItem? {
-    return viewController?.navigationController?.navigationItem
+    return viewController?.navigationItem
   }
   
   public override init(frame: CGRect) {
