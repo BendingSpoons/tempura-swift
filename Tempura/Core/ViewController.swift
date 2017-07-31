@@ -105,8 +105,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   private func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-    let viewModel = self.viewModel.updated(with: state)
-    self.viewModel = viewModel
+    self.viewModel.update(with: state)
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates
@@ -126,6 +125,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   }
   
   open override func viewDidLoad() {
+    super.viewDidLoad()
     self.setupInteraction()
   }
   

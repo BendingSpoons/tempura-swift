@@ -54,4 +54,3 @@ final class HomeCollectionLayout: UICollectionViewFlowLayout {
     return attributes
   }
 }
-

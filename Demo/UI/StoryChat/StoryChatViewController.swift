@@ -12,4 +12,3 @@ import Tempura
 class StoryChatViewController: ViewController<StoryChatView, StoryChatViewModel, AppState> {
     
 }
-

@@ -26,7 +26,7 @@ class TabBarController: UITabBarController {
   
   func setupChildren() {
     // HOME
-    let home = HomeViewController(store: self.store)
+    let home = HomeViewController()
     let homeNavigationController = RoutableNavigationController(rootViewController: home)
     homeNavigationController.isHeroEnabled = true
     homeNavigationController.heroNavigationAnimationType = .fade
@@ -36,14 +36,19 @@ class TabBarController: UITabBarController {
     // DEPENDENCIES TEST
     guard let fakeManager = App.dependencies?.fakeManager else { fatalError("fakeManager is needed") }
     let dependenciesTest = DependenciesTestViewController(dependency: fakeManager)
-    dependenciesTest.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 3)
+    dependenciesTest.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
+    
+    // LOCAL STATE TEST
+    let localStateTest = LocalStateTestViewController()
+    localStateTest.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 2)
     
     // MODAL TEST
-    let modalTest = ModalTestViewController(store: self.store)
-    modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 4)
+    let modalTest = ModalTestViewController()
+    modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 3)
     
     self.viewControllers = [homeNavigationController,
                             dependenciesTest,
+                            localStateTest,
                             modalTest
                           ]
   }

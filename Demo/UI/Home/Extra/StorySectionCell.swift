@@ -12,7 +12,7 @@ import BonMot
 final class StorySectionCell: UICollectionViewCell {
   static let identifier = String(reflecting: StorySectionCell.self)
 
-  enum Section: Int  {
+  enum Section: Int {
     case reading = 0
     case trending = 1
     case newFromCommunity = 2
@@ -118,7 +118,7 @@ final class StorySectionCell: UICollectionViewCell {
   }
 }
 
-// MARK - Internal Collection
+// MARK: - Internal Collection
 
 private final class SectionCollectionView: UICollectionView {
   private let customDelegate: SectionCollectionDelegate

@@ -11,12 +11,6 @@ import Tempura
 
 class ModalTestViewController: ViewController<ModalTestView, ModalTestViewModel, AppState> {
   
-  var localState: Int = 0 {
-    didSet {
-      self.viewModel.localProperty = self.localState
-    }
-  }
-  
   override func setupInteraction() {
     self.rootView.closeButtonDidTap = self.closeButtonDidTap
     self.rootView.presentButtonDidTap = self.presentButtonDidTap
@@ -28,9 +22,5 @@ class ModalTestViewController: ViewController<ModalTestView, ModalTestViewModel,
   
   func presentButtonDidTap() {
     self.dispatch(action: PresentModally(routeElementID: Screen.modalTest.rawValue, animated: true))
-  }
-  
-  func openButtonTap() {
-    self.localState = 3
   }
 }

@@ -13,6 +13,5 @@ public protocol ViewModel {
   associatedtype S = State
   init()
   
-  // TODO: change in mutating
-  mutating func updated(with state: S)
+  mutating func update(with state: S)
 }

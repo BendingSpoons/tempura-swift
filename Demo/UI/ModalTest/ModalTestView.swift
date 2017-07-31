@@ -45,11 +45,11 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
     self.presentButton.setTitle("present modal", for: .normal)
   }
   
-  // MARK: -  UPDATE
+  // MARK: - UPDATE
   override func update(model: ModalTestViewModel, oldModel: ModalTestViewModel) {
   }
   
-  // MARK: -  INTERACTION
+  // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?
   var presentButtonDidTap: Interaction?
   
@@ -61,7 +61,7 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
     self.presentButtonDidTap?()
   }
   
-  // MARK: -  LAYOUT
+  // MARK: - LAYOUT
   
   override func layout(model: ModalTestViewModel) {
     self.closeButton.pin.size(CGSize(width: 150, height: 60))

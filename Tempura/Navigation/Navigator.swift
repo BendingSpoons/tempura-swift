@@ -160,7 +160,6 @@ public class Navigator {
               })
             }
             
-            
             if !handled {
               semaphore.signal()
               fatalError("modal dismissal of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
