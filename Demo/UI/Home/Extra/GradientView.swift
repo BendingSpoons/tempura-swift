@@ -72,4 +72,3 @@ final class GradientView: UIView {
     self.gradientLayer.endPoint = self.endPoint
   }
 }
-

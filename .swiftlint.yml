@@ -3,6 +3,8 @@ included:
   - Demo
 
 excluded:
+  - type_name
+  - vertical_whitespace
 
 whitelist_rules:
   - closing_brace
@@ -36,9 +38,7 @@ whitelist_rules:
   - trailing_newline
   - trailing_semicolon
   - type_body_length
-  - type_name
   - variable_name
-  - vertical_whitespace
 
 line_length: 200
 

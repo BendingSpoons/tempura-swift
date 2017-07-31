@@ -27,12 +27,12 @@ class HomeViewController: ViewController<HomeView, HomeViewModel, AppState>, UIV
     self.rootView.userDidRequestStory = self.userDidRequestStory
   }
   
-  // MARK - Interaction
+  // MARK: - Interaction
   func userDidRequestStory(with id: Story.ID) {
     self.dispatch(action: ShowStory(storyID: id, performNavigation: true))
   }
   
-  // MARK - UIViewControllerPreviewingDelegate
+  // MARK: - UIViewControllerPreviewingDelegate
   
   func previewingContext(
     _ previewingContext: UIViewControllerPreviewing,

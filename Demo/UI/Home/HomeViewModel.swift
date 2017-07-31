@@ -10,21 +10,23 @@ import Tempura
 
 // this is the part of the state that the view is interested in
 struct HomeViewModel: ViewModel {
-  let coverStory: Story?
-  let stories: [Story.ID: Story]
-  let trendingStories: [Story]
-  let pendingStories: [Story]
-  let newStoriesFromCommunity: [Story]
+
+  var coverStory: Story?
+  var stories: [Story.ID: Story]
+  var trendingStories: [Story]
+  var pendingStories: [Story]
+  var newStoriesFromCommunity: [Story]
+
   
-  init(state: AppState) {
+  mutating func update(with state: AppState) {
     let stories = state.stories
     
     self.coverStory = stories.allStories[stories.homeCoverStory]
-
+    
     self.trendingStories = stories.trendingStoryIDs.flatMap { stories.allStories[$0] }
     self.pendingStories = stories.pendingStoryIDs.flatMap { stories.allStories[$0] }
     self.newStoriesFromCommunity = stories.newFromCommunity.flatMap { stories.allStories[$0] }
-
+    
     self.stories = stories.allStories
   }
   

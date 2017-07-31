@@ -24,7 +24,7 @@ class StoryCoverViewController: ViewController<StoryCoverView, StoryCoverViewMod
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    // TODO: handle this better..
+    // TODO: handle this better...
     self.manageForcedViewModelChange()
   }
   
@@ -48,10 +48,9 @@ class StoryCoverViewController: ViewController<StoryCoverView, StoryCoverViewMod
   }
   
   lazy var previewActions: [UIPreviewActionItem] = {
-    let share = UIPreviewAction(title: "Share", style: .default, handler: { _ in } )
-    let upvote = UIPreviewAction(title: "Upvote", style: .default, handler: { _ in } )
+    let share = UIPreviewAction(title: "Share", style: .default, handler: { _ in })
+    let upvote = UIPreviewAction(title: "Upvote", style: .default, handler: { _ in })
     
     return [ share, upvote ]
   }()
 }
-

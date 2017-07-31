@@ -24,4 +24,3 @@ class ModalTestViewController: ViewController<ModalTestView, ModalTestViewModel,
     self.dispatch(action: PresentModally(routeElementID: Screen.modalTest.rawValue, animated: true))
   }
 }
-

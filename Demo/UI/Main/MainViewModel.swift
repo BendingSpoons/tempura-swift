@@ -13,7 +13,7 @@ struct MainViewModel: ViewModel {
   
   var count: String = ""
   
-  init(state: AppState) {
+  mutating func update(with state: AppState) {
     self.count = "the counter is at \(state.counter)"
   }
   

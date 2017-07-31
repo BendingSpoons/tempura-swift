@@ -29,4 +29,3 @@ struct Story {
   let description: String
   let chat: [Sender: Message]
 }
-

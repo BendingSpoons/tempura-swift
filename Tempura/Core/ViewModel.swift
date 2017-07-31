@@ -11,6 +11,7 @@ import Katana
 
 public protocol ViewModel {
   associatedtype S = State
-  init(state: S)
   init()
+  
+  mutating func update(with state: S)
 }

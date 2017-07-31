@@ -1,23 +1,44 @@
 //
-//  ViewController.swift
-//  KatanaExperiment
+//  ViewControllerWithLocalState.swift
+//  Tempura
 //
-//  Created by Andrea De Angelis on 03/07/2017.
-//  Copyright © 2017 Bending Spoons. All rights reserved.
+//  Created by Andrea De Angelis on 31/07/2017.
+//
 //
 
 import Foundation
 import UIKit
 import Katana
 
-/// every ViewController will:
-/*
- - connect to the store on willAppear and disconnect on didDisappear
- - update the viewModel when a new state is available
- - feed the view with the updated viewModel
- */
 
-open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController where VM.S == S {
+// --------- SWIFT 3.2 IMPLEMENTATION ----------
+// --------- due to a bug in Swift 3.1 we can't inherit from ViewController --------------
+// this implementation is valid starting from Swift 3.2, in the meantime we are copying the ViewController implementation instead of extending the class
+
+/*open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWithLocalState, S: State, LS>: ViewController<V, LVM, S> where LVM.S == S, LVM.LS == LS {
+  public var localState: LS = LS() {
+    didSet {
+      self.localStateDidChange()
+    }
+  }
+  
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+    self.localStateDidChange()
+  }
+  
+  private func localStateDidChange() {
+    self.updateLocalState(with: self.localState)
+  }
+  
+  private func updateLocalState(with localState: LS) {
+    self.viewModel.updateLocalState(with: localState)
+  }
+}*/
+
+
+// ----------- Swift 3.1 implementation, remove as soon as 3.2 is available in production
+open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWithLocalState, S: State, LS: LocalState>: UIViewController where LVM.S == S, LVM.LS == LS {
   
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
@@ -35,10 +56,17 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   private var unsubscribe: StoreUnsubscribe?
   
   /// used to have the last viewModel available if we want to update it for local state changes
-  public var viewModel: VM = VM() {
+  public var viewModel: LVM = LVM() {
     didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
+    }
+  }
+  
+  /// the local state of this ViewController
+  public var localState: LS = LS() {
+    didSet {
+      self.localStateDidChange()
     }
   }
   
@@ -108,6 +136,16 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
     self.viewModel.update(with: state)
   }
   
+  // this method is called every time the local state changes
+  private func localStateDidChange() {
+    self.updateLocalState(with: self.localState)
+  }
+  
+  // handle the local state update
+  private func updateLocalState(with localState: LS) {
+    self.viewModel.updateLocalState(with: localState)
+  }
+  
   /// before the view will appear on screen, update the view and subscribe for state updates
   open override func viewWillAppear(_ animated: Bool) {
     if self.connected {
@@ -127,6 +165,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   open override func viewDidLoad() {
     super.viewDidLoad()
     self.setupInteraction()
+    self.localStateDidChange()
   }
   
   /// ask to setup the interaction with the managed view

@@ -83,7 +83,7 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
     self.descr.textColor = App.Style.Palette.dirtWhite
   }
   
-  // MARK: -  UPDATE
+  // MARK: - UPDATE
   override func update(model: StoryCoverViewModel, oldModel: StoryCoverViewModel) {
     self.backgroundImage.image = model.cover
     self.title.attributedText = self.attributedStringForTitle(title: model.title)
@@ -138,14 +138,14 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
     return attrString
   }
   
-  // MARK: -  INTERACTION
+  // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?
   
   @objc private func closeButtonTap() {
     self.closeButtonDidTap?()
   }
   
-  // MARK: -  LAYOUT
+  // MARK: - LAYOUT
   
   override func layout(model: StoryCoverViewModel) {
     self.backgroundImage.pin.size(of: self)

@@ -11,6 +11,7 @@ import Tempura
 
 // this is the part of the state that the view is interested in
 struct StoryCoverViewModel: ViewModel {
+  
   typealias SubtitleComponents = (String, String, String)
   
   var storyID: Story.ID
@@ -19,7 +20,7 @@ struct StoryCoverViewModel: ViewModel {
   var description: String
   var cover: UIImage?
   
-  init(state: AppState) {
+  mutating func update(with state: AppState) {
     let selectedStory = state.selectedStory
     
     self.storyID = selectedStory?.id ?? ""
