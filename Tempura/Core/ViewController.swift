@@ -61,6 +61,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
     self.store = store
     self.connected = true
     super.init(nibName: nil, bundle: nil)
+    self.setup()
   }
   
   /// convenience initializer that uses the global Tempura store
@@ -68,6 +69,9 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
     guard let store = Tempura.store else { fatalError("Tempura.store is not specified") }
     self.init(store: store, connected: connected)
   }
+  
+  // override to setup something after init
+  open func setup() {}
   
   /// shortcut to the dispatch function
   open func dispatch(action: Action) {
