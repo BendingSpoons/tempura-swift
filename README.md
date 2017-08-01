@@ -3,14 +3,14 @@
 Tempura is a UI (and Navigation) framework for Katana.
 With Tempura you can use Katana to handle the logic part of your app while still using the native iOS navigation and UI elements, being able to leverage system features like peek and pop and automatic transitions between screens.
 
-|      | Tempura                                   |
+|      | Tempura                                  |
 | ---- | ---------------------------------------- |
-| 📱   | Use native UIKit elements |
-| 🚢   | Use iOS native navigation |
-| ✨   | Automatically update the UI based on state changes|
+| 📱   | Use native UIKit elements                |
+| 🚢   | Use iOS native navigation                |
+| ✨    | Automatically update the UI based on state changes |
 | 📐   | Layout agnostic, use your favorite layouting system |
-| 🦄   | Detach from the state to handle complex scenarios|
-| 🎩   | Supports Peek&Pop, 3D touch shortcuts |
+| 🦄   | Detach from the state to handle complex scenarios |
+| 🎩   | Supports Peek&Pop, 3D touch shortcuts    |
 | 🐎   | Native Animations, including ViewControllers transitions |
 
 
@@ -62,7 +62,7 @@ Your entire app state is defined as a single struct:
 
 ```swift
 struct CounterState: State {
-var counter: Int = 0
+  var counter: Int = 0
 }
 ```
 
@@ -80,17 +80,17 @@ The Katana `state` can only be modified through `Actions` so let's define action
 
 ```
 struct IncrementCounter: AppAction {
-func updatedState(state: inout CounterState) {
-state.counter = state.counter + 1
-}
+  func updatedState(state: inout CounterState) {
+    state.counter = state.counter + 1
+  }
 }
 ```
 
 ```
 struct DecrementCounter: AppAction {
-func updatedState(state: inout CounterState) {
-state.counter = state.counter - 1
-}
+  func updatedState(state: inout CounterState) {
+    state.counter = state.counter - 1
+  }
 }
 ```
 
@@ -106,14 +106,14 @@ the property we need from the state is the value of the counter, we then transfo
 
 ```swift
 struct CounterViewModel: ViewModel {
-var count: String = ""
+  var count: String = ""
 
-init(state: CounterState) {
-self.count = "the counter is at \(state.counter)"
-}
+  init(state: CounterState) {
+    self.count = "the counter is at \(state.counter)"
+  }
 
-init() {}
-}
+  init() {}
+  }
 ```
 
 please note that the ViewModel is the place where we transform the `counter: Int` that we have in the state to a `count: String` that contains the description of the counter that the View wants to display.
@@ -132,62 +132,62 @@ the view is what we will have on screen. We want a label to show the value of co
 ```swift
 class MainView: CounterView<CounterViewModel> {
 
-// #1 define the children elements
-var counter: UILabel = {
-let l = UILabel()
-return l
-}
+  // #1 define the children elements
+  var counter: UILabel = {
+  let l = UILabel()
+    return l
+  }
 
-var sub: UIButton = {
-let b = UIButton()
-return b
-}
+  var sub: UIButton = {
+  let b = UIButton()
+    return b
+  }
 
-var add: UIButton = {
-let b = UIButton()
-return b
-}
+  var add: UIButton = {
+    let b = UIButton()
+    return b
+  }
 
-// #2 Setup, here we add children elements to the view
-override func setup() {
-self.addSubview(self.counter)
-self.addSubview(self.sub)
-self.addSubview(self.add)
-self.sub.addTarget(self, action: #selector(self.subDidTap), for: .touchUpInside)
-self.add.addTarget(self, action: #selector(self.addDidTap), for: .touchUpInside)
-}
+  // #2 Setup, here we add children elements to the view
+  override func setup() {
+    self.addSubview(self.counter)
+    self.addSubview(self.sub)
+    self.addSubview(self.add)
+    self.sub.addTarget(self, action: #selector(self.subDidTap), for: .touchUpInside)
+    self.add.addTarget(self, action: #selector(self.addDidTap), for: .touchUpInside)
+  }
 
-// #3 Style, define the style of the view and the children elements
-override func style() {
-self.backgroundColor = .white
-self.counter.textAlignment = .center
-self.sub.backgroundColor = .red
-self.sub.setTitle("sub", for: .normal)
-self.add.backgroundColor = .blue
-self.add.setTitle("add", for: .normal)
-}
+  // #3 Style, define the style of the view and the children elements
+  override func style() {
+    self.backgroundColor = .white
+    self.counter.textAlignment = .center
+    self.sub.backgroundColor = .red
+    self.sub.setTitle("sub", for: .normal)
+    self.add.backgroundColor = .blue
+    self.add.setTitle("add", for: .normal)
+  }
 
-// #4 Update, the state is changed, here we update the view accordingly
-override func update(model: CounterViewModel, oldModel: CounterViewModel) {
-self.counter.text = model.count
-}
+  // #4 Update, the state is changed, here we update the view accordingly
+  override func update(oldModel: CounterViewModel) {
+    self.counter.text = self.model.count
+  }
 
-// #5 Interaction, define and trigger callbacks for interactions
-var subtractButtonDidTap: Interaction?
-var addButtonDidTap: Interaction?
+  // #5 Interaction, define and trigger callbacks for interactions
+  var subtractButtonDidTap: Interaction?
+  var addButtonDidTap: Interaction?
 
-@objc private func subDidTap() {
-self.subtractButtonDidTap?()
-}
+  @objc private func subDidTap() {
+    self.subtractButtonDidTap?()
+  }
 
-@objc private func addDidTap() {
-self.addButtonDidTap?()
-}
+  @objc private func addDidTap() {
+    self.addButtonDidTap?()
+  }
 
-// #6 Layout, layout the children elements
-override func layout(model: MainViewModel) {
-...
-}
+  // #6 Layout, layout the children elements
+  override func layout() {
+    ...
+  }
 
 }
 ```
@@ -201,20 +201,20 @@ every time the state changes, the ViewController will instantiate a ViewModel fr
 ```swift
 class CounterViewController: ViewController<CounterView, CounterViewModel, CounterState> {
 
-// #1 listen for interaction callbacks from the view
-override func setupInteraction() {
-self.rootView.addButtonDidTap = self.addButtonDidTap
-self.rootView.subtractButtonDidTap = self.subtractButtonDidTap
-}
+  // #1 listen for interaction callbacks from the view
+  override func setupInteraction() {
+    self.rootView.addButtonDidTap = self.addButtonDidTap
+    self.rootView.subtractButtonDidTap = self.subtractButtonDidTap
+  }
 
-// #2 trigger actions
-func addButtonDidTap() {
-self.dispatch(action: IncrementCounter())
-}
+  // #2 trigger actions
+  func addButtonDidTap() {
+    self.dispatch(action: IncrementCounter())
+  }
 
-func subtractButtonDidTap() {
-self.dispatch(action: DecrementCounter())
-}
+  func subtractButtonDidTap() {
+    self.dispatch(action: DecrementCounter())
+  }
 }
 ```
 
@@ -243,7 +243,7 @@ if a Screen (read ViewController) takes an active part on the navigation (i.e. n
 
 ```swift
 protocol Routable {
-var routeIdentifier: RouteElementIdentifier { get }
+  var routeIdentifier: RouteElementIdentifier { get }
 }
 ```
 
@@ -313,7 +313,7 @@ Let's see the steps involved:
 these tasks are then executed in order:
 
 4. first task is executed, the Navigator needs to ask "ScreenA" to change to "ScreenD".
-This means that "ScreenA" has an active role in the navigation, this means that it must implement `Routable` protocol, otherwise an informative fatalError will be raised.
+   This means that "ScreenA" has an active role in the navigation, this means that it must implement `Routable` protocol, otherwise an informative fatalError will be raised.
 
 5. "ScreenA" (that is probably a TabBarController) implements the `change(...)` method of `Routable` protocol and has all the informations to interpret the request (in this case it only needs to change the selected tab from D to B)
 
@@ -333,28 +333,28 @@ we suggest to organize the navigation of the application in a single file `AppNa
 
 ```swift
 extension ScreenB: Routable {
-var routeIdentifier: RouteElementIdentifier {
-return Screen.home.rawValue
+  var routeIdentifier: RouteElementIdentifier {
+  return Screen.home.rawValue
 }
 
-func push(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
-if identifier == Screen.screenC.rawValue {
-let sc = ScreenC()
-self.navigationController?.pushViewController(sc, animated: animated)
-completion()
-}
-}
+  func push(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
+    if identifier == Screen.screenC.rawValue {
+      let sc = ScreenC()
+      self.navigationController?.pushViewController(sc, animated: animated)
+      completion()
+    }
+  }
 }
 
 extension ScreenC: Routable {
-var routeIdentifier: RouteElementIdentifier {
-return Screen.screenC.rawValue
+  var routeIdentifier: RouteElementIdentifier {
+  return Screen.screenC.rawValue
 }
 
-func pop(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
-self.popViewController(animated: animated)
-completion()
-}
+  func pop(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
+    self.popViewController(animated: animated)
+    completion()
+  }
 }
 ```
 
