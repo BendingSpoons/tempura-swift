@@ -13,5 +13,6 @@ public protocol ViewModel {
   associatedtype S = State
   init()
   
-  mutating func update(with state: S)
+  init(state: S)
+  
 }

@@ -109,7 +109,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   private func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-    self.viewModel.update(with: state)
+    self.viewModel = VM(state: state)
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates

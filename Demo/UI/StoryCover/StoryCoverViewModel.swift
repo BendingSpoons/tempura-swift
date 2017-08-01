@@ -20,7 +20,7 @@ struct StoryCoverViewModel: ViewModel {
   var description: String
   var cover: UIImage?
   
-  mutating func update(with state: AppState) {
+  init(state: AppState) {
     let selectedStory = state.selectedStory
     
     self.storyID = selectedStory?.id ?? ""

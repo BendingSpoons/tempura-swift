@@ -137,7 +137,7 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   private func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-    self.viewModel.update(with: state)
+    self.viewModel = LVM(state: state, localState: self.localState)
   }
   
   // this method is called every time the local state changes
@@ -147,7 +147,8 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   
   // handle the local state update
   private func updateLocalState(with localState: LS) {
-    self.viewModel.updateLocalState(with: localState)
+    guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
+    self.viewModel = LVM(state: state, localState: localState)
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates

@@ -11,7 +11,7 @@ import Tempura
 // this is the part of the state that the view is interested in
 struct StoryChatViewModel: ViewModel {
   
-  mutating func update(with state: AppState) {}
+  init(state: AppState) {}
   
   init() {}
 }

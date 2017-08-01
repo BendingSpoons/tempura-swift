@@ -18,17 +18,16 @@ struct HomeViewModel: ViewModel {
   var newStoriesFromCommunity: [Story]
 
   
-  mutating func update(with state: AppState) {
-    let stories = state.stories
+  init(state: AppState) {
+    coverStory = state.stories.allStories[state.stories.homeCoverStory]
     
-    self.coverStory = stories.allStories[stories.homeCoverStory]
+    trendingStories = state.stories.trendingStoryIDs.flatMap { state.stories.allStories[$0] }
+    pendingStories = state.stories.pendingStoryIDs.flatMap { state.stories.allStories[$0] }
+    newStoriesFromCommunity = state.stories.newFromCommunity.flatMap { state.stories.allStories[$0] }
     
-    self.trendingStories = stories.trendingStoryIDs.flatMap { stories.allStories[$0] }
-    self.pendingStories = stories.pendingStoryIDs.flatMap { stories.allStories[$0] }
-    self.newStoriesFromCommunity = stories.newFromCommunity.flatMap { stories.allStories[$0] }
-    
-    self.stories = stories.allStories
+    stories = state.stories.allStories
   }
+  
   
   init() {
     self.stories = [:]

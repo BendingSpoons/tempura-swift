@@ -7,9 +7,19 @@
 //
 
 import Foundation
+import Katana
 
 public protocol ViewModelWithLocalState: ViewModel {
+  associatedtype S: State
   associatedtype LS: LocalState
   
-  mutating func updateLocalState(with localState: LS)
+  init(state: S, localState: LS)
+  
+}
+
+public extension ViewModelWithLocalState {
+  
+  init(state: S) {
+    fatalError("use `init(state: S, localState: LS)` instead")
+  }
 }
