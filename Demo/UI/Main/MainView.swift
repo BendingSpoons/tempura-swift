@@ -46,7 +46,7 @@ class MainView: ModellableView<MainViewModel> {
   }
   
   // MARK: - Update
-  override func update(model: MainViewModel, oldModel: MainViewModel) {
+  override func update(oldModel: MainViewModel) {
     self.counter.text = model.count
   }
   
@@ -63,7 +63,7 @@ class MainView: ModellableView<MainViewModel> {
   }
   
   // MARK: - Layout
-  override func layout(model: MainViewModel) {
+  override func layout() {
     self.counter.frame = CGRect(x: 50, y: 100, width: 300, height: 60)
     self.sub.frame = CGRect(x: 50, y: 160, width: 150, height: 60)
     self.add.frame = CGRect(x: 200, y: 160, width: 150, height: 60)

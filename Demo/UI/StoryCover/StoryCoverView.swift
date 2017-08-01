@@ -84,11 +84,11 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(model: StoryCoverViewModel, oldModel: StoryCoverViewModel) {
-    self.backgroundImage.image = model.cover
-    self.title.attributedText = self.attributedStringForTitle(title: model.title)
-    self.subtitle.attributedText = self.attributedStringForSubtitleComponents(components: model.subtitleComponents)
-    self.descr.attributedText = self.attributedStringForDescription(description: model.description)
+  override func update(oldModel: StoryCoverViewModel) {
+    self.backgroundImage.image = self.model.cover
+    self.title.attributedText = self.attributedStringForTitle(title: self.model.title)
+    self.subtitle.attributedText = self.attributedStringForSubtitleComponents(components: self.model.subtitleComponents)
+    self.descr.attributedText = self.attributedStringForDescription(description: self.model.description)
   }
   
   private func attributedStringForSubtitleComponents(components: StoryCoverViewModel.SubtitleComponents) -> NSAttributedString {
@@ -147,7 +147,7 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   
   // MARK: - LAYOUT
   
-  override func layout(model: StoryCoverViewModel) {
+  override func layout() {
     self.backgroundImage.pin.size(of: self)
     self.closeButton.pin.size(CGSize(width: 44.0, height: 44.0))
     self.closeButton.pin.topLeft().margin(20)

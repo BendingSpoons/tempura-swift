@@ -37,14 +37,14 @@ class DependenciesTestView: ModellableView<DependenciesTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(model: DependenciesTestViewModel, oldModel: DependenciesTestViewModel) {
+  override func update(oldModel: DependenciesTestViewModel) {
   }
   
   // MARK: - INTERACTION
   
   // MARK: - LAYOUT
   
-  override func layout(model: DependenciesTestViewModel) {
+  override func layout() {
     self.label.pin.size(CGSize(width: 250, height: 100))
     self.label.pin.center()
   }

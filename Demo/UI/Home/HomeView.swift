@@ -65,7 +65,8 @@ class HomeView: ModellableView<HomeViewModel> {
   }
   
   // UPDATE
-  override func update(model: HomeViewModel, oldModel: HomeViewModel) {
+  override func update(oldModel: HomeViewModel) {
+    let model = self.model
     self.collectionDelegate.coverStory = model.coverStory
     self.collectionDelegate.stories = Array(model.stories.values)
     self.collectionDelegate.newFromCommunityStories = model.newStoriesFromCommunity
@@ -81,7 +82,7 @@ class HomeView: ModellableView<HomeViewModel> {
     self.layout()
   }
   
-  func layout() {
+  override func layout() {
     self.collectionView.frame = self.bounds
   }
 }

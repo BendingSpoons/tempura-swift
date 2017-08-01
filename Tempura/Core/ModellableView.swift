@@ -18,9 +18,9 @@ public typealias Interaction = () -> ()
 
 open class ModellableView<VM: ViewModel>: UIView {
   
- open var model: VM = VM() {
+  open var model: VM = VM() {
     didSet {
-      self.update(model: self.model, oldModel: oldValue)
+      self.update(oldModel: oldValue)
     }
   }
   
@@ -45,13 +45,13 @@ open class ModellableView<VM: ViewModel>: UIView {
   open func style() {}
   
   /// do not call this method, set self.model variable instead
-  open func update(model: VM, oldModel: VM) {}
+  open func update(oldModel: VM) {}
   
   /// do not call this method, use .setNeedsLayout() instead
-  open func layout(model: VM) {}
+  open func layout() {}
   
   open override func layoutSubviews() {
-    self.layout(model: self.model)
+    self.layout()
   }
   
   public required init?(coder aDecoder: NSCoder) {

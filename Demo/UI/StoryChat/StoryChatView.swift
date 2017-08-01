@@ -17,7 +17,7 @@ class StoryChatView: ModellableView<StoryChatViewModel> {
   }
   
   // UPDATE
-  override func update(model: StoryChatViewModel, oldModel: StoryChatViewModel) {
+  override func update(oldModel: StoryChatViewModel) {
   }
   
   // INTERACTION
@@ -28,6 +28,6 @@ class StoryChatView: ModellableView<StoryChatViewModel> {
     self.layout()
   }
   
-  func layout() {
+  override func layout() {
   }
 }

@@ -46,7 +46,7 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(model: ModalTestViewModel, oldModel: ModalTestViewModel) {
+  override func update(oldModel: ModalTestViewModel) {
   }
   
   // MARK: - INTERACTION
@@ -63,7 +63,7 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   
   // MARK: - LAYOUT
   
-  override func layout(model: ModalTestViewModel) {
+  override func layout() {
     self.closeButton.pin.size(CGSize(width: 150, height: 60))
     self.presentButton.pin.size(of: self.closeButton)
     

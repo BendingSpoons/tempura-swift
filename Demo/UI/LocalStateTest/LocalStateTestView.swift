@@ -64,9 +64,9 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(model: LocalStateTestViewModel, oldModel: LocalStateTestViewModel) {
-    self.globalCounterLabel.text = model.globalCounterString
-    self.localCounterLabel.text = model.localCounterString
+  override func update(oldModel: LocalStateTestViewModel) {
+    self.globalCounterLabel.text = self.model.globalCounterString
+    self.localCounterLabel.text = self.model.localCounterString
   }
   
   // MARK: - INTERACTION
@@ -83,7 +83,7 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   
   // MARK: - LAYOUT
   
-  override func layout(model: LocalStateTestViewModel) {
+  override func layout() {
     self.globalCounterLabel.pin.size(CGSize(width: 300.0, height: 60.0))
     self.globalCounterLabel.pin.hCenter()
     self.globalCounterLabel.pin.top()
