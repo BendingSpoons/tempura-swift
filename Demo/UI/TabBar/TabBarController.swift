@@ -46,10 +46,15 @@ class TabBarController: UITabBarController {
     let modalTest = ModalTestViewController()
     modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 3)
     
+    // ANIMATION TEST
+    let animationTest = AnimationTestViewController()
+    animationTest.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 4)
+    
     self.viewControllers = [homeNavigationController,
                             dependenciesTest,
                             localStateTest,
-                            modalTest
+                            modalTest,
+                            animationTest
                           ]
   }
 

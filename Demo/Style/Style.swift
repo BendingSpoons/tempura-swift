@@ -17,6 +17,7 @@ extension App {
       static var yellowish = UIColor(rgbHex: "#D8C9A7")
       static var dirtWhite = UIColor(rgbHex: "#D2CFC7")
       static var black = UIColor(rgbHex: "#050505")
+      static var red = UIColor(rgbHex: "#FF6B6B")
     }
     
     enum Font {
