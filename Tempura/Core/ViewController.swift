@@ -106,7 +106,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   }
   
   /// handle the state update, create a new updated viewModel and feed the view with that
-  private func update(with state: S) {
+  open func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = VM(state: state)
