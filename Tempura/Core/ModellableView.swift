@@ -9,53 +9,46 @@
 import Foundation
 import UIKit
 
-/*protocol ModellableView {
-  var model: ViewModel { get set }
-}*/
-
 // typealias for interaction callback
 public typealias Interaction = () -> ()
 
-open class ModellableView<VM: ViewModel>: UIView {
+public protocol ModellableView: class {
+ associatedtype VM: ViewModel
   
-  open var model: VM = VM() {
+  var model: VM { get set }
+  
+  var viewController: UIViewController? { get set }
+  
+  init(frame: CGRect)
+  
+  func setup()
+  func style()
+  func update(oldModel: VM)
+  func layout()
+  
+ /*open var model: VM = VM() {
     didSet {
-      self.update(oldModel: oldValue)
+      self.update(model: self.model, oldModel: oldValue)
     }
   }
   
-  /// used to access navigationBar
-  weak var viewController: UIViewController?
-  
-  /// shortcut to the navigationBar, if present
-  public var navigationBar: UINavigationBar? {
-    return viewController?.navigationController?.navigationBar
-  }
-  /// shortcut to the navigationItem, if present
-  public var navigationItem: UINavigationItem? {
-    return viewController?.navigationItem
-  }
-  
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-  
-  open func setup() {}
-  
-  open func style() {}
-  
-  /// do not call this method, set self.model variable instead
-  open func update(oldModel: VM) {}
-  
-  /// do not call this method, use .setNeedsLayout() instead
-  open func layout() {}
-  
   open override func layoutSubviews() {
-    self.layout()
+    self.layout(model: self.model)
   }
   
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
+  }*/
+}
 
+public extension ModellableView {
+  /// shortcut to the navigationBar, if present
+  public var navigationBar: UINavigationBar? {
+    return viewController?.navigationController?.navigationBar
+  }
+  
+  /// shortcut to the navigationItem, if present
+  public var navigationItem: UINavigationItem? {
+    return viewController?.navigationItem
+  }
 }

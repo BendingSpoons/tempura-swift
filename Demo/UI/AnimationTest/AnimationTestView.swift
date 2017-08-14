@@ -10,7 +10,17 @@ import Foundation
 import Tempura
 import PinLayout
 
-class AnimationTestView: ModellableView<AnimationTestViewModel> {
+class AnimationTestView: UIView, ModellableView {
+  
+  typealias VM = AnimationTestViewModel
+
+  var viewController: UIViewController?
+  
+  var model: AnimationTestViewModel = AnimationTestViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   // MARK: - SUBVIEWS
   lazy var button: UIButton = {
@@ -30,7 +40,17 @@ class AnimationTestView: ModellableView<AnimationTestViewModel> {
   }
   
   // MARK: - SETUP
-  override func setup() {
+  
+  required override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.setup()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+
+  func setup() {
     // add the subviews to self
     self.addSubview(self.button)
     // setup handlers for buttons if needed
@@ -38,14 +58,14 @@ class AnimationTestView: ModellableView<AnimationTestViewModel> {
   }
   
   // MARK: - STYLE
-  override func style() {
+  func style() {
     // change all the visual properties of self and the subviews
     // note that all the properties that depends on the state should go under `update` method
     self.button.backgroundColor = App.Style.Palette.red
   }
   
   // MARK: - UPDATE
-  override func update(oldModel: AnimationTestViewModel) {
+  func update(oldModel: AnimationTestViewModel) {
     self.expanded = self.model.expanded
   }
   
@@ -58,7 +78,12 @@ class AnimationTestView: ModellableView<AnimationTestViewModel> {
    }
   
   // MARK: - LAYOUT
-  override func layout() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.layout()
+  }
+
+  func layout() {
     if self.expanded {
       self.button.frame = self.bounds
     } else {

@@ -9,7 +9,17 @@
 import Foundation
 import Tempura
 
-class MainView: ModellableView<MainViewModel> {
+class MainView: UIView, ModellableView {
+  
+  typealias VM = MainViewModel
+  
+  var viewController: UIViewController?
+  
+  var model: MainViewModel = MainViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   var counter: UILabel = {
     let l = UILabel()
@@ -26,8 +36,17 @@ class MainView: ModellableView<MainViewModel> {
     return b
   }()
   
+  required override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.setup()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
   // MARK: - Setup
-  override func setup() {
+  func setup() {
     self.addSubview(self.counter)
     self.addSubview(self.sub)
     self.addSubview(self.add)
@@ -36,7 +55,7 @@ class MainView: ModellableView<MainViewModel> {
   }
   
   // MARK: - Style
-  override func style() {
+  func style() {
     self.backgroundColor = .white
     self.counter.textAlignment = .center
     self.sub.backgroundColor = .red
@@ -46,7 +65,7 @@ class MainView: ModellableView<MainViewModel> {
   }
   
   // MARK: - Update
-  override func update(oldModel: MainViewModel) {
+  func update(oldModel: MainViewModel) {
     self.counter.text = model.count
   }
   
@@ -63,10 +82,14 @@ class MainView: ModellableView<MainViewModel> {
   }
   
   // MARK: - Layout
-  override func layout() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.layout()
+  }
+
+  func layout() {
     self.counter.frame = CGRect(x: 50, y: 100, width: 300, height: 60)
     self.sub.frame = CGRect(x: 50, y: 160, width: 150, height: 60)
     self.add.frame = CGRect(x: 200, y: 160, width: 150, height: 60)
   }
-  
 }

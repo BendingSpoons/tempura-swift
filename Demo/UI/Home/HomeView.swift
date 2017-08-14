@@ -9,8 +9,17 @@ import Foundation
 import UIKit
 import Tempura
 
-class HomeView: ModellableView<HomeViewModel> {
+class HomeView: UIView, ModellableView {
   typealias UserDidRequestStory = (Story.ID) -> Void
+  typealias VM = HomeViewModel
+  
+  var viewController: UIViewController?
+  
+  var model: HomeViewModel = HomeViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   public var userDidRequestStory: UserDidRequestStory? {
     get { return self.collectionDelegate.userDidRequestStory }
@@ -43,7 +52,7 @@ class HomeView: ModellableView<HomeViewModel> {
   }()
   
   // init
-  override init(frame: CGRect) {
+  required override init(frame: CGRect) {
     self.collectionDelegate = HomeViewCollectionDelegate()
 
     super.init(frame: frame)
@@ -55,17 +64,17 @@ class HomeView: ModellableView<HomeViewModel> {
   }
   
   // SETUP
-  override func setup() {
+  func setup() {
     self.addSubview(self.collectionView)
   }
   
-  override func style() {
+  func style() {
     self.backgroundColor = .black
     self.collectionView.backgroundColor = .black
   }
   
   // UPDATE
-  override func update(oldModel: HomeViewModel) {
+  func update(oldModel: HomeViewModel) {
     let model = self.model
     self.collectionDelegate.coverStory = model.coverStory
     self.collectionDelegate.stories = Array(model.stories.values)
@@ -78,11 +87,12 @@ class HomeView: ModellableView<HomeViewModel> {
   
   // LAYOUT
   
-  public override func layoutSubviews() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
     self.layout()
   }
-  
-  override func layout() {
+
+  func layout() {
     self.collectionView.frame = self.bounds
   }
 }

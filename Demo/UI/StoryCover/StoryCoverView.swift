@@ -11,7 +11,16 @@ import PinLayout
 import Hero
 import Tempura
 
-class StoryCoverView: ModellableView<StoryCoverViewModel> {
+class StoryCoverView: UIView, ModellableView {
+  typealias VM = StoryCoverViewModel
+  
+  var viewController: UIViewController?
+  
+  var model: StoryCoverViewModel = StoryCoverViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   // MARK: - SUBVIEWS
   
@@ -62,7 +71,17 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   }()
   
   // MARK: - SETUP
-  override func setup() {
+  
+  required override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.setup()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  func setup() {
     // add subviews
     self.addSubview(self.backgroundImage)
     self.addSubview(self.closeButton)
@@ -74,7 +93,7 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   }
   
   // MARK: - STYLE
-  override func style() {
+  func style() {
     self.title.textAlignment = .left
     self.title.font = App.Style.Font.h1
     self.title.textColor = App.Style.Palette.white
@@ -84,7 +103,7 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(oldModel: StoryCoverViewModel) {
+  func update(oldModel: StoryCoverViewModel) {
     self.backgroundImage.image = self.model.cover
     self.title.attributedText = self.attributedStringForTitle(title: self.model.title)
     self.subtitle.attributedText = self.attributedStringForSubtitleComponents(components: self.model.subtitleComponents)
@@ -146,8 +165,12 @@ class StoryCoverView: ModellableView<StoryCoverViewModel> {
   }
   
   // MARK: - LAYOUT
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.layout()
+  }
   
-  override func layout() {
+  func layout() {
     self.backgroundImage.pin.size(of: self)
     self.closeButton.pin.size(CGSize(width: 44.0, height: 44.0))
     self.closeButton.pin.topLeft().margin(20)

@@ -11,7 +11,15 @@ import PinLayout
 import Hero
 import Tempura
 
-class ModalTestView: ModellableView<ModalTestViewModel> {
+class ModalTestView: UIView, ModellableView {
+  typealias VM = ModalTestViewModel
+  var viewController: UIViewController?
+  
+  var model: ModalTestViewModel = ModalTestViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   // MARK: - SUBVIEWS
   
@@ -28,7 +36,17 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   }()
   
   // MARK: - SETUP
-  override func setup() {
+  
+  required override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.setup()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  func setup() {
     // add subviews
     self.addSubview(self.closeButton)
     self.addSubview(self.presentButton)
@@ -37,7 +55,7 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   }
   
   // MARK: - STYLE
-  override func style() {
+  func style() {
     self.backgroundColor = .white
     self.closeButton.backgroundColor = .red
     self.presentButton.backgroundColor = .blue
@@ -46,8 +64,7 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(oldModel: ModalTestViewModel) {
-  }
+  func update(oldModel: ModalTestViewModel) {}
   
   // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?
@@ -62,8 +79,12 @@ class ModalTestView: ModellableView<ModalTestViewModel> {
   }
   
   // MARK: - LAYOUT
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.layout()
+  }
   
-  override func layout() {
+  func layout() {
     self.closeButton.pin.size(CGSize(width: 150, height: 60))
     self.presentButton.pin.size(of: self.closeButton)
     
