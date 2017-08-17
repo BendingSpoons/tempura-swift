@@ -13,8 +13,6 @@ class HomeView: UIView, ModellableView {
   typealias UserDidRequestStory = (Story.ID) -> Void
   typealias VM = HomeViewModel
   
-  var viewController: UIViewController?
-  
   var model: HomeViewModel = HomeViewModel() {
     didSet {
       self.update(oldModel: oldValue)

@@ -14,8 +14,6 @@ class AnimationTestView: UIView, ModellableView {
   
   typealias VM = AnimationTestViewModel
 
-  var viewController: UIViewController?
-  
   var model: AnimationTestViewModel = AnimationTestViewModel() {
     didSet {
       self.update(oldModel: oldValue)

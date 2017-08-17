@@ -14,8 +14,6 @@ import Tempura
 class StoryCoverView: UIView, ModellableView {
   typealias VM = StoryCoverViewModel
   
-  var viewController: UIViewController?
-  
   var model: StoryCoverViewModel = StoryCoverViewModel() {
     didSet {
       self.update(oldModel: oldValue)

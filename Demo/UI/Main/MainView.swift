@@ -13,8 +13,6 @@ class MainView: UIView, ModellableView {
   
   typealias VM = MainViewModel
   
-  var viewController: UIViewController?
-  
   var model: MainViewModel = MainViewModel() {
     didSet {
       self.update(oldModel: oldValue)

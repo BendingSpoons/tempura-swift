@@ -13,8 +13,6 @@ class StoryChatView: UIView, ModellableView {
   
   typealias VM = StoryChatViewModel
   
-  var viewController: UIViewController?
-  
   var model: StoryChatViewModel = StoryChatViewModel() {
     didSet {
       self.update(oldModel: oldValue)

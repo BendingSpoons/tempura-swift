@@ -15,8 +15,6 @@ class DependenciesTestView: UIView, ModellableView {
   
   typealias VM = DependenciesTestViewModel
   
-  var viewController: UIViewController?
-  
   var model: DependenciesTestViewModel = DependenciesTestViewModel() {
     didSet {
       self.update(oldModel: oldValue)

@@ -13,7 +13,6 @@ import Tempura
 
 class ModalTestView: UIView, ModellableView {
   typealias VM = ModalTestViewModel
-  var viewController: UIViewController?
   
   var model: ModalTestViewModel = ModalTestViewModel() {
     didSet {

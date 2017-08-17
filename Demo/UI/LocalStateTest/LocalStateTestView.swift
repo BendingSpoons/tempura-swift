@@ -15,8 +15,6 @@ class LocalStateTestView: UIView, ModellableView {
   
   typealias VM = LocalStateTestViewModel
   
-  var viewController: UIViewController?
-  
   var model: LocalStateTestViewModel = LocalStateTestViewModel() {
     didSet {
       self.update(oldModel: oldValue)

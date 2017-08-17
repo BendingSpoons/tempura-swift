@@ -12,6 +12,8 @@ import UIKit
 // typealias for interaction callback
 public typealias Interaction = () -> ()
 
+fileprivate var viewControllerKey = "modellableview_view_controller_key"
+
 public protocol ModellableView: class {
  associatedtype VM: ViewModel
   
@@ -48,5 +50,20 @@ public extension ModellableView {
   /// shortcut to the navigationItem, if present
   public var navigationItem: UINavigationItem? {
     return viewController?.navigationItem
+  }
+  
+  public var viewController: UIViewController? {
+    get {
+      return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
+    }
+    
+    set {
+      objc_setAssociatedObject(
+        self,
+        &viewControllerKey,
+        newValue,
+        .OBJC_ASSOCIATION_ASSIGN
+      )
+    }
   }
 }
