@@ -36,15 +36,6 @@ class MainView: UIView, ModellableView {
     return b
   }()
   
-  required override init(frame: CGRect) {
-    super.init(frame: frame)
-    self.setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
   // MARK: - Setup
   func setup() {
     self.addSubview(self.counter)

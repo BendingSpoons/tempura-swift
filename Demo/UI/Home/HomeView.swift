@@ -54,9 +54,7 @@ class HomeView: UIView, ModellableView {
   // init
   required override init(frame: CGRect) {
     self.collectionDelegate = HomeViewCollectionDelegate()
-
     super.init(frame: frame)
-    self.setup()
   }
   
   required init?(coder aDecoder: NSCoder) {

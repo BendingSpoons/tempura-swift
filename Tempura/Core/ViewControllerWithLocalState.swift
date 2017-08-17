@@ -77,11 +77,13 @@ open class ViewControllerWithLocalState<V: ModellableView, S: State, LS: LocalSt
   
   /// used internally to load the specific main view managed by this view controller
   open override func loadView() {
-    let v = V(frame: .zero)
+    // TODO: this shitty force cast dance can be removed in swift 4
+    let viewType = V.self as! UIView.Type
+    let v = viewType.init(frame: .zero) as! V
     v.viewController = self
     v.setup()
     v.style()
-    self.view = v as! UIView // TODO: this can be removed as soon as swift 4 is available
+    self.view = v as! UIView
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes

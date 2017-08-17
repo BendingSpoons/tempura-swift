@@ -31,17 +31,6 @@ class DependenciesTestView: UIView, ModellableView {
   }()
   
   // MARK: - SETUP
-  
-  required override init(frame: CGRect) {
-    super.init(frame: frame)
-    self.setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-
-  
   func setup() {
     // add subviews
     self.addSubview(self.label)

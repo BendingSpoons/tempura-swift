@@ -23,15 +23,6 @@ class StoryChatView: UIView, ModellableView {
   
   // SETUP
   
-  required override init(frame: CGRect) {
-    super.init(frame: frame)
-    self.setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
   func setup() {
     // add subviews
   }

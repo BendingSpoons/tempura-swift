@@ -19,8 +19,6 @@ public protocol ModellableView: class {
   
   var viewController: UIViewController? { get set }
   
-  init(frame: CGRect)
-  
   func setup()
   func style()
   func update(oldModel: VM)
