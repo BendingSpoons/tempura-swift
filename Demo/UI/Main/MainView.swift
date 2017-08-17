@@ -13,12 +13,6 @@ class MainView: UIView, ModellableView {
   
   typealias VM = MainViewModel
   
-  var model: MainViewModel = MainViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
-  
   var counter: UILabel = {
     let l = UILabel()
     return l

@@ -10,14 +10,7 @@ import UIKit
 import Tempura
 
 class StoryChatView: UIView, ModellableView {
-  
   typealias VM = StoryChatViewModel
-  
-  var model: StoryChatViewModel = StoryChatViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
   
   // SETUP
   

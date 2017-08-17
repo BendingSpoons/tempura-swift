@@ -15,12 +15,6 @@ class LocalStateTestView: UIView, ModellableView {
   
   typealias VM = LocalStateTestViewModel
   
-  var model: LocalStateTestViewModel = LocalStateTestViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
-  
   // MARK: - SUBVIEWS
   
   lazy var globalCounterLabel: UILabel = {

@@ -14,12 +14,6 @@ import Tempura
 class ModalTestView: UIView, ModellableView {
   typealias VM = ModalTestViewModel
   
-  var model: ModalTestViewModel = ModalTestViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
-  
   // MARK: - SUBVIEWS
   
   lazy var closeButton: UIButton = {

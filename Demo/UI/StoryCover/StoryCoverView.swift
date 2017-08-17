@@ -14,12 +14,6 @@ import Tempura
 class StoryCoverView: UIView, ModellableView {
   typealias VM = StoryCoverViewModel
   
-  var model: StoryCoverViewModel = StoryCoverViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
-  
   // MARK: - SUBVIEWS
   
   // background image

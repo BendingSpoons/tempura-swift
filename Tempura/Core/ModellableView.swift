@@ -13,6 +13,7 @@ import UIKit
 public typealias Interaction = () -> ()
 
 fileprivate var viewControllerKey = "modellableview_view_controller_key"
+fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 
 public protocol ModellableView: class {
  associatedtype VM: ViewModel
@@ -26,19 +27,17 @@ public protocol ModellableView: class {
   func update(oldModel: VM)
   func layout()
   
- /*open var model: VM = VM() {
-    didSet {
-      self.update(model: self.model, oldModel: oldValue)
-    }
-  }
-  
-  open override func layoutSubviews() {
+ /*open override func layoutSubviews() {
     self.layout(model: self.model)
-  }
-  
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }*/
+}
+
+private final class ModelWrapper<VM: ViewModel> {
+  var model: VM
+  
+  init(model: VM) {
+    self.model = model
+  }
 }
 
 public extension ModellableView {
@@ -64,6 +63,39 @@ public extension ModellableView {
         newValue,
         .OBJC_ASSOCIATION_ASSIGN
       )
+    }
+  }
+  
+  private var modelWrapper: ModelWrapper<VM> {
+    get {
+      if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ModelWrapper<VM> {
+        return modelWrapper
+      }
+      
+      let newWrapper = ModelWrapper(model: VM())
+      self.modelWrapper = newWrapper
+      return newWrapper
+    }
+    
+    set {
+      objc_setAssociatedObject(
+        self,
+        &modelWrapperKey,
+        newValue,
+        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+      )
+    }
+  }
+  
+  public var model: VM {
+    get {
+      return self.modelWrapper.model
+    }
+    
+    set {
+      let oldValue = self.model
+      self.modelWrapper.model = newValue
+      self.update(oldModel: oldValue)
     }
   }
 }
