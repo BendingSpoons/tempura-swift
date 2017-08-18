@@ -12,7 +12,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class StoryCell: UICollectionViewCell, LiveReloadView {
+class StoryCell: UICollectionViewCell, LiveReloadableView {
   static let identifier = String(reflecting: StoryCell.self)
   
   var story: Story?

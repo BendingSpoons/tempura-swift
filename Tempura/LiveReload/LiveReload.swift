@@ -43,7 +43,7 @@ public final class LiveReloadManager {
           return
         }
         
-        let reloadTypes = anyTypes.flatMap { $0 as? LiveReloadView.Type }
+        let reloadTypes = anyTypes.flatMap { $0 as? LiveReloadableView.Type }
         
         if reloadTypes.isEmpty {
           return
@@ -54,12 +54,12 @@ public final class LiveReloadManager {
   }
   
   
-  func reload(view: UIView, ifTypeIn types: [LiveReloadView.Type]) {
+  func reload(view: UIView, ifTypeIn types: [LiveReloadableView.Type]) {
     let type = type(of: view)
 
     if
       types.contains(where: { $0 == type }),
-      let reloadView = view as? LiveReloadView {
+      let reloadView = view as? LiveReloadableView {
       
       reloadView.viewDidLiveReload()
     }
@@ -81,6 +81,6 @@ public final class LiveReloadManager {
  - uiview class cannot be final
  - you cannot add new lazy variables to your view
 */
-public protocol LiveReloadView {
+public protocol LiveReloadableView {
   func viewDidLiveReload()
 }

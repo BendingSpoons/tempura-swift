@@ -25,7 +25,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
  If you need to perform tasks before update and layout, see `liveReloadWillInvokeUpdateAndLayout`,
  if you want to customise the model that is passed to `update`, see `liveReloadOldModel`
 */
-public protocol ModellableView: class, LiveReloadView {
+public protocol ModellableView: class, LiveReloadableView {
  associatedtype VM: ViewModel
   
   var model: VM { get set }
