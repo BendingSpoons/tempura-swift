@@ -10,8 +10,9 @@ import UIKit
 import BonMot
 import PinLayout
 import Hero
+import Tempura
 
-final class StoryCell: UICollectionViewCell {
+class StoryCell: UICollectionViewCell, LiveReloadView {
   static let identifier = String(reflecting: StoryCell.self)
   
   var story: Story?
@@ -119,7 +120,13 @@ final class StoryCell: UICollectionViewCell {
     self.setNeedsLayout()
   }
   
+  func viewDidLiveReload() {
+    self.update()
+    self.layout()
+  }
+  
   private func layout() {
+
     self.backgroundImageView.pin.topLeft().bottomRight()
   
     self.whiteGradientView.pin.left().bottom().right().height(100)

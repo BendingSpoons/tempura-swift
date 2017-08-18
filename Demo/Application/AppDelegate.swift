@@ -27,9 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     self.installRoot(identifier: Screen.tabbar.rawValue) {
       self.window?.makeKeyAndVisible()
     }
+
+    LiveReloadManager.shared.liveReloadViews(in: self.window!)
+    
     return true
   }
-  
+
   func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
     if identifier == Screen.tabbar.rawValue {
       let mainViewController = TabBarController(store: self.store!)
