@@ -11,7 +11,15 @@ import PinLayout
 import Hero
 import Tempura
 
-class DependenciesTestView: ModellableView<DependenciesTestViewModel> {
+class DependenciesTestView: UIView, ModellableView {
+  
+  typealias VM = DependenciesTestViewModel
+  
+  var model: DependenciesTestViewModel = DependenciesTestViewModel() {
+    didSet {
+      self.update(oldModel: oldValue)
+    }
+  }
   
   // MARK: - SUBVIEWS
   
@@ -21,13 +29,13 @@ class DependenciesTestView: ModellableView<DependenciesTestViewModel> {
   }()
   
   // MARK: - SETUP
-  override func setup() {
+  func setup() {
     // add subviews
     self.addSubview(self.label)
   }
   
   // MARK: - STYLE
-  override func style() {
+  func style() {
     self.backgroundColor = App.Style.Palette.white
     self.label.text = "this viewController\nhas dependencies"
     self.label.numberOfLines = 0
@@ -37,14 +45,15 @@ class DependenciesTestView: ModellableView<DependenciesTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(oldModel: DependenciesTestViewModel) {
+  func update(oldModel: DependenciesTestViewModel) {
   }
   
   // MARK: - INTERACTION
   
   // MARK: - LAYOUT
   
-  override func layout() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
     self.label.pin.size(CGSize(width: 250, height: 100))
     self.label.pin.center()
   }

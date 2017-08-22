@@ -14,7 +14,7 @@ class FakeManager {}
 
 /// this is an example to show how we want to handle ViewControllers with dependencies
 
-class DependenciesTestViewController: ViewController<DependenciesTestView, DependenciesTestViewModel, AppState> {
+class DependenciesTestViewController: ViewController<DependenciesTestView, AppState> {
   
   let dumbManager: FakeManager
   

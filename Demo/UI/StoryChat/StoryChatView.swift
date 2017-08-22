@@ -9,25 +9,27 @@ import Foundation
 import UIKit
 import Tempura
 
-class StoryChatView: ModellableView<StoryChatViewModel> {
+class StoryChatView: UIView, ModellableView {
+  typealias VM = StoryChatViewModel
   
   // SETUP
-  override func setup() {
+  
+  func setup() {
     // add subviews
   }
   
+  func style() {
+  }
+  
   // UPDATE
-  override func update(oldModel: StoryChatViewModel) {
+  func update(oldModel: StoryChatViewModel) {
   }
   
   // INTERACTION
   
   // LAYOUT
-  
-  public override func layoutSubviews() {
-    self.layout()
-  }
-  
-  override func layout() {
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
   }
 }

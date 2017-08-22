@@ -44,7 +44,7 @@ import Katana
 
 
 // ----------- Swift 3.1 implementation, remove as soon as 3.2 is available in production
-open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWithLocalState, S: State, LS: LocalState>: UIViewController where LVM.S == S, LVM.LS == LS {
+open class ViewControllerWithLocalState<V: ModellableView, S: State, LS: LocalState>: UIViewController where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
   
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
@@ -62,7 +62,7 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   private var unsubscribe: StoreUnsubscribe?
   
   /// used to have the last viewModel available if we want to update it for local state changes
-  public var viewModel: LVM = LVM() {
+  public var viewModel: V.VM = V.VM() {
     didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
@@ -83,11 +83,13 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   
   /// used internally to load the specific main view managed by this view controller
   open override func loadView() {
-    let v = V()
+    // TODO: this shitty force cast dance can be removed in swift 4
+    let viewType = V.self as! UIView.Type
+    let v = viewType.init(frame: .zero) as! V
     v.viewController = self
     v.setup()
     v.style()
-    self.view = v
+    self.view = v as! UIView
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
@@ -143,7 +145,7 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   open func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-    self.viewModel = LVM(state: state, localState: self.localState)
+    self.viewModel = V.VM(state: state, localState: self.localState)
   }
   
   // this method is called every time the local state changes
@@ -154,7 +156,7 @@ open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWi
   // handle the local state update
   open func updateLocalState(with localState: LS) {
     guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
-    self.viewModel = LVM(state: state, localState: localState)
+    self.viewModel = V.VM(state: state, localState: localState)
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates

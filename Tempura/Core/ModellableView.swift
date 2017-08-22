@@ -9,53 +9,134 @@
 import Foundation
 import UIKit
 
-/*protocol ModellableView {
-  var model: ViewModel { get set }
-}*/
-
 // typealias for interaction callback
 public typealias Interaction = () -> ()
 
-open class ModellableView<VM: ViewModel>: UIView {
+fileprivate var viewControllerKey = "modellableview_view_controller_key"
+fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
+
+/**
+ 
+ # Live Reload
+ ModellableView automatically implements a method to leverage live reload.
+ Basically, when the view changes, update and layout are invoked and you have
+ the chance of updating the view without recompiling the application.
+ 
+ If you need to perform tasks before update and layout, see `liveReloadWillInvokeUpdateAndLayout`,
+ if you want to customise the model that is passed to `update`, see `liveReloadOldModel`
+*/
+public protocol ModellableView: class, LiveReloadableView {
+ associatedtype VM: ViewModel
   
-  open var model: VM = VM() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
+  var model: VM { get set }
+  
+  var viewController: UIViewController? { get set }
+  
+  func setup()
+  func style()
+  func update(oldModel: VM)
+  func layoutIfNeeded()
+  func layoutSubviews()
+
+  /**
+   This method is invoked before `update` and `layout` are invoked
+   by the live reload. You can use it reset checks or
+   do anything you think it is useful to make the live reload work.
+   
+   This method is never invoked in production runs as well as other live
+   reload methods.
+  */
+  func liveReloadWillInvokeUpdateAndLayout()
+  
+  /**
+   This method can be used to customise the old model passed to
+   `update`, when it is invoked by the live reload system.
+   
+   This method is never invoked in production runs as well as other live
+   reload methods.
+  */
+  func liveReloadOldModel() -> VM
+}
+
+public extension ModellableView {
+  func viewDidLiveReload() {
+    self.update(oldModel: self.liveReloadOldModel())
+    self.layoutIfNeeded()
   }
   
-  /// used to access navigationBar
-  weak var viewController: UIViewController?
+  /// The default implementation return the current model
+  func liveReloadOldModel() -> VM {
+    return self.model
+  }
   
+  /// The default implementation does nothing
+  func liveReloadWillInvokeUpdateAndLayout() {}
+}
+
+private final class ModelWrapper<VM: ViewModel> {
+  var model: VM
+  
+  init(model: VM) {
+    self.model = model
+  }
+}
+
+public extension ModellableView {
   /// shortcut to the navigationBar, if present
   public var navigationBar: UINavigationBar? {
     return viewController?.navigationController?.navigationBar
   }
+  
   /// shortcut to the navigationItem, if present
   public var navigationItem: UINavigationItem? {
     return viewController?.navigationItem
   }
   
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
+  public var viewController: UIViewController? {
+    get {
+      return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
+    }
+    
+    set {
+      objc_setAssociatedObject(
+        self,
+        &viewControllerKey,
+        newValue,
+        .OBJC_ASSOCIATION_ASSIGN
+      )
+    }
   }
   
-  open func setup() {}
-  
-  open func style() {}
-  
-  /// do not call this method, set self.model variable instead
-  open func update(oldModel: VM) {}
-  
-  /// do not call this method, use .setNeedsLayout() instead
-  open func layout() {}
-  
-  open override func layoutSubviews() {
-    self.layout()
+  private var modelWrapper: ModelWrapper<VM> {
+    get {
+      if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ModelWrapper<VM> {
+        return modelWrapper
+      }
+      
+      let newWrapper = ModelWrapper(model: VM())
+      self.modelWrapper = newWrapper
+      return newWrapper
+    }
+    
+    set {
+      objc_setAssociatedObject(
+        self,
+        &modelWrapperKey,
+        newValue,
+        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+      )
+    }
   }
   
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  public var model: VM {
+    get {
+      return self.modelWrapper.model
+    }
+    
+    set {
+      let oldValue = self.model
+      self.modelWrapper.model = newValue
+      self.update(oldModel: oldValue)
+    }
   }
-
 }

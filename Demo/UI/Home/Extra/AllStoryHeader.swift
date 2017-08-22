@@ -35,11 +35,6 @@ class AllStoryHeader: UICollectionReusableView {
     self.addSubview(self.titleLabel)
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
-  
   func update() {
     
     self.backgroundColor = .black
@@ -52,7 +47,8 @@ class AllStoryHeader: UICollectionReusableView {
     self.setNeedsLayout()
   }
   
-  private func layout() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
     self.titleLabel.sizeToFit()
     self.titleLabel.pin.center()
   }

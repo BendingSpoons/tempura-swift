@@ -91,10 +91,6 @@ final class StorySectionCell: UICollectionViewCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.layout()
-  }
-  
-  private func layout() {
     self.gradientView.pin.bottom().right().top().width(100)
     
     self.titleLabel.sizeToFit()

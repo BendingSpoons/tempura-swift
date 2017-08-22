@@ -17,8 +17,8 @@ import Katana
  - feed the view with the updated viewModel
  */
 
-open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController where VM.S == S {
-  
+// TODO: with swift 4 we will be able to say that V should also be an uiview
+open class ViewController<V: ModellableView, S: State>: UIViewController where V.VM.S == S {
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
   open var connected: Bool = true {
@@ -35,7 +35,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   private var unsubscribe: StoreUnsubscribe?
   
   /// used to have the last viewModel available if we want to update it for local state changes
-  public var viewModel: VM = VM() {
+  public var viewModel: V.VM = V.VM() {
     didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
@@ -49,11 +49,13 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   
   /// used internally to load the specific main view managed by this view controller
   open override func loadView() {
-    let v = V()
+    // TODO: this shitty force cast dance can be removed in swift 4
+    let viewType = V.self as! UIView.Type
+    let v = viewType.init(frame: .zero) as! V
     v.viewController = self
     v.setup()
     v.style()
-    self.view = v
+    self.view = v as! UIView
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
@@ -109,7 +111,7 @@ open class ViewController<V: ModellableView<VM>, VM, S: State>: UIViewController
   open func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-    self.viewModel = VM(state: state)
+    self.viewModel = V.VM(state: state)
   }
   
   /// before the view will appear on screen, update the view and subscribe for state updates

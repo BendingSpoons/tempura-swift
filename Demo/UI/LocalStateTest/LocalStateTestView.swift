@@ -11,7 +11,9 @@ import PinLayout
 import Hero
 import Tempura
 
-class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
+class LocalStateTestView: UIView, ModellableView {
+  
+  typealias VM = LocalStateTestViewModel
   
   // MARK: - SUBVIEWS
   
@@ -38,7 +40,8 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   }()
   
   // MARK: - SETUP
-  override func setup() {
+  
+  func setup() {
     // add subviews
     self.addSubview(self.globalCounterLabel)
     self.addSubview(self.localCounterLabel)
@@ -49,7 +52,7 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   }
   
   // MARK: - STYLE
-  override func style() {
+  func style() {
     self.backgroundColor = .white
     self.subButton.backgroundColor = .red
     self.subButton.setTitle("sub local counter", for: .normal)
@@ -64,7 +67,7 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   }
   
   // MARK: - UPDATE
-  override func update(oldModel: LocalStateTestViewModel) {
+  func update(oldModel: LocalStateTestViewModel) {
     self.globalCounterLabel.text = self.model.globalCounterString
     self.localCounterLabel.text = self.model.localCounterString
   }
@@ -82,8 +85,9 @@ class LocalStateTestView: ModellableView<LocalStateTestViewModel> {
   }
   
   // MARK: - LAYOUT
-  
-  override func layout() {
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
     self.globalCounterLabel.pin.size(CGSize(width: 300.0, height: 60.0))
     self.globalCounterLabel.pin.hCenter()
     self.globalCounterLabel.pin.top()
