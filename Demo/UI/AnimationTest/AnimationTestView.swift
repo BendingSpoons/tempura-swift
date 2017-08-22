@@ -68,6 +68,7 @@ class AnimationTestView: UIView, ModellableView {
   // MARK: - LAYOUT
 
   override func layoutSubviews() {
+    super.layoutSubviews()
     if self.expanded {
       self.button.frame = self.bounds
     } else {

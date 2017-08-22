@@ -53,6 +53,7 @@ class DependenciesTestView: UIView, ModellableView {
   // MARK: - LAYOUT
   
   override func layoutSubviews() {
+    super.layoutSubviews()
     self.label.pin.size(CGSize(width: 250, height: 100))
     self.label.pin.center()
   }

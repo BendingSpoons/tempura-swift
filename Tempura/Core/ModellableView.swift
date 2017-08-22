@@ -56,10 +56,6 @@ public protocol ModellableView: class, LiveReloadableView {
    reload methods.
   */
   func liveReloadOldModel() -> VM
-
- /*open override func layoutSubviews() {
-    self.layout(model: self.model)
-  }*/
 }
 
 public extension ModellableView {

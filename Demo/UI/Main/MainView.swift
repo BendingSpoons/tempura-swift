@@ -67,6 +67,7 @@ class MainView: UIView, ModellableView {
   // MARK: - Layout
 
   override func layoutSubviews() {
+    super.layoutSubviews()
     self.counter.frame = CGRect(x: 50, y: 100, width: 300, height: 60)
     self.sub.frame = CGRect(x: 50, y: 160, width: 150, height: 60)
     self.add.frame = CGRect(x: 200, y: 160, width: 150, height: 60)

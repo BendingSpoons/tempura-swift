@@ -48,6 +48,7 @@ class AllStoryHeader: UICollectionReusableView {
   }
   
   override func layoutSubviews() {
+    super.layoutSubviews()
     self.titleLabel.sizeToFit()
     self.titleLabel.pin.center()
   }

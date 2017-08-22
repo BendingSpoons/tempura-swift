@@ -122,7 +122,7 @@ class StoryCell: UICollectionViewCell, LiveReloadableView {
   }
   
   override func layoutSubviews() {
-
+    super.layoutSubviews()
     self.backgroundImageView.pin.topLeft().bottomRight()
   
     self.whiteGradientView.pin.left().bottom().right().height(100)

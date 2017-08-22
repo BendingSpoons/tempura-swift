@@ -112,11 +112,6 @@ class CoverStory: UICollectionReusableView {
     self.subTitleLabel.heroID = nil
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
-  
   func update() {
     
     self.backgroundImageView.image = self.backgroundImage
@@ -149,7 +144,8 @@ class CoverStory: UICollectionReusableView {
     self.setNeedsLayout()
   }
   
-  private func layout() {
+  override func layoutSubviews() {
+    super.layoutSubviews()
     self.backgroundImageView.pin
       .size(max(self.frame.height, self.frame.width))
       .center()
