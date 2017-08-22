@@ -63,12 +63,8 @@ class ModalTestView: UIView, ModellableView {
   }
   
   // MARK: - LAYOUT
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
   
-  func layout() {
+  override func layoutSubviews() {
     self.closeButton.pin.size(CGSize(width: 150, height: 60))
     self.presentButton.pin.size(of: self.closeButton)
     

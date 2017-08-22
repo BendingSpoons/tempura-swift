@@ -85,12 +85,8 @@ class LocalStateTestView: UIView, ModellableView {
   }
   
   // MARK: - LAYOUT
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
 
-  func layout() {
+  override func layoutSubviews() {
     self.globalCounterLabel.pin.size(CGSize(width: 300.0, height: 60.0))
     self.globalCounterLabel.pin.hCenter()
     self.globalCounterLabel.pin.top()

@@ -66,10 +66,6 @@ class StoryCell: UICollectionViewCell, LiveReloadableView {
     self.contentView.addSubview(self.subTitleLabel)
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
   
   func update() {
     guard let story = self.story else {
@@ -122,10 +118,10 @@ class StoryCell: UICollectionViewCell, LiveReloadableView {
   
   func viewDidLiveReload() {
     self.update()
-    self.layout()
+    self.layoutIfNeeded()
   }
   
-  private func layout() {
+  override func layoutSubviews() {
 
     self.backgroundImageView.pin.topLeft().bottomRight()
   

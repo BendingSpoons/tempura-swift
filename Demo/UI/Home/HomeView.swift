@@ -76,13 +76,8 @@ class HomeView: UIView, ModellableView {
   }
   
   // LAYOUT
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
 
-  func layout() {
+  override func layoutSubviews() {
     self.collectionView.frame = self.bounds
   }
 }

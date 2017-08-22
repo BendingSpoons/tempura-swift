@@ -28,12 +28,7 @@ class StoryChatView: UIView, ModellableView {
   // INTERACTION
   
   // LAYOUT
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
 
-  func layout() {
+  override func layoutSubviews() {
   }
 }

@@ -148,12 +148,8 @@ class StoryCoverView: UIView, ModellableView {
   }
   
   // MARK: - LAYOUT
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.layout()
-  }
   
-  func layout() {
+  override func layoutSubviews() {
     self.backgroundImage.pin.size(of: self)
     self.closeButton.pin.size(CGSize(width: 44.0, height: 44.0))
     self.closeButton.pin.topLeft().margin(20)

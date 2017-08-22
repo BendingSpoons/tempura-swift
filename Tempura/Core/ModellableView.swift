@@ -35,7 +35,8 @@ public protocol ModellableView: class, LiveReloadableView {
   func setup()
   func style()
   func update(oldModel: VM)
-  func layout()
+  func layoutIfNeeded()
+  func layoutSubviews()
 
   /**
    This method is invoked before `update` and `layout` are invoked
@@ -64,7 +65,7 @@ public protocol ModellableView: class, LiveReloadableView {
 public extension ModellableView {
   func viewDidLiveReload() {
     self.update(oldModel: self.liveReloadOldModel())
-    self.layout()
+    self.layoutIfNeeded()
   }
   
   /// The default implementation return the current model
