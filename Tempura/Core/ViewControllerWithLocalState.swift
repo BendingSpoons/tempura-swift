@@ -26,13 +26,19 @@ import Katana
     super.viewDidLoad()
     self.localStateDidChange()
   }
+ 
+  open func update(with state: S) {
+      // update the view model using the new state available
+     self.viewModel = LVM(state: state, localState: self.localState)
+ }
   
   private func localStateDidChange() {
     self.updateLocalState(with: self.localState)
   }
   
   private func updateLocalState(with localState: LS) {
-    self.viewModel.updateLocalState(with: localState)
+    guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
+    self.viewModel = LVM(state: state, localState: localState)
   }
 }*/
 
