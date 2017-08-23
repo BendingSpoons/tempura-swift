@@ -47,8 +47,12 @@ class LocalStateTestView: UIView, ModellableView {
     self.addSubview(self.localCounterLabel)
     self.addSubview(self.subButton)
     self.addSubview(self.addButton)
-    self.subButton.addTarget(self, action: #selector(self.subButtonTap), for: .touchUpInside)
-    self.addButton.addTarget(self, action: #selector(self.addButtonTap), for: .touchUpInside)
+    self.subButton.on(.touchUpInside) { [weak self] button in
+      self?.subButtonDidTap?()
+    }
+    self.addButton.on(.touchUpInside) { [weak self] button in
+      self?.addButtonDidTap?()
+    }
   }
   
   // MARK: - STYLE
@@ -75,14 +79,6 @@ class LocalStateTestView: UIView, ModellableView {
   // MARK: - INTERACTION
   var subButtonDidTap: Interaction?
   var addButtonDidTap: Interaction?
-  
-  @objc private func subButtonTap() {
-    self.subButtonDidTap?()
-  }
-  
-  @objc private func addButtonTap() {
-    self.addButtonDidTap?()
-  }
   
   // MARK: - LAYOUT
 

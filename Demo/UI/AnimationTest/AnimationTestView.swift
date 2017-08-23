@@ -42,7 +42,9 @@ class AnimationTestView: UIView, ModellableView {
     // add the subviews to self
     self.addSubview(self.button)
     // setup handlers for buttons if needed
-    self.button.addTarget(self, action: #selector(self.buttonTap), for: .touchUpInside)
+    self.button.on(.touchUpInside) { [weak self] button in
+      self?.buttonDidTap?()
+    }
   }
   
   // MARK: - STYLE
@@ -60,10 +62,6 @@ class AnimationTestView: UIView, ModellableView {
   // MARK: - INTERACTION
   
    var buttonDidTap: Interaction?
-  
-   @objc private func buttonTap() {
-    self.buttonDidTap?()
-   }
   
   // MARK: - LAYOUT
 

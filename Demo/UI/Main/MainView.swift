@@ -33,8 +33,13 @@ class MainView: UIView, ModellableView {
     self.addSubview(self.counter)
     self.addSubview(self.sub)
     self.addSubview(self.add)
-    self.sub.addTarget(self, action: #selector(self.subDidTap), for: .touchUpInside)
-    self.add.addTarget(self, action: #selector(self.addDidTap), for: .touchUpInside)
+    self.sub.on(.touchUpInside) { [weak self] button in
+      self?.subtractButtonDidTap?()
+    }
+    
+    self.add.on(.touchUpInside) { [weak self] button in
+      self?.addButtonDidTap?()
+    }
   }
   
   // MARK: - Style
@@ -55,14 +60,6 @@ class MainView: UIView, ModellableView {
   // MARK: - Interaction callbacks
   var subtractButtonDidTap: Interaction?
   var addButtonDidTap: Interaction?
-  
-  @objc private func subDidTap() {
-    self.subtractButtonDidTap?()
-  }
-  
-  @objc private func addDidTap() {
-    self.addButtonDidTap?()
-  }
   
   // MARK: - Layout
 

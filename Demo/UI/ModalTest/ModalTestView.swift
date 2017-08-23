@@ -34,8 +34,15 @@ class ModalTestView: UIView, ModellableView {
     // add subviews
     self.addSubview(self.closeButton)
     self.addSubview(self.presentButton)
-    self.closeButton.addTarget(self, action: #selector(self.closeButtonTap), for: .touchUpInside)
-    self.presentButton.addTarget(self, action: #selector(self.presentButtonTap), for: .touchUpInside)
+    
+    self.closeButton.on(.touchUpInside) { [weak self] button in
+      self?.closeButtonDidTap?()
+    }
+    
+    self.presentButton.on(.touchUpInside) { [weak self] button in
+      self?.presentButtonDidTap?()
+    }
+  
   }
   
   // MARK: - STYLE
@@ -53,14 +60,6 @@ class ModalTestView: UIView, ModellableView {
   // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?
   var presentButtonDidTap: Interaction?
-  
-  @objc private func closeButtonTap() {
-    self.closeButtonDidTap?()
-  }
-  
-  @objc private func presentButtonTap() {
-    self.presentButtonDidTap?()
-  }
   
   // MARK: - LAYOUT
   

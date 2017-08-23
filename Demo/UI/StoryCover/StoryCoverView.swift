@@ -72,7 +72,9 @@ class StoryCoverView: UIView, ModellableView {
     self.addSubview(self.subtitle)
     self.addSubview(self.descr)
     self.addSubview(self.startReading)
-    self.closeButton.addTarget(self, action: #selector(self.closeButtonTap), for: .touchUpInside)
+    self.closeButton.on(.touchUpInside) { [weak self] button in
+      self?.closeButtonDidTap?()
+    }
   }
   
   // MARK: - STYLE
@@ -142,10 +144,6 @@ class StoryCoverView: UIView, ModellableView {
   
   // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?
-  
-  @objc private func closeButtonTap() {
-    self.closeButtonDidTap?()
-  }
   
   // MARK: - LAYOUT
   
