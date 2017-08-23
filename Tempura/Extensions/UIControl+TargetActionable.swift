@@ -31,4 +31,17 @@ public extension TargetActionable where Self: UIControl {
   }
 }
 
+public extension TargetActionable where Self: UIBarButtonItem {
+  func onTap(_ action: @escaping (Self) -> ()) {
+    let trampoline = ActionTrampoline(action: action)
+    
+    self.target = trampoline
+    self.action = #selector(trampoline.action)
+    
+    // just needed to retain the trampoline to keep it alive
+    objc_setAssociatedObject(self, "tap_handler", trampoline, .OBJC_ASSOCIATION_RETAIN)
+  }
+}
+
 extension UIControl: TargetActionable {}
+extension UIBarButtonItem: TargetActionable {}
