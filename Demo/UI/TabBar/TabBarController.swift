@@ -28,7 +28,7 @@ class TabBarController: UITabBarController {
   
   func setupChildren() {
     // HOME
-    let home = HomeViewController()
+    let home = HomeViewController(store: self.store)
     let homeNavigationController = RoutableNavigationController(rootViewController: home)
     homeNavigationController.isHeroEnabled = true
     homeNavigationController.heroNavigationAnimationType = .fade
@@ -37,19 +37,19 @@ class TabBarController: UITabBarController {
     
     // DEPENDENCIES TEST
     let fakeManager = self.dependencies.fakeManager
-    let dependenciesTest = DependenciesTestViewController(dependency: fakeManager)
+    let dependenciesTest = DependenciesTestViewController(dependency: fakeManager, store: self.store)
     dependenciesTest.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
     
     // LOCAL STATE TEST
-    let localStateTest = LocalStateTestViewController()
+    let localStateTest = LocalStateTestViewController(store: self.store)
     localStateTest.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 2)
     
     // MODAL TEST
-    let modalTest = ModalTestViewController()
+    let modalTest = ModalTestViewController(store: self.store)
     modalTest.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 3)
     
     // ANIMATION TEST
-    let animationTest = AnimationTestViewController()
+    let animationTest = AnimationTestViewController(store: self.store)
     animationTest.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 4)
     
     self.viewControllers = [homeNavigationController,

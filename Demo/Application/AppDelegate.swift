@@ -18,8 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     self.store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
-    // set this store as the default for the Tempura ViewControllers
-    Tempura.store = self.store
     
     self.window = UIWindow(frame: UIScreen.main.bounds)
     

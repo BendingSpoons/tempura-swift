@@ -66,12 +66,6 @@ open class ViewController<V: ModellableView, S: State>: UIViewController where V
     self.setup()
   }
   
-  /// convenience initializer that uses the global Tempura store
-  public convenience init(connected: Bool = true) {
-    guard let store = Tempura.store else { fatalError("Tempura.store is not specified") }
-    self.init(store: store, connected: connected)
-  }
-  
   // override to setup something after init
   open func setup() {}
   

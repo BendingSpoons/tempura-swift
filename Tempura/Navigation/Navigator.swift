@@ -15,9 +15,6 @@ public class Navigator {
   //typealias RootInstaller = (UIWindow, Store<S>, RouteElementIdentifier, Completion?) -> ()
   
   private let routingQueue = DispatchQueue(label: "routing queue")
-  //private let rootInstaller: RootInstaller?
-  //private let root: RouteElementIdentifier
-  //private let getStore: () -> (Store<S>)
   private var rootInstaller: RootInstaller!
   private var window: UIWindow!
   
