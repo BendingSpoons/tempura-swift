@@ -36,7 +36,7 @@ import Katana
     self.updateLocalState(with: self.localState)
   }
   
-  private func updateLocalState(with localState: LS) {
+  open func updateLocalState(with localState: LS) {
     guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
     self.viewModel = LVM(state: state, localState: localState)
   }
@@ -130,7 +130,11 @@ open class ViewControllerWithLocalState<V: ModellableView, S: State, LS: LocalSt
   }
   
   /// this method is called every time the store trigger a state update
-  private func storeDidChange() {
+  /// ATTENTION: this method should be private, it's public just because there is a bug in swift 3.1
+  /// preventing you to override the update(with state: S) method because it's generic
+  /// this allow us to use `storeDidChange()` (that is not generic) as an overriding point
+  /// TODO: make it private once we migrate to swift 4.0
+  public func storeDidChange() {
     guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
     self.update(with: newState)
   }
@@ -142,8 +146,12 @@ open class ViewControllerWithLocalState<V: ModellableView, S: State, LS: LocalSt
     self.viewModel = V.VM(state: state, localState: self.localState)
   }
   
-  // this method is called every time the local state changes
-  private func localStateDidChange() {
+  /// this method is called every time the local state changes
+  /// ATTENTION: this method should be private, it's open just because there is a bug in swift 3.1
+  /// preventing you to override the updateLocalState(with localState: LS) method because it's generic
+  /// this allow us to use `localStateDidChange()` (that is not generic) as an overriding point
+  /// TODO: make it private once we migrate to swift 4.0
+  open func localStateDidChange() {
     self.updateLocalState(with: self.localState)
   }
   

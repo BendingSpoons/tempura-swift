@@ -96,7 +96,11 @@ open class ViewController<V: ModellableView, S: State>: UIViewController where V
   }
   
   /// this method is called every time the store trigger a state update
-  private func storeDidChange() {
+  /// ATTENTION: this method should be private, it's open just because there is a bug in swift 3.1
+  /// preventing you to override the update(with state: S) method because it's generic
+  /// this allow us to use `storeDidChange()` (that is not generic) as an overriding point
+  /// TODO: make it private once we migrate to swift 4.0
+  open func storeDidChange() {
     guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
     self.update(with: newState)
   }
