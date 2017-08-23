@@ -284,6 +284,10 @@ extension UIApplication {
   }
 }
 
+/// this method returs the hierarchy of the UIViewControllers in the visible stack
+/// using the RouteInspectable protocol
+/// if you introduce a custom UIViewController like for instance a `SideMenuViewController`
+/// you need it to conform to the RouteInspectable protocol
 extension UIApplication {
   var currentViewControllers: [UIViewController] {
     let bottomViewController = UIApplication.shared.keyWindow?.rootViewController
@@ -291,16 +295,38 @@ extension UIApplication {
     var vc = bottomViewController
     while vc != nil {
       controllers.append(vc!)
-      if let navigation = vc as? UINavigationController {
-        vc = navigation.topViewController
-      } else if let tabbarController = vc as? UITabBarController {
-        vc = tabbarController.selectedViewController
-      } else if let presented = vc?.presentedViewController {
-        vc = presented
-      } else {
-        vc = nil
-      }
+      vc = vc?.nextRouteController
     }
     return controllers
+  }
+}
+
+/// define a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack
+protocol RouteInspectable: class {
+  var nextRouteController: UIViewController? { get }
+}
+
+/// conformance of the UINavigationController to the RouteInspectable protocol
+/// in a UINavigationController the next visible controller is the `topViewController`
+extension UINavigationController {
+  override var nextRouteController: UIViewController? {
+    return self.topViewController
+  }
+}
+
+/// conformance of the UITabBarController to the RouteInspectable protocol
+/// in a UITabBarController the next visible controller is the `selectedViewController`
+extension UITabBarController {
+  override var nextRouteController: UIViewController? {
+    return self.selectedViewController
+  }
+}
+
+/// conformance of the UIViewController to the RouteInspectable protocol
+/// in a UIViewController the next visible controller is the `presentedViewController` if != nil
+/// otherwise there is no next UIViewController in the visible stack
+extension UIViewController: RouteInspectable {
+  var nextRouteController: UIViewController? {
+    return self.presentedViewController
   }
 }
