@@ -17,6 +17,8 @@ final class DependenciesContainer: NavigationProvider {
   
   var fakeManager: FakeManager = FakeManager()
   
+  var navigator: Navigator = Navigator()
+  
   var getState: () -> State {
     return self.getAppState
   }

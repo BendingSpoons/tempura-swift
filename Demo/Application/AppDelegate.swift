@@ -20,19 +20,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     self.store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
     // set this store as the default for the Tempura ViewControllers
     Tempura.store = self.store
+    
     // set this helper to access dependencies globally in the app
     App.dependencies = self.store!.dependencies as? DependenciesContainer
-    // Override point for customization after application launch.
+
     self.window = UIWindow(frame: UIScreen.main.bounds)
-    self.installRoot(identifier: Screen.tabbar.rawValue) {
-      self.window?.makeKeyAndVisible()
-    }
+    
+    /// setup the root of the navigation
+    /// this is done by invoking this method (and not in the init of the navigator)
+    /// because the navigator is instantiated by the Store.
+    /// this in turn will invoke the `installRootMethod` of the rootInstaller (self)
+    (self.store!.dependencies as? DependenciesContainer)?.navigator.setupWith(rootInstaller: self, window: self.window!, rootElementIdentifier: Screen.tabbar.rawValue)
 
     LiveReloadManager.shared.liveReloadViews(in: self.window!)
     
     return true
   }
 
+  /// install the root of the app
+  /// this method is called by the navigator when needed
   func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
     if identifier == Screen.tabbar.rawValue {
       let mainViewController = TabBarController(store: self.store!)

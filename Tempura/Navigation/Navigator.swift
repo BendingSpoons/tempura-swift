@@ -14,29 +14,26 @@ public class Navigator {
   public typealias Completion = () -> ()
   //typealias RootInstaller = (UIWindow, Store<S>, RouteElementIdentifier, Completion?) -> ()
   
-  //private let window: UIWindow
   private let routingQueue = DispatchQueue(label: "routing queue")
   //private let rootInstaller: RootInstaller?
   //private let root: RouteElementIdentifier
   //private let getStore: () -> (Store<S>)
-  private let rootInstaller: RootInstaller
+  private var rootInstaller: RootInstaller!
+  private var window: UIWindow!
   
-  public static var sharedInstance: Navigator = Navigator()
+  public init() {}
   
-  /*init(window: UIWindow, store: @escaping @autoclosure () -> Store<S>, root: RouteElementIdentifier, rootInstaller: @escaping RootInstaller) {
+  public func setupWith(rootInstaller: RootInstaller, window: UIWindow, rootElementIdentifier: RouteElementIdentifier) {
+    self.rootInstaller = rootInstaller
     self.window = window
-    self.rootInstaller = rootInstaller
-    self.root = root
-    self.getStore = store
-  }*/
-  init(rootInstaller: RootInstaller? = UIApplication.shared.delegate as? RootInstaller) {
-    guard let rootInstaller = rootInstaller else { fatalError("RootInstaller not provided") }
-    self.rootInstaller = rootInstaller
+    self.install(identifier: rootElementIdentifier)
   }
   
-  /*func install() {
-    self.rootInstaller?(self.window, self.getStore(), self.root, nil)
-  }*/
+  private func install(identifier: RouteElementIdentifier) {
+    self.rootInstaller?.installRoot(identifier: identifier, completion: { 
+      self.window?.makeKeyAndVisible()
+    })
+  }
   
   public func changeRoute(newRoute: Route, animated: Bool) {
     var oldRoute: Route = []

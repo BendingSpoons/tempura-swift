@@ -12,9 +12,3 @@ import Katana
 public protocol NavigationProvider: SideEffectDependencyContainer {
   var navigator: Navigator { get }
 }
-
-public extension NavigationProvider {
-  var navigator: Navigator {
-    return Navigator.sharedInstance
-  }
-}
