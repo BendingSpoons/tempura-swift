@@ -21,9 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     // set this store as the default for the Tempura ViewControllers
     Tempura.store = self.store
     
-    // set this helper to access dependencies globally in the app
-    App.dependencies = self.store!.dependencies as? DependenciesContainer
-
     self.window = UIWindow(frame: UIScreen.main.bounds)
     
     /// setup the root of the navigation
@@ -41,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   /// this method is called by the navigator when needed
   func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
     if identifier == Screen.tabbar.rawValue {
-      let mainViewController = TabBarController(store: self.store!)
+      let dependencies = self.store!.dependencies as! DependenciesContainer
+      let mainViewController = TabBarController(store: self.store!, dependencies: dependencies)
       self.window?.rootViewController = mainViewController
       completion()
     }

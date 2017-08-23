@@ -9,7 +9,4 @@
 import Foundation
 
 /// namespacing for the app utilities
-enum App {
-  /// helper to access our dependencies container globally in the app
-  static var dependencies: DependenciesContainer?
-}
+enum App {}

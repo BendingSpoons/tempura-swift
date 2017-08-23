@@ -13,9 +13,11 @@ import Tempura
 
 class TabBarController: UITabBarController {
   var store: AnyStore
+  var dependencies: DependenciesContainer
   
-  init(store: AnyStore) {
+  init(store: AnyStore, dependencies: DependenciesContainer) {
     self.store = store
+    self.dependencies = dependencies
     super.init(nibName: nil, bundle: nil)
     self.setupChildren()
   }
@@ -34,7 +36,7 @@ class TabBarController: UITabBarController {
     homeNavigationController.setNavigationBarHidden(true, animated: false)
     
     // DEPENDENCIES TEST
-    guard let fakeManager = App.dependencies?.fakeManager else { fatalError("fakeManager is needed") }
+    let fakeManager = self.dependencies.fakeManager
     let dependenciesTest = DependenciesTestViewController(dependency: fakeManager)
     dependenciesTest.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
     
