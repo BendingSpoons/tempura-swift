@@ -10,7 +10,7 @@ import Foundation
 import Tempura
 import PinLayout
 
-class AnimationTestView: UIView, ModellableView {
+class AnimationTestView: UIView, ViewControllerModellableView {
   
   typealias VM = AnimationTestViewModel
 

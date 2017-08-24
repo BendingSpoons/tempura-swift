@@ -15,7 +15,7 @@ import Katana
 // --------- due to a bug in Swift 3.1 we can't inherit from ViewController --------------
 // this implementation is valid starting from Swift 3.2, in the meantime we are copying the ViewController implementation instead of extending the class
 
-/*open class ViewControllerWithLocalState<V: ModellableView<LVM>, LVM: ViewModelWithLocalState, S: State, LS>: ViewController<V, LVM, S> where LVM.S == S, LVM.LS == LS {
+/*open class ViewControllerWithLocalState<V: ViewControllerModellableView, S: State>: ViewController<V, S> where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
   public var localState: LS = LS() {
     didSet {
       self.localStateDidChange()
@@ -44,7 +44,7 @@ import Katana
 
 
 // ----------- Swift 3.1 implementation, remove as soon as 3.2 is available in production
-open class ViewControllerWithLocalState<V: ModellableView, S: State, LS: LocalState>: UIViewController where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
+open class ViewControllerWithLocalState<V: ViewControllerModellableView, S: State, LS: LocalState>: UIViewController where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
   
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store

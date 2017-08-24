@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import Katana
 
+// typealias for interaction callback
+public typealias Interaction = () -> ()
+
 /// every ViewController will:
 /*
  - connect to the store on willAppear and disconnect on didDisappear
@@ -17,8 +20,8 @@ import Katana
  - feed the view with the updated viewModel
  */
 
-// TODO: with swift 4 we will be able to say that V should also be an uiview
-open class ViewController<V: ModellableView, S: State>: UIViewController where V.VM.S == S {
+// TODO: with swift 4 we will be able to say that V should also be an UIView
+open class ViewController<V: ViewControllerModellableView, S: State>: UIViewController where V.VM.S == S {
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
   open var connected: Bool = true {

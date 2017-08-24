@@ -11,7 +11,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class LocalStateTestView: UIView, ModellableView {
+class LocalStateTestView: UIView, ViewControllerModellableView {
   
   typealias VM = LocalStateTestViewModel
   

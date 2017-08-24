@@ -9,35 +9,37 @@
 import Foundation
 import UIKit
 
-// typealias for interaction callback
-public typealias Interaction = () -> ()
+/// the ModellableView protocol defines the structure of a View that is more complex than a simple reusable View
+/// (for which we use the simpler `View` protocol).
+/// A perfect candidate for this protocol is a View that contains specific Domain level knowledge and is easier to be updated using
+/// the concept of a ViewModel instead of a set of properties.
 
-fileprivate var viewControllerKey = "modellableview_view_controller_key"
+
 fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 
 /**
  
  # Live Reload
- ModellableView automatically implements a method to leverage live reload.
+ ViewControllerModellableView automatically implements a method to leverage live reload.
  Basically, when the view changes, update and layout are invoked and you have
  the chance of updating the view without recompiling the application.
  
  If you need to perform tasks before update and layout, see `liveReloadWillInvokeUpdateAndLayout`,
  if you want to customise the model that is passed to `update`, see `liveReloadOldModel`
-*/
-public protocol ModellableView: class, LiveReloadableView {
- associatedtype VM: ViewModel
+ */
+
+public protocol ModellableView: View, LiveReloadableView {
+  associatedtype VM: ViewModel
   
+  /// the ViewModel of the View. Once changed, the `update(oldModel: VM)` will be called
   var model: VM { get set }
   
-  var viewController: UIViewController? { get set }
-  
-  func setup()
-  func style()
+  /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
   func update(oldModel: VM)
+  
+  /// needed for the live reload
   func layoutIfNeeded()
-  func layoutSubviews()
-
+  
   /**
    This method is invoked before `update` and `layout` are invoked
    by the live reload. You can use it reset checks or
@@ -45,7 +47,7 @@ public protocol ModellableView: class, LiveReloadableView {
    
    This method is never invoked in production runs as well as other live
    reload methods.
-  */
+   */
   func liveReloadWillInvokeUpdateAndLayout()
   
   /**
@@ -54,25 +56,11 @@ public protocol ModellableView: class, LiveReloadableView {
    
    This method is never invoked in production runs as well as other live
    reload methods.
-  */
+   */
   func liveReloadOldModel() -> VM
 }
 
-public extension ModellableView {
-  func viewDidLiveReload() {
-    self.update(oldModel: self.liveReloadOldModel())
-    self.layoutIfNeeded()
-  }
-  
-  /// The default implementation return the current model
-  func liveReloadOldModel() -> VM {
-    return self.model
-  }
-  
-  /// The default implementation does nothing
-  func liveReloadWillInvokeUpdateAndLayout() {}
-}
-
+/// implementation detail, wrapper of the model to work with the associatedObject mechanism
 private final class ModelWrapper<VM: ViewModel> {
   var model: VM
   
@@ -81,31 +69,8 @@ private final class ModelWrapper<VM: ViewModel> {
   }
 }
 
+/// model update logic implementation
 public extension ModellableView {
-  /// shortcut to the navigationBar, if present
-  public var navigationBar: UINavigationBar? {
-    return viewController?.navigationController?.navigationBar
-  }
-  
-  /// shortcut to the navigationItem, if present
-  public var navigationItem: UINavigationItem? {
-    return viewController?.navigationItem
-  }
-  
-  public var viewController: UIViewController? {
-    get {
-      return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
-    }
-    
-    set {
-      objc_setAssociatedObject(
-        self,
-        &viewControllerKey,
-        newValue,
-        .OBJC_ASSOCIATION_ASSIGN
-      )
-    }
-  }
   
   private var modelWrapper: ModelWrapper<VM> {
     get {
@@ -139,4 +104,25 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
+  
+  func update() {
+    fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
+  }
+}
+
+/// live reload implementation
+public extension ViewControllerModellableView {
+  func viewDidLiveReload() {
+    self.style()
+    self.update(oldModel: self.liveReloadOldModel())
+    self.layoutIfNeeded()
+  }
+  
+  /// The default implementation return the current model
+  func liveReloadOldModel() -> VM {
+    return self.model
+  }
+  
+  /// The default implementation does nothing
+  func liveReloadWillInvokeUpdateAndLayout() {}
 }

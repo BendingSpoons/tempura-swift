@@ -11,7 +11,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class StoryCoverView: UIView, ModellableView {
+class StoryCoverView: UIView, ViewControllerModellableView {
   typealias VM = StoryCoverViewModel
   
   // MARK: - SUBVIEWS

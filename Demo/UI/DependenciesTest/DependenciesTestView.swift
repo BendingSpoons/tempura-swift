@@ -11,7 +11,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class DependenciesTestView: UIView, ModellableView {
+class DependenciesTestView: UIView, ViewControllerModellableView {
   
   typealias VM = DependenciesTestViewModel
   

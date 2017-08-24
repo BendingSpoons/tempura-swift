@@ -11,7 +11,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class ModalTestView: UIView, ModellableView {
+class ModalTestView: UIView, ViewControllerModellableView {
   typealias VM = ModalTestViewModel
   
   // MARK: - SUBVIEWS

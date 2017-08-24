@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class HomeView: UIView, ModellableView {
+class HomeView: UIView, ViewControllerModellableView {
   typealias UserDidRequestStory = (Story.ID) -> Void
   typealias VM = HomeViewModel
   

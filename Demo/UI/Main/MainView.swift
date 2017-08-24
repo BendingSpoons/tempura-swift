@@ -9,7 +9,7 @@
 import Foundation
 import Tempura
 
-class MainView: UIView, ModellableView {
+class MainView: UIView, ViewControllerModellableView {
   
   typealias VM = MainViewModel
   

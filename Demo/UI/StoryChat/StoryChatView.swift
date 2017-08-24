@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class StoryChatView: UIView, ModellableView {
+class StoryChatView: UIView, ViewControllerModellableView {
   typealias VM = StoryChatViewModel
   
   // SETUP
