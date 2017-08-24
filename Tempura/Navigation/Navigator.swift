@@ -27,7 +27,7 @@ public class Navigator {
   }
   
   private func install(identifier: RouteElementIdentifier) {
-    self.rootInstaller?.installRoot(identifier: identifier, completion: { 
+    self.rootInstaller?.installRoot(identifier: identifier, completion: {
       self.window?.makeKeyAndVisible()
     })
   }
@@ -120,15 +120,13 @@ public class Navigator {
         case .presentModally(routeElementToPresentModally: let identifier):
           DispatchQueue.main.async {
             let routables = UIApplication.shared.currentRoutables.reversed()
-            let topViewController = UIApplication.shared.currentViewControllers.last!
             var handled = false
             
             for routable in routables where !handled {
-              handled = routable.presentModally(from: topViewController,
-                                                       modal: identifier,
-                                                       animated: isAnimated,
-                                                       completion: {
-                                                        semaphore.signal()
+              handled = routable.presentModally(modal: identifier,
+                                                animated: isAnimated,
+                                                completion: {
+                                                  semaphore.signal()
               })
             }
             
@@ -147,10 +145,10 @@ public class Navigator {
             
             for routable in routables where !handled {
               handled = routable.dismissModally(identifier: identifier,
-                                                       vcToDismiss: viewControllerToDismiss,
-                                                       animated: isAnimated,
-                                                       completion: {
-                                                        semaphore.signal()
+                                                vcToDismiss: viewControllerToDismiss,
+                                                animated: isAnimated,
+                                                completion: {
+                                                  semaphore.signal()
               })
             }
             
@@ -203,10 +201,10 @@ public class Navigator {
         routeChanges.append(change)
       }
     }
-    // case 2 we need to PUSH element because we are in a situation like this:
-    // OLD: A
-    // NEW: A -> B -> C
-    // push all the elements in the new route that were not in the old route
+      // case 2 we need to PUSH element because we are in a situation like this:
+      // OLD: A
+      // NEW: A -> B -> C
+      // push all the elements in the new route that were not in the old route
     else if commonRouteIndex == old.count - 1 {
       for pushIndex in (commonRouteIndex + 1)..<new.count {
         let elementToPush = new[pushIndex]
@@ -214,10 +212,10 @@ public class Navigator {
         routeChanges.append(change)
       }
     }
-    // case 3 we need to CHANGE elements because we are in a situation like this:
-    // OLD: A -> B -> C
-    // NEW: A -> D -> E
-    // change B with D
+      // case 3 we need to CHANGE elements because we are in a situation like this:
+      // OLD: A -> B -> C
+      // NEW: A -> D -> E
+      // change B with D
     else {
       let change = RouteChange.change(currentRouteElementIdentifier: old[commonRouteIndex], from: old[commonRouteIndex + 1], to: new[commonRouteIndex + 1])
       routeChanges.append(change)
