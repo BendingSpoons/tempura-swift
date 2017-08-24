@@ -27,7 +27,13 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   open var connected: Bool = true {
     didSet {
       guard self.connected != oldValue else { return }
-      self.connected ? self.subscribeToStateUpdates() : self.unsubscribe?()
+      
+      if self.connected {
+        self.subscribeToStateUpdates()
+      } else {
+        self.unsubscribe?()
+        self.unsubscribe = nil
+      }
     }
   }
   
@@ -127,6 +133,7 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   open override func viewWillDisappear(_ animated: Bool) {
     if self.connected {
       self.unsubscribe?()
+      self.unsubscribe = nil
     }
     super.viewWillDisappear(animated)
   }
