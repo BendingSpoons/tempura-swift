@@ -43,6 +43,9 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   /// closure used to unsubscribe the viewController from state updates
   private var unsubscribe: StoreUnsubscribe?
   
+  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
+  public var shouldDisconnectOnViewWillDisappear = true
+  
   /// used to have the last viewModel available if we want to update it for local state changes
   public var viewModel: V.VM = V.VM() {
     didSet {
@@ -131,10 +134,11 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   
   /// after the view disapper from screen, we stop listening for state updates
   open override func viewWillDisappear(_ animated: Bool) {
-    if self.connected {
+    if self.connected && self.shouldDisconnectOnViewWillDisappear {
       self.unsubscribe?()
       self.unsubscribe = nil
     }
+
     super.viewWillDisappear(animated)
   }
   
