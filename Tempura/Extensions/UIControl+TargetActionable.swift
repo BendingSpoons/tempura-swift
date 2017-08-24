@@ -31,6 +31,8 @@ public extension TargetActionable where Self: UIControl {
   }
 }
 
+let tapHandlerKey = UnsafeMutablePointer<Int8>.allocate(capacity: 1)
+
 public extension TargetActionable where Self: UIBarButtonItem {
   func onTap(_ action: @escaping (Self) -> ()) {
     let trampoline = ActionTrampoline(action: action)
@@ -39,7 +41,7 @@ public extension TargetActionable where Self: UIBarButtonItem {
     self.action = #selector(trampoline.action)
     
     // just needed to retain the trampoline to keep it alive
-    objc_setAssociatedObject(self, "tap_handler", trampoline, .OBJC_ASSOCIATION_RETAIN)
+    objc_setAssociatedObject(self, tapHandlerKey, trampoline, .OBJC_ASSOCIATION_RETAIN)
   }
 }
 
