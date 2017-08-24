@@ -11,8 +11,8 @@ import UIKit
 
 /// the ModellableView protocol defines the structure of a View that is more complex than a simple reusable View
 /// (for which we use the simpler `View` protocol).
-/// A perfect candidate for this protocol is a View that contains specific Domain level knowledge and is easier to be updated using
-/// the concept of a ViewModel instead of a set of properties.
+/// A perfect candidate for this protocol is a View that contains specific Domain level knowledge and
+/// it is more natural to be updated using the concept of a ViewModel instead of a set of properties.
 
 
 fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
