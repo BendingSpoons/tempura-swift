@@ -37,9 +37,6 @@ public protocol ModellableView: View, LiveReloadableView {
   /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
   func update(oldModel: VM)
   
-  /// needed for the live reload
-  func layoutIfNeeded()
-  
   /**
    This method is invoked before `update` and `layout` are invoked
    by the live reload. You can use it reset checks or
@@ -111,11 +108,11 @@ public extension ModellableView {
 }
 
 /// live reload implementation
-public extension ViewControllerModellableView {
+public extension ModellableView {
   func viewDidLiveReload() {
     self.style()
     self.update(oldModel: self.liveReloadOldModel())
-    self.layoutIfNeeded()
+    self.layoutSubviews()
   }
   
   /// The default implementation return the current model
