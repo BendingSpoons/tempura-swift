@@ -112,6 +112,10 @@ public extension ModellableView {
   func viewDidLiveReload() {
     self.style()
     self.update(oldModel: self.liveReloadOldModel())
+    
+    // layoutIfNeeded would be the correct way to trigger an update
+    // It seems that it doesn't work though
+    // For the live reload purposes, we call layoutSubviews directly
     self.layoutSubviews()
   }
   
