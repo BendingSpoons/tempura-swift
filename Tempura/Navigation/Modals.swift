@@ -17,6 +17,7 @@ public extension UIViewController {
     if let vc = self.presentedViewController {
       vc.tempuraPresent(viewController, animated: true, completion: completion)
     } else {
+      viewController.toBeDismissed = false
       self.present(viewController, animated: animated, completion: completion)
     }
     
