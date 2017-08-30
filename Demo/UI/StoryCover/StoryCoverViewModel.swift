@@ -10,7 +10,7 @@ import UIKit
 import Tempura
 
 // this is the part of the state that the view is interested in
-struct StoryCoverViewModel: ViewModel {
+struct StoryCoverViewModel: ViewModelWithState {
   
   typealias SubtitleComponents = (String, String, String)
   

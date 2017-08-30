@@ -9,7 +9,7 @@ import Foundation
 import Tempura
 
 // this is the part of the state that the view is interested in
-struct HomeViewModel: ViewModel {
+struct HomeViewModel: ViewModelWithState {
 
   var coverStory: Story?
   var stories: [Story.ID: Story]

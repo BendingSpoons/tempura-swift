@@ -10,7 +10,7 @@ import UIKit
 import Tempura
 
 // this is the part of the state that the view is interested in
-struct ModalTestViewModel: ViewModel {
+struct ModalTestViewModel: ViewModelWithState {
   
   init(state: AppState) {}
   

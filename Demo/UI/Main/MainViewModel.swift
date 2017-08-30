@@ -9,7 +9,7 @@
 import Foundation
 import Tempura
 
-struct MainViewModel: ViewModel {
+struct MainViewModel: ViewModelWithState {
   
   var count: String = ""
   

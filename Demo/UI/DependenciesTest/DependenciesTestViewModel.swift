@@ -10,7 +10,7 @@ import UIKit
 import Tempura
 
 // this is the part of the state that the view is interested in
-struct DependenciesTestViewModel: ViewModel {
+struct DependenciesTestViewModel: ViewModelWithState {
   
   init(state: AppState) {}
   

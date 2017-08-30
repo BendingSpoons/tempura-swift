@@ -17,11 +17,13 @@ fileprivate var viewControllerKey = "modellableview_view_controller_key"
 
 
 public protocol ViewControllerModellableView: ModellableView {
+  associatedtype VM: ViewModelWithState
   
   var viewController: UIViewController? { get set }
 }
 
 public extension ViewControllerModellableView {
+  
   /// shortcut to the navigationBar, if present
   public var navigationBar: UINavigationBar? {
     return viewController?.navigationController?.navigationBar

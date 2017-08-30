@@ -9,7 +9,7 @@
 import Foundation
 import Katana
 
-public protocol ViewModelWithLocalState: ViewModel {
+public protocol ViewModelWithLocalState: ViewModelWithState {
   associatedtype S: State
   associatedtype LS: LocalState
   
