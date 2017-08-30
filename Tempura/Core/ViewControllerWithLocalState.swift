@@ -179,6 +179,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S: Stat
   open override func viewWillDisappear(_ animated: Bool) {
     if self.connected {
       self.unsubscribe?()
+      self.unsubscribe = nil
     }
     super.viewWillDisappear(animated)
   }
