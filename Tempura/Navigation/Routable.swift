@@ -19,6 +19,7 @@ public protocol Routable {
                         completion: @escaping RoutingCompletion)
   
   func pop(identifier: RouteElementIdentifier,
+                       vcToPop: UIViewController,
                        animated: Bool,
                        completion: @escaping RoutingCompletion)
   
@@ -54,6 +55,7 @@ public extension Routable {
   }
   
   public func pop(identifier: RouteElementIdentifier,
+                  vcToPop: UIViewController,
                        animated: Bool,
                        completion: @escaping RoutingCompletion) {
     fatalError("This Routable element cannot pop other elements, the implementation of \(#function) is missing")

@@ -93,7 +93,10 @@ public class Navigator {
               semaphore.signal()
               fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to pop '\(toPop)'")
             }
-            currentRoutable.pop(identifier: toPop, animated: isAnimated, completion: {
+            guard let viewControllerToPop = UIApplication.shared.routable(for: toPop) as? UIViewController else {
+              fatalError("there is no Routable element with identifier '\(toPop)' or the Routable element is not a UIViewController subclass")
+            }
+            currentRoutable.pop(identifier: toPop, vcToPop: viewControllerToPop, animated: isAnimated, completion: { 
               semaphore.signal()
             })
           }
@@ -284,12 +287,12 @@ extension UIApplication {
 /// you need it to conform to the RouteInspectable protocol
 extension UIApplication {
   var currentViewControllers: [UIViewController] {
-    let bottomViewController = UIApplication.shared.keyWindow?.rootViewController
+    guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
     var controllers: [UIViewController] = []
-    var vc = bottomViewController
-    while vc != nil {
-      controllers.append(vc!)
-      vc = vc?.nextRouteController
+    var vcs: [UIViewController] = [bottomViewController]
+    while !vcs.isEmpty {
+      controllers.append(contentsOf: vcs)
+      vcs = vcs.last?.nextRouteControllers ?? []
     }
     return controllers
   }
@@ -297,22 +300,23 @@ extension UIApplication {
 
 /// define a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack
 protocol RouteInspectable: class {
-  var nextRouteController: UIViewController? { get }
+  var nextRouteControllers: [UIViewController] { get }
 }
 
 /// conformance of the UINavigationController to the RouteInspectable protocol
 /// in a UINavigationController the next visible controller is the `topViewController`
 extension UINavigationController {
-  override var nextRouteController: UIViewController? {
-    return self.topViewController
+  override var nextRouteControllers: [UIViewController] {
+    return self.viewControllers
   }
 }
 
 /// conformance of the UITabBarController to the RouteInspectable protocol
 /// in a UITabBarController the next visible controller is the `selectedViewController`
 extension UITabBarController {
-  override var nextRouteController: UIViewController? {
-    return self.selectedViewController
+  override var nextRouteControllers: [UIViewController] {
+    guard let selected = self.selectedViewController else { return [] }
+    return [selected]
   }
 }
 
@@ -320,7 +324,8 @@ extension UITabBarController {
 /// in a UIViewController the next visible controller is the `presentedViewController` if != nil
 /// otherwise there is no next UIViewController in the visible stack
 extension UIViewController: RouteInspectable {
-  var nextRouteController: UIViewController? {
-    return self.presentedViewController
+  var nextRouteControllers: [UIViewController] {
+    guard let presented = self.presentedViewController else { return [] }
+    return [presented]
   }
 }
