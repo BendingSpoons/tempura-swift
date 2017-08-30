@@ -45,8 +45,8 @@ public extension UIViewController {
   
   public var toBeDismissed: Bool {
     get {
-      let value = objc_getAssociatedObject(self, &toBeDismissedKey) as! NSNumber
-      return value.boolValue
+      let value = objc_getAssociatedObject(self, &toBeDismissedKey) as? NSNumber
+      return value?.boolValue ?? false
     }
     
     set {
