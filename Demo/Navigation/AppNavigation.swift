@@ -59,6 +59,17 @@ extension ModalTestViewController: Routable {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.modalTest.rawValue
   }
+  
+  func presentModally(modal: RouteElementIdentifier,
+                      animated: Bool,
+                      completion: @escaping RoutingCompletion) -> Bool {
+    if modal == Screen.modalTest.rawValue {
+      let vc = ModalTestViewController(store: self.store)
+      self.present(vc, animated: animated, completion: completion)
+      return true
+    }
+    return false
+  }
 }
 
 // TABBAR
@@ -67,15 +78,12 @@ extension TabBarController: Routable {
     return Screen.tabbar.rawValue
   }
   
-  func presentModally(from: UIViewController,
-                      modal: RouteElementIdentifier,
+  func presentModally(modal: RouteElementIdentifier,
                       animated: Bool,
                       completion: @escaping RoutingCompletion) -> Bool {
     if modal == Screen.modalTest.rawValue {
       let vc = ModalTestViewController(store: self.store)
-      from.present(vc, animated: animated, completion: {
-        completion()
-      })
+      self.present(vc, animated: animated, completion: completion)
       return true
     }
     return false
