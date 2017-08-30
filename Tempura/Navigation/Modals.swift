@@ -12,17 +12,17 @@ import UIKit
 fileprivate var toBeDismissedKey = "view_controller_to_be_dismissed"
 
 public extension UIViewController {
-  public func tempuraPresent(viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+  public func tempuraPresent(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
     // check if we are already presenting something, if so, ask the presented to present the viewController
     if let vc = self.presentedViewController {
-      vc.tempuraPresent(viewController: viewController, animated: true, completion: completion)
+      vc.tempuraPresent(viewController, animated: true, completion: completion)
     } else {
       self.present(viewController, animated: animated, completion: completion)
     }
     
   }
   
-  public func tempuraDismiss(viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+  public func tempuraDismiss(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
     // check if the viewController to dismiss is actually a modal
     guard let presentingViewController = viewController.presentingViewController else { return }
     // check if the viewController is presenting something (not marked as toBeDismissed)
@@ -35,7 +35,7 @@ public extension UIViewController {
       // in that case invoke `tempuraDismiss` on that
       if presentingViewController.toBeDismissed {
         viewController.toBeDismissed = true
-        self.tempuraDismiss(viewController: presentingViewController, animated: animated, completion: completion)
+        self.tempuraDismiss(presentingViewController, animated: animated, completion: completion)
       } else {
         viewController.dismiss(animated: animated, completion: completion)
       }
@@ -60,6 +60,6 @@ public extension UIViewController {
   }
   
   public func tempuraDismiss(animated: Bool = false, completion: (() -> Void)?) {
-    self.tempuraDismiss(viewController: self, animated: animated, completion: completion)
+    self.tempuraDismiss(self, animated: animated, completion: completion)
   }
 }
