@@ -27,7 +27,7 @@ struct ShowStory: AppAction {
 extension ShowStory: AppActionWithSideEffect {
   func sideEffect(currentState: AppState, previousState: AppState, dispatch: @escaping StoreDispatch, dependencies: DependenciesContainer) {
     if self.performNavigation {
-      dispatch(Push(to: [Screen.storyCover.rawValue], animated: true))
+      dispatch(Show([Screen.storyCover.rawValue], animated: true))
     }
   }
 }

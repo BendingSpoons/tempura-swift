@@ -14,14 +14,15 @@ public typealias RoutingCompletion = () -> ()
 public protocol Routable {
   var routeIdentifier: RouteElementIdentifier { get }
   
-  func push(identifier: RouteElementIdentifier,
-                        animated: Bool,
-                        completion: @escaping RoutingCompletion)
+  func show(identifier: RouteElementIdentifier,
+            from: RouteElementIdentifier,
+            animated: Bool,
+            completion: @escaping RoutingCompletion) -> Bool
   
-  func pop(identifier: RouteElementIdentifier,
-                       vcToPop: UIViewController,
-                       animated: Bool,
-                       completion: @escaping RoutingCompletion)
+  func hide(identifier: RouteElementIdentifier,
+            from: RouteElementIdentifier,
+            animated: Bool,
+            completion: @escaping RoutingCompletion) -> Bool
   
   func change(from: RouteElementIdentifier,
                           to: RouteElementIdentifier,
@@ -35,7 +36,7 @@ public protocol Routable {
   /// animated: specify if the presentation should be animated
   /// completion: this completion handler MUST be called when the presentation is complete
   /// return true if self is handling the presentation of the modal
-  func presentModally(from: UIViewController,
+  /*func presentModally(from: UIViewController,
                    modal: RouteElementIdentifier,
                    animated: Bool,
                    completion: @escaping RoutingCompletion) -> Bool
@@ -45,21 +46,10 @@ public protocol Routable {
                       vcToDismiss: UIViewController,
                       animated: Bool,
                       completion: @escaping RoutingCompletion) -> Bool
+ */
 }
 
 public extension Routable {
-  public func push(identifier: RouteElementIdentifier,
-                        animated: Bool,
-                        completion: @escaping RoutingCompletion) {
-    fatalError("This Routable element cannot push other elements, the implementation of \(#function) is missing")
-  }
-  
-  public func pop(identifier: RouteElementIdentifier,
-                  vcToPop: UIViewController,
-                       animated: Bool,
-                       completion: @escaping RoutingCompletion) {
-    fatalError("This Routable element cannot pop other elements, the implementation of \(#function) is missing")
-  }
   
   public func change(from: RouteElementIdentifier,
                           to: RouteElementIdentifier,
@@ -68,15 +58,15 @@ public extension Routable {
     fatalError("This Routable element cannot change the navigation, the implementation of \(#function) is missing")
   }
   
-  public func presentModally(from: UIViewController,
-                             modal: RouteElementIdentifier,
+  public func show(identifier: RouteElementIdentifier,
+                             from: RouteElementIdentifier,
                              animated: Bool,
                              completion: @escaping RoutingCompletion) -> Bool {
     return false
   }
   
-  public func dismissModally(identifier: RouteElementIdentifier,
-                             vcToDismiss: UIViewController,
+  public func hide(identifier: RouteElementIdentifier,
+                             from: RouteElementIdentifier,
                              animated: Bool,
                              completion: @escaping RoutingCompletion) -> Bool {
     return false

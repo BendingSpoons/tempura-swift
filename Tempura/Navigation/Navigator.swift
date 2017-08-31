@@ -42,7 +42,7 @@ public class Navigator {
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
-  public func presentModally(routeElementID: RouteElementIdentifier, animated: Bool) {
+  /*public func presentModally(routeElementID: RouteElementIdentifier, animated: Bool) {
     let change = RouteChange.presentModally(routeElementToPresentModally: routeElementID)
     self.routeDidChange(changes: [change], isAnimated: animated)
     
@@ -51,26 +51,32 @@ public class Navigator {
   public func dismissModally(routeElementID: RouteElementIdentifier, animated: Bool) {
     let change = RouteChange.dismissModally(routeElementToDismissModally: routeElementID)
     self.routeDidChange(changes: [change], isAnimated: animated)
-  }
+  }*/
   
-  public func push(to route: Route, animated: Bool) {
+  public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool) {
     var oldRoute: Route = []
     DispatchQueue.main.sync {
       oldRoute = UIApplication.shared.currentRoute
     }
-    let newRoute: Route = oldRoute + route
+    let newRoute: Route = oldRoute + elementsToShow
     let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
-  public func pop(animated: Bool) {
+  public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool) {
     var oldRoute: Route = []
     DispatchQueue.main.sync {
       oldRoute = UIApplication.shared.currentRoute
     }
     var newRoute: Route = oldRoute
-    newRoute.removeLast()
+    
+    let i = newRoute.index { element -> Bool in
+      return element == elementToHide
+    }
+    guard let index = i else { return }
+    newRoute.removeSubrange(index..<newRoute.count)
+    
     let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
@@ -87,28 +93,52 @@ public class Navigator {
       // indicating that the navigation action has completed
       self.routingQueue.async {
         switch routeChange {
-        case .pop( let currentRouteElementIdentifier, let toPop):
+        case .hide( let toHide, let from):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
-              semaphore.signal()
-              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to pop '\(toPop)'")
+            var routables = Array(UIApplication.shared.currentRoutables.reversed())
+            
+            //start from the toHide, going backward
+            let toHideIndex: Int = routables.index(where: { routable -> Bool in
+              return routable.routeIdentifier == toHide
+            })!
+
+            routables = Array(routables.dropFirst(toHideIndex))
+            
+            var handled = false
+            for routable in routables where !handled {
+              handled = routable.hide(identifier: toHide,
+                                                from: from,
+                                                animated: isAnimated,
+                                                completion: {
+                                                  semaphore.signal()
+              })
             }
-            guard let viewControllerToPop = UIApplication.shared.routable(for: toPop) as? UIViewController else {
-              fatalError("there is no Routable element with identifier '\(toPop)' or the Routable element is not a UIViewController subclass")
-            }
-            currentRoutable.pop(identifier: toPop, vcToPop: viewControllerToPop, animated: isAnimated, completion: { 
+            
+            if !handled {
               semaphore.signal()
-            })
+              fatalError("dismissal of the '\(toHide)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())")
+            }
           }
-        case .push(let currentRouteElementIdentifier, let routeElementToPush):
+          
+        case .show(let toShow, let from):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
-              semaphore.signal()
-              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to push '\(routeElementToPush)'")
+            let routables = UIApplication.shared.currentRoutables.reversed()
+            let topViewController = UIApplication.shared.currentViewControllers.last!
+            var handled = false
+            
+            for routable in routables where !handled {
+              handled = routable.show(identifier: toShow,
+                                                from: from,
+                                                animated: isAnimated,
+                                                completion: {
+                                                  semaphore.signal()
+              })
             }
-            let _ = currentRoutable.push(identifier: routeElementToPush, animated: isAnimated, completion: {
+            
+            if !handled {
               semaphore.signal()
-            })
+              fatalError("presentation of the '\(toShow)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
+            }
           }
         case .change(let currentRouteElementIdentifier, let from, let to):
           DispatchQueue.main.async {
@@ -119,48 +149,6 @@ public class Navigator {
             let _ = currentRoutable.change(from: from, to: to, animated: isAnimated, completion: {
               semaphore.signal()
             })
-          }
-        case .presentModally(routeElementToPresentModally: let identifier):
-          DispatchQueue.main.async {
-            let routables = UIApplication.shared.currentRoutables.reversed()
-            let topViewController = UIApplication.shared.currentViewControllers.last!
-            var handled = false
-            
-            for routable in routables where !handled {
-              handled = routable.presentModally(from: topViewController,
-                                                       modal: identifier,
-                                                       animated: isAnimated,
-                                                       completion: {
-                                                        semaphore.signal()
-              })
-            }
-            
-            if !handled {
-              semaphore.signal()
-              fatalError("modal presentation of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
-            }
-          }
-        case .dismissModally(routeElementToDismissModally: let identifier):
-          DispatchQueue.main.async {
-            let routables = UIApplication.shared.currentRoutables.reversed()
-            guard let viewControllerToDismiss = UIApplication.shared.routable(for: identifier) as? UIViewController else {
-              fatalError("there is no Routable element with identifier '\(identifier)' or the Routable element is not a UIViewController subclass")
-            }
-            var handled = false
-            
-            for routable in routables where !handled {
-              handled = routable.dismissModally(identifier: identifier,
-                                                       vcToDismiss: viewControllerToDismiss,
-                                                       animated: isAnimated,
-                                                       completion: {
-                                                        semaphore.signal()
-              })
-            }
-            
-            if !handled {
-              semaphore.signal()
-              fatalError("modal dismissal of the '\(identifier)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
-            }
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
@@ -195,25 +183,25 @@ public class Navigator {
       return [change]
     }
     
-    // case 1 we need to POP elements because we are in a situation like this:
+    // case 1 we need to HIDE elements because we are in a situation like this:
     // OLD: A -> B -> C
     // NEW: A
-    // pop all the elements in the old route that are no more in the new route
+    // hide all the elements in the old route that are no more in the new route
     if commonRouteIndex == new.count - 1 {
-      for popIndex in ((commonRouteIndex + 1)..<old.count).reversed() {
-        let elementToPop = old[popIndex]
-        let change = RouteChange.pop(currentRouteElementIdentifier: old[popIndex - 1], routeElementToPop: elementToPop)
+      for hideIndex in ((commonRouteIndex + 1)..<old.count).reversed() {
+        let elementToHide = old[hideIndex]
+        let change = RouteChange.hide(elementToHide: elementToHide, from: old[hideIndex - 1])
         routeChanges.append(change)
       }
     }
-    // case 2 we need to PUSH element because we are in a situation like this:
+    // case 2 we need to SHOW elements because we are in a situation like this:
     // OLD: A
     // NEW: A -> B -> C
-    // push all the elements in the new route that were not in the old route
+    // show all the elements in the new route that were not in the old route
     else if commonRouteIndex == old.count - 1 {
-      for pushIndex in (commonRouteIndex + 1)..<new.count {
-        let elementToPush = new[pushIndex]
-        let change = RouteChange.push(currentRouteElementIdentifier: old[pushIndex - 1], routeElementToPush: elementToPush)
+      for showIndex in (commonRouteIndex + 1)..<new.count {
+        let elementToShow = new[showIndex]
+        let change = RouteChange.show(elementToShow: elementToShow, from: old[showIndex - 1])
         routeChanges.append(change)
       }
     }
@@ -222,7 +210,7 @@ public class Navigator {
     // NEW: A -> D -> E
     // change B with D
     else {
-      let change = RouteChange.change(currentRouteElementIdentifier: old[commonRouteIndex], from: old[commonRouteIndex + 1], to: new[commonRouteIndex + 1])
+      let change = RouteChange.change(currentElementIdentifier: old[commonRouteIndex], from: old[commonRouteIndex + 1], to: new[commonRouteIndex + 1])
       routeChanges.append(change)
     }
     return routeChanges
@@ -240,15 +228,11 @@ public class Navigator {
   }
   
   enum RouteChange {
-    case push(currentRouteElementIdentifier: RouteElementIdentifier, routeElementToPush: RouteElementIdentifier)
+    case show(elementToShow: RouteElementIdentifier, from: RouteElementIdentifier)
     
-    case pop(currentRouteElementIdentifier: RouteElementIdentifier, routeElementToPop: RouteElementIdentifier)
+    case hide(elementToHide: RouteElementIdentifier, from: RouteElementIdentifier)
     
-    case change(currentRouteElementIdentifier: RouteElementIdentifier, from: RouteElementIdentifier, to: RouteElementIdentifier)
-    
-    case presentModally(routeElementToPresentModally: RouteElementIdentifier)
-    
-    case dismissModally(routeElementToDismissModally: RouteElementIdentifier)
+    case change(currentElementIdentifier: RouteElementIdentifier, from: RouteElementIdentifier, to: RouteElementIdentifier)
     
     case rootChange(from: RouteElementIdentifier, to: RouteElementIdentifier)
   }
@@ -268,6 +252,12 @@ extension UIApplication {
   var currentRoutables: [Routable] {
     return self.currentViewControllers.flatMap {
       return $0 as? Routable
+    }
+  }
+  
+  var currentRoutableIdentifiers: [RouteElementIdentifier] {
+    return self.currentRoutables.flatMap {
+      return $0.routeIdentifier
     }
   }
 }

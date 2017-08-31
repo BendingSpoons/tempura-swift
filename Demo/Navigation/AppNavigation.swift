@@ -24,7 +24,7 @@ extension HomeViewController: Routable {
     return Screen.home.rawValue
   }
   
-  func push(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
+  func show(from: UIViewController, identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) -> Bool {
     // HOME -> STORY COVER
     if identifier == Screen.storyCover.rawValue {
       let sc = StoryCoverViewController(store: self.store)
@@ -32,6 +32,7 @@ extension HomeViewController: Routable {
       self.navigationController?.pushViewController(sc, animated: animated)
       completion()
     }
+    return true
   }
 }
 
@@ -41,9 +42,10 @@ extension RoutableNavigationController: Routable {
     return Screen.navigation.rawValue
   }
   
-  func pop(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
+  func hide(identifier: RouteElementIdentifier, vcToDismiss: UIViewController, animated: Bool, completion: @escaping RoutingCompletion) -> Bool {
     self.popViewController(animated: animated)
     completion()
+    return true
   }
 }
 
@@ -67,11 +69,11 @@ extension TabBarController: Routable {
     return Screen.tabbar.rawValue
   }
   
-  func presentModally(from: UIViewController,
-                      modal: RouteElementIdentifier,
+  func show(from: UIViewController,
+                      identifier: RouteElementIdentifier,
                       animated: Bool,
                       completion: @escaping RoutingCompletion) -> Bool {
-    if modal == Screen.modalTest.rawValue {
+    if identifier == Screen.modalTest.rawValue {
       let vc = ModalTestViewController(store: self.store)
       from.present(vc, animated: animated, completion: {
         completion()
@@ -81,7 +83,7 @@ extension TabBarController: Routable {
     return false
   }
   
-  func dismissModally(identifier: RouteElementIdentifier,
+  func hide(identifier: RouteElementIdentifier,
                       vcToDismiss: UIViewController,
                       animated: Bool,
                       completion: @escaping RoutingCompletion) -> Bool {
