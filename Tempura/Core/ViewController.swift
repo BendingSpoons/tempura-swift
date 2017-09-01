@@ -73,7 +73,7 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   /// the init of the view controller that will take the Store to perform the updates when the store changes
   public init(store: AnyStore, connected: Bool = true) {
     self.store = store
-    self.connected = true
+    self.connected = connected
     super.init(nibName: nil, bundle: nil)
     self.setup()
   }
