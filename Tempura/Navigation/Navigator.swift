@@ -33,57 +33,54 @@ public class Navigator {
   }
   
   public func changeRoute(newRoute: Route, animated: Bool) {
-    var oldRoute: Route = []
+    var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
-      oldRoute = UIApplication.shared.currentRoute
+      oldRoutables = UIApplication.shared.currentRoutables
     }
-    let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
+    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
-  /*public func presentModally(routeElementID: RouteElementIdentifier, animated: Bool) {
-    let change = RouteChange.presentModally(routeElementToPresentModally: routeElementID)
-    self.routeDidChange(changes: [change], isAnimated: animated)
-    
-  }
-  
-  public func dismissModally(routeElementID: RouteElementIdentifier, animated: Bool) {
-    let change = RouteChange.dismissModally(routeElementToDismissModally: routeElementID)
-    self.routeDidChange(changes: [change], isAnimated: animated)
-  }*/
-  
   public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool) {
-    var oldRoute: Route = []
+    var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
-      oldRoute = UIApplication.shared.currentRoute
+      oldRoutables = UIApplication.shared.currentRoutables
     }
+    let oldRoute = oldRoutables.map { $0.routeIdentifier }
     let newRoute: Route = oldRoute + elementsToShow
-    let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
+    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
   public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool) {
-    var oldRoute: Route = []
+    var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
-      oldRoute = UIApplication.shared.currentRoute
+      oldRoutables = UIApplication.shared.currentRoutables
     }
+    let oldRoute = oldRoutables.map { $0.routeIdentifier }
     var newRoute: Route = oldRoute
     
-    let i = newRoute.index { element -> Bool in
-      return element == elementToHide
-    }
-    guard let index = i else { return }
-    newRoute.removeSubrange(index..<newRoute.count)
+    var index: Int?
     
-    let routeChanges = Navigator.routingChanges(from: oldRoute, new: newRoute)
+    for i in (0..<newRoute.count).reversed() {
+      if oldRoute[i] == elementToHide {
+        index = i
+        break
+      }
+    }
+    
+    guard let start = index else { return }
+    newRoute.removeSubrange(start..<newRoute.count)
+    
+    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated)
   }
   
   private func routeDidChange(changes: [RouteChange], isAnimated: Bool) {
-    
+    print("changes: \(changes)")
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
@@ -93,25 +90,28 @@ public class Navigator {
       // indicating that the navigation action has completed
       self.routingQueue.async {
         switch routeChange {
-        case .hide( let toHide, let from):
+        case .hide( let toHide):
           DispatchQueue.main.async {
-            var routables = Array(UIApplication.shared.currentRoutables.reversed())
             
-            //start from the toHide, going backward
-            let toHideIndex: Int = routables.index(where: { routable -> Bool in
-              return routable.routeIdentifier == toHide
+            let routables = UIApplication.shared.currentRoutables
+            let indexToHide = routables.index(where: {
+              $0 === toHide
             })!
-
-            routables = Array(routables.dropFirst(toHideIndex))
+            let askTo = Array(routables[0...indexToHide].reversed())
+            let from = routables[indexToHide - 1].routeIdentifier
             
             var handled = false
-            for routable in routables where !handled {
-              handled = routable.hide(identifier: toHide,
+            for routable in askTo where !handled {
+              guard !handled else { break }
+              print("ask to hide \(toHide) from \(routable.routeIdentifier)")
+              handled = routable.hide(identifier: toHide.routeIdentifier,
                                                 from: from,
                                                 animated: isAnimated,
                                                 completion: {
                                                   semaphore.signal()
+                                                  print("signal")
               })
+              print("handled = \(handled)")
             }
             
             if !handled {
@@ -120,13 +120,16 @@ public class Navigator {
             }
           }
           
-        case .show(let toShow, let from):
+        case .show(let toShow):
           DispatchQueue.main.async {
-            let routables = UIApplication.shared.currentRoutables.reversed()
-            let topViewController = UIApplication.shared.currentViewControllers.last!
-            var handled = false
             
-            for routable in routables where !handled {
+            let routables = UIApplication.shared.currentRoutables
+            let askTo = routables.reversed()
+
+            let from = routables.last!.routeIdentifier
+            
+            var handled = false
+            for routable in askTo where !handled {
               handled = routable.show(identifier: toShow,
                                                 from: from,
                                                 animated: isAnimated,
@@ -140,12 +143,8 @@ public class Navigator {
               fatalError("presentation of the '\(toShow)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
           }
-        case .change(let currentRouteElementIdentifier, let from, let to):
+        case .change(let currentRoutable, let from, let to):
           DispatchQueue.main.async {
-            guard let currentRoutable = UIApplication.shared.routable(for: currentRouteElementIdentifier) else {
-              semaphore.signal()
-              fatalError("\(currentRouteElementIdentifier) is not a routable and is asked to change to '\(to)'")
-            }
             let _ = currentRoutable.change(from: from, to: to, animated: isAnimated, completion: {
               semaphore.signal()
             })
@@ -167,7 +166,7 @@ public class Navigator {
     }
   }
   
-  private static func routingChanges(from old: Route, new: Route) -> [RouteChange] {
+  private static func routingChanges(from old: [Routable], new: Route) -> [RouteChange] {
     var routeChanges: [RouteChange] = []
     
     //find the common route between two routes
@@ -179,7 +178,7 @@ public class Navigator {
     
     /// if there is no route in common, ask the UIApplication to handle that
     if commonRouteIndex < 0 {
-      let change = RouteChange.rootChange(from: old.first!, to: new.first!)
+      let change = RouteChange.rootChange(from: old.first!.routeIdentifier, to: new.first!)
       return [change]
     }
     
@@ -188,9 +187,12 @@ public class Navigator {
     // NEW: A
     // hide all the elements in the old route that are no more in the new route
     if commonRouteIndex == new.count - 1 {
-      for hideIndex in ((commonRouteIndex + 1)..<old.count).reversed() {
+      // routablesToRemove = [C, B], indexes to remove = [2 , 1]
+      let indexesToRemove = ((commonRouteIndex + 1)..<old.count).reversed()
+      
+      for hideIndex in indexesToRemove {
         let elementToHide = old[hideIndex]
-        let change = RouteChange.hide(elementToHide: elementToHide, from: old[hideIndex - 1])
+        let change = RouteChange.hide(routable: elementToHide)
         routeChanges.append(change)
       }
     }
@@ -199,9 +201,11 @@ public class Navigator {
     // NEW: A -> B -> C
     // show all the elements in the new route that were not in the old route
     else if commonRouteIndex == old.count - 1 {
-      for showIndex in (commonRouteIndex + 1)..<new.count {
+      let indexesToAdd = (commonRouteIndex + 1)..<new.count
+      
+      for showIndex in indexesToAdd {
         let elementToShow = new[showIndex]
-        let change = RouteChange.show(elementToShow: elementToShow, from: old[showIndex - 1])
+        let change = RouteChange.show(elementToShow: elementToShow)
         routeChanges.append(change)
       }
     }
@@ -210,17 +214,17 @@ public class Navigator {
     // NEW: A -> D -> E
     // change B with D
     else {
-      let change = RouteChange.change(currentElementIdentifier: old[commonRouteIndex], from: old[commonRouteIndex + 1], to: new[commonRouteIndex + 1])
+      let change = RouteChange.change(routable: old[commonRouteIndex], from: old[commonRouteIndex + 1].routeIdentifier, to: new[commonRouteIndex + 1])
       routeChanges.append(change)
     }
     return routeChanges
   }
   
-  private static func commonRouteIndexBetween(old: Route, new: Route) -> Int {
+  private static func commonRouteIndexBetween(old: [Routable], new: Route) -> Int {
     var commonRouteIndex: Int = -1
     var checkingCommonRouteIndex: Int = 0
     while checkingCommonRouteIndex < old.count && checkingCommonRouteIndex < new.count &&
-      new[checkingCommonRouteIndex] == old[checkingCommonRouteIndex] {
+      new[checkingCommonRouteIndex] == old[checkingCommonRouteIndex].routeIdentifier {
         commonRouteIndex = checkingCommonRouteIndex
         checkingCommonRouteIndex += 1
     }
@@ -228,11 +232,13 @@ public class Navigator {
   }
   
   enum RouteChange {
-    case show(elementToShow: RouteElementIdentifier, from: RouteElementIdentifier)
+    // note that show cannot contain the ask array (like hide) because it needs to be computed at the momento
+    // of the execution because in case of multiple show, the new routables are not in the window yet
+    case show(elementToShow: RouteElementIdentifier)
     
-    case hide(elementToHide: RouteElementIdentifier, from: RouteElementIdentifier)
+    case hide(routable: Routable)
     
-    case change(currentElementIdentifier: RouteElementIdentifier, from: RouteElementIdentifier, to: RouteElementIdentifier)
+    case change(routable: Routable, from: RouteElementIdentifier, to: RouteElementIdentifier)
     
     case rootChange(from: RouteElementIdentifier, to: RouteElementIdentifier)
   }
@@ -262,14 +268,14 @@ extension UIApplication {
   }
 }
 
-extension UIApplication {
+/*extension UIApplication {
   func routable(for identifier: RouteElementIdentifier) -> Routable? {
     let routables = self.currentRoutables.reversed()
     return routables.first(where: { routable -> Bool in
       routable.routeIdentifier == identifier
     })
   }
-}
+}*/
 
 /// this method returs the hierarchy of the UIViewControllers in the visible stack
 /// using the RouteInspectable protocol
