@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   /// install the root of the app
   /// this method is called by the navigator when needed
-  func installRoot(identifier: RouteElementIdentifier, completion: () -> ()) {
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
     if identifier == Screen.tabbar.rawValue {
       let dependencies = self.store!.dependencies as! DependenciesContainer
       let mainViewController = TabBarController(store: self.store!, dependencies: dependencies)

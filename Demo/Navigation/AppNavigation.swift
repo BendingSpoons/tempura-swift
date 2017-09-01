@@ -27,6 +27,7 @@ extension HomeViewController: Routable {
   func show(identifier: RouteElementIdentifier,
             from: RouteElementIdentifier,
             animated: Bool,
+            context: Any?,
             completion: @escaping RoutingCompletion) -> Bool {
     // HOME -> STORY COVER
     if identifier == Screen.storyCover.rawValue {
@@ -48,6 +49,7 @@ extension RoutableNavigationController: Routable {
   func hide(identifier: RouteElementIdentifier,
             from: RouteElementIdentifier,
             animated: Bool,
+            context: Any?,
             completion: @escaping RoutingCompletion) -> Bool {
     self.popViewController(animated: animated)
     completion()
@@ -68,7 +70,12 @@ extension ModalTestViewController: Routable {
     return Screen.modalTest.rawValue
   }
   
-  func hide(identifier: RouteElementIdentifier, from: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) -> Bool {
+  func hide(identifier: RouteElementIdentifier,
+            from: RouteElementIdentifier,
+            animated: Bool,
+            context: Any?,
+            completion: @escaping RoutingCompletion) -> Bool {
+    
     if self.presentingViewController != nil {
       self.tempuraDismiss(animated: true) {
         completion()
@@ -90,7 +97,9 @@ extension TabBarController: Routable {
   func show(identifier: RouteElementIdentifier,
             from: RouteElementIdentifier,
             animated: Bool,
+            context: Any?,
             completion: @escaping RoutingCompletion) -> Bool {
+    
     if identifier == Screen.modalTest.rawValue {
       let vc = ModalTestViewController(store: self.store)
       self.tempuraPresent(vc, animated: animated, completion: { 

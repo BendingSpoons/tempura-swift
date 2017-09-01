@@ -23,26 +23,26 @@ public class Navigator {
   public func setupWith(rootInstaller: RootInstaller, window: UIWindow, rootElementIdentifier: RouteElementIdentifier) {
     self.rootInstaller = rootInstaller
     self.window = window
-    self.install(identifier: rootElementIdentifier)
+    self.install(identifier: rootElementIdentifier, context: nil)
   }
   
-  private func install(identifier: RouteElementIdentifier) {
-    self.rootInstaller?.installRoot(identifier: identifier, completion: { 
+  private func install(identifier: RouteElementIdentifier, context: Any?) {
+    self.rootInstaller?.installRoot(identifier: identifier, context: context, completion: {
       self.window?.makeKeyAndVisible()
     })
   }
   
-  public func changeRoute(newRoute: Route, animated: Bool) {
+  public func changeRoute(newRoute: Route, animated: Bool, context: Any?) {
     var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
       oldRoutables = UIApplication.shared.currentRoutables
     }
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
-    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
-  public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool) {
+  public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) {
     var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
       oldRoutables = UIApplication.shared.currentRoutables
@@ -51,10 +51,10 @@ public class Navigator {
     let newRoute: Route = oldRoute + elementsToShow
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
-    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
-  public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool) {
+  public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?) {
     var oldRoutables: [Routable] = []
     DispatchQueue.main.sync {
       oldRoutables = UIApplication.shared.currentRoutables
@@ -76,11 +76,10 @@ public class Navigator {
     
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
-    self.routeDidChange(changes: routeChanges, isAnimated: animated)
+    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
-  private func routeDidChange(changes: [RouteChange], isAnimated: Bool) {
-    print("changes: \(changes)")
+  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil) {
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
@@ -103,20 +102,18 @@ public class Navigator {
             var handled = false
             for routable in askTo where !handled {
               guard !handled else { break }
-              print("ask to hide \(toHide) from \(routable.routeIdentifier)")
               handled = routable.hide(identifier: toHide.routeIdentifier,
                                                 from: from,
                                                 animated: isAnimated,
+                                                context: context,
                                                 completion: {
                                                   semaphore.signal()
-                                                  print("signal")
               })
-              print("handled = \(handled)")
             }
             
             if !handled {
               semaphore.signal()
-              fatalError("dismissal of the '\(toHide)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())")
+              fatalError("dismissal of the '\(toHide)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())")
             }
           }
           
@@ -133,6 +130,7 @@ public class Navigator {
               handled = routable.show(identifier: toShow,
                                                 from: from,
                                                 animated: isAnimated,
+                                                context: context,
                                                 completion: {
                                                   semaphore.signal()
               })
@@ -140,18 +138,22 @@ public class Navigator {
             
             if !handled {
               semaphore.signal()
-              fatalError("presentation of the '\(toShow)' is not handled by one of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
+              fatalError("presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
           }
         case .change(let currentRoutable, let from, let to):
           DispatchQueue.main.async {
-            let _ = currentRoutable.change(from: from, to: to, animated: isAnimated, completion: {
+            let _ = currentRoutable.change(from: from,
+                                           to: to,
+                                           animated: isAnimated,
+                                           context: context,
+                                           completion: {
               semaphore.signal()
             })
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
-            self.rootInstaller.installRoot(identifier: to) {
+            self.rootInstaller.installRoot(identifier: to, context: context) {
               semaphore.signal()
             }
           }

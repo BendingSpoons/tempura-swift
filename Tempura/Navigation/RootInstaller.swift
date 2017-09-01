@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol RootInstaller {
-  func installRoot(identifier: RouteElementIdentifier, completion: Navigator.Completion)
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: Navigator.Completion)
 }

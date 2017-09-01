@@ -17,16 +17,19 @@ public protocol Routable : class {
   func show(identifier: RouteElementIdentifier,
             from: RouteElementIdentifier,
             animated: Bool,
+            context: Any?,
             completion: @escaping RoutingCompletion) -> Bool
   
   func hide(identifier: RouteElementIdentifier,
             from: RouteElementIdentifier,
             animated: Bool,
+            context: Any?,
             completion: @escaping RoutingCompletion) -> Bool
   
   func change(from: RouteElementIdentifier,
                           to: RouteElementIdentifier,
                           animated: Bool,
+                          context: Any?,
                           completion: @escaping RoutingCompletion)
   
   /// handle a modal view controller
@@ -54,6 +57,7 @@ public extension Routable {
   public func change(from: RouteElementIdentifier,
                           to: RouteElementIdentifier,
                           animated: Bool,
+                          context: Any?,
                           completion: @escaping RoutingCompletion) {
     fatalError("This Routable element cannot change the navigation, the implementation of \(#function) is missing")
   }
@@ -61,6 +65,7 @@ public extension Routable {
   public func show(identifier: RouteElementIdentifier,
                              from: RouteElementIdentifier,
                              animated: Bool,
+                             context: Any?,
                              completion: @escaping RoutingCompletion) -> Bool {
     return false
   }
@@ -68,6 +73,7 @@ public extension Routable {
   public func hide(identifier: RouteElementIdentifier,
                              from: RouteElementIdentifier,
                              animated: Bool,
+                             context: Any?,
                              completion: @escaping RoutingCompletion) -> Bool {
     return false
   }
