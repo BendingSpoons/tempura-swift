@@ -152,6 +152,7 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   
   // not necessary?
   deinit {
+    self.rootView.viewController = nil
     self.unsubscribe?()
   }
 }
