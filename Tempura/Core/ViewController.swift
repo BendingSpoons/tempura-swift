@@ -40,6 +40,12 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   /// the store the viewController will use to receive state updates
   public var store: AnyStore
   
+  // the state of this ViewController
+  public var state: S {
+    guard let state = self.store.anyState as? S else { fatalError("something weird happened") }
+    return state
+  }
+  
   /// closure used to unsubscribe the viewController from state updates
   private var unsubscribe: StoreUnsubscribe?
   

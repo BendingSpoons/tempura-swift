@@ -75,6 +75,12 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S: Stat
     }
   }
   
+  // the state of this ViewController
+  public var state: S {
+    guard let state = self.store.anyState as? S else { fatalError("something weird happened") }
+    return state
+  }
+  
   /// the local state of this ViewController
   public var localState: LS = LS() {
     didSet {
