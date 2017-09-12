@@ -110,6 +110,7 @@ public extension ModellableView {
 /// live reload implementation
 public extension ModellableView {
   func viewDidLiveReload() {
+    self.liveReloadWillInvokeUpdateAndLayout()
     self.style()
     self.update(oldModel: self.liveReloadOldModel())
     

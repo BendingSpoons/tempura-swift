@@ -146,7 +146,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S: Stat
   /// preventing you to override the update(with state: S) method because it's generic
   /// this allow us to use `storeDidChange()` (that is not generic) as an overriding point
   /// TODO: make it private once we migrate to swift 4.0
-  public func storeDidChange() {
+  open func storeDidChange() {
     guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
     self.update(with: newState)
   }
