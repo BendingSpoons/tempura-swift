@@ -15,7 +15,7 @@ public extension UIViewController {
   public func tempuraPresent(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
     // check if we are already presenting something, if so, ask the presented to present the viewController
     if let vc = self.presentedViewController {
-      vc.tempuraPresent(viewController, animated: true, completion: completion)
+      vc.tempuraPresent(viewController, animated: animated, completion: completion)
     } else {
       viewController.toBeDismissed = false
       self.present(viewController, animated: animated, completion: completion)
