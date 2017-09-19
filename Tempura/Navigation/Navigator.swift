@@ -256,14 +256,14 @@ extension UIApplication {
   }
 }
 
-extension UIApplication {
+public extension UIApplication {
   var currentRoutables: [Routable] {
     return self.currentViewControllers.flatMap {
       return $0 as? Routable
     }
   }
   
-  var currentRoutableIdentifiers: [RouteElementIdentifier] {
+  public var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.flatMap {
       return $0.routeIdentifier
     }
