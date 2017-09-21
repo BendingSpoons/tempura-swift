@@ -22,7 +22,7 @@ class StoryChatView: UIView, ViewControllerModellableView {
   }
   
   // UPDATE
-  func update(oldModel: StoryChatViewModel) {
+  func update(oldModel: StoryChatViewModel?) {
   }
   
   // INTERACTION

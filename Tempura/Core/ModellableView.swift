@@ -32,10 +32,10 @@ public protocol ModellableView: View, LiveReloadableView {
   associatedtype VM: ViewModel
   
   /// the ViewModel of the View. Once changed, the `update(oldModel: VM)` will be called
-  var model: VM { get set }
+  var model: VM! { get set }
   
   /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
-  func update(oldModel: VM)
+  func update(oldModel: VM?)
   
   /**
    This method is invoked before `update` and `layout` are invoked
@@ -54,14 +54,14 @@ public protocol ModellableView: View, LiveReloadableView {
    This method is never invoked in production runs as well as other live
    reload methods.
    */
-  func liveReloadOldModel() -> VM
+  func liveReloadOldModel() -> VM?
 }
 
 /// implementation detail, wrapper of the model to work with the associatedObject mechanism
 private final class ModelWrapper<VM: ViewModel> {
-  var model: VM
+  var model: VM?
   
-  init(model: VM) {
+  init(model: VM?) {
     self.model = model
   }
 }
@@ -74,10 +74,10 @@ public extension ModellableView {
       if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ModelWrapper<VM> {
         return modelWrapper
       }
-      
-      let newWrapper = ModelWrapper(model: VM())
+      let newWrapper = ModelWrapper<VM>(model: nil)
       self.modelWrapper = newWrapper
       return newWrapper
+
     }
     
     set {
@@ -90,7 +90,7 @@ public extension ModellableView {
     }
   }
   
-  public var model: VM {
+  public var model: VM! {
     get {
       return self.modelWrapper.model
     }
@@ -98,6 +98,7 @@ public extension ModellableView {
     set {
       let oldValue = self.model
       self.modelWrapper.model = newValue
+
       self.update(oldModel: oldValue)
     }
   }
@@ -121,7 +122,7 @@ public extension ModellableView {
   }
   
   /// The default implementation return the current model
-  func liveReloadOldModel() -> VM {
+  func liveReloadOldModel() -> VM? {
     return self.model
   }
   

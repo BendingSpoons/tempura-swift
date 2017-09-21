@@ -55,7 +55,7 @@ class ModalTestView: UIView, ViewControllerModellableView {
   }
   
   // MARK: - UPDATE
-  func update(oldModel: ModalTestViewModel) {}
+  func update(oldModel: ModalTestViewModel?) {}
   
   // MARK: - INTERACTION
   var closeButtonDidTap: Interaction?

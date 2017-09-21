@@ -13,12 +13,6 @@ import PinLayout
 class AnimationTestView: UIView, ViewControllerModellableView {
   
   typealias VM = AnimationTestViewModel
-
-  var model: AnimationTestViewModel = AnimationTestViewModel() {
-    didSet {
-      self.update(oldModel: oldValue)
-    }
-  }
   
   // MARK: - SUBVIEWS
   lazy var button: UIButton = {
@@ -55,7 +49,7 @@ class AnimationTestView: UIView, ViewControllerModellableView {
   }
   
   // MARK: - UPDATE
-  func update(oldModel: AnimationTestViewModel) {
+  func update(oldModel: AnimationTestViewModel?) {
     self.expanded = self.model.expanded
   }
   

@@ -10,7 +10,4 @@ import Foundation
 import Katana
 
 public protocol ViewModel {
-  init()
-  
-  
 }
