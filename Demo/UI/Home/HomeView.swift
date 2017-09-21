@@ -64,13 +64,12 @@ class HomeView: UIView, ViewControllerModellableView {
   }
   
   // UPDATE
-  func update(oldModel: HomeViewModel) {
-    let model = self.model
-    self.collectionDelegate.coverStory = model.coverStory
-    self.collectionDelegate.stories = Array(model.stories.values)
-    self.collectionDelegate.newFromCommunityStories = model.newStoriesFromCommunity
-    self.collectionDelegate.readingStories = model.pendingStories
-    self.collectionDelegate.trendingStories = model.trendingStories
+  func update(oldModel: HomeViewModel?) {
+    self.collectionDelegate.coverStory = self.model.coverStory
+    self.collectionDelegate.stories = Array(self.model.stories.values)
+    self.collectionDelegate.newFromCommunityStories = self.model.newStoriesFromCommunity
+    self.collectionDelegate.readingStories = self.model.pendingStories
+    self.collectionDelegate.trendingStories = self.model.trendingStories
 
     self.collectionView.reloadData()
   }

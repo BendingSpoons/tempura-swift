@@ -45,7 +45,7 @@ class DependenciesTestView: UIView, ViewControllerModellableView {
   }
   
   // MARK: - UPDATE
-  func update(oldModel: DependenciesTestViewModel) {
+  func update(oldModel: DependenciesTestViewModel?) {
   }
   
   // MARK: - INTERACTION

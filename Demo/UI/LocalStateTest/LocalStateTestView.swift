@@ -71,7 +71,7 @@ class LocalStateTestView: UIView, ViewControllerModellableView {
   }
   
   // MARK: - UPDATE
-  func update(oldModel: LocalStateTestViewModel) {
+  func update(oldModel: LocalStateTestViewModel?) {
     self.globalCounterLabel.text = self.model.globalCounterString
     self.localCounterLabel.text = self.model.localCounterString
   }

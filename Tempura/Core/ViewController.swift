@@ -53,7 +53,7 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   public var shouldDisconnectOnViewWillDisappear = true
   
   /// used to have the last viewModel available if we want to update it for local state changes
-  public var viewModel: V.VM = V.VM() {
+  public var viewModel: V.VM! {
     didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
