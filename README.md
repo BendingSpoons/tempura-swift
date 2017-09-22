@@ -127,34 +127,27 @@ Reasons for doing this are:
 
 ### create the View
 
-the view is what we will have on screen. We want a label to show the value of counter and two buttons to increment and decrement the counter.
+the view is what we will have on screen. We want a label to show the value of the counter and two buttons to increment and decrement the counter.
 
 ```swift
 class MainView: CounterView<CounterViewModel> {
 
   // #1 define the children elements
-  var counter: UILabel = {
-  let l = UILabel()
-    return l
-  }
-
-  var sub: UIButton = {
-  let b = UIButton()
-    return b
-  }
-
-  var add: UIButton = {
-    let b = UIButton()
-    return b
-  }
+  private var counter = UILabel()
+  private var sub = UIButton(type: .custom)
+  private var add = UIButton(type: .custom)
 
   // #2 Setup, here we add children elements to the view
   override func setup() {
     self.addSubview(self.counter)
     self.addSubview(self.sub)
     self.addSubview(self.add)
-    self.sub.addTarget(self, action: #selector(self.subDidTap), for: .touchUpInside)
-    self.add.addTarget(self, action: #selector(self.addDidTap), for: .touchUpInside)
+    self.sub.on(.touchUpInside) {[weak self] button in
+    	self.subtractButtonDidTap?()
+	}
+    self.add.on(.touchUpInside) {[weak self] button in
+    	self.addButtonDidTap?()
+	}
   }
 
   // #3 Style, define the style of the view and the children elements
@@ -172,17 +165,9 @@ class MainView: CounterView<CounterViewModel> {
     self.counter.text = self.model.count
   }
 
-  // #5 Interaction, define and trigger callbacks for interactions
+  // #5 Interaction, define callbacks for interactions
   var subtractButtonDidTap: Interaction?
   var addButtonDidTap: Interaction?
-
-  @objc private func subDidTap() {
-    self.subtractButtonDidTap?()
-  }
-
-  @objc private func addDidTap() {
-    self.addButtonDidTap?()
-  }
 
   // #6 Layout, layout the children elements
   override func layout() {

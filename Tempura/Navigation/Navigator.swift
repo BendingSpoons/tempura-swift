@@ -290,29 +290,41 @@ extension UIApplication {
     var vcs: [UIViewController] = [bottomViewController]
     while !vcs.isEmpty {
       controllers.append(contentsOf: vcs)
-      vcs = vcs.last?.nextRouteControllers ?? []
+      if let vc = vcs.last {
+        if let cri = vc as? CustomRouteInspectables {
+          vcs = cri.nextRouteControllers
+        } else if let nvc = vc.nextRouteController {
+          vcs = [nvc]
+        } else {
+          vcs = []
+        }
+      }
     }
     return controllers
   }
 }
 
 /// define a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack
-protocol RouteInspectable: class {
+protocol CustomRouteInspectables: class {
   var nextRouteControllers: [UIViewController] { get }
+}
+
+protocol RouteInspectable: class {
+  var nextRouteController: UIViewController? { get }
 }
 
 /// conformance of the UINavigationController to the RouteInspectable protocol
 /// in a UINavigationController the next visible controller is the `topViewController`
-extension UINavigationController {
-  override var nextRouteControllers: [UIViewController] {
+extension UINavigationController: CustomRouteInspectables {
+ var nextRouteControllers: [UIViewController] {
     return self.viewControllers
   }
 }
 
 /// conformance of the UITabBarController to the RouteInspectable protocol
 /// in a UITabBarController the next visible controller is the `selectedViewController`
-extension UITabBarController {
-  override var nextRouteControllers: [UIViewController] {
+extension UITabBarController: CustomRouteInspectables {
+  var nextRouteControllers: [UIViewController] {
     guard let selected = self.selectedViewController else { return [] }
     return [selected]
   }
@@ -322,8 +334,7 @@ extension UITabBarController {
 /// in a UIViewController the next visible controller is the `presentedViewController` if != nil
 /// otherwise there is no next UIViewController in the visible stack
 extension UIViewController: RouteInspectable {
-  var nextRouteControllers: [UIViewController] {
-    guard let presented = self.presentedViewController else { return [] }
-    return [presented]
+  var nextRouteController: UIViewController? {
+    return self.presentedViewController
   }
 }

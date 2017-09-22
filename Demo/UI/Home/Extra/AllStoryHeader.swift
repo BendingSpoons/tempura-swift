@@ -40,7 +40,7 @@ class AllStoryHeader: UICollectionReusableView {
     self.backgroundColor = .black
     
     self.titleLabel.attributedText = self.title.styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)),
+      .font(UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)),
       .color(UIColor(rgbHex: "#6D6976"))
     ))
     

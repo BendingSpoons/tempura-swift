@@ -90,22 +90,22 @@ class StoryCell: UICollectionViewCell, LiveReloadableView {
     self.blackGradientView.update()
     
     self.titleLabel.attributedText = story.title.uppercased().styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 21, weight: UIFontWeightBold)),
+      .font(UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)),
       .color(.white)
     ))
     
     let genrePart = story.genre.rawValue.styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 11, weight: UIFontWeightBold)),
+      .font(UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.bold)),
       .color(.white)
     ))
     
     let connectorPart = "by".styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 11, weight: UIFontWeightRegular)),
+      .font(UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)),
       .color(.white)
     ))
     
     let authorPart = story.author.styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 11, weight: UIFontWeightBold)),
+      .font(UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.bold)),
       .color(.white)
     ))
     
