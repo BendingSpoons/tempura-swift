@@ -27,13 +27,6 @@ class CoverStory: UICollectionReusableView {
     }
   }
   
-  var isHeroEnabled: Bool = false {
-    didSet {
-      guard oldValue != self.isHeroEnabled else { return }
-      self.isHeroEnabled ? self.installHeroIDs() : self.removeHeroIDs()
-    }
-  }
-  
   private var tapGestureRecognizer: UITapGestureRecognizer?
   
   private lazy var backgroundImageView: UIImageView = {
