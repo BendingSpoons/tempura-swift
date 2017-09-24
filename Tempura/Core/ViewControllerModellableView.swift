@@ -16,8 +16,7 @@ import UIKit
 fileprivate var viewControllerKey = "modellableview_view_controller_key"
 
 
-public protocol ViewControllerModellableView: ModellableView {
-  associatedtype VM: ViewModelWithState
+public protocol ViewControllerModellableView: ModellableView where VM: ViewModelWithState {
   
   var viewController: UIViewController? { get set }
 }
