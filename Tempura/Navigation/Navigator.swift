@@ -33,20 +33,14 @@ public class Navigator {
   }
   
   public func changeRoute(newRoute: Route, animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
   public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
     let newRoute: Route = oldRoute + elementsToShow
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
@@ -55,10 +49,7 @@ public class Navigator {
   }
   
   public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
     var newRoute: Route = oldRoute
     
@@ -270,37 +261,41 @@ public extension UIApplication {
   }
 }
 
-/*extension UIApplication {
-  func routable(for identifier: RouteElementIdentifier) -> Routable? {
-    let routables = self.currentRoutables.reversed()
-    return routables.first(where: { routable -> Bool in
-      routable.routeIdentifier == identifier
-    })
-  }
-}*/
-
 /// this method returs the hierarchy of the UIViewControllers in the visible stack
 /// using the RouteInspectable protocol
 /// if you introduce a custom UIViewController like for instance a `SideMenuViewController`
 /// you need it to conform to the RouteInspectable protocol
 extension UIApplication {
   var currentViewControllers: [UIViewController] {
-    guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
-    var controllers: [UIViewController] = []
-    var vcs: [UIViewController] = [bottomViewController]
-    while !vcs.isEmpty {
-      controllers.append(contentsOf: vcs)
-      if let vc = vcs.last {
-        if let cri = vc as? CustomRouteInspectables {
-          vcs = cri.nextRouteControllers
-        } else if let nvc = vc.nextRouteController {
-          vcs = [nvc]
-        } else {
-          vcs = []
+    
+    let findViewControllers: () -> [UIViewController] = {
+      guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
+      var controllers: [UIViewController] = []
+      var vcs: [UIViewController] = [bottomViewController]
+      while !vcs.isEmpty {
+        controllers.append(contentsOf: vcs)
+        if let vc = vcs.last {
+          if let cri = vc as? CustomRouteInspectables {
+            vcs = cri.nextRouteControllers
+          } else if let nvc = vc.nextRouteController {
+            vcs = [nvc]
+          } else {
+            vcs = []
+          }
         }
       }
+      return controllers
     }
-    return controllers
+    
+    if !Thread.isMainThread {
+      var vcs: [UIViewController] = []
+      DispatchQueue.main.sync {
+        vcs = findViewControllers()
+      }
+      return vcs
+    } else {
+      return findViewControllers()
+    }
   }
 }
 
