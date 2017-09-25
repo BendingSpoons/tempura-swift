@@ -1,8 +1,7 @@
 project.name = "Tempura"
 
-PROV_PROFILE = "10e87f55-6089-447e-9a41-0a537f226505"
 
-target do |target|
+tempura = target do |target|
     target.name = "Tempura"
     target.platform = :ios
     target.deployment_target = 9.0
@@ -44,6 +43,7 @@ demo = target do |target|
     target.deployment_target = 9.0
     target.language = :swift
     target.type = :application
+    target.linked_targets = [tempura]
     
     target.include_files = [
         "Demo/**/*.swift",
