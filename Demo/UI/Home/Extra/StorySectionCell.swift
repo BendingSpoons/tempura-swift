@@ -82,7 +82,7 @@ final class StorySectionCell: UICollectionViewCell {
     self.gradientView.update()
     
     self.titleLabel.attributedText = self.section.title.styled(with: StringStyle(
-      .font(UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)),
+      .font(UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)),
       .color(.white)
     ))
     

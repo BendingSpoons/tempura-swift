@@ -2,10 +2,6 @@ project.name = "Tempura"
 
 PROV_PROFILE = "10e87f55-6089-447e-9a41-0a537f226505"
 
-project.all_configurations.each do |configuration|
-    configuration.settings["SWIFT_VERSION"] = "3.1"
-end
-
 target do |target|
     target.name = "Tempura"
     target.platform = :ios
@@ -19,6 +15,7 @@ target do |target|
     target.all_configurations.each do |configuration|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Tempura"
+	configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 
     target.headers_build_phase do |phase|
@@ -33,6 +30,7 @@ target do |target|
 
         unit_test.all_configurations.each do |configuration|
             configuration.settings["INFOPLIST_FILE"] = "TempuraTests/Info.plist"
+	    configuration.settings["SWIFT_VERSION"] = "4.0"
         end
 
     end
@@ -57,7 +55,7 @@ demo = target do |target|
         configuration.settings["INFOPLIST_FILE"] = "Demo/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Demo"
         configuration.settings["PROVISIONING_PROFILE"] = PROV_PROFILE
-        configuration.settings["OTHER_SWIFT_FLAGS"] = "$(inherited) -DDEBUG"
+	configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 
     target.scheme(target.name)

@@ -33,20 +33,14 @@ public class Navigator {
   }
   
   public func changeRoute(newRoute: Route, animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
   public func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
     let newRoute: Route = oldRoute + elementsToShow
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
@@ -55,10 +49,7 @@ public class Navigator {
   }
   
   public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?) {
-    var oldRoutables: [Routable] = []
-    DispatchQueue.main.sync {
-      oldRoutables = UIApplication.shared.currentRoutables
-    }
+    let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
     var newRoute: Route = oldRoute
     
@@ -270,49 +261,65 @@ public extension UIApplication {
   }
 }
 
-/*extension UIApplication {
-  func routable(for identifier: RouteElementIdentifier) -> Routable? {
-    let routables = self.currentRoutables.reversed()
-    return routables.first(where: { routable -> Bool in
-      routable.routeIdentifier == identifier
-    })
-  }
-}*/
-
 /// this method returs the hierarchy of the UIViewControllers in the visible stack
 /// using the RouteInspectable protocol
 /// if you introduce a custom UIViewController like for instance a `SideMenuViewController`
 /// you need it to conform to the RouteInspectable protocol
 extension UIApplication {
   var currentViewControllers: [UIViewController] {
-    guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
-    var controllers: [UIViewController] = []
-    var vcs: [UIViewController] = [bottomViewController]
-    while !vcs.isEmpty {
-      controllers.append(contentsOf: vcs)
-      vcs = vcs.last?.nextRouteControllers ?? []
+    
+    let findViewControllers: () -> [UIViewController] = {
+      guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
+      var controllers: [UIViewController] = []
+      var vcs: [UIViewController] = [bottomViewController]
+      while !vcs.isEmpty {
+        controllers.append(contentsOf: vcs)
+        if let vc = vcs.last {
+          if let cri = vc as? CustomRouteInspectables {
+            vcs = cri.nextRouteControllers
+          } else if let nvc = vc.nextRouteController {
+            vcs = [nvc]
+          } else {
+            vcs = []
+          }
+        }
+      }
+      return controllers
     }
-    return controllers
+    
+    if !Thread.isMainThread {
+      var vcs: [UIViewController] = []
+      DispatchQueue.main.sync {
+        vcs = findViewControllers()
+      }
+      return vcs
+    } else {
+      return findViewControllers()
+    }
   }
 }
 
 /// define a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack
-protocol RouteInspectable: class {
+protocol CustomRouteInspectables: class {
   var nextRouteControllers: [UIViewController] { get }
+}
+
+protocol RouteInspectable: class {
+  var nextRouteController: UIViewController? { get }
 }
 
 /// conformance of the UINavigationController to the RouteInspectable protocol
 /// in a UINavigationController the next visible controller is the `topViewController`
-extension UINavigationController {
-  override var nextRouteControllers: [UIViewController] {
+extension UINavigationController: CustomRouteInspectables {
+ var nextRouteControllers: [UIViewController] {
     return self.viewControllers
   }
 }
 
 /// conformance of the UITabBarController to the RouteInspectable protocol
 /// in a UITabBarController the next visible controller is the `selectedViewController`
-extension UITabBarController {
-  override var nextRouteControllers: [UIViewController] {
+extension UITabBarController: CustomRouteInspectables {
+  var nextRouteControllers: [UIViewController] {
     guard let selected = self.selectedViewController else { return [] }
     return [selected]
   }
@@ -322,8 +329,7 @@ extension UITabBarController {
 /// in a UIViewController the next visible controller is the `presentedViewController` if != nil
 /// otherwise there is no next UIViewController in the visible stack
 extension UIViewController: RouteInspectable {
-  var nextRouteControllers: [UIViewController] {
-    guard let presented = self.presentedViewController else { return [] }
-    return [presented]
+  var nextRouteController: UIViewController? {
+    return self.presentedViewController
   }
 }

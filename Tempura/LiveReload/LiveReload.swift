@@ -55,10 +55,10 @@ public final class LiveReloadManager {
   
   
   func reload(view: UIView, ifTypeIn types: [LiveReloadableView.Type]) {
-    let type = type(of: view)
+    let t = type(of: view)
 
     if
-      types.contains(where: { $0 == type }),
+      types.contains(where: { $0 == t }),
       let reloadView = view as? LiveReloadableView {
       
       reloadView.viewDidLiveReload()

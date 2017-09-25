@@ -96,24 +96,24 @@ class StoryCoverView: UIView, ViewControllerModellableView {
   }
   
   private func attributedStringForSubtitleComponents(components: StoryCoverViewModel.SubtitleComponents) -> NSAttributedString {
-    let firstFont = UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold)
+    let firstFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
     let color = App.Style.Palette.yellowish
     let secondFont = App.Style.Font.system(size: 20)
     let partOne = NSMutableAttributedString(string: components.0 + " ",
                                             attributes: [
-                                              NSForegroundColorAttributeName: color,
-                                              NSFontAttributeName: firstFont
+                                              NSAttributedStringKey.foregroundColor: color,
+                                              NSAttributedStringKey.font: firstFont
                                               ])
     let partTwo = NSMutableAttributedString(string: components.1 + " ",
                                             attributes: [
-                                              NSForegroundColorAttributeName: color,
-                                              NSFontAttributeName: secondFont
+                                              NSAttributedStringKey.foregroundColor: color,
+                                              NSAttributedStringKey.font: secondFont
       ])
     
     let partThree = NSMutableAttributedString(string: components.2,
                               attributes: [
-                                NSForegroundColorAttributeName: color,
-                                NSFontAttributeName: firstFont
+                                NSAttributedStringKey.foregroundColor: color,
+                                NSAttributedStringKey.font: firstFont
       ])
     
     let attributedString = NSMutableAttributedString(attributedString: partOne)
@@ -128,7 +128,7 @@ class StoryCoverView: UIView, ViewControllerModellableView {
     //style.lineSpacing = 0
     style.minimumLineHeight = 34
     style.maximumLineHeight = 34
-    attrString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSRange(location: 0, length: title.characters.count))
+    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: title.characters.count))
     return attrString
   }
   
@@ -138,7 +138,7 @@ class StoryCoverView: UIView, ViewControllerModellableView {
     //style.lineSpacing = 0
     style.minimumLineHeight = 22
     style.maximumLineHeight = 22
-    attrString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSRange(location: 0, length: description.characters.count))
+    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: description.characters.count))
     return attrString
   }
   

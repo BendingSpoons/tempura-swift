@@ -48,8 +48,8 @@ class StoryCoverViewController: ViewController<StoryCoverView, AppState> {
   }
   
   lazy var previewActions: [UIPreviewActionItem] = {
-    let share = UIPreviewAction(title: "Share", style: .default, handler: { _ in })
-    let upvote = UIPreviewAction(title: "Upvote", style: .default, handler: { _ in })
+    let share = UIPreviewAction(title: "Share", style: .default, handler: { _, _  in })
+    let upvote = UIPreviewAction(title: "Upvote", style: .default, handler: { _, _  in })
     
     return [ share, upvote ]
   }()

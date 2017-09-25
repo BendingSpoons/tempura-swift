@@ -31,7 +31,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 public protocol ModellableView: View, LiveReloadableView {
   associatedtype VM: ViewModel
   
-  /// the ViewModel of the View. Once changed, the `update(oldModel: VM)` will be called
+  /// the ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called
   var model: VM! { get set }
   
   /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
