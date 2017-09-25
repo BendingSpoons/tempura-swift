@@ -16,7 +16,7 @@ With Tempura you can use Katana to handle the logic part of your app while still
 
 
 # Anatomy of a Screen
-In Tempura, a Screen is composed by three different components that interoperate to get the actual pixels on the screen and to keep them updated when the state changes.
+In Tempura, a Screen is composed by three different components that interoperate to get the actual pixels on screen and to keep them updated when the state changes.
 These are: `ViewController`, `View` and `ViewModel`.
 
 ![AnatomyOfAScreen](./readme.png)
@@ -34,6 +34,7 @@ Responsibilities of a ViewController are:
 Tempura will handle the former for you, you will only need to address the latter
 
 
+
 ## ViewModel
 
 The ViewModel is a lightweight object that selects part of the State for the View and transforms it to be easily consumed by the View itself.
@@ -43,20 +44,179 @@ This has some advantages:
 - a ViewModel is easier to test than the UI
 - the View becomes just a dumb presentation layer
 
+
+
 ## View
 
-The view is what you actually see on screen, it contains no business logic (it can contain UI logic, like handling a CollectionView delegate), it only presents itself based on the content of the viewModel. The lifecycle of a view contains:
+A view is a piece of UI that is visible on screen. It contains no business logic,  (it can contain UI logic, like handling a CollectionView delegate), it only presents itself based on the content of the viewModel. The lifecycle of a view contains:
 
 - setup phase, when you create the children UI elements like buttons or labels
 - style phase, when you define the cosmetics of the view and its children
 - layout phase, when you layout the children of the view
 - update phase, when you update the view and its children based on a new viewModel that is available
 
+To clearly separate these different phases we created the protocol **View**:
+
+```swift
+public protocol View: class {
+  /// create, configure and add (using `addSubview()`) the children of the view
+  func setup()
+  /// configure all the style related properties of the view and its children
+  func style()
+  /// update the view and its children based on the relevant properties of the view
+  func update()
+  /// layout the children of the view using the layouting method that you want (frame based, autolayout, plastic-like libs)
+  func layoutSubviews()
+}
+```
 
 
-# Show me the code
 
-## setup the katana Store
+this protocol is not doing anything for us, it's just a way to enforce the SSUL phases.
+
+Perfect candidates for this protocol are reusable UI components like buttons, sliders and so on, for instance for a switch button we would have written:
+
+```swift
+class Switch: UIView, View {
+  // properties
+  var isOn: Bool = false {
+    didSet {
+      guard self.isOn != oldValue else { return }
+      self.update()
+    }
+  }
+  
+  // subview to draw the thumb of the switch
+  private var thumb = UIView()
+  
+  // interactions
+  var valueDidChange: ((Double) -> ())?
+  
+  func setup() {
+    // define the subviews that will make up the UI
+  }
+  
+  func style() {
+    // define the default look and feel of the UI elements
+    // please bear in mind that we consider style only the look and feel that is not
+    // depending from the state
+  }
+  
+  func update() {
+    // update the UI based on the value of the properties
+  }
+  
+  func layoutSubviews() {
+    // layout the subviews, optionally considering the properties
+  }
+}
+```
+
+the interface that the View is exposing is composed by **properties** and **interactions**. The properties are the internal state of the element that can be manipulated from the outside, interactions are callbacks used to react after changes occurred inside the element itself (like user interacting with the element changing its value)
+
+### ModellableView
+
+The View protocol is good enough for reusable components that can be manipulated through **properties**. 
+
+There are a couple of drawbacks though:
+
+- it's not easy to test this component
+- the fact that in the update we don't know the actual property that is changed doesn't allow us to reason in terms of differences from the old values
+- changing two or more properties at the same time will trigger two or more updates
+
+To solve all of these issues we've introduced the concept of **ViewModel**. A ViewModel is  a struct that contains all the properties that define the state of a specific **ModellableView**.
+
+```swift
+public protocol ModellableView: View {
+  associatedtype VM: ViewModel
+  
+  /// the ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called
+  var model: VM! { get set }
+  
+  /// the ViewModel is changed, update the View
+  func update(oldModel: VM?)
+}
+```
+
+
+
+All the properties defining the state of the View are grouped inside a ViewModel, for instance:
+
+```swift
+struct ContactViewModel: ViewModel {
+  var name: String = "John"
+  var lastName: String = "Doe"
+}
+```
+
+```swift
+struct ContactView: ModellableView {
+  
+  // subviews to create the UI
+  private var title = UILabel()
+  private var subtitle = UILabel()
+  
+  // interactions
+  var nameDidChange: ((String) -> ())?
+  var lastNameDidChange: ((String) -> ())?
+  
+  func setup() {
+    // define the subviews that will make up the UI
+    self.addSubview(self.title)
+    self.addSubview(self.subtitle)
+    self.title.on(.didEndEditing) { [weak self] label in
+      self?.nameDidChange?(label.text)
+    }
+    self.subtitle.on(.didEndEditing) { [weak self] label in
+      self?.lastNameDidChange?(label.text)
+    }
+  }
+  
+  func style() {
+    // define the default look and feel of the UI elements
+    // please bear in mind that we consider style only the look and feel that is not
+    // depending from the state
+  }
+  
+  func update(oldModel: ContactViewModel?) {
+      // update the UI based on the value of `self.model`
+      // you can use `oldModel` to reason about diffs
+    self.title.text = self.model.name
+    self.subtitle.text = self.model.lastname
+  }
+  
+  func layoutSubviews() {
+    // layout the subviews, optionally considering the properties
+  }
+}
+```
+
+Implementing the **ModellableView** protocol we get:
+
+- the `model: ContactViewModel!` variable is automatically created for you. Swift is inferring the Type through the `oldModel: ContactViewModel?` parameter of the `update` method, and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
+- the `func update(oldModel: ContactViewModel?)` is automatically called every time the `self.model` variable is changed
+- testing the `ViewModel` is the same as testing the entire `ModellableView` given that all the state of the element is defined by the ViewModel itself. Testing the ViewModel is easy, because there are no actual pixels to check, just a bunch of properties
+- inside the `update` method we now have the previous ViewModel so that we can reason about diffs
+- we can change more than one property of the ViewModel and trigger just one single update in response
+
+### ViewControllerModellableView
+
+A special case of ModellableView is the `ViewControllerModellableView`, this is the main View that compose a screen and the one the ViewController is directly talking to. The ViewControllerModellableView differs from a generic ModellableView only for a couple of computed variables used as syntactic sugar to access navigation items on the navigation bar (if present)
+
+
+
+## Note on the layout
+
+Tempura is not enforcing a specific layouting system, inside the `layoutSubviews()` method of the view you are free to use the solution you prefer. Bear in mind that if at some point you need to trigger a layout update (for instance when your model changes) you are responsible to call `setNeedsLayout()` or `layoutIfNeeded()` if you want it to be called synchronously.
+
+ 
+
+
+# Cool, show me the code!
+
+
+
+## Setup the katana Store
 
 Your entire app state is defined as a single struct:
 
@@ -74,7 +234,7 @@ self.store = Store<CounterState>(middleware: [], dependencies: DependenciesConta
 
 
 
-## defining the actions
+## Defining the actions
 
 The Katana `state` can only be modified through `Actions` so let's define actions to Increment and Decrement the counter:
 
@@ -96,16 +256,16 @@ struct DecrementCounter: AppAction {
 
 
 
-## create your first screen
+## Create your first screen
 
-let's start using `Tempura` to create our first screen where we can look at the value of the counter and increment and decrement it.
+Let's start using `Tempura` to create our first screen, a screen where we can look at the value of the counter and increment and decrement it.
 
-### define the ViewModel
+### Define the ViewModel
 
-the property we need from the state is the value of the counter, we then transform it to be used by the View.
+The property we need from the state is the value of the counter, we then transform it to be used by the View.
 
 ```swift
-struct CounterViewModel: ViewModel {
+struct CounterViewModel: ViewModelWithState {
   var count: String = ""
 
   init(state: CounterState) {
@@ -116,7 +276,7 @@ struct CounterViewModel: ViewModel {
   }
 ```
 
-please note that the ViewModel is the place where we transform the `counter: Int` that we have in the state to a `count: String` that contains the description of the counter that the View wants to display.
+Please note that the ViewModel is the place where we transform the `counter: Int` that we have in the state to a `count: String` that contains the description of the counter that the View wants to display.
 
 Reasons for doing this are:
 
@@ -125,14 +285,15 @@ Reasons for doing this are:
 
 
 
-### create the View
+### Create the View
 
-the view is what we will have on screen. We want a label to show the value of the counter and two buttons to increment and decrement the counter.
+The view is what we will have on screen. We want a label to show the value of the counter and two buttons to increment and decrement the counter.
 
 ```swift
-class MainView: CounterView<CounterViewModel> {
-
-  // #1 define the children elements
+class CounterView: UIView, ViewControllerModellableView {
+  typealias CounterViewModel
+  
+  // #1 define the children UI elements
   private var counter = UILabel()
   private var sub = UIButton(type: .custom)
   private var add = UIButton(type: .custom)
@@ -160,8 +321,8 @@ class MainView: CounterView<CounterViewModel> {
     self.add.setTitle("add", for: .normal)
   }
 
-  // #4 Update, the state is changed, here we update the view accordingly
-  override func update(oldModel: CounterViewModel) {
+  // #4 Update, the state is changed, update the view accordingly
+  override func update(oldModel: CounterViewModel?) {
     self.counter.text = self.model.count
   }
 
@@ -179,9 +340,9 @@ class MainView: CounterView<CounterViewModel> {
 
 
 
-### create the ViewController
+### Create the ViewController
 
-every time the state changes, the ViewController will instantiate a ViewModel from the new state and feed the View with that, triggering the `update(...)` method. The other responsibility of the ViewController is to listen to interaction callbacks from the View and trigger actions to change the state.
+Every time the state changes, the ViewController will instantiate a ViewModel from the new app state and feed the View with that, triggering the `update(...)` method. The other responsibility of the ViewController is to listen to interaction callbacks from the View and trigger actions to change the state.
 
 ```swift
 class CounterViewController: ViewController<CounterView, CounterViewModel, CounterState> {
@@ -203,28 +364,28 @@ class CounterViewController: ViewController<CounterView, CounterViewModel, Count
 }
 ```
 
-as you can see you only need to handle interactions from the view, **there is no boilerplate needed to handle the updates from the state**, everything come for free subclassing `ViewController`
+As you can see the only things we need to handle are the interactions from the view, **there is no boilerplate needed to handle the updates from the state**, everything comes for free subclassing `ViewController`
 
 
 
 # Handling the navigation
 
-so far we shown how to handle a single UI screen and how to keep it updated when the state changes.
+So far we've shown how to handle a single UI screen and how to keep it updated when the state changes.
 When it comes to create a real app, the way you handle the navigation between screens is an important factor on the final result.
 
-We believe that using the native iOS navigation is the right choice for our stack, because:
+We believe that relying on the native iOS navigation system is the right choice for our stack, because:
 
-- no navigation code to write and maintain, just to mimic the way native navigation works
+- no navigation code to write and maintain just to mimic the way native navigation works
 - native navigation gestures will come for free and will stay up to date with new iOS releases
 - the app will feel more "native"
 
-for these reasons with `Tempura` we found a way to reconcile the redux-like world of katana with the imperative world of the iOS navigation.
+For these reasons we found a way to reconcile the redux-like world of Katana with the imperative world of the iOS navigation.
 
 
 
-## the Routable protocol
+## The Routable protocol
 
-if a Screen (read ViewController) takes an active part on the navigation (i.e. needs to present another screen) it must conform to the `Routable` protocol:
+If a Screen (read ViewController) takes an active part on the navigation (i.e. needs to present another screen) it must conform to the `Routable` protocol:
 
 ```swift
 protocol Routable {
@@ -236,99 +397,107 @@ protocol Routable {
 typealias RouteElementIdentifier = String
 ```
 
-## the route
+Each `Routable ` can be asked by the navigation system to perform a specific navigation task (like present another ViewController) based on the navigation action you dispatch.
 
-a route is an array that represents a navigation path to a specific screen:
+## The route
+
+A route is an array that represents a navigation path to a specific screen:
 
 ```swift
 typealias Route = [RouteElementIdentifier]
 ```
 
-## the navigation actions
+## The navigation actions
 
-Tempura exposes these navigation actions:
+Suppose we have a current Route of ["ScreenA", "ScreenB"] (being ScreenB the topmost ViewController/Routable)
 
-```swift
-Navigate(to route: Route, animated: Bool)
-```
+Tempura exposes two main navigation actions:
 
-navigate to a specific screen identified by `Route`. This is useful for instance when outside the app you want to 3d touch the icon and say something "edit last video", that means navigate to the specific screen that will let you use the editor.
+#### Show
 
 ```swift
-Push(to route: Route, animated: Bool)
+Show("ScreenC", animated: true, context: nil)
 ```
 
-starting from the active screen ask to push sequentially the screens specified in the route. This means that if the route is ["C", "D"] and you dispatch a request to push that route when the active navigation is at ["A", "B"] (so B is the active Screen), the final route of the app will be ["A", "B", "C", "D"] (where D is the active screen)
+When this action is dispatched Tempura will ask ScreenB (the topmost `Routable` visible on the screen) to handle that action invoking the method (from the Routable protocol):
 
 ```swift
-Pop(animated: Bool)
+func show(identifier: RouteElementIdentifier,
+                             from: RouteElementIdentifier,
+                             animated: Bool,
+                             context: Any?,
+                             completion: @escaping RoutingCompletion) -> Bool {}
 ```
 
-ask to dismiss the topmost Screen in the navigation
+In order to allow ScreenB to present ScreenC we need to implement this `show` method:
+
+```
+extension ScreenB: Routable {
+  func show(identifier: RouteElementIdentifier,
+                             from: RouteElementIdentifier,
+                             animated: Bool,
+                             context: Any?,
+                             completion: @escaping RoutingCompletion) -> Bool {
+    if identifier == "ScreenC" {
+      let screenToPresent = ScreenC()
+      self.tempuraPresent(screenToPresent, animated: true, completion: {
+        completion()
+      })
+      return true
+    }
+    return false
+  }
+}
+```
+
+We check if the identifier corresponds to the Routable we want to present, we instantiate the ViewController and present it using the `tempuraPresent` method, this is only syntactic sugar on top of the UIKit `UIViewController.present()` method.
+We need to return true in order to signal Tempura that we are handling that navigation task, otherwise the system will ask the next Routable in line (ScreenA) to handle that.
+
+The method is passing a completion closure, we are responsible to call it as soon as the presentation is complete.
+
+#### Hide
+
+After we present ScreenC the current route would be ["ScreenA", "ScreenB", "ScreenC"]. If we dispatch a Hide action:
 
 ```swift
-PresentModally(screen: RouteElementIdentifier, animated: Bool)
+Hide("ScreenC", animated: true, context: nil)
 ```
 
-present modally the screen on top of the navigation stack. This is different from a Push because a request to present a screen modally will follow a different request path to save boilerplate when implementing the navigation. We will go into detail in the `Navigator` section
+Tempura will ask the topmost Routable ("ScreenC") to dismiss itself:
 
-```swift
-DismissModally(screen: RouteElementIdentifier, animated: Bool)
+```
+extension ScreenC: Routable {
+  func hide(identifier: RouteElementIdentifier,
+            from: RouteElementIdentifier,
+            animated: Bool,
+            context: Any?,
+            completion: @escaping RoutingCompletion) -> Bool {
+    if identifier == "ScreenC" {
+      self.tempuraDismiss(animated: animated)
+      completion()
+      return true
+    }
+    return false
+  }
+}
 ```
 
-the counterpart of the `PresentModally`
+We check if identifier is "ScreenC" and we call `tempuraDismiss` on ScreenC itself. TempuraDismiss is just syntactic sugar on top of the UIKit `UIViewController.dismiss()`.
+Note that the dismiss function does not have a completion callback so we call completion() right after that.
+We return true to signify that we are handling that navigation action.
+If we return false (the default implementation) Tempura will ask the next Routable (ScreenB) to dismiss ScreenC.
 
 
 
-## the navigator
 
-when you send a navigation action like `Navigate(to: ["ScreenA", "ScreenB", "ScreenC"])` the Navigator starts working under the hood to make the navigation happen.
-Let's see the steps involved:
+## The AppNavigation file
 
-1. ViewController sends the action `Navigate(to: ["ScreenA", "ScreenB", "ScreenC"])`
-
-2. the Navigator receives the request and asks the system for the actual navigation route at this specific moment in time. Let's say that the system responds with `["ScreenA, "ScreenD"]`
-
-3. the Navigator analyzes the current and the requested route and extracts an array of navigation actions to go from the old route to the new, in this case the actions are something like:
-
-- ask "ScreenA" to change from "ScreenD" to "ScreenB"
-
-- ask "ScreenB" to push "ScreenC"
-
-these tasks are then executed in order:
-
-4. first task is executed, the Navigator needs to ask "ScreenA" to change to "ScreenD".
-   This means that "ScreenA" has an active role in the navigation, this means that it must implement `Routable` protocol, otherwise an informative fatalError will be raised.
-
-5. "ScreenA" (that is probably a TabBarController) implements the `change(...)` method of `Routable` protocol and has all the informations to interpret the request (in this case it only needs to change the selected tab from D to B)
-
-6. next task is executed, "ScreenB" is asked (through the routable protocol) to `Push` the "ScreenC". Again, B knows how to interpret that request and the navigation is completed
-
-this approach has a **great level of flexibility** for different reasons:
-
-- **the navigation is local**, meaning that every Screen knows how to best handle the specific segment of navigation
-- this support the whole set of **transitioning animations**
-- this also **support all the navigations that are not happening through navigation actions**, like when a user tap the back button or a user edge swipes to go back (because the Navigator is looking at the actual Screens on the stack every time, and not at a navigation state that cannot be updated without actions)
-
-
-
-## the AppNavigation file
-
-we suggest to organize the navigation of the application in a single file `AppNavigation.swift` where you can place all the conformances to Routable for the screens that are actively partecipating to the navigation
+We suggest to organize the navigation of the application in a single file `AppNavigation.swift` where you can place all the conformances to Routable for the screens that are actively partecipating to the navigation
 
 ```swift
 extension ScreenB: Routable {
   var routeIdentifier: RouteElementIdentifier {
-  return Screen.home.rawValue
-}
-
-  func push(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
-    if identifier == Screen.screenC.rawValue {
-      let sc = ScreenC()
-      self.navigationController?.pushViewController(sc, animated: animated)
-      completion()
-    }
-  }
+  return Screen.screenB.rawValue
 }
 
 extension ScreenC: Routable {
@@ -336,42 +505,32 @@ extension ScreenC: Routable {
   return Screen.screenC.rawValue
 }
 
-  func pop(identifier: RouteElementIdentifier, animated: Bool, completion: @escaping RoutingCompletion) {
-    self.popViewController(animated: animated)
-    completion()
+  func show(identifier: RouteElementIdentifier,
+                             from: RouteElementIdentifier,
+                             animated: Bool,
+                             context: Any?,
+                             completion: @escaping RoutingCompletion) -> Bool {
+    if identifier == "ScreenC" {
+      let screenToPresent = ScreenC()
+      self.tempuraPresent(screenToPresent, animated: true, completion: {
+        completion()
+      })
+      return true
+    }
+    return false
+  }
+  
+  func hide(identifier: RouteElementIdentifier,
+            from: RouteElementIdentifier,
+            animated: Bool,
+            context: Any?,
+            completion: @escaping RoutingCompletion) -> Bool {
+    if identifier == "ScreenC" {
+      self.tempuraDismiss(animated: animated)
+      completion()
+      return true
+    }
+    return false
   }
 }
 ```
-
-
-
-## modals
-
-modals are a special case in the navigation structure.
-If we have a screen that we want to present modally, chances are that there are different places where we want to display it.
-
-For instance let's suppose we have the usual route ["ScreenA", "ScreenB", "ScreenC"] and we want to modally present "ScreenM".
-The modal could be presented in all of these three screens.
-
-This can evolve in three different scenarios:
-1. the current stack is ["ScreenA"] and we want to present "ScreenM" modally
-2. the current stack is ["ScreenA", "ScreenB"] and we want to present "ScreenM" modally
-3. the current stack is ["ScreenA", "ScreenB", "ScreenC"] and we want to present "ScreenM" modally
-
-to address all these three situations, all the A, B, and C should implement `Routable` and the `presentModally` method, with the same implementation, just to account the fact that the screen asked to present M is different in each scenario.
-
-
-To avoid this, the implementation of `presentModally` returns a Bool value that the Navigator is using to understand if the screen is handling the modal. If it's not the case, the next Screen will be asked to present it.
-With this approach, you can write the code to handle the modal only once, placing it at the lowest level of the navigation hierarchy, that is "ScreenA".
-
-The steps involved are:
-
-1. ViewController sends the action `PresentModally(screen: "ScreenM")`
-2. the Navigator receives the request and asks the system for the actual navigation route at this specific moment in time. Let's say that the system responds with `["ScreenA, "ScreenB", "ScreenC"]`
-3. the Navigator analyzes the current and the requested route and extracts an array of navigation actions to go from the old route to the new, in this case there is only one action that is:
-- ask "ScreenC" to modally present "ScreenM"
-4. the Navigator asks C to present M. "ScreenC" is not implementing the `presentModally(...)` method of `Routable` and the default implementation returns `false`. This means that C is not handling the modal, hence the Navigator will asks to the next screen in line
-5. the Navigator asks B to present M. Same as before, B is not handling the modal
-6. the Navigator asks A to present M. "ScreenA" is implementing the `presentModally(...)` method that contains all the infos to present M (like the top ViewController for instance) and the navigation is completed
-
-
