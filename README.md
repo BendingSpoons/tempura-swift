@@ -16,8 +16,8 @@ With Tempura you can use Katana to handle the logic part of your app while still
 
 
 # Anatomy of a Screen
-In Tempura, a Screen is composed by three different components that interoperate to get the actual pixels on screen and to keep them updated when the state changes.
-These are: `ViewController`, `View` and `ViewModel`.
+In Tempura, a Screen is composed by three different elements that interoperate to get the actual pixels on screen and to keep them updated when the state changes.
+These are: `ViewController`,`ViewModel` and `View`.
 
 ![AnatomyOfAScreen](./readme.png)
 
@@ -53,7 +53,7 @@ A view is a piece of UI that is visible on screen. It contains no business logic
 - setup phase, when you create the children UI elements like buttons or labels
 - style phase, when you define the cosmetics of the view and its children
 - layout phase, when you layout the children of the view
-- update phase, when you update the view and its children based on a new viewModel that is available
+- update phase, when you update the view and its children based on the properties of the view itself
 
 To clearly separate these different phases we created the protocol **View**:
 
