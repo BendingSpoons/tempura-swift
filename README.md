@@ -534,3 +534,114 @@ extension ScreenC: Routable {
   }
 }
 ```
+
+## Testing
+
+Tempura has a snapshotting system that can be leveraged to take screenshots of your views in all the devices (and potentially all the various supported languages, orientations, ... anything really).
+
+### Installation
+In order to use this functionality in your application, you have to add the proper subspec to your Podfile:
+
+```ruby
+pod 'TempuraTesting'
+```
+
+Most likely, you want to do this in your tests target.
+
+Screenshots will be added to a derived-data like folder. If you want to change the location, you have to add a proper env variable. Take a look at [this README](https://github.com/facebook/ios-snapshot-test-case#installation-with-cocoapods) for more information.
+
+### Usage
+
+Let's say you have a view like this
+
+```swift
+struct AViewModel: ViewModelWithState {
+  enum Status {
+    case ok, warning, error
+  }
+  
+  let status: Status
+  
+  init(state: AppState) {
+    fatalError()
+  }
+  
+  init(status: Status) {
+    self.status = status
+  }
+}
+
+class AView: UIView, ViewControllerModellableView {
+  typealias VM = AViewModel
+  
+  // MARK: Setup
+  func setup() {}
+  func style() {}
+  
+  // MARK: Update
+  func update(oldModel: AViewModel?) {
+    switch self.model.status {
+    case .error:
+      self.backgroundColor = .red
+      
+    case .warning:
+      self.backgroundColor = .yellow
+      
+    case .ok:
+      self.backgroundColor = .blue
+    }
+  }
+  
+  // MARK: Layout
+  public override func layoutSubviews() {}
+}
+```
+
+You can create a test file like this (it is actually a test, and must be added to your tests target):
+
+```swift
+import Tempura
+import TempuraTesting
+
+class Test: SnapshotTestCase {
+  override var viewSnapshots: [AnyViewSnapshot] {
+    return [
+      self.aViewTests
+      // add others here
+    ]
+  }
+  
+  var aViewTests: AnyViewSnapshot {
+    return ViewSnapshot<AView>(
+      type: AView.self,
+      container: .none,
+      models: [
+        "ok": AViewModel(status: .ok),
+        "warning": AViewModel(status: .warning),
+        "error": AViewModel(status: .error)
+      ])
+  }
+}
+```
+
+As you can see, each test case has several snapshots. Each snapshot is related to a view in a context (e.g, where the view is placed) and multiple models.
+By running this test, the system will create snapshots in the folder you have defined during the installation process.
+
+### Multiple Devices
+
+By default, tests are run only in the device you have choose from xcode (or your device, or CI system). We can run the snapshotting in all the devices by using a script like the following one:
+
+```bash
+xcodebuild \
+  -workspace <project>.xcworkspace \
+  -scheme "<target name>" \
+  -destination name="iPhone 5s" \
+  -destination name="iPhone 6 Plus" \
+  -destination name="iPhone 6" \
+  -destination name="iPhone X" \
+  -destination name="iPad Pro (12.9 inch)" \
+  test
+
+```
+
+Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the `xcodebuild` documentation

@@ -1,3 +1,7 @@
+## master
+
+* Add `SnapshotTestCase` that can be used to render UI tests 
+
 ## 0.5.0
 
 * Update to swift 4.0
