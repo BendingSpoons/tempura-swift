@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = 'Tempura'
+  s.name             = 'TempuraTesting'
   s.version          = File.read(".version")
-  s.summary          = 'UI architecture for apps'
+  s.summary          = 'UI architecture for apps - Testing'
 
   s.homepage         = 'https://bendingspoons.com'
   s.license          = { :type => 'No License', :text => "Copyright 2017 BendingSpoons" }
@@ -9,12 +9,12 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/BendingSpoons/tempura-lib-swift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-  s.dependency 'Katana', '>= 0.8.3', '< 0.9'
+  s.frameworks   = 'XCTest','UIKit','Foundation'
   
+  s.dependency 'Tempura', '>= 0.4.0'
+  s.dependency 'FBSnapshotTestCase', '~> 2.1'
+
   s.ios.source_files = [
-    'Tempura/Core/**/*.swift',
-    'Tempura/Extensions/**/*.swift',
-    'Tempura/LiveReload/**/*.swift',
-    'Tempura/Navigation/**/*.swift'
+    'Tempura/SnapshotTesting/**/*.swift'
   ]
 end

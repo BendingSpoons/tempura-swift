@@ -8,6 +8,7 @@
 
 import Foundation
 import FBSnapshotTestCase
+import Tempura
 
 /// Type Erasure for `ViewSnapshot`
 public protocol AnyViewSnapshot {

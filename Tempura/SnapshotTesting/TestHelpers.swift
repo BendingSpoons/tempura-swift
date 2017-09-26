@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Tempura
 
 class Renderer<V: ViewControllerModellableView> {
   private var modellableViewType: V.Type

@@ -543,7 +543,7 @@ Tempura has a snapshotting system that can be leveraged to take screenshots of y
 In order to use this functionality in your application, you have to add the proper subspec to your Podfile:
 
 ```ruby
-pod 'Tempura/Testing'
+pod 'TempuraTesting'
 ```
 
 Most likely, you want to do this in your tests target.
@@ -600,6 +600,9 @@ class AView: UIView, ViewControllerModellableView {
 You can create a test file like this (it is actually a test, and must be added to your tests target):
 
 ```swift
+import Tempura
+import TempuraTesting
+
 class Test: SnapshotTestCase {
   override var viewSnapshots: [AnyViewSnapshot] {
     return [
