@@ -617,8 +617,8 @@ class Test: SnapshotTestCase {
       container: .none,
       models: [
         "ok": AViewModel(status: .ok),
-        "warning": AViewModel(status: .ok),
-        "error": AViewModel(status: .ok)
+        "warning": AViewModel(status: .warning),
+        "error": AViewModel(status: .error)
       ])
   }
 }
