@@ -54,7 +54,6 @@ demo = target do |target|
         configuration.product_bundle_identifier = "dk.bendingspoons.AppStation"
         configuration.settings["INFOPLIST_FILE"] = "Demo/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Demo"
-        configuration.settings["PROVISIONING_PROFILE"] = PROV_PROFILE
 	configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 

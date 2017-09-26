@@ -34,14 +34,5 @@ post_install do |installer|
         config.build_settings['SWIFT_VERSION'] = '3.2'
       end
     end
-    if target.name == 'Tempura'
-      target.build_configurations.each do |config|
-        if config.name == 'Debug'
-          config.build_settings['OTHER_SWIFT_FLAGS'] = '-DDEBUG'
-        else
-          config.build_settings['OTHER_SWIFT_FLAGS'] = ''
-        end
-      end
-    end
   end
 end
