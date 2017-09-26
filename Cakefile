@@ -14,7 +14,7 @@ tempura = target do |target|
     target.all_configurations.each do |configuration|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Tempura"
-	configuration.settings["SWIFT_VERSION"] = "4.0"
+	    configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 
     target.headers_build_phase do |phase|
@@ -29,7 +29,7 @@ tempura = target do |target|
 
         unit_test.all_configurations.each do |configuration|
             configuration.settings["INFOPLIST_FILE"] = "TempuraTests/Info.plist"
-	    configuration.settings["SWIFT_VERSION"] = "4.0"
+	        configuration.settings["SWIFT_VERSION"] = "4.0"
         end
 
     end
@@ -54,8 +54,7 @@ demo = target do |target|
         configuration.product_bundle_identifier = "dk.bendingspoons.AppStation"
         configuration.settings["INFOPLIST_FILE"] = "Demo/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Demo"
-        configuration.settings["PROVISIONING_PROFILE"] = PROV_PROFILE
-	configuration.settings["SWIFT_VERSION"] = "4.0"
+    	configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 
     target.scheme(target.name)
