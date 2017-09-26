@@ -56,7 +56,7 @@ public struct ViewSnapshot<V: ViewControllerModellableView>: AnyViewSnapshot {
     return "\(self.viewType)"
   }
   
-  init(
+  public init(
     type: V.Type,
     container: Container,
     models: [String: V.VM],
