@@ -2,7 +2,6 @@
   <img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons"/>
 </p>
 
-# Tempura
 
 Tempura is a UI (and Navigation) framework for Katana.
 With Tempura you can use Katana to handle the logic part of your app while still using the native iOS navigation and UI elements, being able to leverage system features like peek and pop and automatic transitions between screens.
