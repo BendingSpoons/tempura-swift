@@ -25,9 +25,8 @@ public struct Navigate: Action, ActionWithSideEffect {
   }
   
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
-    if let dependencies = dependencies as? NavigationProvider {
-      dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context)
-    }
+    guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context)
   }
   
 }
@@ -52,9 +51,8 @@ public struct Show: Action, ActionWithSideEffect {
   }
   
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
-    if let dependencies = dependencies as? NavigationProvider {
-      dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context)
-    }
+    guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context)
   }
   
 }
@@ -80,9 +78,8 @@ public struct Hide: Action, ActionWithSideEffect {
   }
   
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
-    if let dependencies = dependencies as? NavigationProvider {
-      dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context)
-    }
+    guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context)
   }
   
 }
