@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/BendingSpoons/tempura-lib-swift/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons"/>
+</p>
+
 # Tempura
 
 Tempura is a UI (and Navigation) framework for Katana.
