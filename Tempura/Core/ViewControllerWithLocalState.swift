@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import Katana
-
+import Chocolate
 
 
 open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>: ViewController<V, S> where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
@@ -35,7 +35,9 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>:
   
   /// this method is called every time the local state changes
   private func localStateDidChange() {
-    self.updateLocalState(with: self.localState)
+    mainThread {
+      self.updateLocalState(with: self.localState)
+    }
   }
   
   // handle the local state update

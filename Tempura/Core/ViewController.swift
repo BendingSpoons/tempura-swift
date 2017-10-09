@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Katana
+import Chocolate
 
 // typealias for interaction callback
 public typealias Interaction = () -> ()
@@ -116,7 +117,9 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   /// this method is called every time the store trigger a state update
   private func storeDidChange() {
     guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
-    self.update(with: newState)
+    mainThread {
+     self.update(with: newState)
+    }
   }
   
   /// handle the state update, create a new updated viewModel and feed the view with that

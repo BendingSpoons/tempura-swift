@@ -19,7 +19,6 @@ target 'Tempura' do
     pod 'PinLayout'
     pod 'BonMot'
     pod 'Hero', '1.0.0-alpha.4'
-    pod 'Chocolate'
   end
 end
 
