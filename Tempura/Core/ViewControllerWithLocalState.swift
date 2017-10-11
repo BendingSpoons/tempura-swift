@@ -27,7 +27,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>:
   }
  
   /// handle the state update, create a new updated viewModel and feed the view with that
-  override open func update(with state: S) {
+  override func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
      self.viewModel = V.VM(state: state, localState: self.localState)
@@ -41,7 +41,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>:
   }
   
   // handle the local state update
-  open func updateLocalState(with localState: LS) {
+  private func updateLocalState(with localState: LS) {
     guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
     self.viewModel = V.VM(state: state, localState: localState)
   }

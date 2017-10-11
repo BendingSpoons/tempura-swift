@@ -56,8 +56,10 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   /// used to have the last viewModel available if we want to update it for local state changes
   public var viewModel: V.VM! {
     didSet {
+      self.willUpdate()
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
+      self.didUpdate()
     }
   }
   
@@ -123,7 +125,7 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   }
   
   /// handle the state update, create a new updated viewModel and feed the view with that
-  open func update(with state: S) {
+  func update(with state: S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = V.VM(state: state)
@@ -151,6 +153,12 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
     super.viewDidLoad()
     self.setupInteraction()
   }
+  
+  /// called just before the update, override point for subclasses
+  open func willUpdate() {}
+  
+  /// called right after the update, override point for subclasses
+  open func didUpdate() {}
   
   /// ask to setup the interaction with the managed view
   open func setupInteraction() {}
