@@ -349,7 +349,7 @@ class CounterView: UIView, ViewControllerModellableView {
 Every time the state changes, the ViewController will instantiate a ViewModel from the new app state and feed the View with that, triggering the `update(...)` method. The other responsibility of the ViewController is to listen to interaction callbacks from the View and trigger actions to change the state.
 
 ```swift
-class CounterViewController: ViewController<CounterView, CounterViewModel, CounterState> {
+class CounterViewController: ViewController<CounterView> {
 
   // #1 listen for interaction callbacks from the view
   override func setupInteraction() {
