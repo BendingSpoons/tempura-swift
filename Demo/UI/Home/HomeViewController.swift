@@ -29,7 +29,7 @@ class HomeViewController: ViewController<HomeView>, UIViewControllerPreviewingDe
   
   // MARK: - Interaction
   func userDidRequestStory(with id: Story.ID) {
-    self.dispatch(action: ShowStory(storyID: id, performNavigation: true))
+    self.dispatch(ShowStory(storyID: id, performNavigation: true))
   }
   
   // MARK: - UIViewControllerPreviewingDelegate
@@ -63,7 +63,7 @@ class HomeViewController: ViewController<HomeView>, UIViewControllerPreviewingDe
     }
     
     self.navigationController?.pushViewController(vc, animated: false)
-    self.dispatch(action: ShowStory(storyID: model.storyID, performNavigation: false))
+    self.dispatch(ShowStory(storyID: model.storyID, performNavigation: false))
     vc.forcedViewModel = nil
   }
 }

@@ -91,7 +91,12 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   open func setup() {}
   
   /// shortcut to the dispatch function
+  @available(*, deprecated, message: "remove `action` label")
   open func dispatch(action: Action) {
+    self.store.dispatch(action)
+  }
+  
+  open func dispatch(_ action: Action) {
     self.store.dispatch(action)
   }
   

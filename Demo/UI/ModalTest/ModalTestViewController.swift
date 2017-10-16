@@ -17,10 +17,10 @@ class ModalTestViewController: ViewController<ModalTestView> {
   }
   
   func closeButtonDidTap() {
-    self.dispatch(action: Hide(animated: true))
+    self.dispatch(Hide(animated: true))
   }
   
   func presentButtonDidTap() {
-    self.dispatch(action: Show([Screen.modalTest.rawValue], animated: true))
+    self.dispatch(Show([Screen.modalTest.rawValue], animated: true))
   }
 }

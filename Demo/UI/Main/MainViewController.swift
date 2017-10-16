@@ -18,11 +18,11 @@ class MainViewController: ViewController<MainView> {
   }
   
   func addButtonDidTap() {
-    self.dispatch(action: Add())
+    self.dispatch(Add())
   }
   
   func subtractButtonDidTap() {
-    self.dispatch(action: Subtract())
+    self.dispatch(Subtract())
   }
   
 }

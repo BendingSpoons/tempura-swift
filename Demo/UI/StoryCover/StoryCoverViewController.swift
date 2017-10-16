@@ -33,7 +33,7 @@ class StoryCoverViewController: ViewController<StoryCoverView> {
   }
   
   func closeButtonDidTap() {
-    self.dispatch(action: Hide(animated: true))
+    self.dispatch(Hide(animated: true))
   }
     
   func manageForcedViewModelChange() {
