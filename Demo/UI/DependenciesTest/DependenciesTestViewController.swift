@@ -18,7 +18,7 @@ class DependenciesTestViewController: ViewController<DependenciesTestView> {
   
   let dumbManager: FakeManager
   
-  init(dependency: FakeManager, store: AnyStore?, connected: Bool = true) {
+  init(dependency: FakeManager, store: Store<AppState>?, connected: Bool = true) {
     guard let store = store else { fatalError("Tempura.store is not specified") }
     self.dumbManager = dependency
     super.init(store: store, connected: connected)
