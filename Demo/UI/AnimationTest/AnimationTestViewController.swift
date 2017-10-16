@@ -9,7 +9,7 @@
 import Foundation
 import Tempura
 
-class AnimationTestViewController: ViewControllerWithLocalState<AnimationTestView, AnimationTestLocalState> {
+class AnimationTestViewController: ViewControllerWithLocalState<AnimationTestView> {
   
   override func setupInteraction() {
     self.rootView.buttonDidTap = self.buttonDidTap

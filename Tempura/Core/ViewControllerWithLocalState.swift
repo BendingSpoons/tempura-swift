@@ -12,10 +12,10 @@ import Katana
 import Chocolate
 
 
-open class ViewControllerWithLocalState<V: ViewControllerModellableView, LS>: ViewController<V> where V.VM.LS == LS, V.VM: ViewModelWithLocalState {
+open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewController<V> where V.VM: ViewModelWithLocalState {
   
   /// the local state of this ViewController
-  public var localState: LS = LS() {
+  public var localState: V.VM.LS = V.VM.LS() {
     didSet {
       self.localStateDidChange()
     }
@@ -41,7 +41,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, LS>: Vi
   }
   
   // handle the local state update
-  private func updateLocalState(with localState: LS) {
+  private func updateLocalState(with localState: V.VM.LS) {
     guard let state = self.store.anyState as? V.VM.S else { fatalError("wrong state type") }
     self.viewModel = V.VM(state: state, localState: localState)
   }
