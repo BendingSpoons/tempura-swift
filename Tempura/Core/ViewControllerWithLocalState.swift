@@ -12,7 +12,7 @@ import Katana
 import Chocolate
 
 
-open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>: ViewController<V, S> where V.VM.S == S, V.VM.LS == LS, V.VM: ViewModelWithLocalState {
+open class ViewControllerWithLocalState<V: ViewControllerModellableView, LS>: ViewController<V> where V.VM.LS == LS, V.VM: ViewModelWithLocalState {
   
   /// the local state of this ViewController
   public var localState: LS = LS() {
@@ -27,7 +27,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>:
   }
  
   /// handle the state update, create a new updated viewModel and feed the view with that
-  override func update(with state: S) {
+  override func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
      self.viewModel = V.VM(state: state, localState: self.localState)
@@ -42,7 +42,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView, S, LS>:
   
   // handle the local state update
   private func updateLocalState(with localState: LS) {
-    guard let state = self.store.anyState as? S else { fatalError("wrong state type") }
+    guard let state = self.store.anyState as? V.VM.S else { fatalError("wrong state type") }
     self.viewModel = V.VM(state: state, localState: localState)
   }
 }

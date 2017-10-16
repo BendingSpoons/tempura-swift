@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class HomeViewController: ViewController<HomeView, AppState>, UIViewControllerPreviewingDelegate {
+class HomeViewController: ViewController<HomeView>, UIViewControllerPreviewingDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()

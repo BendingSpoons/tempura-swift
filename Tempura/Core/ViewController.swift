@@ -22,7 +22,7 @@ public typealias Interaction = () -> ()
  */
 
 // TODO: with swift 4 we will be able to say that V should also be an UIView
-open class ViewController<V: ViewControllerModellableView, S: State>: UIViewController where V.VM.S == S {
+open class ViewController<V: ViewControllerModellableView>: UIViewController {
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
   open var connected: Bool = true {
@@ -42,8 +42,8 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   public var store: AnyStore
   
   // the state of this ViewController
-  public var state: S {
-    guard let state = self.store.anyState as? S else { fatalError("something weird happened") }
+  public var state: V.VM.S {
+    guard let state = self.store.anyState as? V.VM.S else { fatalError("something weird happened") }
     return state
   }
   
@@ -118,14 +118,14 @@ open class ViewController<V: ViewControllerModellableView, S: State>: UIViewCont
   
   /// this method is called every time the store trigger a state update
   private func storeDidChange() {
-    guard let newState = self.store.anyState as? S else { fatalError("wrong state type") }
+    guard let newState = self.store.anyState as? V.VM.S else { fatalError("wrong state type") }
     mainThread {
      self.update(with: newState)
     }
   }
   
   /// handle the state update, create a new updated viewModel and feed the view with that
-  func update(with state: S) {
+  func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = V.VM(state: state)

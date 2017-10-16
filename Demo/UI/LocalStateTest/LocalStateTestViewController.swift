@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class LocalStateTestViewController: ViewControllerWithLocalState<LocalStateTestView, AppState, TestLocalState> {
+class LocalStateTestViewController: ViewControllerWithLocalState<LocalStateTestView, TestLocalState> {
   
   override func setupInteraction() {
     self.rootView.subButtonDidTap = self.decrementButtonDidTap

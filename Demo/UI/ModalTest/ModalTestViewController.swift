@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Tempura
 
-class ModalTestViewController: ViewController<ModalTestView, AppState> {
+class ModalTestViewController: ViewController<ModalTestView> {
   
   override func setupInteraction() {
     self.rootView.closeButtonDidTap = self.closeButtonDidTap
