@@ -17,7 +17,8 @@ struct LocalStateTestViewModel: ViewModelWithLocalState {
   // global state, this is updated when the global state changes
   var globalCounterString: String = ""
   
-  init(state: AppState, localState: TestLocalState) {
+  init(state: AppState?, localState: TestLocalState) {
+    guard let state = state else { return }
     self.globalCounterString = "global counter is \(state.counter)"
     self.localCounterString = "local counter is \(localState.localCounter)"
   }

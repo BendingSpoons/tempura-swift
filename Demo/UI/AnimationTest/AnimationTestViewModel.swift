@@ -16,7 +16,7 @@ struct AnimationTestViewModel: ViewModelWithLocalState {
   
   init() {}
   
-  init(state: AppState, localState: AnimationTestLocalState) {
+  init(state: AppState?, localState: AnimationTestLocalState) {
     self.expanded = localState.expanded
   }
 }

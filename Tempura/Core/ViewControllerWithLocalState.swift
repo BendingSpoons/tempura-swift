@@ -21,8 +21,30 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
     }
   }
   
-  open override func viewDidLoad() {
-    super.viewDidLoad()
+  // this is the last value for state we observed, we are saving this to be able to update the ViewModel
+  // when the local state changes and we are disconnected from the global state, we use this value as the global state
+  public var lastKnownState: V.VM.S?
+  
+  // we are about to unsubscribe from the global state, save it locally in the lastKnownState
+  // while we are disconnected we will look at the lastKnownState
+  open override func willUnsubscribe() {
+    self.lastKnownState = self.state
+  }
+  
+  override func checkAndSubscribeToStateUpdates() {
+    if connected == true {
+      // check if we are already subscribed
+      guard self.unsubscribe == nil else { return }
+      
+      // subscribe
+      let unsubscribe = self.store.addListener { [unowned self] in
+        self.storeDidChange()
+      }
+      // save the unsubscribe closure
+      self.unsubscribe = unsubscribe
+    }
+    
+    // trigger a state update
     self.localStateDidChange()
   }
  
@@ -42,7 +64,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
   
   // handle the local state update
   private func updateLocalState(with localState: V.VM.LS) {
-    guard let state = self.store.anyState as? V.VM.S else { fatalError("wrong state type") }
+    let state = self.connected ? self.state : self.lastKnownState
     self.viewModel = V.VM(state: state, localState: localState)
   }
 }

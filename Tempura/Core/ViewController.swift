@@ -30,8 +30,9 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
       guard self.connected != oldValue else { return }
       
       if self.connected {
-        self.subscribeToStateUpdates()
+        self.checkAndSubscribeToStateUpdates()
       } else {
+        self.willUnsubscribe()
         self.unsubscribe?()
         self.unsubscribe = nil
       }
@@ -48,7 +49,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// closure used to unsubscribe the viewController from state updates
-  private var unsubscribe: StoreUnsubscribe?
+ var unsubscribe: StoreUnsubscribe?
   
   /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
   public var shouldDisconnectOnViewWillDisappear = true
@@ -108,15 +109,16 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// subscribe to the state updates, the method storeDidChange will be called on every state change
-  private func subscribeToStateUpdates() {
+  func checkAndSubscribeToStateUpdates() {
+    guard connected == true else { return }
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
-    
+  
     // subscribe
     let unsubscribe = self.store.addListener { [unowned self] in
       self.storeDidChange()
     }
-    
+  
     // trigger a state update
     self.storeDidChange()
     // save the unsubscribe closure
@@ -124,12 +126,12 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// this method is called every time the store trigger a state update
-  private func storeDidChange() {
-    guard let newState = self.store.anyState as? V.VM.S else { fatalError("wrong state type") }
+  func storeDidChange() {
     mainThread {
-     self.update(with: newState)
+     self.update(with: self.state)
     }
   }
+  
   
   /// handle the state update, create a new updated viewModel and feed the view with that
   func update(with state: V.VM.S) {
@@ -140,9 +142,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   
   /// before the view will appear on screen, update the view and subscribe for state updates
   open override func viewWillAppear(_ animated: Bool) {
-    if self.connected {
-      self.subscribeToStateUpdates()
-    }
+    self.checkAndSubscribeToStateUpdates()
     super.viewWillAppear(animated)
   }
   
@@ -169,6 +169,9 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   
   /// ask to setup the interaction with the managed view
   open func setupInteraction() {}
+  
+  /// called just before the unsubscribe, this is used in the ViewControllerWithLocalState
+  open func willUnsubscribe() {}
   
   // not necessary?
   deinit {

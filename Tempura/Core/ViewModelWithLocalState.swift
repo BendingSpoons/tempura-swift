@@ -13,7 +13,8 @@ public protocol ViewModelWithLocalState: ViewModelWithState {
   associatedtype S: State
   associatedtype LS: LocalState
   
-  init(state: S, localState: LS)
+  // the state can be nil if we never connected to the state and we receive a local update
+  init(state: S?, localState: LS)
   
 }
 
