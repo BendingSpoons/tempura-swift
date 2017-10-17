@@ -15,7 +15,6 @@ target 'Tempura' do
   end
 
   target 'Demo' do
-    pod 'Tempura', :path => './'
     pod 'PinLayout'
     pod 'BonMot'
     pod 'Hero', '1.0.0-alpha.4'
