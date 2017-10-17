@@ -55,8 +55,10 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   
   /// used to have the last viewModel available if we want to update it for local state changes
   public var viewModel: V.VM! {
-    didSet {
+    willSet {
       self.willUpdate()
+    }
+    didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
       self.didUpdate()
