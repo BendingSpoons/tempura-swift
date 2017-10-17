@@ -28,14 +28,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   open var connected: Bool = true {
     didSet {
       guard self.connected != oldValue else { return }
-      
-      if self.connected {
-        self.checkAndSubscribeToStateUpdates()
-      } else {
-        self.willUnsubscribe()
-        self.unsubscribe?()
-        self.unsubscribe = nil
-      }
+      self.connectedDidChange()
     }
   }
   
@@ -87,6 +80,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     self.store = store
     self.connected = connected
     super.init(nibName: nil, bundle: nil)
+    self.connectedDidChange(silent: true)
     self.setup()
   }
   
@@ -109,18 +103,27 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// subscribe to the state updates, the method storeDidChange will be called on every state change
-  func checkAndSubscribeToStateUpdates() {
-    guard connected == true else { return }
+  func connectedDidChange(silent: Bool = false) {
+    if self.connected {
+      self.subscribe()
+      if !silent {
+        self.storeDidChange()
+      }
+    } else {
+      self.willUnsubscribe()
+      self.unsubscribe?()
+      self.unsubscribe = nil
+    }
+  }
+  
+  func subscribe() {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
-  
+    
     // subscribe
     let unsubscribe = self.store.addListener { [unowned self] in
       self.storeDidChange()
     }
-  
-    // trigger a state update
-    self.storeDidChange()
     // save the unsubscribe closure
     self.unsubscribe = unsubscribe
   }
@@ -142,8 +145,14 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   
   /// before the view will appear on screen, update the view and subscribe for state updates
   open override func viewWillAppear(_ animated: Bool) {
-    self.checkAndSubscribeToStateUpdates()
+    self.warmUp()
     super.viewWillAppear(animated)
+  }
+  
+  open func warmUp() {
+    if self.connected {
+      self.storeDidChange()
+    }
   }
   
   /// after the view disapper from screen, we stop listening for state updates

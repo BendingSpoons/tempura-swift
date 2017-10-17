@@ -31,20 +31,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
     self.lastKnownState = self.state
   }
   
-  override func checkAndSubscribeToStateUpdates() {
-    if connected == true {
-      // check if we are already subscribed
-      guard self.unsubscribe == nil else { return }
-      
-      // subscribe
-      let unsubscribe = self.store.addListener { [unowned self] in
-        self.storeDidChange()
-      }
-      // save the unsubscribe closure
-      self.unsubscribe = unsubscribe
-    }
-    
-    // trigger a state update
+  open override func warmUp() {
     self.localStateDidChange()
   }
  
