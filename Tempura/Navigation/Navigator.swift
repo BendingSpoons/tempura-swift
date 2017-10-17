@@ -84,9 +84,11 @@ public class Navigator {
           DispatchQueue.main.async {
             
             let routables = UIApplication.shared.currentRoutables
-            let indexToHide = routables.index(where: {
+            
+            guard let indexToHide = routables.index(where: {
               $0 === toHide
-            })!
+            }) else { semaphore.signal(); return }
+            
             let askTo = Array(routables[0...indexToHide].reversed())
             let from = routables[indexToHide - 1].routeIdentifier
             
