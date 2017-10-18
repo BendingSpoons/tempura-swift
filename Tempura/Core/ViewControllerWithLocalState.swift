@@ -57,8 +57,6 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
   
   // handle the local state update
   private func updateLocalState(with localState: V.VM.LS) {
-    print(self.connected)
-    print(self.lastKnownState)
     let state = self.connected ? self.state : self.lastKnownState
     self.viewModel = V.VM(state: state, localState: localState)
   }
