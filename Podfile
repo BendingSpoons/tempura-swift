@@ -17,10 +17,20 @@ target 'Tempura' do
   end
 
   target 'Demo' do
-    pod 'Tempura', :path => './'
     pod 'PinLayout'
     pod 'Hero', '1.0.0-alpha.4'
   end
+
+  target 'TempuraHelpers' do
+    pod 'BonMot', '~> 5.0'
+  end
+
+  target 'TempuraHelpersTests' do
+    inherit! :search_paths
+    pod 'Quick', '~> 1.2'
+    pod 'Nimble', '~> 7.0'
+  end
+
 end
 
 

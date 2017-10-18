@@ -10,6 +10,7 @@ import Katana
 import Quick
 import Nimble
 import BonMot
+import TempuraHelpers
 
 class BonMotHlpersSpec: QuickSpec {
   override func spec() {

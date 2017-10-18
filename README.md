@@ -580,7 +580,7 @@ self.label.attributedString = "Hello".styled(with: Style.Text.paywallTitle)
 ```
 
 ### Layer
-A layer is nothing more than a function that takes a `UIView` (or a uiview-like class) instance and applies to it some style. To help you in the task, Tempura provides an helper:
+A layer is nothing more than a function that takes a `UIView` (or subclass) instance and applies some style to it:
 
 ```swift
 extension Style.Layer {
@@ -590,7 +590,7 @@ extension Style.Layer {
 }
 
 /// usage
-Tempura.applyStyle(Style.Layer.redView, to: self.backgroundView)
+Style.Layer.redView(self.backgroundView)
 ```
 
 ## Helpers
