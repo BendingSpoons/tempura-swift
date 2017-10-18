@@ -46,7 +46,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   public var shouldDisconnectOnViewWillDisappear = true
   
   /// the latest ViewModel received by this ViewController
-  public var viewModel: V.VM! {
+  public var viewModel: V.VM? {
     willSet {
       self.willUpdate()
     }

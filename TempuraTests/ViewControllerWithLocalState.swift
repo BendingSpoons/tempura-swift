@@ -136,14 +136,11 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         let vc = TestViewControllerWithLocalState(store: store, connected: false)
         // ViewControllerWithLocalState will trigger an update upon creation even if it's disconnected
         // because it needs to update thw ViewModel based on the localState
-        expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
-        expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
         vc.connected = true
-        expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
-        expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
         testVC.viewWillAppear(true)
-        expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(2))
-        expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(2))
+        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(2))
       }
       
       it("when a ViewControllerWithLocalState is not connected and we update the local state, the AppState part of the ViewModel must be nil") {
@@ -151,8 +148,8 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         expect(disconnectedVC.viewModel).to(beNil())
         disconnectedVC.viewWillAppear(true)
         disconnectedVC.localState.localCounter = 3
-        expect(disconnectedVC.viewModel.localCounter).to(equal(3))
-        expect(disconnectedVC.viewModel.counter).to(beNil())
+        expect(disconnectedVC.viewModel?.localCounter).to(equal(3))
+        expect(disconnectedVC.viewModel?.counter).to(beNil())
       }
     }
   }
