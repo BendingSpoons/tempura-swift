@@ -17,7 +17,7 @@ target 'Tempura' do
   target 'Demo' do
     pod 'Tempura', :path => './'
     pod 'PinLayout'
-    pod 'BonMot'
+    pod 'BonMot', '~> 5.0'
     pod 'Hero', '1.0.0-alpha.4'
   end
 end
@@ -25,7 +25,7 @@ end
 
 post_install do |installer|
   # Your list of targets here.
-  legacyTargets = ['BonMot', 'Hero']
+  legacyTargets = ['Hero']
   
   installer.pods_project.targets.each do |target|
     if legacyTargets.include? target.name
