@@ -40,7 +40,7 @@ class HomeViewController: ViewController<HomeView>, UIViewControllerPreviewingDe
     
     guard
       let id = self.rootView.storyIDForViewLocation(location),
-      let story = self.rootView.model.stories[id]
+      let story = self.rootView.model?.stories[id]
     else {
       return nil
     }

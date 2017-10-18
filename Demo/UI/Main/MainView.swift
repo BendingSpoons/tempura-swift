@@ -54,7 +54,8 @@ class MainView: UIView, ViewControllerModellableView {
   
   // MARK: - Update
   func update(oldModel: MainViewModel?) {
-    self.counter.text = self.model.count
+    guard let model = self.model else { return }
+    self.counter.text = model.count
   }
   
   // MARK: - Interaction callbacks

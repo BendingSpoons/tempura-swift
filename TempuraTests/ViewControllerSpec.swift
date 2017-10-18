@@ -95,27 +95,27 @@ class ViewControllerSpec: QuickSpec {
         testVC.viewModel = viewModel
         expect(testVC.rootView.lastOldModel?.counter).to(equal(0))
         expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(2))
-        expect(testVC.rootView.model.counter).to(equal(100))
+        expect(testVC.rootView.model?.counter).to(equal(100))
         let newViewModel = TestViewModel(counter: 200)
         testVC.viewModel = newViewModel
         expect(testVC.rootView.lastOldModel?.counter).to(equal(100))
         expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(3))
-        expect(testVC.rootView.model.counter).to(equal(200))
+        expect(testVC.rootView.model?.counter).to(equal(200))
       }
       
       it("when an action is dispatched, the viewModel is updated if the ViewController is connected") {
         testVC.viewWillAppear(true)
-        expect(testVC.rootView.model.counter).to(equal(0))
+        expect(testVC.rootView.model?.counter).to(equal(0))
         store.dispatch(Increment())
-        expect(testVC.rootView.model.counter).toEventually(equal(1))
+        expect(testVC.rootView.model?.counter).toEventually(equal(1))
       }
       
       it("when an action is dispatched, the viewModel is not updated if the ViewController is not connected") {
         testVC.viewWillAppear(true)
         testVC.connected = false
-        expect(testVC.rootView.model.counter).to(equal(0))
+        expect(testVC.rootView.model?.counter).to(equal(0))
         store.dispatch(Increment())
-        expect(testVC.rootView.model.counter).toNotEventually(equal(1))
+        expect(testVC.rootView.model?.counter).toNotEventually(equal(1))
       }
       
       it("when a disconnected ViewController is created, the update is never called. It will be called on the first connect") {

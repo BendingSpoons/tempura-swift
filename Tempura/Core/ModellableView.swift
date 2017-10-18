@@ -32,7 +32,7 @@ public protocol ModellableView: View, LiveReloadableView {
   associatedtype VM: ViewModel
   
   /// the ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called
-  var model: VM! { get set }
+  var model: VM? { get set }
   
   /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
   func update(oldModel: VM?)
@@ -90,7 +90,7 @@ public extension ModellableView {
     }
   }
   
-  public var model: VM! {
+  public var model: VM? {
     get {
       return self.modelWrapper.model
     }

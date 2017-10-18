@@ -89,10 +89,11 @@ class StoryCoverView: UIView, ViewControllerModellableView {
   
   // MARK: - UPDATE
   func update(oldModel: StoryCoverViewModel?) {
-    self.backgroundImage.image = self.model.cover
-    self.title.attributedText = self.attributedStringForTitle(title: self.model.title)
-    self.subtitle.attributedText = self.attributedStringForSubtitleComponents(components: self.model.subtitleComponents)
-    self.descr.attributedText = self.attributedStringForDescription(description: self.model.description)
+    guard let model = self.model else { return }
+    self.backgroundImage.image = model.cover
+    self.title.attributedText = self.attributedStringForTitle(title: model.title)
+    self.subtitle.attributedText = self.attributedStringForSubtitleComponents(components: model.subtitleComponents)
+    self.descr.attributedText = self.attributedStringForDescription(description: model.description)
   }
   
   private func attributedStringForSubtitleComponents(components: StoryCoverViewModel.SubtitleComponents) -> NSAttributedString {

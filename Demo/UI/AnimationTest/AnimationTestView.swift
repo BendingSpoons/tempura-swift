@@ -50,7 +50,8 @@ class AnimationTestView: UIView, ViewControllerModellableView {
   
   // MARK: - UPDATE
   func update(oldModel: AnimationTestViewModel?) {
-    self.expanded = self.model.expanded
+    guard let model = self.model else { return }
+    self.expanded = model.expanded
   }
   
   // MARK: - INTERACTION
