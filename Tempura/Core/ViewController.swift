@@ -21,8 +21,7 @@ public typealias Interaction = () -> ()
  - feed the view with the updated viewModel
  */
 
-// TODO: with swift 4 we will be able to say that V should also be an UIView
-open class ViewController<V: ViewControllerModellableView>: UIViewController {
+open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
   open var connected: Bool = true {
@@ -65,13 +64,11 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   
   /// used internally to load the specific main view managed by this view controller
   open override func loadView() {
-    // TODO: this shitty force cast dance can be removed in swift 4
-    let viewType = V.self as! UIView.Type
-    let v = viewType.init(frame: .zero) as! V
+    let v = V(frame: .zero)
     v.viewController = self
     v.setup()
     v.style()
-    self.view = v as! UIView
+    self.view = v
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes

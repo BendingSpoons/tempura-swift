@@ -24,7 +24,7 @@ class StoryCoverViewController: ViewController<StoryCoverView> {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    // TODO: handle this better...
+    // handle this better...
     self.manageForcedViewModelChange()
   }
   

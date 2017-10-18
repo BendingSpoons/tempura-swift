@@ -28,8 +28,7 @@ class HomeView: UIView, ViewControllerModellableView {
     collectionView.delegate = self.collectionDelegate
     collectionView.dataSource = self.collectionDelegate
     
-    // TODO: fixme
-    collectionView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 20, right: 0)
+    collectionView.contentInset = self.tempuraSafeAreaInsets
     
     collectionView.register(CoverStory.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CoverStory.identifier)
     

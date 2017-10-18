@@ -12,7 +12,7 @@ import Katana
 import Chocolate
 
 
-open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewController<V> where V.VM: ViewModelWithLocalState {
+open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView>: ViewController<V> where V.VM: ViewModelWithLocalState {
   
   /// the local state of this ViewController
   public var localState: V.VM.LS = V.VM.LS() {
