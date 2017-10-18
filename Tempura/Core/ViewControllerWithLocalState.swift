@@ -33,6 +33,11 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
   
   /// executed during the viewWillAppear()
   open override func warmUp() {
+    // we are using silent = true because we don't want to trigger two updates
+    // one after the subscribing and one after the localStateDidChange()
+    if self.connected {
+      self.subscribe(silent: true)
+    }
     self.localStateDidChange()
   }
  
@@ -52,6 +57,8 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
   
   // handle the local state update
   private func updateLocalState(with localState: V.VM.LS) {
+    print(self.connected)
+    print(self.lastKnownState)
     let state = self.connected ? self.state : self.lastKnownState
     self.viewModel = V.VM(state: state, localState: localState)
   }

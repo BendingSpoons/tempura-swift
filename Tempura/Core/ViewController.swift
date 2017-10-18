@@ -81,6 +81,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     self.connected = connected
     super.init(nibName: nil, bundle: nil)
     self.setup()
+    self.connectedDidChange()
   }
   
   /// override to setup something after init
@@ -105,19 +106,18 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   /// silent = true if you don't want to trigger a state update after connecting to the store
   func connectedDidChange(silent: Bool = false) {
     if self.connected {
-      self.subscribe()
-      if !silent {
-        self.storeDidChange()
-      }
+      self.subscribe(silent: silent)
     } else {
-      self.willUnsubscribe()
-      self.unsubscribe?()
-      self.unsubscribe = nil
+      if self.unsubscribe != nil {
+        self.willUnsubscribe()
+        self.unsubscribe?()
+        self.unsubscribe = nil
+      }
     }
   }
   
   /// subscribe to state updates from the store
-  func subscribe() {
+  func subscribe(silent: Bool = false) {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
     
@@ -127,6 +127,10 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     }
     // save the unsubscribe closure
     self.unsubscribe = unsubscribe
+    
+    if !silent {
+      self.storeDidChange()
+    }
   }
   
   /// this method is called every time the store trigger a state update
@@ -154,7 +158,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   /// this is needed as an override point for ViewControllerWithLocalState
  func warmUp() {
     if self.connected {
-      self.storeDidChange()
+      self.subscribe()
     }
   }
   
