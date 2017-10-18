@@ -61,17 +61,21 @@ class ViewControllerSpec: QuickSpec {
       class TestViewController: ViewController<TestView> {
         var numberOfTimesWillUpdateIsCalled: Int = 0
         var viewModelWhenWillUpdateHasBeenCalled: TestViewModel?
+        var newViewModelWhenWillUpdateHasBeenCalled: TestViewModel?
         var numberOfTimesDidUpdateIsCalled: Int = 0
         var viewModelWhenDidUpdateHasBeenCalled: TestViewModel?
+        var oldViewModelWhenDidUpdateHasBeenCalled: TestViewModel?
         
-        override func willUpdate() {
+        override func willUpdate(new: TestViewModel?) {
           self.numberOfTimesWillUpdateIsCalled += 1
           self.viewModelWhenWillUpdateHasBeenCalled = self.viewModel
+          self.newViewModelWhenWillUpdateHasBeenCalled = new
         }
         
-        override func didUpdate() {
+        override func didUpdate(old: TestViewModel?) {
           self.numberOfTimesDidUpdateIsCalled += 1
           self.viewModelWhenDidUpdateHasBeenCalled = self.viewModel
+          self.oldViewModelWhenDidUpdateHasBeenCalled = old
         }
       }
       
@@ -127,7 +131,7 @@ class ViewControllerSpec: QuickSpec {
         expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
       }
       
-      it("before and after the viewModel is updated willUpdate() and didUpdate() are called") {
+      it("before and after the viewModel is updated willUpdate(new) and didUpdate(old) are called") {
         testVC.viewWillAppear(true)
         expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
         expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(1))
@@ -135,7 +139,9 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(2))
         expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
         expect(testVC.viewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
+        expect(testVC.newViewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(2))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
+        expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
       

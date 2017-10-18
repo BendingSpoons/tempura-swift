@@ -48,12 +48,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// the latest ViewModel received by this ViewController
   public var viewModel: V.VM? {
     willSet {
-      self.willUpdate()
+      self.willUpdate(new: newValue)
     }
     didSet {
       // the viewModel is changed, update the View
       self.rootView.model = viewModel
-      self.didUpdate()
+      self.didUpdate(old: oldValue)
     }
   }
   
@@ -175,10 +175,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// called just before the update, override point for subclasses
-  open func willUpdate() {}
+  open func willUpdate(new: V.VM?) {}
   
   /// called right after the update, override point for subclasses
-  open func didUpdate() {}
+  open func didUpdate(old: V.VM?) {}
   
   /// ask to setup the interaction with the managed view, override point for subclasses
   open func setupInteraction() {}

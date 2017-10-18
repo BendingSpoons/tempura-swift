@@ -75,17 +75,21 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       class TestViewControllerWithLocalState: ViewControllerWithLocalState<TestView> {
         var numberOfTimesWillUpdateIsCalled: Int = 0
         var viewModelWhenWillUpdateHasBeenCalled: TestViewModelWithLocalState?
+        var newViewModelWhenWillUpdateHasBeenCalled: TestViewModelWithLocalState?
         var numberOfTimesDidUpdateIsCalled: Int = 0
         var viewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
+        var oldViewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
         
-        override func willUpdate() {
+        override func willUpdate(new: TestViewModelWithLocalState?) {
           self.numberOfTimesWillUpdateIsCalled += 1
           self.viewModelWhenWillUpdateHasBeenCalled = self.viewModel
+          self.newViewModelWhenWillUpdateHasBeenCalled = new
         }
         
-        override func didUpdate() {
+        override func didUpdate(old: TestViewModelWithLocalState?) {
           self.numberOfTimesDidUpdateIsCalled += 1
           self.viewModelWhenDidUpdateHasBeenCalled = self.viewModel
+          self.oldViewModelWhenDidUpdateHasBeenCalled = old
         }
       }
       
