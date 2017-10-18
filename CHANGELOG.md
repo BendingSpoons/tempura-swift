@@ -1,3 +1,7 @@
+## master
+
+* Implemented Style Standardisation. See [this pr](https://github.com/BendingSpoons/tempura-lib-swift/pull/14) for more information
+
 ## 0.5.0
 
 * Update to swift 4.0
