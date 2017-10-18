@@ -10,7 +10,7 @@ import Foundation
 import Katana
 
 public protocol ViewModelWithState: ViewModel {
-  associatedtype S = State
+  associatedtype S: State
   
   init(state: S)
   

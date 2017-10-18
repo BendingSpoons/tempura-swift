@@ -12,10 +12,10 @@ import Katana
 import Tempura
 
 class TabBarController: UITabBarController {
-  var store: AnyStore
+  var store: Store<AppState>
   var dependencies: DependenciesContainer
   
-  init(store: AnyStore, dependencies: DependenciesContainer) {
+  init(store: Store<AppState>, dependencies: DependenciesContainer) {
     self.store = store
     self.dependencies = dependencies
     super.init(nibName: nil, bundle: nil)

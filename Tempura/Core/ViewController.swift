@@ -33,12 +33,11 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// the store the viewController will use to receive state updates
-  public var store: AnyStore
+  public var store: Store<V.VM.S>
   
   // the state of this ViewController
   public var state: V.VM.S {
-    guard let state = self.store.anyState as? V.VM.S else { fatalError("something weird happened") }
-    return state
+    return self.store.state
   }
   
   /// closure used to unsubscribe the viewController from state updates
@@ -76,7 +75,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
-  public init(store: AnyStore, connected: Bool = true) {
+  public init(store: Store<V.VM.S>, connected: Bool = true) {
     self.store = store
     self.connected = connected
     super.init(nibName: nil, bundle: nil)
