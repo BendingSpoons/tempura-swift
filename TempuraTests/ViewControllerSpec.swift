@@ -10,6 +10,7 @@ class ViewControllerSpec: QuickSpec {
       struct AppState: State {
         var counter: Int = 0
       }
+      
       struct Increment: Action {
         func updatedState(currentState: State) -> State {
           guard var state = currentState as? AppState else {
@@ -19,6 +20,7 @@ class ViewControllerSpec: QuickSpec {
           return state
         }
       }
+      
       struct TestViewModel: ViewModelWithState {
         var counter: Int = 0
         
@@ -30,6 +32,7 @@ class ViewControllerSpec: QuickSpec {
           self.counter = counter
         }
       }
+      
       class TestView: UIView, ViewControllerModellableView {
         var numberOfTimesSetupIsCalled: Int = 0
         var numberOfTimesStyleIsCalled: Int = 0
@@ -64,13 +67,11 @@ class ViewControllerSpec: QuickSpec {
         override func willUpdate() {
           self.numberOfTimesWillUpdateIsCalled += 1
           self.viewModelWhenWillUpdateHasBeenCalled = self.viewModel
-          print(self.viewModel)
         }
         
         override func didUpdate() {
           self.numberOfTimesDidUpdateIsCalled += 1
           self.viewModelWhenDidUpdateHasBeenCalled = self.viewModel
-          print(self.viewModel)
         }
       }
       
@@ -90,14 +91,15 @@ class ViewControllerSpec: QuickSpec {
       
       it("when viewModel is updated, view.update() method is called with the correct model and oldModel") {
         let viewModel = TestViewModel(counter: 100)
-        testVC.viewModel = viewModel
-        expect(testVC.rootView.lastOldModel?.counter).to(beNil())
         expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        testVC.viewModel = viewModel
+        expect(testVC.rootView.lastOldModel?.counter).to(equal(0))
+        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(2))
         expect(testVC.rootView.model.counter).to(equal(100))
         let newViewModel = TestViewModel(counter: 200)
         testVC.viewModel = newViewModel
         expect(testVC.rootView.lastOldModel?.counter).to(equal(100))
-        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(2))
+        expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(3))
         expect(testVC.rootView.model.counter).to(equal(200))
       }
       
@@ -116,6 +118,15 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.rootView.model.counter).toNotEventually(equal(1))
       }
       
+      it("when a disconnected ViewController is created, the update is never called. It will be called on the first connect") {
+        let vc = TestViewController(store: store, connected: false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.connected = true
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        vc.connected = false
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+      }
+      
       it("before and after the viewModel is updated willUpdate() and didUpdate() are called") {
         testVC.viewWillAppear(true)
         expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
@@ -126,6 +137,8 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.viewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
       }
+      
+      
     }
   }
 }
