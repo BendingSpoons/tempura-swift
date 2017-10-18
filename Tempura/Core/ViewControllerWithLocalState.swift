@@ -21,16 +21,17 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView>: ViewCo
     }
   }
   
-  // this is the last value for state we observed, we are saving this to be able to update the ViewModel
-  // when the local state changes and we are disconnected from the global state, we use this value as the global state
+  /// this is the last value for state we observed, we are saving this to be able to update the ViewModel
+  /// when the local state changes and we are disconnected from the global state, we use this value as the global state
   public var lastKnownState: V.VM.S?
   
-  // we are about to unsubscribe from the global state, save it locally in the lastKnownState
-  // while we are disconnected we will look at the lastKnownState
+  /// we are about to unsubscribe from the global state, save it locally in the lastKnownState
+  /// while we are disconnected we will look at the lastKnownState
   open override func willUnsubscribe() {
     self.lastKnownState = self.state
   }
   
+  /// executed during the viewWillAppear()
   open override func warmUp() {
     self.localStateDidChange()
   }

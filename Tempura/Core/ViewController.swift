@@ -44,10 +44,10 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   /// closure used to unsubscribe the viewController from state updates
  var unsubscribe: StoreUnsubscribe?
   
-  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
+  /// whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
   public var shouldDisconnectOnViewWillDisappear = true
   
-  /// used to have the last viewModel available if we want to update it for local state changes
+  /// the latest ViewModel received by this ViewController
   public var viewModel: V.VM! {
     willSet {
       self.willUpdate()
@@ -80,11 +80,10 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     self.store = store
     self.connected = connected
     super.init(nibName: nil, bundle: nil)
-    self.connectedDidChange(silent: true)
     self.setup()
   }
   
-  // override to setup something after init
+  /// override to setup something after init
   open func setup() {}
   
   /// shortcut to the dispatch function
@@ -97,12 +96,13 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     self.store.dispatch(action)
   }
   
-  // we are not using storyboards so trigger a fatalError
+  /// we are not using storyboards so trigger a fatalError
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   /// subscribe to the state updates, the method storeDidChange will be called on every state change
+  /// silent = true if you don't want to trigger a state update after connecting to the store
   func connectedDidChange(silent: Bool = false) {
     if self.connected {
       self.subscribe()
@@ -116,6 +116,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     }
   }
   
+  /// subscribe to state updates from the store
   func subscribe() {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
@@ -149,7 +150,9 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     super.viewWillAppear(animated)
   }
   
-  open func warmUp() {
+  /// warmUp phase, this is executed in the viewWillAppear()
+  /// this is needed as an override point for ViewControllerWithLocalState
+ func warmUp() {
     if self.connected {
       self.storeDidChange()
     }
@@ -165,6 +168,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
     super.viewWillDisappear(animated)
   }
   
+  /// call the setupInteraction method when the ViewController is loaded
   open override func viewDidLoad() {
     super.viewDidLoad()
     self.setupInteraction()
@@ -176,7 +180,7 @@ open class ViewController<V: ViewControllerModellableView>: UIViewController {
   /// called right after the update, override point for subclasses
   open func didUpdate() {}
   
-  /// ask to setup the interaction with the managed view
+  /// ask to setup the interaction with the managed view, override point for subclasses
   open func setupInteraction() {}
   
   /// called just before the unsubscribe, this is used in the ViewControllerWithLocalState
