@@ -8,6 +8,8 @@ target 'Tempura' do
   platform :ios, '9.0'
   podspec
 
+  pod 'BonMot', '~> 5.0'
+
   target 'TempuraTests' do
     inherit! :search_paths
     pod 'Quick', '~> 1.2'
@@ -17,7 +19,6 @@ target 'Tempura' do
   target 'Demo' do
     pod 'Tempura', :path => './'
     pod 'PinLayout'
-    pod 'BonMot', '~> 5.0'
     pod 'Hero', '1.0.0-alpha.4'
   end
 end
