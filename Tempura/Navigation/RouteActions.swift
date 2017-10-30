@@ -50,6 +50,16 @@ public struct Show: Action, ActionWithSideEffect {
     self.init([identifierToShow], animated: animated, context: context)
   }
   
+  public init<K>(_ identifiersToShow: [K], animated: Bool = false, context: Any? = nil)
+    where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
+      self.init(identifiersToShow.map { $0.rawValue }, animated: animated, context: context)
+  }
+  
+  public init<K>(_ identifierToShow: K, animated: Bool = false, context: Any? = nil)
+    where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
+      self.init(identifierToShow.rawValue, animated: animated, context: context)
+  }
+  
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
     guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context)
@@ -70,6 +80,11 @@ public struct Hide: Action, ActionWithSideEffect {
     self.identifierToHide = identifierToHide
     self.animated = animated
     self.context = context
+  }
+  
+  public init<K>(_ identifierToHide: K, animated: Bool = false, context: Any? = nil)
+    where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
+      self.init(identifierToHide.rawValue, animated: animated, context: context)
   }
   
   public init(animated: Bool = false, context: Any? = nil) {
