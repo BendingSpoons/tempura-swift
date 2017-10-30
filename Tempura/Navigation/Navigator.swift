@@ -51,19 +51,12 @@ public class Navigator {
   public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?) {
     let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
-    var newRoute: Route = oldRoute
     
-    var index: Int?
-    
-    for i in (0..<newRoute.count).reversed() {
-      if oldRoute[i] == elementToHide {
-        index = i
-        break
-      }
+    guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
+      return
     }
     
-    guard let start = index else { return }
-    newRoute.removeSubrange(start..<newRoute.count)
+    let newRoute = Array(oldRoute[0..<start])
     
     let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
     
@@ -322,8 +315,7 @@ extension UINavigationController: CustomRouteInspectables {
 /// in a UITabBarController the next visible controller is the `selectedViewController`
 extension UITabBarController: CustomRouteInspectables {
   var nextRouteControllers: [UIViewController] {
-    guard let selected = self.selectedViewController else { return [] }
-    return [selected]
+    return self.selectedViewController.flatMap { [$0] } ?? []
   }
 }
 
