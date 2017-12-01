@@ -38,7 +38,8 @@ public extension UIViewController {
         viewController.toBeDismissed = true
         self.tempuraDismiss(presentingViewController, animated: animated, completion: completion)
       } else {
-        viewController.dismiss(animated: animated, completion: completion)
+        // dismiss the viewController
+        presentingViewController.dismiss(animated: animated, completion: completion)
       }
     }
   }

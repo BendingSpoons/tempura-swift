@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Fix bug in tempuraDismiss
+
 ## 1.0.0
 
 * Simplified generics for `ViewController`, now it is only generic for the `ModellableView`
