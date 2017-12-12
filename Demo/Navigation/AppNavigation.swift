@@ -19,41 +19,33 @@ enum Screen: String {
 }
 
 // HOME
-extension HomeViewController: Routable {
+extension HomeViewController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.home.rawValue
   }
   
-  func show(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    // HOME -> STORY COVER
-    if identifier == Screen.storyCover.rawValue {
-      let sc = StoryCoverViewController(store: self.store)
-      sc.hidesBottomBarWhenPushed = true
-      self.navigationController?.pushViewController(sc, animated: animated)
-      completion()
-    }
-    return true
+  var navigationConfiguration: [NavigationSource : NavigationOption] {
+    return [
+      .show(Screen.storyCover): .push({ [unowned self] _ in
+        let sc = StoryCoverViewController(store: self.store)
+        sc.hidesBottomBarWhenPushed = true
+
+        return sc
+      })
+    ]
   }
 }
 
 // NAVIGATION
-extension RoutableNavigationController: Routable {
+extension RoutableNavigationController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.navigation.rawValue
   }
   
-  func hide(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    self.popViewController(animated: animated)
-    completion()
-    return true
+  var navigationConfiguration: [NavigationSource : NavigationOption] {
+    return [
+      .hide(Screen.storyCover): .pop
+    ]
   }
 }
 
@@ -65,48 +57,34 @@ extension StoryCoverViewController: Routable {
 }
 
 // MODAL TEST
-extension ModalTestViewController: Routable {
+extension ModalTestViewController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.modalTest.rawValue
   }
   
-  func hide(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    
-    if self.presentingViewController != nil {
-      self.tempuraDismiss(animated: true) {
-        completion()
-      }
-      return true
-    } else {
-      completion()
-      return true
-    }
+  var navigationConfiguration: [NavigationSource : NavigationOption] {
+    return [
+      .hide(Screen.modalTest): .custom({ [unowned self] _, _, animated, _, completion in
+        if self.presentingViewController != nil {
+          self.tempuraDismiss(animated: animated, completion: completion)
+        
+        } else {
+          completion()
+        }
+      })
+    ]
   }
 }
 
 // TABBAR
-extension TabBarController: Routable {
+extension TabBarController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.tabbar.rawValue
   }
   
-  func show(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    
-    if identifier == Screen.modalTest.rawValue {
-      let vc = ModalTestViewController(store: self.store)
-      self.tempuraPresent(vc, animated: animated, completion: { 
-        completion()
-      })
-      return true
-    }
-    return false
+  var navigationConfiguration: [NavigationSource : NavigationOption] {
+    return [
+      .show(Screen.modalTest): .presentModally({ [unowned self] _ in ModalTestViewController(store: self.store) })
+    ]
   }
 }

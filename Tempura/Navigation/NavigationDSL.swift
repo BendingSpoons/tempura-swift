@@ -53,7 +53,7 @@ public typealias CustomNavigationOptionClosure = (
   _ from: RouteElementIdentifier,
   _ animated: Bool,
   _ context: Any?,
-  _ completion: RoutingCompletion
+  _ completion: @escaping RoutingCompletion
 ) -> Void
 
 public enum NavigationOption {
@@ -63,7 +63,7 @@ public enum NavigationOption {
   }
   // stack navigation
   case push((_ context: Any?) -> UIViewController)
-  case pop()
+  case pop
   
   // modal navigation
   case presentModally((_ context: Any?) -> UIViewController)
@@ -210,7 +210,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
     completion: @escaping RoutingCompletion) -> Bool {
     
     for (source, option) in self.navigationConfiguration {
-      guard source.canHandle(identifier, type: .show) else {
+      guard source.canHandle(identifier, type: .hide) else {
         continue
       }
       
