@@ -59,7 +59,7 @@ public typealias CustomNavigationOptionClosure = (
 public enum NavigationOption {
   public enum ModalDismissBehaviour {
     case tempura
-    case uiki
+    case uikit
   }
   // stack navigation
   case push((_ context: Any?) -> UIViewController)
@@ -162,7 +162,7 @@ public enum NavigationOption {
     case .tempura:
       sourceViewController.tempuraDismiss(animated: animated, completion: completion)
     
-    case .uiki:
+    case .uikit:
       sourceViewController.dismiss(animated: animated, completion: completion)
     }
   }
