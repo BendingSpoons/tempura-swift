@@ -51,7 +51,8 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.willUpdate(new: newValue)
     }
     didSet {
-      // the viewModel is changed, update the View
+      // the viewModel is changed: update the View (if loaded)
+      guard self.isViewLoaded else { return }
       self.rootView.model = viewModel
       self.didUpdate(old: oldValue)
     }
@@ -170,7 +171,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// call the setupInteraction method when the ViewController is loaded
   open override func viewDidLoad() {
+    self.rootView.model = self.viewModel
     super.viewDidLoad()
+    self.didUpdate(old: nil)
     self.setupInteraction()
   }
   
