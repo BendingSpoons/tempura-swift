@@ -1,3 +1,7 @@
+## 1.1.2
+
+- Prevent the View from loading before it's actually needed
+
 ## 1.1.1
 
 - Fix bug in tempuraDismiss
