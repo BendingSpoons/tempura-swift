@@ -48,7 +48,7 @@ public class Navigator {
     self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
-  public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?) {
+  public func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool) {
     let oldRoutables = UIApplication.shared.currentRoutables
     let oldRoute = oldRoutables.map { $0.routeIdentifier }
     
@@ -58,7 +58,7 @@ public class Navigator {
     
     let newRoute = Array(oldRoute[0..<start])
     
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
+    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
     
     self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
@@ -154,7 +154,7 @@ public class Navigator {
     }
   }
   
-  private static func routingChanges(from old: [Routable], new: Route) -> [RouteChange] {
+  private static func routingChanges(from old: [Routable], new: Route, atomic: Bool = false) -> [RouteChange] {
     var routeChanges: [RouteChange] = []
     
     //find the common route between two routes
@@ -173,9 +173,15 @@ public class Navigator {
     // case 1 we need to HIDE elements because we are in a situation like this:
     // OLD: A -> B -> C
     // NEW: A
-    // hide all the elements in the old route that are no more in the new route
     if commonRouteIndex == new.count - 1 {
+      // hide all the elements in the old route that are no more in the new route
       // routablesToRemove = [C, B], indexes to remove = [2 , 1]
+      if atomic {
+        let elementToHide = old[commonRouteIndex + 1]
+        let change = RouteChange.hide(routable: elementToHide)
+        return [change]
+      }
+      
       let indexesToRemove = ((commonRouteIndex + 1)..<old.count).reversed()
       
       for hideIndex in indexesToRemove {
