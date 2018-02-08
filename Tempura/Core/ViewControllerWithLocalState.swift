@@ -36,7 +36,11 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     // we are using silent = true because we don't want to trigger two updates
     // one after the subscribing and one after the localStateDidChange()
     if self.shouldConnectWhenVisible {
+      // we want to connect with silent = true
+      // so we are subscribing with silent in advance
+      // and then change the connected that at that point will not trigger another subscription
       self.subscribe(silent: true)
+      self.connected = true
     }
     self.localStateDidChange()
   }

@@ -177,14 +177,13 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// this is needed as an override point for ViewControllerWithLocalState
  func warmUp() {
     if self.shouldConnectWhenVisible {
-      self.subscribe()
+      self.connected = true
     }
   }
   
   func tearDown() {
     if self.shouldDisconnectWhenInvisible {
-      self.unsubscribe?()
-      self.unsubscribe = nil
+      self.connected = false
     }
   }
   
