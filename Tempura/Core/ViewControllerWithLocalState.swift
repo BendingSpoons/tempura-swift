@@ -35,7 +35,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   open override func warmUp() {
     // we are using silent = true because we don't want to trigger two updates
     // one after the subscribing and one after the localStateDidChange()
-    if self.connected {
+    if self.shouldConnectWhenVisible {
       self.subscribe(silent: true)
     }
     self.localStateDidChange()
