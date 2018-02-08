@@ -149,6 +149,7 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       
       it("when a ViewControllerWithLocalState is not connected and we update the local state, the AppState part of the ViewModel must be nil") {
         let disconnectedVC = TestViewControllerWithLocalState(store: store, connected: false)
+        disconnectedVC.shouldConnectWhenVisible = false
         expect(disconnectedVC.viewModel).to(beNil())
         disconnectedVC.viewWillAppear(true)
         disconnectedVC.localState.localCounter = 3
