@@ -1,3 +1,5 @@
+## 1.2.0
+- Introduce 'shouldConnectWhenVisible' and 'shouldDisconnectWhenInvisible' properties for ViewController
 ## 1.1.2
 
 - Prevent the View from loading before it's actually needed
