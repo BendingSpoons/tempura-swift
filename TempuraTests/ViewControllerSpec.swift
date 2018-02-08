@@ -144,7 +144,47 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
+      it("a ViewController with connected == 'false' should connect as soon as it becomes visible if 'shouldConnectWhenVisible' == true") {
+        let vc = TestViewController(store: store, connected: false)
+        vc.shouldConnectWhenVisible = true
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+      }
+      it("a ViewController with connected == 'false' should not connect as soon as it becomes visible if 'shouldConnectWhenVisible' == false") {
+        let vc = TestViewController(store: store, connected: false)
+        vc.shouldConnectWhenVisible = false
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.shouldConnectWhenVisible = true
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+      }
       
+      it("a ViewController with connected == 'true' should disconnect as soon as it becomes invisible if 'shouldDisconnectWhenVisible' == true") {
+        let vc = TestViewController(store: store, connected: true)
+        vc.shouldDisconnectWhenInvisible = true
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        vc.viewWillAppear(false)
+        // already connected, so it's not invoking a new update when appearing
+        // the VC is already up to date
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        vc.viewWillDisappear(false)
+        store.dispatch(Increment())
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).toEventuallyNot(equal(2))
+      }
+      
+      it("a ViewController with connected == 'true' should not disconnect as soon as it becomes invisible if 'shouldDisconnectWhenVisible' == false") {
+        let vc = TestViewController(store: store, connected: true)
+        vc.shouldDisconnectWhenInvisible = false
+        expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        vc.viewWillAppear(false)
+        expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        vc.viewWillDisappear(false)
+        store.dispatch(Increment())
+        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
+      }
     }
   }
 }
