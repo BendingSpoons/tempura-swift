@@ -236,7 +236,7 @@ extension UIApplication {
   var currentRoute: Route {
     let controllers = self.currentViewControllers
     let route: Route = controllers.flatMap {
-      return ($0 as? Routable)?.routeIdentifier ?? String(describing: type(of:$0))
+      return ($0 as? Routable)?.routeIdentifier ?? String(describing: type(of: $0))
     }
     return route
   }
