@@ -28,10 +28,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// if you want to change this behaviour look at the `shouldConnectWhenVisible` property
   /// tempura will set this property to false when the ViewController is about to be hidden
   /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property
-  open var connected: Bool = true {
-    didSet {
-      guard self.connected != oldValue else { return }
-      self.connectedDidChange()
+  open var connected: Bool {
+    get {
+      return self.unsubscribe != nil
+    }
+    set {
+      self.updateConnect(to: newValue)
     }
   }
   
@@ -97,10 +99,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// the init of the view controller that will take the Store to perform the updates when the store changes
   public init(store: Store<V.VM.S>, connected: Bool = true) {
     self.store = store
-    self.connected = connected
     super.init(nibName: nil, bundle: nil)
     self.setup()
-    self.connectedDidChange()
+    self.connected = connected
   }
   
   /// override to setup something after init
@@ -121,10 +122,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// subscribe to the state updates, the method storeDidChange will be called on every state change
+  /// subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change
   /// silent = true if you don't want to trigger a state update after connecting to the store
-  func connectedDidChange(silent: Bool = false) {
-    if self.connected {
+  func updateConnect(to connected: Bool, silent: Bool = false) {
+    if connected {
       self.subscribe(silent: silent)
     } else {
       if self.unsubscribe != nil {
