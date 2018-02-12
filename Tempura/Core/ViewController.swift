@@ -97,7 +97,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
-  public init(store: Store<V.VM.S>, connected: Bool = true) {
+  public init(store: Store<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
     self.setup()
