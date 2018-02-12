@@ -93,6 +93,19 @@ demo = target do |target|
 	configuration.settings["SWIFT_VERSION"] = "4.0"
     end
 
+    unit_tests_for target do |unit_test|
+        unit_test.linked_targets = [target]
+        unit_test.include_files = [
+            "DemoTests/**/*.swift",
+        ]
+
+        unit_test.all_configurations.each do |configuration|
+            configuration.settings["INFOPLIST_FILE"] = "DemoTests/Info.plist"
+	    configuration.settings["SWIFT_VERSION"] = "4.0"
+        end
+
+    end
+
     target.scheme(target.name)
 end
 
