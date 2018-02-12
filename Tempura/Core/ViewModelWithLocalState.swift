@@ -17,13 +17,13 @@ public protocol ViewModelWithLocalState: ViewModelWithState {
   associatedtype LS: LocalState
   
   // the state can be nil if we never connected to the state and we receive a local update
-  init(state: S?, localState: LS)
+  init?(state: S?, localState: LS)
   
 }
 
 public extension ViewModelWithLocalState {
   
-  init(state: S) {
+  init?(state: S) {
     fatalError("use `init(state: S, localState: LS)` instead")
   }
 }

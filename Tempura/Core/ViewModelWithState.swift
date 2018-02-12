@@ -12,6 +12,6 @@ import Katana
 public protocol ViewModelWithState: ViewModel {
   associatedtype S: State
   
-  init(state: S)
+  init?(state: S)
   
 }
