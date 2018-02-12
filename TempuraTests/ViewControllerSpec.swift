@@ -84,7 +84,7 @@ class ViewControllerSpec: QuickSpec {
       
       beforeEach {
         store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
-        testVC = TestViewController(store: store)
+        testVC = TestViewController(store: store, connected: true)
       }
       
       
