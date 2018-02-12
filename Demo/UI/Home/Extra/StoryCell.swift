@@ -12,7 +12,7 @@ import PinLayout
 import Hero
 import Tempura
 
-class StoryCell: UICollectionViewCell, LiveReloadableView {
+class StoryCell: UICollectionViewCell {
   static let identifier = String(reflecting: StoryCell.self)
   
   var story: Story?
@@ -114,11 +114,6 @@ class StoryCell: UICollectionViewCell, LiveReloadableView {
       ])
     
     self.setNeedsLayout()
-  }
-  
-  func viewDidLiveReload() {
-    self.update()
-    self.layoutIfNeeded()
   }
   
   override func layoutSubviews() {
