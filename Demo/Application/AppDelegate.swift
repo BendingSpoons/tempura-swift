@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     /// because the navigator is instantiated by the Store.
     /// this in turn will invoke the `installRootMethod` of the rootInstaller (self)
     (self.store!.dependencies as? DependenciesContainer)?.navigator.setupWith(rootInstaller: self, window: self.window!, rootElementIdentifier: Screen.tabbar.rawValue)
-
-    LiveReloadManager.shared.liveReloadViews(in: self.window!)
     
     return true
   }
