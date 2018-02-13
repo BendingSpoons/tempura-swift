@@ -25,6 +25,20 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// when the local state changes and we are disconnected from the global state, we use this value as the global state
   public var lastKnownState: V.VM.S?
   
+  /// the init of the view controller that will take the Store to perform the updates when the store changes
+  override public init(store: Store<V.VM.S>, connected: Bool = false) {
+    super.init(store: store, connected: connected)
+    // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
+    if !self.connected {
+      self.localStateDidChange()
+    }
+  }
+  
+  /// we are not using storyboards so trigger a fatalError
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   /// we are about to unsubscribe from the global state, save it locally in the lastKnownState
   /// while we are disconnected we will look at the lastKnownState
   open override func willUnsubscribe() {
@@ -35,8 +49,9 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   open override func warmUp() {
     // we are using silent = true because we don't want to trigger two updates
     // one after the subscribing and one after the localStateDidChange()
-    if self.connected {
-      self.subscribe(silent: true)
+    if self.shouldConnectWhenVisible {
+      // we want to connect with silent = true
+      self.updateConnect(to: true, silent: true)
     }
     self.localStateDidChange()
   }

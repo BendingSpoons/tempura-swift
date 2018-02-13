@@ -11,7 +11,7 @@ import UIKit
 
 public typealias RoutingCompletion = () -> ()
 
-public protocol Routable : class {
+public protocol Routable: class {
   var routeIdentifier: RouteElementIdentifier { get }
   
   func show(identifier: RouteElementIdentifier,

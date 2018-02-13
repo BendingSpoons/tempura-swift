@@ -129,7 +129,7 @@ class StoryCoverView: UIView, ViewControllerModellableView {
     //style.lineSpacing = 0
     style.minimumLineHeight = 34
     style.maximumLineHeight = 34
-    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: title.characters.count))
+    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: title.count))
     return attrString
   }
   
@@ -139,7 +139,7 @@ class StoryCoverView: UIView, ViewControllerModellableView {
     //style.lineSpacing = 0
     style.minimumLineHeight = 22
     style.maximumLineHeight = 22
-    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: description.characters.count))
+    attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: description.count))
     return attrString
   }
   

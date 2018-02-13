@@ -9,6 +9,7 @@ class ViewControllerSpec: QuickSpec {
       
       struct AppState: State {
         var counter: Int = 0
+        var dataFromAPIRequest: String? = "something"
       }
       
       struct Increment: Action {
@@ -21,10 +22,21 @@ class ViewControllerSpec: QuickSpec {
         }
       }
       
+      struct ResetDataFromAPI: Action {
+        func updatedState(currentState: State) -> State {
+          guard var state = currentState as? AppState else {
+            fatalError()
+          }
+          state.dataFromAPIRequest = nil
+          return state
+        }
+      }
+      
       struct TestViewModel: ViewModelWithState {
         var counter: Int = 0
         
-        init(state: AppState) {
+        init?(state: AppState) {
+          guard let _ = state.dataFromAPIRequest else { return nil }
           self.counter = state.counter
         }
         
@@ -84,7 +96,7 @@ class ViewControllerSpec: QuickSpec {
       
       beforeEach {
         store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
-        testVC = TestViewController(store: store)
+        testVC = TestViewController(store: store, connected: true)
       }
       
       
@@ -144,7 +156,54 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
+      it("a ViewController with connected == 'false' should connect as soon as it becomes visible if 'shouldConnectWhenVisible' == true") {
+        let vc = TestViewController(store: store, connected: false)
+        vc.shouldConnectWhenVisible = true
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+      }
+      it("a ViewController with connected == 'false' should not connect as soon as it becomes visible if 'shouldConnectWhenVisible' == false") {
+        let vc = TestViewController(store: store, connected: false)
+        vc.shouldConnectWhenVisible = false
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(0))
+        vc.shouldConnectWhenVisible = true
+        vc.viewWillAppear(false)
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+      }
       
+      it("a ViewController with connected == 'true' should disconnect as soon as it becomes invisible if 'shouldDisconnectWhenVisible' == true") {
+        let vc = TestViewController(store: store, connected: true)
+        vc.shouldDisconnectWhenInvisible = true
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        vc.viewWillAppear(false)
+        // already connected, so it's not invoking a new update when appearing
+        // the VC is already up to date
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
+        vc.viewWillDisappear(false)
+        store.dispatch(Increment())
+        expect(vc.rootView.numberOfTimesUpdateIsCalled).toEventuallyNot(equal(2))
+      }
+      
+      it("a ViewController with connected == 'true' should not disconnect as soon as it becomes invisible if 'shouldDisconnectWhenVisible' == false") {
+        let vc = TestViewController(store: store, connected: true)
+        vc.shouldDisconnectWhenInvisible = false
+        expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        vc.viewWillAppear(false)
+        expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
+        vc.viewWillDisappear(false)
+        store.dispatch(Increment())
+        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
+      }
+      
+      it("a ViewController with connected == 'true' should have a nil ViewModel when a specific state result in a nil ViewModel") {
+        let vc = TestViewController(store: store, connected: true)
+        expect(vc.viewModel).toNot(beNil())
+        store.dispatch(ResetDataFromAPI())
+        expect(vc.viewModel).toEventually(beNil())
+      }
     }
   }
 }

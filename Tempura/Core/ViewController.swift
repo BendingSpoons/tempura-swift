@@ -24,10 +24,16 @@ public typealias Interaction = () -> ()
 open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
   /// true if the viewController is connected to the store, false otherwise
   /// a connected viewController will receive all the updates from the store
-  open var connected: Bool = true {
-    didSet {
-      guard self.connected != oldValue else { return }
-      self.connectedDidChange()
+  /// tempura will set this property to true when the ViewController is about to be displayed on screen
+  /// if you want to change this behaviour look at the `shouldConnectWhenVisible` property
+  /// tempura will set this property to false when the ViewController is about to be hidden
+  /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property
+  open var connected: Bool {
+    get {
+      return self.unsubscribe != nil
+    }
+    set {
+      self.updateConnect(to: newValue)
     }
   }
   
@@ -43,7 +49,24 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
  var unsubscribe: StoreUnsubscribe?
   
   /// whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
-  public var shouldDisconnectOnViewWillDisappear = true
+  /// deprecated, use `shouldDisconnectWhenInvisible` instead
+  @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
+  public var shouldDisconnectOnViewWillDisappear: Bool {
+    get {
+      return self.shouldDisconnectWhenInvisible
+    }
+    set {
+      self.shouldDisconnectWhenInvisible = newValue
+    }
+  }
+  /// whether the ViewController should start receiving the store updates when visible. Default to true
+  public var shouldConnectWhenVisible = true {
+    didSet {
+      print("got it")
+    }
+  }
+  /// whether the ViewController should stop receiving the store updates when invisible. Default to true
+  public var shouldDisconnectWhenInvisible = true
   
   /// the latest ViewModel received by this ViewController
   public var viewModel: V.VM? {
@@ -52,8 +75,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
     didSet {
       // the viewModel is changed: update the View (if loaded)
-      guard self.isViewLoaded else { return }
-      self.rootView.model = viewModel
+      if self.isViewLoaded {
+        self.rootView.model = viewModel
+      }
       self.didUpdate(old: oldValue)
     }
   }
@@ -73,12 +97,11 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// the init of the view controller that will take the Store to perform the updates when the store changes
-  public init(store: Store<V.VM.S>, connected: Bool = true) {
+  public init(store: Store<V.VM.S>, connected: Bool = false) {
     self.store = store
-    self.connected = connected
     super.init(nibName: nil, bundle: nil)
     self.setup()
-    self.connectedDidChange()
+    self.connected = connected
   }
   
   /// override to setup something after init
@@ -99,10 +122,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// subscribe to the state updates, the method storeDidChange will be called on every state change
+  /// subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change
   /// silent = true if you don't want to trigger a state update after connecting to the store
-  func connectedDidChange(silent: Bool = false) {
-    if self.connected {
+  func updateConnect(to connected: Bool, silent: Bool = false) {
+    if connected {
       self.subscribe(silent: silent)
     } else {
       if self.unsubscribe != nil {
@@ -154,26 +177,30 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// warmUp phase, this is executed in the viewWillAppear()
   /// this is needed as an override point for ViewControllerWithLocalState
  func warmUp() {
-    if self.connected {
-      self.subscribe()
+    if self.shouldConnectWhenVisible {
+      self.connected = true
+    }
+  }
+  
+  func tearDown() {
+    if self.shouldDisconnectWhenInvisible {
+      self.connected = false
     }
   }
   
   /// after the view disapper from screen, we stop listening for state updates
   open override func viewWillDisappear(_ animated: Bool) {
-    if self.connected && self.shouldDisconnectOnViewWillDisappear {
-      self.unsubscribe?()
-      self.unsubscribe = nil
-    }
-
+    self.tearDown()
     super.viewWillDisappear(animated)
   }
   
   /// call the setupInteraction method when the ViewController is loaded
   open override func viewDidLoad() {
-    self.rootView.model = self.viewModel
     super.viewDidLoad()
-    self.didUpdate(old: nil)
+    if let vm = self.viewModel {
+      self.rootView.model = vm
+      self.didUpdate(old: nil)
+    }
     self.setupInteraction()
   }
   

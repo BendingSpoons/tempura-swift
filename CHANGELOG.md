@@ -1,3 +1,23 @@
+## 1.3.0
+
+- Added failable init for ViewModelWithState and ViewModelWithLocalState
+
+- Added Navigation Helpers
+
+- Removed unused Live Reload feature
+
+## 1.2.2
+
+- Improve code for connect
+
+## 1.2.1
+
+- Fix issues with ViewControllerWithLocalState
+
+## 1.2.0
+
+- Introduce 'shouldConnectWhenVisible' and 'shouldDisconnectWhenInvisible' properties for ViewController
+
 ## 1.1.2
 
 - Prevent the View from loading before it's actually needed

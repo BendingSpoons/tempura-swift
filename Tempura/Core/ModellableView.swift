@@ -17,18 +17,7 @@ import UIKit
 
 fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 
-/**
- 
- # Live Reload
- ViewControllerModellableView automatically implements a method to leverage live reload.
- Basically, when the view changes, update and layout are invoked and you have
- the chance of updating the view without recompiling the application.
- 
- If you need to perform tasks before update and layout, see `liveReloadWillInvokeUpdateAndLayout`,
- if you want to customise the model that is passed to `update`, see `liveReloadOldModel`
- */
-
-public protocol ModellableView: View, LiveReloadableView {
+public protocol ModellableView: View {
   associatedtype VM: ViewModel
   
   /// the ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called
@@ -36,25 +25,6 @@ public protocol ModellableView: View, LiveReloadableView {
   
   /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
   func update(oldModel: VM?)
-  
-  /**
-   This method is invoked before `update` and `layout` are invoked
-   by the live reload. You can use it reset checks or
-   do anything you think it is useful to make the live reload work.
-   
-   This method is never invoked in production runs as well as other live
-   reload methods.
-   */
-  func liveReloadWillInvokeUpdateAndLayout()
-  
-  /**
-   This method can be used to customise the old model passed to
-   `update`, when it is invoked by the live reload system.
-   
-   This method is never invoked in production runs as well as other live
-   reload methods.
-   */
-  func liveReloadOldModel() -> VM?
 }
 
 /// implementation detail, wrapper of the model to work with the associatedObject mechanism
@@ -106,26 +76,4 @@ public extension ModellableView {
   func update() {
     fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
   }
-}
-
-/// live reload implementation
-public extension ModellableView {
-  func viewDidLiveReload() {
-    self.liveReloadWillInvokeUpdateAndLayout()
-    self.style()
-    self.update(oldModel: self.liveReloadOldModel())
-    
-    // layoutIfNeeded would be the correct way to trigger an update
-    // It seems that it doesn't work though
-    // For the live reload purposes, we call layoutSubviews directly
-    self.layoutSubviews()
-  }
-  
-  /// The default implementation return the current model
-  func liveReloadOldModel() -> VM? {
-    return self.model
-  }
-  
-  /// The default implementation does nothing
-  func liveReloadWillInvokeUpdateAndLayout() {}
 }

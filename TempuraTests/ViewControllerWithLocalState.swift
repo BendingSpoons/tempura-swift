@@ -105,7 +105,7 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         let viewModel = TestViewModelWithLocalState(counter: 100, localCounter: 200)
         expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(1))
         testVC.viewModel = viewModel
-        expect(testVC.rootView.lastOldModel?.counter).to(equal(0))
+        expect(testVC.rootView.lastOldModel?.counter).to(beNil())
         expect(testVC.rootView.numberOfTimesUpdateIsCalled).to(equal(2))
         expect(testVC.rootView.model?.counter).to(equal(100))
         expect(testVC.rootView.model?.localCounter).to(equal(200))
@@ -149,7 +149,8 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       
       it("when a ViewControllerWithLocalState is not connected and we update the local state, the AppState part of the ViewModel must be nil") {
         let disconnectedVC = TestViewControllerWithLocalState(store: store, connected: false)
-        expect(disconnectedVC.viewModel).to(beNil())
+        disconnectedVC.shouldConnectWhenVisible = false
+        expect(disconnectedVC.viewModel?.counter).to(beNil())
         disconnectedVC.viewWillAppear(true)
         disconnectedVC.localState.localCounter = 3
         expect(disconnectedVC.viewModel?.localCounter).to(equal(3))
