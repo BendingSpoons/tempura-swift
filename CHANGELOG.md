@@ -1,3 +1,11 @@
+## 1.3.0
+
+- Added failable init for ViewModelWithState and ViewModelWithLocalState
+
+- Added Navigation Helpers
+
+- Removed unused Live Reload feature
+
 ## 1.2.2
 
 - Improve code for connect
