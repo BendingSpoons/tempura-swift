@@ -7,40 +7,40 @@
 
 import Foundation
 
-public struct NavigationSource: Hashable {
+public struct NavigationRequest: Hashable {
   public var hashValue: Int
   
-  fileprivate enum NavigationType: Int {
+  fileprivate enum NavigationKind: Int {
     case show, hide
   }
   
-  public static func show<T: RawRepresentable>(_ source: T) -> NavigationSource where T.RawValue == RouteElementIdentifier {
-    return NavigationSource(source: source.rawValue, navigationType: .show)
+  public static func show<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
+    return NavigationRequest(source: source.rawValue, kind: .show)
   }
   
-  public static func hide<T: RawRepresentable>(_ source: T) -> NavigationSource where T.RawValue == RouteElementIdentifier {
-    return NavigationSource(source: source.rawValue, navigationType: .hide)
+  public static func hide<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
+    return NavigationRequest(source: source.rawValue, kind: .hide)
   }
   
   private let source: String
-  private let navigationType: NavigationType
+  private let kind: NavigationKind
   
-  private init(source: String, navigationType: NavigationType) {
+  private init(source: String, kind: NavigationKind) {
     self.source = source
-    self.navigationType = navigationType
-    self.hashValue = "\(self.source.hashValue)\(self.navigationType)".hashValue
+    self.kind = kind
+    self.hashValue = "\(self.source.hashValue)\(self.kind)".hashValue
   }
   
-  fileprivate func canHandle(_ identifier: String, type: NavigationType) -> Bool {
-    return self.source == identifier && type == self.navigationType
+  fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
+    return self.source == identifier && kind == self.kind
   }
   
-  public static func == (lhs: NavigationSource, rhs: NavigationSource) -> Bool {
-    if lhs.navigationType != rhs.navigationType {
+  public static func == (l: NavigationRequest, r: NavigationRequest) -> Bool {
+    if l.kind != r.kind {
       return false
     }
     
-    if lhs.source != rhs.source {
+    if l.source != r.source {
       return false
     }
     
@@ -56,10 +56,12 @@ public typealias CustomNavigationOptionClosure = (
   _ completion: @escaping RoutingCompletion
 ) -> Void
 
-public enum NavigationOption {
+public enum NavigationInstruction {
   public enum ModalDismissBehaviour {
-    case tempura
-    case uikit
+    // if the targeted modal is presenting other modals, keep them alive
+    case soft
+    // while removing the targeted modal, remove also all the modals that it is presenting
+    case hard
   }
   // stack navigation
   case push((_ context: Any?) -> UIViewController)
@@ -85,7 +87,6 @@ public enum NavigationOption {
     case let .push(vcClosure):
       let vc = vcClosure(context)
       self.handlePush(sourceViewController: sourceViewController, childVC: vc, animated: animated, completion: completion)
-      
       
     case .pop:
       self.handlePop(sourceViewController: sourceViewController, animated: animated, completion: completion)
@@ -155,21 +156,21 @@ public enum NavigationOption {
   private func handleDismissModally(
     sourceViewController: UIViewController,
     animated: Bool,
-    behaviour: NavigationOption.ModalDismissBehaviour,
+    behaviour: NavigationInstruction.ModalDismissBehaviour,
     completion: @escaping RoutingCompletion) {
     
     switch behaviour {
-    case .tempura:
+    case .soft:
       sourceViewController.tempuraDismiss(animated: animated, completion: completion)
     
-    case .uikit:
+    case .hard:
       sourceViewController.dismiss(animated: animated, completion: completion)
     }
   }
 }
 
 public protocol RoutableWithConfiguration: Routable {
-  var navigationConfiguration: [NavigationSource: NavigationOption] { get }
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] { get }
 }
 
 public extension RoutableWithConfiguration where Self: UIViewController {
@@ -182,12 +183,12 @@ public extension RoutableWithConfiguration where Self: UIViewController {
     completion: @escaping RoutingCompletion) -> Bool {
     
     
-    for (source, option) in self.navigationConfiguration {
-      guard source.canHandle(identifier, type: .show) else {
+    for (source, instruction) in self.navigationConfiguration {
+      guard source.canHandle(identifier, kind: .show) else {
         continue
       }
       
-      option.handle(
+      instruction.handle(
         sourceViewController: self,
         identifier: identifier,
         from: from,
@@ -210,7 +211,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
     completion: @escaping RoutingCompletion) -> Bool {
     
     for (source, option) in self.navigationConfiguration {
-      guard source.canHandle(identifier, type: .hide) else {
+      guard source.canHandle(identifier, kind: .hide) else {
         continue
       }
       

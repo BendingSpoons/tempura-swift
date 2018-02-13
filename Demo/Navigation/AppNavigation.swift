@@ -24,7 +24,7 @@ extension HomeViewController: RoutableWithConfiguration {
     return Screen.home.rawValue
   }
   
-  var navigationConfiguration: [NavigationSource : NavigationOption] {
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
       .show(Screen.storyCover): .push({ [unowned self] _ in
         let sc = StoryCoverViewController(store: self.store)
@@ -42,7 +42,7 @@ extension RoutableNavigationController: RoutableWithConfiguration {
     return Screen.navigation.rawValue
   }
   
-  var navigationConfiguration: [NavigationSource : NavigationOption] {
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
       .hide(Screen.storyCover): .pop
     ]
@@ -62,7 +62,7 @@ extension ModalTestViewController: RoutableWithConfiguration {
     return Screen.modalTest.rawValue
   }
   
-  var navigationConfiguration: [NavigationSource : NavigationOption] {
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
       .hide(Screen.modalTest): .custom({ [unowned self] _, _, animated, _, completion in
         if self.presentingViewController != nil {
@@ -82,7 +82,7 @@ extension TabBarController: RoutableWithConfiguration {
     return Screen.tabbar.rawValue
   }
   
-  var navigationConfiguration: [NavigationSource : NavigationOption] {
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
       .show(Screen.modalTest): .presentModally({ [unowned self] _ in ModalTestViewController(store: self.store) })
     ]
