@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+public typealias RouteElementIdentifier = String
+public typealias Route = [RouteElementIdentifier]
+
 public typealias RoutingCompletion = () -> ()
 
 public protocol Routable: class {
@@ -31,25 +34,6 @@ public protocol Routable: class {
                           animated: Bool,
                           context: Any?,
                           completion: @escaping RoutingCompletion)
-  
-  /// handle a modal view controller
-  /// in order to avoid code repetition you should handle modals at the lowest possible level of the routing tree
-  /// from: the UIViewController to use to present the modal view controller
-  /// modal: the identifier of the view controller to present
-  /// animated: specify if the presentation should be animated
-  /// completion: this completion handler MUST be called when the presentation is complete
-  /// return true if self is handling the presentation of the modal
-  /*func presentModally(from: UIViewController,
-                   modal: RouteElementIdentifier,
-                   animated: Bool,
-                   completion: @escaping RoutingCompletion) -> Bool
-  
-  // ATTENTION: you should call completion only if you return true
-  func dismissModally(identifier: RouteElementIdentifier,
-                      vcToDismiss: UIViewController,
-                      animated: Bool,
-                      completion: @escaping RoutingCompletion) -> Bool
- */
 }
 
 public extension Routable {
@@ -59,7 +43,7 @@ public extension Routable {
                           animated: Bool,
                           context: Any?,
                           completion: @escaping RoutingCompletion) {
-    fatalError("This Routable element cannot change the navigation, the implementation of \(#function) is missing")
+    fatalError("This Routable element cannot change the navigation from \"\(from)\" to \"\(to)\", the implementation of \(#function) is missing")
   }
   
   public func show(identifier: RouteElementIdentifier,

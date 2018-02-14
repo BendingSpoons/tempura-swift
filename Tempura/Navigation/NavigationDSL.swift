@@ -150,7 +150,7 @@ public enum NavigationInstruction {
       animated: Bool,
       completion: @escaping RoutingCompletion) {
     
-    sourceViewController.tempuraPresent(childVC, animated: animated, completion: completion)
+    sourceViewController.recursivePresent(childVC, animated: animated, completion: completion)
   }
   
   private func handleDismissModally(
@@ -161,7 +161,7 @@ public enum NavigationInstruction {
     
     switch behaviour {
     case .soft:
-      sourceViewController.tempuraDismiss(animated: animated, completion: completion)
+      sourceViewController.softDismiss(animated: animated, completion: completion)
     
     case .hard:
       sourceViewController.dismiss(animated: animated, completion: completion)

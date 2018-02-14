@@ -12,31 +12,32 @@ import UIKit
 fileprivate var toBeDismissedKey = "view_controller_to_be_dismissed"
 
 public extension UIViewController {
-  public func tempuraPresent(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+  /// make possible to present C from A even when A is already presenting something
+  public func recursivePresent(_ viewController: UIViewController, animated: Bool = false, completion: (() -> Void)?) {
     // check if we are already presenting something, if so, ask the presented to present the viewController
     if let vc = self.presentedViewController {
-      vc.tempuraPresent(viewController, animated: animated, completion: completion)
+      vc.recursivePresent(viewController, animated: animated, completion: completion)
     } else {
       viewController.toBeDismissed = false
       self.present(viewController, animated: animated, completion: completion)
     }
     
   }
-  
-  public func tempuraDismiss(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+  /// dismiss self but keep the children in the hierarchy
+  public func softDismiss(animated: Bool = false, completion: (() -> Void)?) {
     // check if the viewController to dismiss is actually a modal
-    guard let presentingViewController = viewController.presentingViewController else { return }
+    guard let presentingViewController = self.presentingViewController else { return }
     // check if the viewController is presenting something (not marked as toBeDismissed)
     // if so, we cannot dismiss it (otherwise it will dismiss all the segues)
     // but we mark it as `toBeDismissed`
-    if let presentedViewController = viewController.presentedViewController, !presentedViewController.toBeDismissed {
-      viewController.toBeDismissed = true
+    if let presentedViewController = self.presentedViewController, !presentedViewController.toBeDismissed {
+      self.toBeDismissed = true
     } else {
       // this viewController can be dismissed now, let's check if the parent is marked as `toBeDismissed`
       // in that case invoke `tempuraDismiss` on that
       if presentingViewController.toBeDismissed {
-        viewController.toBeDismissed = true
-        self.tempuraDismiss(presentingViewController, animated: animated, completion: completion)
+        self.toBeDismissed = true
+        presentingViewController.softDismiss(animated: animated, completion: completion)
       } else {
         // dismiss the viewController
         presentingViewController.dismiss(animated: animated, completion: completion)
@@ -59,9 +60,5 @@ public extension UIViewController {
         .OBJC_ASSOCIATION_RETAIN_NONATOMIC
       )
     }
-  }
-  
-  public func tempuraDismiss(animated: Bool = false, completion: (() -> Void)?) {
-    self.tempuraDismiss(self, animated: animated, completion: completion)
   }
 }
