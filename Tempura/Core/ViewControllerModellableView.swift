@@ -48,3 +48,32 @@ public extension ViewControllerModellableView {
     }
   }
 }
+
+// MARK: SafeAreaInsets
+
+public extension ViewControllerModellableView where Self: UIView {
+  
+  /// implementation of iOS 11 safeAreaInsets accessible even to older iOS versions
+  /// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
+  
+  public var universalSafeAreaInsets: UIEdgeInsets {
+    if #available(iOS 11.0, *) {
+      return self.safeAreaInsets
+    } else {
+      return self.legacyIOSSafeAreaInsets
+    }
+  }
+
+  private var legacyIOSSafeAreaInsets: UIEdgeInsets {
+    guard let vc = self.viewController else {
+      return .zero
+    }
+    
+    return UIEdgeInsets(
+      top: vc.topLayoutGuide.length,
+      left: 0,
+      bottom: vc.bottomLayoutGuide.length,
+      right: 0
+    )
+  }
+}

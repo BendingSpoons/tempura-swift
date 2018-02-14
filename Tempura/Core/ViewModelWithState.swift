@@ -13,5 +13,4 @@ public protocol ViewModelWithState: ViewModel {
   associatedtype S: State
   
   init?(state: S)
-  
 }

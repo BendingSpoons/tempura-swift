@@ -71,15 +71,18 @@ public struct Hide: Action, ActionWithSideEffect {
   var identifierToHide: RouteElementIdentifier
   var animated: Bool
   var context: Any?
+  var atomic: Bool
   
   public func updatedState(currentState: State) -> State {
     return currentState
   }
   
-  public init(_ identifierToHide: RouteElementIdentifier, animated: Bool = false, context: Any? = nil) {
+  public init(_ identifierToHide: RouteElementIdentifier, animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
     self.identifierToHide = identifierToHide
     self.animated = animated
     self.context = context
+    self.animated = animated
+    self.atomic = false
   }
   
   public init<K>(_ identifierToHide: K, animated: Bool = false, context: Any? = nil)
@@ -87,14 +90,14 @@ public struct Hide: Action, ActionWithSideEffect {
       self.init(identifierToHide.rawValue, animated: animated, context: context)
   }
   
-  public init(animated: Bool = false, context: Any? = nil) {
+  public init(animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
     let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last!
-    self.init(identifierToHide, animated: animated, context: context)
+    self.init(identifierToHide, animated: animated, context: context, atomic: atomic)
   }
   
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
     guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context)
+    dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic)
   }
   
 }

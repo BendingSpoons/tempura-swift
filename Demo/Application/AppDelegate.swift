@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     /// this is done by invoking this method (and not in the init of the navigator)
     /// because the navigator is instantiated by the Store.
     /// this in turn will invoke the `installRootMethod` of the rootInstaller (self)
-    (self.store!.dependencies as? DependenciesContainer)?.navigator.setupWith(rootInstaller: self, window: self.window!, rootElementIdentifier: Screen.tabbar.rawValue)
+    let navigator: Navigator! = (self.store!.dependencies as! DependenciesContainer).navigator
+    navigator.start(using: self, in: self.window!, at: Screen.tabbar)
     
     return true
   }

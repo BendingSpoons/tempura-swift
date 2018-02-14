@@ -66,7 +66,7 @@ extension ModalTestViewController: RoutableWithConfiguration {
     return [
       .hide(Screen.modalTest): .custom({ [unowned self] _, _, animated, _, completion in
         if self.presentingViewController != nil {
-          self.tempuraDismiss(animated: animated, completion: completion)
+          self.softDismiss(animated: animated, completion: completion)
         
         } else {
           completion()

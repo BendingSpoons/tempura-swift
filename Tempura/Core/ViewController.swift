@@ -11,7 +11,8 @@ import UIKit
 import Katana
 import Chocolate
 
-// typealias for interaction callback
+/// typealias for simple interaction callback
+/// for more complex interactions (that contains parameters) define your own closure
 public typealias Interaction = () -> ()
 
 /// every ViewController will:
@@ -59,13 +60,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.shouldDisconnectWhenInvisible = newValue
     }
   }
-  /// whether the ViewController should start receiving the store updates when visible. Default to true
-  public var shouldConnectWhenVisible = true {
-    didSet {
-      print("got it")
-    }
-  }
-  /// whether the ViewController should stop receiving the store updates when invisible. Default to true
+  /// if `true` the ViewController will be set to connected = true as soon as it becomes visible
+  public var shouldConnectWhenVisible = true
+  
+  /// if `true` the ViewController will be set to connected = false as soon as it becomes invisible
   public var shouldDisconnectWhenInvisible = true
   
   /// the latest ViewModel received by this ViewController
@@ -168,7 +166,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.viewModel = V.VM(state: state)
   }
   
-  /// before the view will appear on screen, update the view and subscribe for state updates
+  /// before the view will appear on screen subscribe for state updates (if `shouldConnectWhenVisible`)
   open override func viewWillAppear(_ animated: Bool) {
     self.warmUp()
     super.viewWillAppear(animated)
@@ -188,12 +186,13 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// after the view disapper from screen, we stop listening for state updates
+  /// after the view disapper from screen unsubscribe from state updates (if `shouldDisconnectWhenInvisible`)
   open override func viewWillDisappear(_ animated: Bool) {
     self.tearDown()
     super.viewWillDisappear(animated)
   }
   
+  /// when loading the view, if a ViewModel is available, set that to the View
   /// call the setupInteraction method when the ViewController is loaded
   open override func viewDidLoad() {
     super.viewDidLoad()
@@ -216,7 +215,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// called just before the unsubscribe, this is used in the ViewControllerWithLocalState
   open func willUnsubscribe() {}
   
-  // not necessary?
+  // not needed?
   deinit {
     self.unsubscribe?()
   }
