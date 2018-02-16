@@ -101,6 +101,18 @@ class ListView: UIView, ViewControllerModellableView {
                       self.layoutIfNeeded()
       }, completion: nil)
     }
+    // blink archive icon if needed
+    if let om = oldModel,
+      model.archived.count > om.archived.count,
+      model.selectedSection == .todo {
+      self.doneButton.blink()
+    }
+    // blink todo icon if needed
+    if let om = oldModel,
+      model.archived.count < om.archived.count,
+      model.selectedSection == .completed {
+      self.todoButton.blink()
+    }
   }
   
   // MARK: - Layout
