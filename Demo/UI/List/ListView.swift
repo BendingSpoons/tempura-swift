@@ -30,14 +30,14 @@ class ListView: UIView, ViewControllerModellableView {
   func setup() {
     self.scrollView.isPagingEnabled = true
     self.scrollView.isScrollEnabled = false
-    let todoLayout = AutoSizingExampleLayout()
+    let todoLayout = TodoFlowLayout()
     self.todoListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: todoLayout)
     self.todoListView.useDiffs = true
     self.todoListView.didTapItem = { indexPath in
       guard let itemID = self.model?.todos[indexPath.item].id else { return }
       self.didToggleItem?(itemID)
     }
-    let doneLayout = AutoSizingExampleLayout()
+    let doneLayout = ArchiveFlowLayout()
     self.doneListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: doneLayout)
     self.doneListView.useDiffs = true
     self.doneListView.didTapItem = { indexPath in

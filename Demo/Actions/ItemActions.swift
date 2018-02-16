@@ -32,6 +32,9 @@ struct ToggleArchiveItems: AppAction {
     }
     positions.forEach {
       currentState.items[$0].archived = archived
+      if !archived {
+        currentState.items[$0].completed = false
+      }
     }
   }
 }
