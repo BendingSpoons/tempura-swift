@@ -16,6 +16,7 @@ target 'Tempura' do
 
   target 'Demo' do
     pod 'PinLayout'
+    pod 'DeepDiff', '~> 1.1'
     pod 'BonMot', '~> 5.0'
     pod 'Hero', '1.0.0-alpha.4'
   end

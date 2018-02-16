@@ -10,16 +10,22 @@ import Foundation
 import Tempura
 
 enum Screen: String {
-  case tabbar
-  case navigation
-  case home
-  case storyCover
-  case storyChat
-  case modalTest
+  case list
+}
+
+// List
+extension ListViewController: RoutableWithConfiguration {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.list.rawValue
+  }
+  
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [:]
+  }
 }
 
 // HOME
-extension HomeViewController: RoutableWithConfiguration {
+/*extension HomeViewController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.home.rawValue
   }
@@ -88,3 +94,4 @@ extension TabBarController: RoutableWithConfiguration {
     ]
   }
 }
+*/
