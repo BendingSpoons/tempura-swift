@@ -20,6 +20,8 @@ UICollectionViewDataSource where Cell: ConfigurableCell, Cell.VM == S.SourceType
   
   public var source: S?
   
+  public var configureInteractions: ((Cell, IndexPath) -> ())?
+  
   unowned var collectionView: UICollectionView
   
   public init(collectionView: UICollectionView) {
@@ -42,6 +44,8 @@ UICollectionViewDataSource where Cell: ConfigurableCell, Cell.VM == S.SourceType
     if let item = self.item(at: indexPath) {
       cell.model = item
     }
+    
+    self.configureInteractions?(cell, indexPath)
     
     return cell
   }

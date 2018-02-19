@@ -22,10 +22,16 @@ extension ListViewController: RoutableWithConfiguration {
   
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
-      .show(Screen.addItem): .presentModally({ [unowned self] _ in
-        let ai = AddItemViewController(store: self.store)
-        ai.modalPresentationStyle = .overCurrentContext
-        return ai
+      .show(Screen.addItem): .presentModally({ [unowned self] context in
+        if let editID = context as? String {
+          let ai = AddItemViewController(store: self.store, itemIDToEdit: editID)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        } else {
+          let ai = AddItemViewController(store: self.store)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        }
     })]
   }
 }

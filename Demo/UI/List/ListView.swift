@@ -22,6 +22,7 @@ class ListView: UIView, ViewControllerModellableView {
   
   // MARK: - Interactions
   var didTapAddItem: Interaction?
+  var didTapEditItem: ((String) -> ())?
   var didToggleItem: ((String) -> ())?
   var didUnarchiveItem: ((String) -> ())?
   var didTapTodoSection: Interaction?
@@ -35,17 +36,9 @@ class ListView: UIView, ViewControllerModellableView {
     let todoLayout = TodoFlowLayout()
     self.todoListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: todoLayout)
     self.todoListView.useDiffs = true
-    self.todoListView.didTapItem = { indexPath in
-      guard let itemID = self.model?.todos[indexPath.item].id else { return }
-      self.didToggleItem?(itemID)
-    }
     let doneLayout = ArchiveFlowLayout()
     self.archiveListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: doneLayout)
     self.archiveListView.useDiffs = true
-    self.archiveListView.didTapItem = { indexPath in
-      guard let itemID = self.model?.archived[indexPath.item].id else { return }
-      self.didUnarchiveItem?(itemID)
-    }
     self.addItemButton.on(.touchUpInside) { [unowned self] button in
       self.didTapAddItem?()
     }
@@ -59,6 +52,22 @@ class ListView: UIView, ViewControllerModellableView {
       guard let model = self.model else { return }
       let toBeArchivedIDs: [String] = model.archivable.map { $0.id }
       self.didTapArchive?(toBeArchivedIDs)
+    }
+    self.todoListView.configureInteractions = { [unowned self] cell, indexPath in
+      cell.didTapEdit = { [unowned self] id in
+        self.didTapEditItem?(id)
+      }
+      cell.didToggle = { [unowned self] itemID in
+        self.didToggleItem?(itemID)
+      }
+    }
+    self.archiveListView.configureInteractions = { [unowned self] cell, indexPath in
+      cell.didTapEdit = { [unowned self] id in
+        self.didTapEditItem?(id)
+      }
+      cell.didToggle = { [unowned self] itemID in
+        self.didUnarchiveItem?(itemID)
+      }
     }
     self.scrollView.addSubview(self.todoListView)
     self.scrollView.addSubview(self.archiveListView)
@@ -137,8 +146,11 @@ class ListView: UIView, ViewControllerModellableView {
     self.sendToArchiveButton.pin.size(CGSize(width: 260, height: 58)).hCenter()
     if model.containsArchivableItems && model.selectedSection == .todo {
       self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 20)
+      let bottomInset = self.frame.height - self.sendToArchiveButton.frame.minY
+      self.todoListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
     } else {
       self.sendToArchiveButton.pin.below(of: self)
+      self.todoListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
   }
 }
@@ -173,6 +185,7 @@ extension ListView {
     self.addItemButton.backgroundColor = .white
     self.addItemButton.setTitle("What are you going to do today?", for: .normal)
     self.addItemButton.setTitleColor(UIColor(red: 0.98, green: 0.25, blue: 0.44, alpha: 1), for: .normal)
+    self.addItemButton.setTitleColor(UIColor(red: 0.48, green: 0.0, blue: 0.14, alpha: 1), for: .highlighted)
     self.addItemButton.titleLabel?.textAlignment = .left
     self.addItemButton.setImage(UIImage(named: "add"), for: .normal)
     self.addItemButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -30, bottom: 0, right: 0)

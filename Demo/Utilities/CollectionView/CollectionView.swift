@@ -69,6 +69,13 @@ UICollectionViewDelegateFlowLayout  where Cell: ConfigurableCell & SizeableCell,
   
   // MARK: - Interactions
   open var didTapItem: ItemSelectionHandler?
+  open var configureInteractions: ((Cell, IndexPath) -> ())? {
+    didSet {
+      self.customDataSource.configureInteractions = self.configureInteractions
+    }
+  }
+  open var didTapEdit: ((String) -> ())?
+  
   
   // MARK: - UICollectionViewDelegate
   open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

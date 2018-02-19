@@ -16,6 +16,25 @@ struct AddItem: AppAction {
   }
 }
 
+struct EditItem: AppAction {
+  var id: String
+  var text: String
+  
+  func updatedState(currentState: inout AppState) {
+    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+    currentState.items[index].text = self.text
+  }
+}
+
+struct DeleteItem: AppAction {
+  var id: String
+  
+  func updatedState(currentState: inout AppState) {
+    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+    currentState.items.remove(at: index)
+  }
+}
+
 struct ToggleItem: AppAction {
   var itemID: String
   

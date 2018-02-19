@@ -22,6 +22,6 @@ struct Todo: Equatable {
   }
   
   static func == (l: Todo, r: Todo) -> Bool {
-    return l.id == r.id
+    return l.id == r.id && l.text == r.text
   }
 }
