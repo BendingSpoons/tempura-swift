@@ -61,7 +61,7 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.deleteButton.sizeToFit()
     self.deleteButton.pin
       .bottom(to: self.backgroundView.edge.bottom).marginBottom(10)
-      .hCenter()
+      .hCenter(-10)
     self.textField.pin
       .left(to: self.backgroundView.edge.left).marginLeft(20)
       .right(to: self.backgroundView.edge.right).marginRight(20)
@@ -89,6 +89,8 @@ extension AddItemView {
     self.deleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     self.deleteButton.setTitleColor(UIColor(red: 0.98, green: 0.25, blue: 0.44, alpha: 1), for: .normal)
     self.deleteButton.setTitleColor(UIColor(red: 0.48, green: 0.0, blue: 0.14, alpha: 1), for: .highlighted)
+    self.deleteButton.setImage(UIImage(named: "clearIcon"), for: .normal)
+    self.deleteButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 50)
   }
 }
 
