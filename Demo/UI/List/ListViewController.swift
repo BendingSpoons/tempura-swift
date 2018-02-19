@@ -29,6 +29,9 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
     self.rootView.didUnarchiveItem = { [unowned self] toBeUnarchivedID in
       self.dispatch(ToggleArchiveItems(ids: [toBeUnarchivedID], archived: false))
     }
+    self.rootView.didTapAddItem = { [unowned self] in
+      self.dispatch(Show(Screen.addItem))
+    }
   }
 }
 

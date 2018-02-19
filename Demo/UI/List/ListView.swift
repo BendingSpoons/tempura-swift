@@ -14,12 +14,14 @@ class ListView: UIView, ViewControllerModellableView {
   // MARK: - Subviews
   var todoButton: UIButton = UIButton(type: .custom)
   var archiveButton: UIButton = UIButton(type: .custom)
+  var addItemButton: UIButton = UIButton(type: .custom)
   var scrollView: UIScrollView = UIScrollView()
   var todoListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var archiveListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var sendToArchiveButton: UIButton = UIButton(type: .custom)
   
   // MARK: - Interactions
+  var didTapAddItem: Interaction?
   var didToggleItem: ((String) -> ())?
   var didUnarchiveItem: ((String) -> ())?
   var didTapTodoSection: Interaction?
@@ -44,6 +46,9 @@ class ListView: UIView, ViewControllerModellableView {
       guard let itemID = self.model?.archived[indexPath.item].id else { return }
       self.didUnarchiveItem?(itemID)
     }
+    self.addItemButton.on(.touchUpInside) { [unowned self] button in
+      self.didTapAddItem?()
+    }
     self.todoButton.on(.touchUpInside) { [unowned self] button in
       self.didTapTodoSection?()
     }
@@ -60,6 +65,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.addSubview(self.scrollView)
     self.addSubview(self.todoButton)
     self.addSubview(self.archiveButton)
+    self.addSubview(self.addItemButton)
     self.addSubview(self.sendToArchiveButton)
   }
   
@@ -68,6 +74,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.backgroundColor = .white
     self.styleTodoListView()
     self.stylearchiveListView()
+    self.styleAddItemButton()
     self.stylesendToArchiveButton()
   }
   
@@ -121,7 +128,8 @@ class ListView: UIView, ViewControllerModellableView {
     self.todoButton.sizeToFit()
     self.todoButton.pin.left(30).top(self.universalSafeAreaInsets.top + 20)
     self.archiveButton.pin.size(36).right(32).vCenter(to: self.todoButton.edge.vCenter)
-    self.scrollView.pin.below(of: todoButton).marginTop(34).left().right().bottom()
+    self.addItemButton.pin.left().right().below(of: todoButton).marginTop(34).height(50)
+    self.scrollView.pin.below(of: self.addItemButton).left().right().bottom()
     self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * 2, height: self.scrollView.bounds.height)
     self.todoListView.frame = self.scrollView.frame.bounds
     self.archiveListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
@@ -160,6 +168,15 @@ extension ListView {
   }
   func stylearchiveListView() {
     self.archiveListView.backgroundColor = .white
+  }
+  func styleAddItemButton() {
+    self.addItemButton.backgroundColor = .white
+    self.addItemButton.setTitle("What are you going to do today?", for: .normal)
+    self.addItemButton.setTitleColor(UIColor(red: 0.98, green: 0.25, blue: 0.44, alpha: 1), for: .normal)
+    self.addItemButton.titleLabel?.textAlignment = .left
+    self.addItemButton.setImage(UIImage(named: "add"), for: .normal)
+    self.addItemButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -30, bottom: 0, right: 0)
+    self.addItemButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
   }
   func stylesendToArchiveButton() {
     self.sendToArchiveButton.backgroundColor = UIColor(red: 0.89, green: 0.89, blue: 0.92, alpha: 1)

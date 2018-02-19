@@ -11,6 +11,7 @@ import Tempura
 
 enum Screen: String {
   case list
+  case addItem
 }
 
 // List
@@ -20,7 +21,25 @@ extension ListViewController: RoutableWithConfiguration {
   }
   
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
-    return [:]
+    return [
+      .show(Screen.addItem): .presentModally({ [unowned self] _ in
+        let ai = AddItemViewController(store: self.store)
+        ai.modalPresentationStyle = .overCurrentContext
+        return ai
+    })]
+  }
+}
+
+// AddItem
+extension AddItemViewController: RoutableWithConfiguration {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.addItem.rawValue
+  }
+  
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .hide(Screen.addItem): .dismissModally(behaviour: .hard)
+    ]
   }
 }
 

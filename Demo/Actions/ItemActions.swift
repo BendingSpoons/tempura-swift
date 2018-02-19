@@ -7,6 +7,15 @@
 
 import Katana
 
+struct AddItem: AppAction {
+  var text: String
+  
+  func updatedState(currentState: inout AppState) {
+    let newItem = Todo(text: self.text)
+    currentState.items.insert(newItem, at: 0)
+  }
+}
+
 struct ToggleItem: AppAction {
   var itemID: String
   
