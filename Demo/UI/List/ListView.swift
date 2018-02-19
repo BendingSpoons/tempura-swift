@@ -137,7 +137,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.todoButton.sizeToFit()
     self.todoButton.pin.left(30).top(self.universalSafeAreaInsets.top + 20)
     self.archiveButton.pin.size(36).right(32).vCenter(to: self.todoButton.edge.vCenter)
-    self.addItemButton.pin.left().right().below(of: todoButton).marginTop(34).height(50)
+    self.addItemButton.pin.left().right().below(of: todoButton).marginTop(24).height(50)
     self.scrollView.pin.below(of: self.addItemButton).left().right().bottom()
     self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * 2, height: self.scrollView.bounds.height)
     self.todoListView.frame = self.scrollView.frame.bounds
