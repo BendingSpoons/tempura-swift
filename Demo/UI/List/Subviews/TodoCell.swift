@@ -36,12 +36,12 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
   }
   func style() {
     self.backgroundColor = .white
-    self.styleLabel()
     self.styleCheckButton()
   }
   
   func update(oldModel: TodoCellViewModel?) {
     guard let model = self.model else { return }
+    self.styleLabel(archived: model.archived)
     self.label.text = model.todoText
     self.styleCheckButton(on: model.completed)
     self.setNeedsLayout()
@@ -58,16 +58,6 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
     self.label.pin.right(of: self.checkButton).marginLeft(13).vCenter().width(textWidth).height(textHeight)
   }
   
-  // used by the auto sizable collectionView
-  /*override func sizeThatFits(_ size: CGSize) -> CGSize {
-    let labelSize = self.label.intrinsicContentSize
-    
-    return CGSize(
-      width: UIScreen.main.bounds.width,
-      height: labelSize.height + 2 * TodoCell.paddingHeight
-    )
-  }*/
-  
   static func size(for model: TodoCellViewModel) -> CGSize {
     let textWidth = UIScreen.main.bounds.width * TodoCell.maxTextWidth
     let textHeight = model.todoText.height(constraintedWidth: textWidth, font: UIFont.systemFont(ofSize: 17))
@@ -79,9 +69,10 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
 
 // MARK: - Styling
 extension TodoCell {
-  func styleLabel() {
+  func styleLabel(archived: Bool = false) {
     self.label.font = UIFont.systemFont(ofSize: 17)
     self.label.numberOfLines = 0
+    self.label.textColor = archived ? UIColor.black.withAlphaComponent(0.3) : .black
   }
   func styleCheckButton(on: Bool = false) {
     if on {
@@ -97,19 +88,23 @@ extension TodoCell {
 struct TodoCellViewModel: ViewModel, Hashable {
   var todoText: String = ""
   var completed: Bool = false
+  var archived: Bool = false
   
   var hashValue: Int {
     return todoText.hashValue
   }
   
   static func == (l: TodoCellViewModel, r: TodoCellViewModel) -> Bool {
-    return l.todoText == r.todoText &&
-      l.completed == r.completed
+    if l.todoText != r.todoText { return false }
+    if l.completed != r.completed { return false }
+    if l.archived != r.archived { return false }
+    return true
   }
   
   init(todo: Todo) {
     self.todoText = todo.text
     self.completed = todo.completed
+    self.archived = todo.archived
   }
 }
 

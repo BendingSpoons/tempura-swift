@@ -13,11 +13,11 @@ class ListView: UIView, ViewControllerModellableView {
   
   // MARK: - Subviews
   var todoButton: UIButton = UIButton(type: .custom)
-  var doneButton: UIButton = UIButton(type: .custom)
+  var archiveButton: UIButton = UIButton(type: .custom)
   var scrollView: UIScrollView = UIScrollView()
   var todoListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
-  var doneListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
-  var archiveButton: UIButton = UIButton(type: .custom)
+  var archiveListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
+  var sendToArchiveButton: UIButton = UIButton(type: .custom)
   
   // MARK: - Interactions
   var didToggleItem: ((String) -> ())?
@@ -38,37 +38,37 @@ class ListView: UIView, ViewControllerModellableView {
       self.didToggleItem?(itemID)
     }
     let doneLayout = ArchiveFlowLayout()
-    self.doneListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: doneLayout)
-    self.doneListView.useDiffs = true
-    self.doneListView.didTapItem = { indexPath in
+    self.archiveListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: doneLayout)
+    self.archiveListView.useDiffs = true
+    self.archiveListView.didTapItem = { indexPath in
       guard let itemID = self.model?.archived[indexPath.item].id else { return }
       self.didUnarchiveItem?(itemID)
     }
     self.todoButton.on(.touchUpInside) { [unowned self] button in
       self.didTapTodoSection?()
     }
-    self.doneButton.on(.touchUpInside) { [unowned self] button in
+    self.archiveButton.on(.touchUpInside) { [unowned self] button in
       self.didTapCompletedSection?()
     }
-    self.archiveButton.on(.touchUpInside) { [unowned self] button in
+    self.sendToArchiveButton.on(.touchUpInside) { [unowned self] button in
       guard let model = self.model else { return }
       let toBeArchivedIDs: [String] = model.archivable.map { $0.id }
       self.didTapArchive?(toBeArchivedIDs)
     }
     self.scrollView.addSubview(self.todoListView)
-    self.scrollView.addSubview(self.doneListView)
+    self.scrollView.addSubview(self.archiveListView)
     self.addSubview(self.scrollView)
     self.addSubview(self.todoButton)
-    self.addSubview(self.doneButton)
     self.addSubview(self.archiveButton)
+    self.addSubview(self.sendToArchiveButton)
   }
   
   // MARK: - Style
   func style() {
     self.backgroundColor = .white
     self.styleTodoListView()
-    self.styleDoneListView()
-    self.styleArchiveButton()
+    self.stylearchiveListView()
+    self.stylesendToArchiveButton()
   }
   
   // MARK: - Update
@@ -77,9 +77,9 @@ class ListView: UIView, ViewControllerModellableView {
     let todos = model.todos.map { TodoCellViewModel(todo: $0) }
     self.todoListView.source = SimpleSource<TodoCellViewModel>(todos)
     let archived = model.archived.map { TodoCellViewModel(todo: $0) }
-    self.doneListView.source = SimpleSource<TodoCellViewModel>(archived)
+    self.archiveListView.source = SimpleSource<TodoCellViewModel>(archived)
     self.styleTodoButton(selected: model.selectedSection == .todo)
-    self.styleDoneButton(selected: model.selectedSection == .completed)
+    self.stylearchiveButton(selected: model.selectedSection == .completed)
     // switch to selected section
     if model.selectedSection != oldModel?.selectedSection {
       if case .todo = model.selectedSection {
@@ -105,7 +105,7 @@ class ListView: UIView, ViewControllerModellableView {
     if let om = oldModel,
       model.archived.count > om.archived.count,
       model.selectedSection == .todo {
-      self.doneButton.blink()
+      self.archiveButton.blink()
     }
     // blink todo icon if needed
     if let om = oldModel,
@@ -120,17 +120,17 @@ class ListView: UIView, ViewControllerModellableView {
     // we are using PinLayout here but you can use the layout system you want
     self.todoButton.sizeToFit()
     self.todoButton.pin.left(30).top(self.universalSafeAreaInsets.top + 20)
-    self.doneButton.pin.size(36).right(32).vCenter(to: self.todoButton.edge.vCenter)
+    self.archiveButton.pin.size(36).right(32).vCenter(to: self.todoButton.edge.vCenter)
     self.scrollView.pin.below(of: todoButton).marginTop(34).left().right().bottom()
     self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.width * 2, height: self.scrollView.bounds.height)
     self.todoListView.frame = self.scrollView.frame.bounds
-    self.doneListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
+    self.archiveListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
     guard let model = self.model else { return }
-    self.archiveButton.pin.size(CGSize(width: 260, height: 58)).hCenter()
+    self.sendToArchiveButton.pin.size(CGSize(width: 260, height: 58)).hCenter()
     if model.containsArchivableItems && model.selectedSection == .todo {
-      self.archiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 20)
+      self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 20)
     } else {
-      self.archiveButton.pin.below(of: self)
+      self.sendToArchiveButton.pin.below(of: self)
     }
   }
 }
@@ -148,29 +148,29 @@ extension ListView {
     }
     self.todoButton.titleLabel?.font = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
-  func styleDoneButton(selected: Bool = false) {
+  func stylearchiveButton(selected: Bool = false) {
     if selected {
-      self.doneButton.setImage(UIImage(named: "archiveSectionIconS"), for: .normal)
+      self.archiveButton.setImage(UIImage(named: "archiveSectionIconS"), for: .normal)
     } else {
-     self.doneButton.setImage(UIImage(named: "archiveSectionIcon"), for: .normal)
+     self.archiveButton.setImage(UIImage(named: "archiveSectionIcon"), for: .normal)
     }
   }
   func styleTodoListView() {
     self.todoListView.backgroundColor = .white
   }
-  func styleDoneListView() {
-    self.doneListView.backgroundColor = .white
+  func stylearchiveListView() {
+    self.archiveListView.backgroundColor = .white
   }
-  func styleArchiveButton() {
-    self.archiveButton.backgroundColor = UIColor(red: 0.89, green: 0.89, blue: 0.92, alpha: 1)
-    self.archiveButton.layer.cornerRadius = 13
-    self.archiveButton.setImage(UIImage(named: "archiveSectionIconSmallS"), for: .normal)
-    self.archiveButton.setImage(UIImage(named: "archiveSectionIconSmall"), for: .highlighted)
-    self.archiveButton.setTitle("Archive completed items", for: .normal)
-    self.archiveButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-    self.archiveButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-    self.archiveButton.setTitleColor(.black, for: .normal)
-    self.archiveButton.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: .highlighted)
+  func stylesendToArchiveButton() {
+    self.sendToArchiveButton.backgroundColor = UIColor(red: 0.89, green: 0.89, blue: 0.92, alpha: 1)
+    self.sendToArchiveButton.layer.cornerRadius = 13
+    self.sendToArchiveButton.setImage(UIImage(named: "archiveSectionIconSmallS"), for: .normal)
+    self.sendToArchiveButton.setImage(UIImage(named: "archiveSectionIconSmall"), for: .highlighted)
+    self.sendToArchiveButton.setTitle("Archive completed items", for: .normal)
+    self.sendToArchiveButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    self.sendToArchiveButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    self.sendToArchiveButton.setTitleColor(.black, for: .normal)
+    self.sendToArchiveButton.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: .highlighted)
   }
 }
 
