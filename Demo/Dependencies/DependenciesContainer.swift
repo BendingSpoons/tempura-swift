@@ -14,9 +14,7 @@ final class DependenciesContainer: NavigationProvider {
   let dispatch: StoreDispatch
   
   var getAppState: () -> AppState
-  
-  var fakeManager: FakeManager = FakeManager()
-  
+    
   var navigator: Navigator = Navigator()
   
   var getState: () -> State {

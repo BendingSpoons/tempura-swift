@@ -10,16 +10,47 @@ import Foundation
 import Tempura
 
 enum Screen: String {
-  case tabbar
-  case navigation
-  case home
-  case storyCover
-  case storyChat
-  case modalTest
+  case list
+  case addItem
+}
+
+// List
+extension ListViewController: RoutableWithConfiguration {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.list.rawValue
+  }
+  
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .show(Screen.addItem): .presentModally({ [unowned self] context in
+        if let editID = context as? String {
+          let ai = AddItemViewController(store: self.store, itemIDToEdit: editID)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        } else {
+          let ai = AddItemViewController(store: self.store)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        }
+    })]
+  }
+}
+
+// AddItem
+extension AddItemViewController: RoutableWithConfiguration {
+  var routeIdentifier: RouteElementIdentifier {
+    return Screen.addItem.rawValue
+  }
+  
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .hide(Screen.addItem): .dismissModally(behaviour: .hard)
+    ]
+  }
 }
 
 // HOME
-extension HomeViewController: RoutableWithConfiguration {
+/*extension HomeViewController: RoutableWithConfiguration {
   var routeIdentifier: RouteElementIdentifier {
     return Screen.home.rawValue
   }
@@ -88,3 +119,4 @@ extension TabBarController: RoutableWithConfiguration {
     ]
   }
 }
+*/
