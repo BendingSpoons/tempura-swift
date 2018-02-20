@@ -126,6 +126,7 @@ class ListView: UIView, ViewControllerModellableView {
     // blink todo icon if needed
     if let om = oldModel,
       model.archived.count < om.archived.count,
+      model.archivable.count > om.archivable.count,
       model.selectedSection == .completed {
       self.todoButton.blink()
     }
