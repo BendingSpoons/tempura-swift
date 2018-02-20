@@ -25,8 +25,8 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
       }
     }
     self.rootView.didTapCompletedSection = { [unowned self] in
-      if self.localState.selectedSection != .completed {
-        self.localState.selectedSection = .completed
+      if self.localState.selectedSection != .archived {
+        self.localState.selectedSection = .archived
       }
     }
     self.rootView.didTapArchive = { [unowned self] toBeArchivedIDs in
@@ -41,6 +41,9 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
     self.rootView.didTapEditItem = { [unowned self] itemID in
       self.dispatch(Show(Screen.addItem, animated: false, context: itemID))
     }
+    self.rootView.didTapClearItems = { [unowned self] in
+      self.dispatch(DeleteArchivedItems())
+    }
   }
 }
 
@@ -51,6 +54,6 @@ struct ListLocalState: LocalState {
 extension ListView {
   enum Section {
     case todo
-    case completed
+    case archived
   }
 }

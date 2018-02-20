@@ -35,6 +35,13 @@ struct DeleteItem: AppAction {
   }
 }
 
+struct DeleteArchivedItems: AppAction {
+  
+  func updatedState(currentState: inout AppState) {
+    currentState.items = currentState.items.filter { !$0.archived }
+  }
+}
+
 struct ToggleItem: AppAction {
   var itemID: String
   
