@@ -113,7 +113,7 @@ import Chocolate
 /// ```
 
 /// ```swift
-///    class CounterViewController: ViewController<CounterView> {
+///    class TodoListViewController: ViewControllerWithLocalState<TodoListView> {
 ///
 ///    override func setupInteraction() {
 ///      self.rootView.didTapRemoveItem = { [unowned self] index in
@@ -138,7 +138,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// when the local state changes and we are disconnected from the global state
   public var lastKnownState: V.VM.S?
   
-  /// The init of the ViewController, it will subscribe to the Store to perform the updates when the store changes
+  /// Returns a newly initialized ViewControllerWithLocalState object
   override public init(store: Store<V.VM.S>, connected: Bool = false) {
     super.init(store: store, connected: connected)
     // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
@@ -147,15 +147,12 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     }
   }
   
-  /// We are not using storyboards so trigger a fatalError
+  /// Required init
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// We are about to unsubscribe from the global state,
-  
-  // save it locally in the lastKnownState
-  // while we are disconnected we will look at the lastKnownState
+  /// Called just before the unsubscribe, override point for subclasses
   open override func willUnsubscribe() {
     self.lastKnownState = self.state
   }

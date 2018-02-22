@@ -44,7 +44,7 @@ public extension ViewControllerModellableView {
   public var navigationItem: UINavigationItem? {
     return viewController?.navigationItem
   }
-  
+  /// Syntactic sugar to access the `ViewController` that is managing this View
   public var viewController: UIViewController? {
     get {
       return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController

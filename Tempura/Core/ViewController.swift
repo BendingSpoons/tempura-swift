@@ -11,8 +11,8 @@ import UIKit
 import Katana
 import Chocolate
 
-/// typealias for simple interaction callback
-/// for more complex interactions (that contains parameters) define your own closure
+/// Typealias for simple interaction callback.
+/// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
 
 /// Manages a screen of your app, it keeps the UI updated and listens for user interactions.
@@ -171,7 +171,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Closure used to unsubscribe the viewController from state updates
  var unsubscribe: StoreUnsubscribe?
   
-  /// whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
+  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
   /// deprecated, use `shouldDisconnectWhenInvisible` instead
   @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
   public var shouldDisconnectOnViewWillDisappear: Bool {
@@ -185,7 +185,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible
   public var shouldConnectWhenVisible = true
   
-  /// When `true` the ViewController will be set to `connected = `false` as soon as it becomes invisible
+  /// When `true` the ViewController will be set to `connected` = `false` as soon as it becomes invisible
   public var shouldDisconnectWhenInvisible = true
   
   /// The latest ViewModel received by this ViewController from the state
@@ -216,7 +216,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.view = v
   }
   
-  /// The init of the ViewController, it will subscribe to the Store to perform the updates when the store changes
+  /// Returns a newly initialized ViewController object
   public init(store: Store<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
@@ -238,7 +238,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.store.dispatch(action)
   }
   
-  /// We are not using storyboards so trigger a fatalError
+  /// Required init
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -331,10 +331,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Called right after the update, override point for subclasses
   open func didUpdate(old: V.VM?) {}
   
-  /// Ask to setup the interaction with the managed view, override point for subclasses
+  /// Asks to setup the interaction with the managed view, override point for subclasses
   open func setupInteraction() {}
   
-  /// Called just before the unsubscribe, this is used in the ViewControllerWithLocalState
+  /// Called just before the unsubscribe, override point for subclasses
   open func willUnsubscribe() {}
   
   // not needed?

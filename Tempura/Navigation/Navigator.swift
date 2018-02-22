@@ -10,15 +10,201 @@ import Foundation
 import UIKit
 import Katana
 
+/// Main class that is handling the navigation in a Tempura app.
+///
+/// ## Overview
+/// When it comes to create a complex app, the way you handle the navigation between
+/// different screens is an important factor on the final result.
+///
+/// We believe that relying on the native iOS navigation system, even in a Redux-like
+/// environment like Katana, is the right choice for our stack, because:
+///
+/// - there is no navigation code to write and maintain just to mimic the way
+/// native navigation works
+///
+/// - native navigation gestures will come for free and will stay up to date
+/// with new iOS releases
+///
+/// - the app will feel more "native"
+///
+/// For these reasons we found a way to reconcile the redux-like world of Katana
+/// with the imperative world of the iOS navigation.
+///
+/// ## The Routable protocol
+/// If a Screen (read ViewController) takes an active part on the navigation
+/// (i.e. needs to present another screen) it must conform to the `RoutableWithConfiguration` protocol:
+///
+/// ```swift
+///    protocol RoutableWithConfiguration: Routable {
+///
+///      var routeIdentifier: RouteElementIdentifier { get }
+///
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] { get }
+///    }
+/// ```
+///
+/// ```swift
+///    typealias RouteElementIdentifier = String
+/// ```
+///
+/// Each `RoutableWithConfiguration` can be asked by the Navigator navigation to
+/// perform a specific navigation task (like present another ViewController)
+/// based on the navigation action (`Show`, `Hide`) you dispatch.
+/// ## The route
+/// A `Route` is an array that represents a navigation path to a specific screen.
+/// ```swift
+///    typealias Route = [RouteElementIdentifier]
+/// ```
+/// ## How the navigation works
+/// Suppose we have a current `Route` like ["screenA", "screenB"] (being "screenB")
+/// the topmost ViewController/RoutableWithConfiguration in the visible hierarchy.
+///
+/// Tempura will expose two main navigation actions:
+/// ### Show
+/// ```swift
+///    Show("screenC", animated: true)
+/// ```
+///
+/// When this action is dispatched, the `Navigator` will ask "screenB" (the topmost
+/// `RoutableWithConfiguration` to handle that action, looking at its
+/// `navigationConfiguration`).
+///
+/// In order to allow "screenB" to present "screenC", we need to add a `NavigationRequest`
+/// inside the `navigationConfiguration` of "screenB" that will match the `Show("screenC")` action
+/// with a `.show("screenC")` `NavigationRequest`.
+///
+/// ```swift
+///    extension ScreenB: RoutableWithConfiguration {
+///
+///      // needed by the `Routable` protocol
+///      // to identify this ViewController in the hierarchy
+///      var routeIdentifier: RouteElementIdentifier {
+///        return "screenB"
+///      }
+///
+///      // the `NavigationRequest`s that this ViewController is handling
+///      // with the `NavigationInstruction` to execute
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+///        return [
+///          .show("screenC"): .presentModally({ [unowned self] _ in
+///            let vc = ScreenC(store: self.store)
+///            return vc
+///          })
+///        ]
+///    }
+/// ```
+///
+/// Inside the `.presentModally` NavigationInstruction, we create and return the ViewController
+/// that is implementing the "screenC".
+/// This will be used by the `Navigator` to call the appropriate UIKit navigation action (
+/// a `UIViewController.present(:animated:completion:)` in this case).
+///
+/// If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
+/// "screenB", it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+/// in this case "screenA". If nobody is matching that NavigationRequest, a fatalError is thrown.
+/// ### Hide
+/// Same will happen when a `Hide` function is dispatched.
+/// ```swift
+///    Hide("screenC", animated: true)
+/// ```
+/// Looking at the current `Route` ["screenA", "screenB", "screenC"], the Navigator will ask the
+/// topmost RoutableWithConfiguration ("screenC" in this case) to match for a
+/// `.hide("screenC")` `NavigationRequest`.
+///
+/// Again, if we want "screenC" to be responsible for dismissing itself, we just need to implement
+/// the matching `NavigationRequest` in the `navigationConfiguration`:
+///
+/// ```swift
+///    extension ScreenC: RoutableWithConfiguration {
+///
+///      // needed by the `Routable` protocol
+///      // to identify this ViewController in the hierarchy
+///      var routeIdentifier: RouteElementIdentifier {
+///        return "screenC"
+///      }
+///
+///      // the `NavigationRequest`s that this ViewController is handling
+///      // with the `NavigationInstruction` to execute
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+///        return [
+///          .hide("screenC"): .dismissModally(behaviour: .hard)
+///        ]
+///    }
+/// ```
+/// If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
+/// "screenC", it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+/// in this case "screenB". If nobody is matching that NavigationRequest, a fatalError is thrown.
+///
+/// ## Initializing the navigation
+/// In order to use the navigation system you need to start the Navigator
+/// (typically in your AppDelegate) using the `start(using:in:at:)` method.
+/// In this method you need to specify a `RootInstaller`
+/// and a starting screen.
+/// The RootInstaller (typically your AppDelegate) will be responsible to handle the installation
+/// of the screen you specified before.
+///
+/// Doing so, the Navigator will call the `RooInstaller.installRoot(identifier:context:completion:)`
+/// method that will handle the setup of the screen to be shown.
+///
+/// ```swift
+///    class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
+///
+///      func application(_ application: UIApplication, didFinishLaunchingWithOptions ...) -> Bool {
+///        ...
+///        // setup the root of the navigation
+///        // this is done by invoking this method (and not in the init of the navigator)
+///        // because the navigator is instantiated by the Store.
+///        // this in turn will invoke the `installRootMethod` of the rootInstaller (self)
+///        navigator.start(using: self, in self.window, at: "screenA")
+///        return true
+///      }
+///
+///      // install the root of the app
+///      // this method is called by the navigator when needed
+///      // you must call the `completion` callback when the navigation has been completed
+///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+///        let vc = ScreenAViewController(store: self.store)
+///        self.window.rootViewController = vc
+///        completion()
+///      }
+///    }
+
 public class Navigator {
+  /// Completion closure typealias, needed by the navigator to know when a navigation has been handled
   public typealias Completion = () -> ()
   
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller!
   private var window: UIWindow!
   
+  /// Initializes and return a Navigator
   public init() {}
-  
+  /// Start the navigator
+  ///
+  /// In order to use the navigation system, you need to start the navigator
+  /// specifying a `RootInstaller` and the first screen you want to install
+  /// ```swift
+  ///    class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
+  ///
+  ///      func application(_ application: UIApplication, didFinishLaunchingWithOptions ...) -> Bool {
+  ///        ...
+  ///        // setup the root of the navigation
+  ///        // this is done by invoking this method (and not in the init of the navigator)
+  ///        // because the navigator is instantiated by the Store.
+  ///        // this in turn will invoke the `installRootMethod` of the rootInstaller (self)
+  ///        navigator.start(using: self, in self.window, at: "screenA")
+  ///        return true
+  ///      }
+  ///
+  ///      // install the root of the app
+  ///      // this method is called by the navigator when needed
+  ///      // you must call the `completion` callback when the navigation has been completed
+  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  ///        let vc = ScreenAViewController(store: self.store)
+  ///        self.window.rootViewController = vc
+  ///        completion()
+  ///      }
+  ///    }
   public func start(using rootInstaller: RootInstaller,
                     in window: UIWindow,
                     at rootElementIdentifier: RouteElementIdentifier) {
@@ -26,7 +212,7 @@ public class Navigator {
     self.window = window
     self.install(identifier: rootElementIdentifier, context: nil)
   }
-  
+  /// Generic version of the same method
   public func start<K: RawRepresentable>(using rootInstaller: RootInstaller,
                                          in window: UIWindow,
                                          at rootElementIdentifier: K) where K.RawValue == RouteElementIdentifier {
@@ -258,12 +444,13 @@ extension UIApplication {
 }
 
 public extension UIApplication {
+  /// The routables in the visible hierarchy
   var currentRoutables: [Routable] {
     return self.currentViewControllers.flatMap {
       return $0 as? Routable
     }
   }
-  
+  /// The indentifiers of the routables in the visible hierarchy
   public var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.flatMap {
       return $0.routeIdentifier

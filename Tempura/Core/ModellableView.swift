@@ -113,7 +113,7 @@ public protocol ModellableView: View {
   /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/)
   var model: VM? { get set }
   
-  /// the ViewModel is changed, update the View using the `oldModel` and the new `self.model`
+  /// Called when the ViewModel is changed. Update the View using `self.model`
   func update(oldModel: VM?)
 }
 
@@ -150,6 +150,10 @@ public extension ModellableView {
     }
   }
   
+  /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
+  /// The model variable is automatically created for you once you conform to the ModellableView protocol.
+  /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
+  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/)
   public var model: VM? {
     get {
       return self.modelWrapper.model
@@ -162,7 +166,7 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
-  
+  /// Will throw a fatalError. Use `update(oldMdel:)` instead
   func update() {
     fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
   }

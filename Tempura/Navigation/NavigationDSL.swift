@@ -7,17 +7,42 @@
 
 import Foundation
 
+/// Used by a `RoutableWithConfiguration` inside its `RoutableWithConfiguration.navigationConfiguration`
+/// to describe the kind of navigation action (`Show`, `Hide`) to handle
+///
+/// ```swift
+///    extension ListViewController: RoutableWithConfiguration {
+///
+///      // needed by the `Routable` protocol
+///      // to identify this ViewController in the hierarchy
+///      var routeIdentifier: RouteElementIdentifier {
+///        return "listScreen"
+///      }
+///
+///      // the `NavigationRequest`s that this ViewController is handling
+///      // with the `NavigationInstruction` to execute
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+///        return [
+///          .show("addItemScreen"): .presentModally({ [unowned self] _ in
+///            let vc = AddItemViewController(store: self.store)
+///            return vc
+///          })
+///        ]
+///    }
+/// ```
+///
 public struct NavigationRequest: Hashable {
+  /// The computed hash value for the NavigationRequest
   public var hashValue: Int
   
   fileprivate enum NavigationKind: Int {
     case show, hide
   }
-  
+  /// Represents a NavigationRequest to match a `Show` action dispatched
   public static func show<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .show)
   }
-  
+  /// Represents a NavigationRequest to match a `Hide` action dispatched
   public static func hide<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .hide)
   }
@@ -34,7 +59,7 @@ public struct NavigationRequest: Hashable {
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
     return self.source == identifier && kind == self.kind
   }
-  
+  /// Implementation of the equality between two NavigationRequest
   public static func == (l: NavigationRequest, r: NavigationRequest) -> Bool {
     if l.kind != r.kind {
       return false
@@ -48,6 +73,7 @@ public struct NavigationRequest: Hashable {
   }
 }
 
+/// Closure used by a `NavigationInstruction` of type `.custom`
 public typealias CustomNavigationOptionClosure = (
   _ identifier: RouteElementIdentifier,
   _ from: RouteElementIdentifier,
@@ -56,22 +82,51 @@ public typealias CustomNavigationOptionClosure = (
   _ completion: @escaping RoutingCompletion
 ) -> Void
 
+/// Used by a `RoutableWithConfiguration` inside its `RoutableWithConfiguration.navigationConfiguration`
+/// to describe the kind of navigation to perform when handling a `NavigationRequest`
+///
+/// ```swift
+///    extension ListViewController: RoutableWithConfiguration {
+///
+///      // needed by the `Routable` protocol
+///      // to identify this ViewController in the hierarchy
+///      var routeIdentifier: RouteElementIdentifier {
+///        return "listScreen"
+///      }
+///
+///      // the `NavigationRequest`s that this ViewController is handling
+///      // with the `NavigationInstruction` to execute
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+///        return [
+///          .show("addItemScreen"): .presentModally({ [unowned self] _ in
+///            let vc = AddItemViewController(store: self.store)
+///            return vc
+///          })
+///        ]
+///    }
+/// ```
+///
 public enum NavigationInstruction {
+  /// Define one of the two possible behaviours when dismissing a modal ViewControlelr
+  /// `.soft`: dismiss the ViewController but keep all the presented ViewControllers
+  /// `.hard`: the usual UIKit behaviour, dismiss the ViewController and all the ViewControllers that is presenting
   public enum ModalDismissBehaviour {
-    // if the targeted modal is presenting other modals, keep them alive
+    /// If the targeted modal is presenting other modals, keep them alive
     case soft
-    // while removing the targeted modal, remove also all the modals that it is presenting
+    /// While removing the targeted modal, remove also all the modals that it is presenting
     case hard
   }
-  // stack navigation
+  /// Push the ViewController using `UINavigationController.pushViewController(:animated:)`
   case push((_ context: Any?) -> UIViewController)
+  /// Pop the ViewController using `UINavigationController.popViewController(animated:)`
   case pop
   
-  // modal navigation
+  /// Present the ViewController modally using `UIViewController.present(:animated:completion:)`
   case presentModally((_ context: Any?) -> UIViewController)
+  /// Dismiss the ViewController presented modally using `UIViewController.dismiss(animated:completion:)`
   case dismissModally(behaviour: ModalDismissBehaviour)
   
-  // custom
+  /// Define your custom implementation of the navigation
   case custom(CustomNavigationOptionClosure)
   
   func handle(
@@ -169,12 +224,56 @@ public enum NavigationInstruction {
   }
 }
 
+/// A RoutableWithConfiguration is a `ViewController` that takes active part to the execution of a navigation action.
+///
+/// If a screen `listScreen` needs to present `addItemScreen`, the ViewController that is handling `listScreen` must
+/// conform to the `RoutableWithConfiguration` protocol.
+///
+/// When a `Show("addItemScreen")` action is dispatched, the `Navigator` will capture the action and will start
+/// finding a RoutableWithConfiguration in the active hierarchy that can handle the action.
+/// If the `navigationConfiguration` of `listScreen` will match the `NavigationRequest` of `.show(addItemScreen)`
+/// than the Navigator will execute the relative `NavigationInstruction` where you can
+/// configure the ViewController to present.
+///
+/// There are others `NavigationRequest`s and `NavigationInstruction`s that can be used to define the navigation
+/// structure of the app.
+///
+/// In case you need more control, you can always implement the `Routable` protocol yourself and have
+/// fine grained control of the implementation of the navigation.
+/// In fact, a `RoutableWithConfiguration` and its `navigationConfiguration` are used behind the scenes
+/// to implement the `Routable` protocol for you.
+///
+/// ```swift
+///    extension ListViewController: RoutableWithConfiguration {
+///
+///      // needed by the `Routable` protocol
+///      // to identify this ViewController in the hierarchy
+///      var routeIdentifier: RouteElementIdentifier {
+///        return "listScreen"
+///      }
+///
+///      // the `NavigationRequest`s that this ViewController is handling
+///      // with the `NavigationInstruction` to execute
+///      var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+///        return [
+///          .show("addItemScreen"): .presentModally({ [unowned self] _ in
+///            let vc = AddItemViewController(store: self.store)
+///            return vc
+///          })
+///        ]
+///    }
+/// ```
+///
 public protocol RoutableWithConfiguration: Routable {
+  /// The `NavigationRequest`s this RoutableWithConfiguration will handle
+  /// and the `NavigationInstruction`s that will be executed by the `Navigator`
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] { get }
 }
 
 public extension RoutableWithConfiguration where Self: UIViewController {
   
+  /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
+  /// implementing automatically looking at the `navigationConfiguration`
   public func show(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
@@ -203,7 +302,9 @@ public extension RoutableWithConfiguration where Self: UIViewController {
     return false
   }
   
-  func hide(
+  /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
+  /// implementing automatically looking at the `navigationConfiguration`
+  public func hide(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
     animated: Bool,
