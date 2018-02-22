@@ -9,12 +9,9 @@ import UIKit
 import Tempura
 
 class ListViewController: ViewControllerWithLocalState<ListView> {
-  override func setup() {
-    super.setup()
-    // we want to keep this connected also when the AddItem screen is shown on top
-    self.shouldDisconnectWhenInvisible = false
-  }
   
+  // listen for interactions from the view
+  // dispatch actions or change the local state in response to user actions
   override func setupInteraction() {
     self.rootView.didToggleItem = { [unowned self] id in
       self.dispatch(ToggleItem(itemID: id))
@@ -47,13 +44,7 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
   }
 }
 
+// MARK: - Local State
 struct ListLocalState: LocalState {
   var selectedSection: ListView.Section = .todo
-}
-
-extension ListView {
-  enum Section {
-    case todo
-    case archived
-  }
 }

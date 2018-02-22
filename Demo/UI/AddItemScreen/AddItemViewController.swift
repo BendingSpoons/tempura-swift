@@ -25,6 +25,8 @@ class AddItemViewController: ViewControllerWithLocalState<AddItemView> {
     self.rootView.textField.becomeFirstResponder()
   }
   
+  // listen for interactions from the view
+  // dispatch actions or change the local state in response to user actions
   override func setupInteraction() {
     self.rootView.didTapCancel = { [unowned self] in
       self.dispatch(Hide())
@@ -45,6 +47,7 @@ class AddItemViewController: ViewControllerWithLocalState<AddItemView> {
   }
 }
 
+// MARK: - Local State
 struct AddItemLocalState: LocalState {
   /// if we are editing an existing item, this will contain the ID of that item
   var itemID: String? = nil

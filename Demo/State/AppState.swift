@@ -10,10 +10,12 @@ import Foundation
 import Katana
 
 struct AppState: State {
+  
   var items: [Todo] = [
     Todo(text: "Pet my unicorn"),
-    Todo(text: "Do something\nTwo lines"),
-    Todo(text: "Keep doing")
+    Todo(text: "Become a doctor.\nChange last name to Acula"),
+    Todo(text: "Hire two private investigators.\nGet them to follow each other"),
+    Todo(text: "Visit mars")
   ]
   
   var pendingItems: [Todo] {

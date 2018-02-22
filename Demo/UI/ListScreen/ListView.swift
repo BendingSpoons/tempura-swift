@@ -40,6 +40,7 @@ class ListView: UIView, ViewControllerModellableView {
     let doneLayout = ArchiveFlowLayout()
     self.archiveListView = CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>(frame: .zero, layout: doneLayout)
     self.archiveListView.useDiffs = true
+    
     self.actionButton.on(.touchUpInside) { [unowned self] button in
       guard let model = self.model else { return }
       if model.selectedSection == .todo {
@@ -75,6 +76,7 @@ class ListView: UIView, ViewControllerModellableView {
         self.didUnarchiveItem?(itemID)
       }
     }
+    
     self.scrollView.addSubview(self.todoListView)
     self.scrollView.addSubview(self.archiveListView)
     self.addSubview(self.scrollView)
@@ -95,13 +97,16 @@ class ListView: UIView, ViewControllerModellableView {
   // MARK: - Update
   func update(oldModel: ListViewModel?) {
     guard let model = self.model, oldModel != self.model else { return }
+    
     self.styleActionButton(section: model.selectedSection)
+    self.styleTodoButton(selected: model.selectedSection == .todo)
+    self.stylearchiveButton(selected: model.selectedSection == .archived)
+    
     let todos = model.todos.map { TodoCellViewModel(todo: $0) }
     self.todoListView.source = SimpleSource<TodoCellViewModel>(todos)
     let archived = model.archived.map { TodoCellViewModel(todo: $0) }
     self.archiveListView.source = SimpleSource<TodoCellViewModel>(archived)
-    self.styleTodoButton(selected: model.selectedSection == .todo)
-    self.stylearchiveButton(selected: model.selectedSection == .archived)
+    
     // switch to selected section
     if model.selectedSection != oldModel?.selectedSection {
       if case .todo = model.selectedSection {
@@ -247,5 +252,13 @@ struct ListViewModel: ViewModelWithLocalState, Equatable {
     if l.selectedSection != r.selectedSection { return false }
     if l.archivable != r.archivable { return false }
     return true
+  }
+}
+
+// MARK: - List sections
+extension ListView {
+  enum Section {
+    case todo
+    case archived
   }
 }

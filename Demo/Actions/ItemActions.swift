@@ -7,6 +7,7 @@
 
 import Katana
 
+// Add a todo item
 struct AddItem: AppAction {
   var text: String
   
@@ -16,6 +17,7 @@ struct AddItem: AppAction {
   }
 }
 
+// Edit an existing todo item
 struct EditItem: AppAction {
   var id: String
   var text: String
@@ -26,6 +28,7 @@ struct EditItem: AppAction {
   }
 }
 
+// Delete a todo item
 struct DeleteItem: AppAction {
   var id: String
   
@@ -35,6 +38,7 @@ struct DeleteItem: AppAction {
   }
 }
 
+// Delete all the archived items
 struct DeleteArchivedItems: AppAction {
   
   func updatedState(currentState: inout AppState) {
@@ -42,6 +46,7 @@ struct DeleteArchivedItems: AppAction {
   }
 }
 
+// Toggle the completed state of a todo item
 struct ToggleItem: AppAction {
   var itemID: String
   
@@ -52,6 +57,7 @@ struct ToggleItem: AppAction {
   }
 }
 
+// Toggle 'archived' <-> 'todo (not completed)'
 struct ToggleArchiveItems: AppAction {
   var ids: [String]
   var archived: Bool

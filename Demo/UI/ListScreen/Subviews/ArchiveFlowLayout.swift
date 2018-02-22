@@ -70,4 +70,3 @@ final class ArchiveFlowLayout: UICollectionViewFlowLayout {
     self.removingIndexes = []
   }
 }
-

@@ -10,11 +10,18 @@ import Tempura
 
 class AddItemView: UIView, ViewControllerModellableView {
   
+  // MARK: - Subviews
   var backgroundView: UIView = UIView()
   var cancelButton: UIButton = UIButton(type: .custom)
   var textField: TextView = TextView()
   var deleteButton: UIButton = UIButton(type: .custom)
   
+  // MARK: - Interactions
+  var didTapCancel: Interaction?
+  var didTapEnter: ((String) -> ())?
+  var didTapDelete: Interaction?
+  
+  // MARK: - Setup
   func setup() {
     self.cancelButton.on(.touchUpInside) { [unowned self] _ in
       self.didTapCancel?()
@@ -31,6 +38,7 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.addSubview(self.deleteButton)
   }
   
+  // MARK: Style
   func style() {
     self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     self.styleCancelButton()
@@ -39,6 +47,7 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.styleDeleteButton()
   }
   
+  // MARK: - Update
   func update(oldModel: AddItemViewModel?) {
     guard let model = self.model else { return }
     
@@ -46,11 +55,7 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.deleteButton.alpha = model.isEditingAlreadyExistingItem ? 1.0 : 0.0
   }
   
-  // MARK: - Interactions
-  var didTapCancel: Interaction?
-  var didTapEnter: ((String) -> ())?
-  var didTapDelete: Interaction?
-  
+  // MARK: - Layout
   override func layoutSubviews() {
     self.cancelButton.pin.left().right().top().bottom()
     self.backgroundView.pin
@@ -70,7 +75,7 @@ class AddItemView: UIView, ViewControllerModellableView {
   }
 }
 
-// MARK: - Style
+// MARK: - Styling
 extension AddItemView {
   func styleCancelButton() {
     self.cancelButton.backgroundColor = .clear
@@ -94,6 +99,7 @@ extension AddItemView {
   }
 }
 
+// MARK: - View Model
 struct AddItemViewModel: ViewModelWithLocalState {
   var editingText: String?
   
@@ -104,7 +110,7 @@ struct AddItemViewModel: ViewModelWithLocalState {
   init?(state: AppState?, localState: AddItemLocalState) {
     guard let state = state else { return nil }
     if let itemID = localState.itemID {
-      let editingItem = state.items.first{ $0.id == itemID }
+      let editingItem = state.items.first { $0.id == itemID }
       self.editingText = editingItem?.text
     }
   }

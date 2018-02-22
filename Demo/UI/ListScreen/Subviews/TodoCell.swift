@@ -17,11 +17,17 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
   
   static var identifierForReuse: String = "TodoCell"
   
+  // MARK: - Subviews
   var label: UILabel = UILabel()
   var checkButton: UIButton = UIButton(type: .custom)
   var toggleButton: UIButton = UIButton(type: .custom)
   var editButton: UIButton = UIButton(type: .custom)
   
+  // MARK: Interactions
+  var didToggle: ((String) -> ())?
+  var didTapEdit: ((String) -> ())?
+  
+  // MARK: - Init
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.setup()
@@ -32,6 +38,7 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Setup
   func setup() {
     self.checkButton.isUserInteractionEnabled = false
     self.toggleButton.on(.touchUpInside) { [unowned self] _ in
@@ -47,11 +54,14 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
     self.addSubview(self.label)
     self.addSubview(self.checkButton)
   }
+  
+  // MARK: - Style
   func style() {
     self.backgroundColor = .white
     self.styleCheckButton()
   }
   
+  // MARK: - Update
   func update(oldModel: TodoCellViewModel?) {
     guard let model = self.model else { return }
     self.styleLabel(archived: model.archived)
@@ -60,10 +70,7 @@ class TodoCell: UICollectionViewCell, ConfigurableCell, SizeableCell {
     self.setNeedsLayout()
   }
   
-  // MARK: Interactions
-  var didToggle: ((String) -> ())?
-  var didTapEdit: ((String) -> ())?
-  
+  // MARK: - Layout
   static var paddingHeight: CGFloat = 10
   static var maxTextWidth: CGFloat = 0.80
   override func layoutSubviews() {
@@ -104,6 +111,7 @@ extension TodoCell {
   }
 }
 
+// MARK: View Model
 struct TodoCellViewModel: ViewModel, Hashable {
   var todoText: String = ""
   var completed: Bool = false
@@ -127,17 +135,5 @@ struct TodoCellViewModel: ViewModel, Hashable {
     self.todoText = todo.text
     self.completed = todo.completed
     self.archived = todo.archived
-  }
-}
-
-extension String {
-  func height(constraintedWidth width: CGFloat, font: UIFont) -> CGFloat {
-    let label =  UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
-    label.numberOfLines = 0
-    label.text = self
-    label.font = font
-    label.sizeToFit()
-    
-    return label.frame.height
   }
 }

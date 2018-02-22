@@ -10,6 +10,10 @@ import Tempura
 
 class TextView: UITextView, UITextViewDelegate {
   
+  // MARK: Interactions
+  var didPressEnter: Interaction?
+  
+  // MARK: - Init
   override init(frame: CGRect = .zero, textContainer: NSTextContainer? = nil) {
     super.init(frame: frame, textContainer: textContainer)
     self.delegate = self
@@ -18,9 +22,6 @@ class TextView: UITextView, UITextViewDelegate {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  // MARK: Interaction
-  var didPressEnter: Interaction?
   
   // MARK: - TextView Delegate
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

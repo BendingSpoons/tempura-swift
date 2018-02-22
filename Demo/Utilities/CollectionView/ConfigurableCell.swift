@@ -17,4 +17,3 @@ public protocol ReusableCell {
 public protocol ConfigurableCell: ReusableCell, ModellableView {
   
 }
-

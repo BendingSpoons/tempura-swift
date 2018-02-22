@@ -11,7 +11,7 @@ extension String {
   static func random(length: Int,
                      allowedChars: String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") -> String {
     
-    let allowedCharsCount = UInt32(allowedChars.characters.count)
+    let allowedCharsCount = UInt32(allowedChars.count)
     var randomString = ""
     
     for _ in 0..<length {

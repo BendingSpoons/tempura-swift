@@ -78,7 +78,6 @@ public class SourceWithSections<T: Equatable>: Source {
   
   /// Current Swift Implementation (4.0.3) is not supporting Conditional Conformance
   /// This means that it cannot infer that [[T]] is equatable when T is equatable
-  //TODO: update this when Swift supports Conditional Conformance
   public func diffUpdate(for collectionView: UICollectionView,
                          old: SourceWithSections<T>) {
     fatalError("""
