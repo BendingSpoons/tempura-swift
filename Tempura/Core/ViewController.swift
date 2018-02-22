@@ -11,24 +11,146 @@ import UIKit
 import Katana
 import Chocolate
 
-/// typealias for simple interaction callback
-/// for more complex interactions (that contains parameters) define your own closure
+/// Typealias for simple interaction callback.
+/// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
 
-/// every ViewController will:
-/*
- - connect to the store on willAppear and disconnect on didDisappear
- - update the viewModel when a new state is available
- - feed the view with the updated viewModel
- */
+/// Manages a screen of your app, it keeps the UI updated and listens for user interactions.
+
+/// ## Overview
+/// In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
+/// pixels on the screen and to keep them updated when the state changes.
+/// These are ViewController, `ViewModelWithState` and `ViewControllerModellableView`.
+/// The ViewController is a subclass of `UIViewController` that is responsible to manage the set of views that are shown in each screen of your UI.
+
+/// ```swift
+///    struct CounterState: State {
+///      var counter: Int = 0
+///    }
+/// ```
+
+/// ```swift
+///    struct IncrementCounter: Action {
+///      func updatedState(inout currentState: CounterState) {
+///        currentState.counter += 1
+///      }
+///    }
+/// ```
+
+/// ```swift
+///    struct DecrementCounter: Action {
+///      func updatedState(inout currentState: CounterState) {
+///        currentState.counter -= 1
+///      }
+///    }
+/// ```
+
+/// ```swift
+///    struct CounterViewModel: ViewModelWithState {
+///      var countDescription: String
+///
+///      init(state: CounterState) {
+///        self.countDescription = "the counter is at \(state.counter)"
+///      }
+///    }
+/// ```
+
+/// ```swift
+///    class CounterView: UIView, ViewControllerModellableView {
+///
+///      // subviews
+///      var counterLabel = UILabel()
+///      var addButton = UIButton(type: .custom)
+///      var subButton = UIButton(type: .custom)
+///
+///      // interactions
+///      var didTapAdd: Interaction?
+///      var didTapSub: Interaction?
+///
+///      // setup
+///      func setup() {
+///        self.addButton.on(.touchUpInside) { [unowned self] button in
+///          self.didTapAdd?()
+///        }
+///        self.subButton.on(.touchUpInside) { [unowned self] button in
+///          self.didTapSub?()
+///        }
+///        self.addSubview(self.counterLabel)
+///        self.addSubview(self.subButton)
+///        self.addSubview(self.addButton)
+///      }
+///
+///      // style
+///      func style() {
+///        self.backgroundColor = .white
+///        self.addButton.setTitle("Add", for: .normal)
+///        self.subButton.setTitle("Sub", for: .normal)
+///      }
+///
+///      // update
+///      func update(oldModel: CounterViewModel?) {
+///        self.counterLabel.text = self.model?.countDescription
+///        self.setNeedsLayout()
+///      }
+///
+///      // layout
+///      override func layoutSubviews() {
+///        self.counterLabel.sizeToFit()
+///        self.addButton.frame = CGRect(x: 0, y: 100, width: 100, height: 44)
+///        self.subButton.frame = CGRect(x: 100, y: 100, width: 100, height: 44)
+///      }
+///    }
+/// ```
+
+/// ```swift
+///    class CounterViewController: ViewController<CounterView> {
+///
+///    override func setupInteraction() {
+///      self.rootView.didTapAdd = { [unowned self] in
+///        self.dispatch(IncrementCounter())
+///      }
+///      self.rootView.didTapSub = { [unowned self] in
+///        self.dispatch(DecrementCounter())
+///      }
+///    }
+///    ```
+
+/// ## Lifecycle of a ViewController
+/// In order to instantiate a ViewController's subclass you need to provide a Katana `Store` instance.
+/// This instance will be used by the ViewController to listen for state updates.
+/// ```swift
+///    let vc = CounterViewController(store: appStore)
+/// ```
+///
+/// When a ViewController is created it will start receiving state updates as soon as the `connected` property
+/// will become `true`.
+///
+/// When the ViewController becomes visible, the UIKit `UIViewController.viewWillAppear()` will be called and
+/// Tempura will set `connected` to `true` and the ViewController will start receiving the updates
+/// from the state.
+/// If you don't want this to happen automatically every time the ViewController will become visible, set
+/// `shouldConnectWhenVisible` to `false`.
+///
+/// As soon a new state is available from the Katana store, the ViewController will instantiate a new ViewModel
+/// out of that state and feed the `rootView` with that, calling `ModellableView.update(oldModel:)`
+///
+/// When something happens inside the `ViewControllerModellableView` (or its subviews)
+/// the ViewController is responsible to listen for these `Interaction` callbacks and react accordingly
+/// dispatching actions in order to change the state.
+///
+/// When a ViewController is removed from the hierarchy or hidden by some other ViewController, UIKit will call
+/// `UIViewController.viewWillDisappear()` and Tempura will set `connected` to `false`, detaching the
+/// ViewController from the state updates.
+/// If you don't want this to happen automatically every time the ViewControllet will become invisible,
+/// set `sholdDisconnectWhenInvisible` to `false`
 
 open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
-  /// true if the viewController is connected to the store, false otherwise
-  /// a connected viewController will receive all the updates from the store
-  /// tempura will set this property to true when the ViewController is about to be displayed on screen
-  /// if you want to change this behaviour look at the `shouldConnectWhenVisible` property
-  /// tempura will set this property to false when the ViewController is about to be hidden
-  /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property
+  /// `true` if the ViewController is connected to the store, false otherwise.
+  /// A connected ViewController will receive all the updates from the store.
+  /// Tempura will set this property to true when the ViewController is about to be displayed on screen,
+  /// if you want to change this behaviour look at the `shouldConnectWhenVisible` property.
+  /// Tempura will set this property to false when the ViewController is about to be hidden,
+  /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property.
   open var connected: Bool {
     get {
       return self.unsubscribe != nil
@@ -38,19 +160,19 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// the store the viewController will use to receive state updates
+  /// The store the ViewController will use to receive state updates.
   public var store: Store<V.VM.S>
   
-  // the state of this ViewController
+  /// The state of this ViewController
   public var state: V.VM.S {
     return self.store.state
   }
   
-  /// closure used to unsubscribe the viewController from state updates
+  /// Closure used to unsubscribe the viewController from state updates.
  var unsubscribe: StoreUnsubscribe?
   
-  /// whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
-  /// deprecated, use `shouldDisconnectWhenInvisible` instead
+  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`.
+  /// Deprecated, use `shouldDisconnectWhenInvisible` instead.
   @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
   public var shouldDisconnectOnViewWillDisappear: Bool {
     get {
@@ -60,13 +182,13 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.shouldDisconnectWhenInvisible = newValue
     }
   }
-  /// if `true` the ViewController will be set to connected = true as soon as it becomes visible
+  /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible.
   public var shouldConnectWhenVisible = true
   
-  /// if `true` the ViewController will be set to connected = false as soon as it becomes invisible
+  /// When `true` the ViewController will be set to `connected` = `false` as soon as it becomes invisible.
   public var shouldDisconnectWhenInvisible = true
   
-  /// the latest ViewModel received by this ViewController
+  /// The latest ViewModel received by this ViewController from the state.
   public var viewModel: V.VM? {
     willSet {
       self.willUpdate(new: newValue)
@@ -80,12 +202,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// use the rootView to access the main view managed by this viewController
+  /// Use the rootView to access the main view managed by this viewController.
   open var rootView: V {
     return self.view as! V
   }
   
-  /// used internally to load the specific main view managed by this view controller
+  /// Used internally to load the specific main view managed by this view controller.
   open override func loadView() {
     let v = V(frame: .zero)
     v.viewController = self
@@ -94,7 +216,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.view = v
   }
   
-  /// the init of the view controller that will take the Store to perform the updates when the store changes
+  /// Returns a newly initialized ViewController object.
   public init(store: Store<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
@@ -102,26 +224,27 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.connected = connected
   }
   
-  /// override to setup something after init
+  /// Override to setup something after init.
   open func setup() {}
   
-  /// shortcut to the dispatch function
+  /// Shortcut to the dispatch function.
   @available(*, deprecated, message: "remove `action` label")
   open func dispatch(action: Action) {
     self.store.dispatch(action)
   }
   
+  /// Shortcut to the dispatch function.
   open func dispatch(_ action: Action) {
     self.store.dispatch(action)
   }
   
-  /// we are not using storyboards so trigger a fatalError
+  /// Required init.
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change
-  /// silent = true if you don't want to trigger a state update after connecting to the store
+  /// Subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change.
+  /// Specify `silent` = `true` if you don't want to trigger a state update after connecting to the store.
   func updateConnect(to connected: Bool, silent: Bool = false) {
     if connected {
       self.subscribe(silent: silent)
@@ -134,7 +257,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// subscribe to state updates from the store
+  /// Subscribe to state updates from the store.
   func subscribe(silent: Bool = false) {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
@@ -151,7 +274,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// this method is called every time the store trigger a state update
+  /// Called every time the store trigger a state update.
   func storeDidChange() {
     mainThread {
      self.update(with: self.state)
@@ -159,41 +282,40 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   
-  /// handle the state update, create a new updated viewModel and feed the view with that
+  /// Handle the state update, create a new updated viewModel and feed the view with that.
   func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = V.VM(state: state)
   }
   
-  /// before the view will appear on screen subscribe for state updates (if `shouldConnectWhenVisible`)
+  /// The ViewController is about to be displayed.
   open override func viewWillAppear(_ animated: Bool) {
     self.warmUp()
     super.viewWillAppear(animated)
   }
   
-  /// warmUp phase, this is executed in the viewWillAppear()
-  /// this is needed as an override point for ViewControllerWithLocalState
+ /// WarmUp phase, check if we should connect to the state.
  func warmUp() {
     if self.shouldConnectWhenVisible {
       self.connected = true
     }
   }
   
+  /// TearDown phase, check if we should disconnect from the state.
   func tearDown() {
     if self.shouldDisconnectWhenInvisible {
       self.connected = false
     }
   }
   
-  /// after the view disapper from screen unsubscribe from state updates (if `shouldDisconnectWhenInvisible`)
+  /// The ViewController is about to be removed from the view hierarchy.
   open override func viewWillDisappear(_ animated: Bool) {
     self.tearDown()
     super.viewWillDisappear(animated)
   }
   
-  /// when loading the view, if a ViewModel is available, set that to the View
-  /// call the setupInteraction method when the ViewController is loaded
+  /// Called after the controller's view is loaded into memory.
   open override func viewDidLoad() {
     super.viewDidLoad()
     if let vm = self.viewModel {
@@ -203,16 +325,16 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.setupInteraction()
   }
   
-  /// called just before the update, override point for subclasses
+  /// Called just before the update, override point for subclasses.
   open func willUpdate(new: V.VM?) {}
   
-  /// called right after the update, override point for subclasses
+  /// Called right after the update, override point for subclasses.
   open func didUpdate(old: V.VM?) {}
   
-  /// ask to setup the interaction with the managed view, override point for subclasses
+  /// Asks to setup the interaction with the managed view, override point for subclasses.
   open func setupInteraction() {}
   
-  /// called just before the unsubscribe, this is used in the ViewControllerWithLocalState
+  /// Called just before the unsubscribe, override point for subclasses.
   open func willUnsubscribe() {}
   
   // not needed?

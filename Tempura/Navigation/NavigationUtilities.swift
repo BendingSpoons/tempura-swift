@@ -12,7 +12,10 @@ import UIKit
 fileprivate var toBeDismissedKey = "view_controller_to_be_dismissed"
 
 public extension UIViewController {
-  /// make possible to present C from A even when A is already presenting something
+  
+  /// Presents a UIViewController (B) modally from self, even if self is already presenting another ViewController (A). In that case, A will be asked to present B.
+  ///
+  /// Created to overcome the limitations of the UIKit:  `UIViewController.present(:animated:completion)`.
   public func recursivePresent(_ viewController: UIViewController, animated: Bool = false, completion: (() -> Void)?) {
     // check if we are already presenting something, if so, ask the presented to present the viewController
     if let vc = self.presentedViewController {
@@ -23,7 +26,10 @@ public extension UIViewController {
     }
     
   }
-  /// dismiss self but keep the children in the hierarchy
+  
+  /// Dismiss self but keeps all the presented ViewControllers in the hierarchy.
+  ///
+  /// Created to overcome the limitations of the UIKit method:  `UIViewController.dismiss(animated:completion)`.
   public func softDismiss(animated: Bool = false, completion: (() -> Void)?) {
     // check if the viewController to dismiss is actually a modal
     guard let presentingViewController = self.presentingViewController else { return }
@@ -45,6 +51,7 @@ public extension UIViewController {
     }
   }
   
+  ///Used in the implementation of the UIKit method: `UIViewController.softDismiss(animated:completion:)`.
   public var toBeDismissed: Bool {
     get {
       let value = objc_getAssociatedObject(self, &toBeDismissedKey) as? NSNumber
