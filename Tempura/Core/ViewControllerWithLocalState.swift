@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Katana
-import Chocolate
 
 /// Special case of a `ViewController` that contains a `LocalState`.
 

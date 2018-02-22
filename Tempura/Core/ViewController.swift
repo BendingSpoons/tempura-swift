@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Katana
-import Chocolate
 
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
