@@ -110,14 +110,14 @@ public protocol ModellableView: View {
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
-  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/)
+  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
   var model: VM? { get set }
   
-  /// Called when the ViewModel is changed. Update the View using `self.model`
+  /// Called when the ViewModel is changed. Update the View using `self.model`.
   func update(oldModel: VM?)
 }
 
-/// implementation detail, wrapper of the model to work with the associatedObject mechanism
+/// implementation detail, wrapper of the model to work with the associatedObject mechanism.
 private final class ModelWrapper<VM: ViewModel> {
   var model: VM?
   
@@ -126,7 +126,7 @@ private final class ModelWrapper<VM: ViewModel> {
   }
 }
 
-/// model update logic implementation
+/// model update logic implementation.
 public extension ModellableView {
   
   private var modelWrapper: ModelWrapper<VM> {
@@ -153,7 +153,7 @@ public extension ModellableView {
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
-  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/)
+  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
   public var model: VM? {
     get {
       return self.modelWrapper.model
@@ -166,7 +166,7 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
-  /// Will throw a fatalError. Use `update(oldMdel:)` instead
+  /// Will throw a fatalError. Use `update(oldMdel:)` instead.
   func update() {
     fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
   }

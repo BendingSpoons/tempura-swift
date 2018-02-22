@@ -15,7 +15,7 @@ public struct Navigate: Action, ActionWithSideEffect {
   var animated: Bool
   var context: Any?
   
-  /// Returns the new state after the action is dispatched
+  /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
     return currentState
   }
@@ -46,7 +46,7 @@ public struct Show: Action, ActionWithSideEffect {
   var animated: Bool
   var context: Any?
   
-  /// Returns the new state after the action is dispatched
+  /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
     return currentState
   }
@@ -95,7 +95,7 @@ public struct Hide: Action, ActionWithSideEffect {
   var context: Any?
   var atomic: Bool
   
-  /// Returns the new state after the action is dispatched
+  /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
     return currentState
   }

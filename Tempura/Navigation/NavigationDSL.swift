@@ -8,7 +8,7 @@
 import Foundation
 
 /// Used by a `RoutableWithConfiguration` inside its `RoutableWithConfiguration.navigationConfiguration`
-/// to describe the kind of navigation action (`Show`, `Hide`) to handle
+/// to describe the kind of navigation action (`Show`, `Hide`) to handle.
 ///
 /// ```swift
 ///    extension ListViewController: RoutableWithConfiguration {
@@ -32,17 +32,17 @@ import Foundation
 /// ```
 ///
 public struct NavigationRequest: Hashable {
-  /// The computed hash value for the NavigationRequest
+  /// The computed hash value for the NavigationRequest.
   public var hashValue: Int
   
   fileprivate enum NavigationKind: Int {
     case show, hide
   }
-  /// Represents a NavigationRequest to match a `Show` action dispatched
+  /// Represents a NavigationRequest to match a `Show` action dispatched.
   public static func show<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .show)
   }
-  /// Represents a NavigationRequest to match a `Hide` action dispatched
+  /// Represents a NavigationRequest to match a `Hide` action dispatched.
   public static func hide<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .hide)
   }
@@ -59,7 +59,7 @@ public struct NavigationRequest: Hashable {
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
     return self.source == identifier && kind == self.kind
   }
-  /// Implementation of the equality between two NavigationRequest
+  /// Implementation of the equality between two NavigationRequest.
   public static func == (l: NavigationRequest, r: NavigationRequest) -> Bool {
     if l.kind != r.kind {
       return false
@@ -73,7 +73,7 @@ public struct NavigationRequest: Hashable {
   }
 }
 
-/// Closure used by a `NavigationInstruction` of type `.custom`
+/// Closure used by a `NavigationInstruction` of type `.custom`.
 public typealias CustomNavigationOptionClosure = (
   _ identifier: RouteElementIdentifier,
   _ from: RouteElementIdentifier,
@@ -83,7 +83,7 @@ public typealias CustomNavigationOptionClosure = (
 ) -> Void
 
 /// Used by a `RoutableWithConfiguration` inside its `RoutableWithConfiguration.navigationConfiguration`
-/// to describe the kind of navigation to perform when handling a `NavigationRequest`
+/// to describe the kind of navigation to perform when handling a `NavigationRequest`.
 ///
 /// ```swift
 ///    extension ListViewController: RoutableWithConfiguration {
@@ -107,26 +107,28 @@ public typealias CustomNavigationOptionClosure = (
 /// ```
 ///
 public enum NavigationInstruction {
-  /// Define one of the two possible behaviours when dismissing a modal ViewControlelr
+  /// Define one of the two possible behaviours when dismissing a modal ViewController:
+  ///
   /// `.soft`: dismiss the ViewController but keep all the presented ViewControllers
+  ///
   /// `.hard`: the usual UIKit behaviour, dismiss the ViewController and all the ViewControllers that is presenting
   public enum ModalDismissBehaviour {
-    /// If the targeted modal is presenting other modals, keep them alive
+    /// If the targeted modal is presenting other modals, keep them alive.
     case soft
-    /// While removing the targeted modal, remove also all the modals that it is presenting
+    /// While removing the targeted modal, remove also all the modals that it is presenting.
     case hard
   }
-  /// Push the ViewController using `UINavigationController.pushViewController(:animated:)`
+  /// Push the ViewController using `UINavigationController.pushViewController(:animated:)`.
   case push((_ context: Any?) -> UIViewController)
-  /// Pop the ViewController using `UINavigationController.popViewController(animated:)`
+  /// Pop the ViewController using `UINavigationController.popViewController(animated:)`.
   case pop
   
-  /// Present the ViewController modally using `UIViewController.present(:animated:completion:)`
+  /// Present the ViewController modally using `UIViewController.present(:animated:completion:)`.
   case presentModally((_ context: Any?) -> UIViewController)
-  /// Dismiss the ViewController presented modally using `UIViewController.dismiss(animated:completion:)`
+  /// Dismiss the ViewController presented modally using `UIViewController.dismiss(animated:completion:)`.
   case dismissModally(behaviour: ModalDismissBehaviour)
   
-  /// Define your custom implementation of the navigation
+  /// Define your custom implementation of the navigation.
   case custom(CustomNavigationOptionClosure)
   
   func handle(
@@ -266,14 +268,14 @@ public enum NavigationInstruction {
 ///
 public protocol RoutableWithConfiguration: Routable {
   /// The `NavigationRequest`s this RoutableWithConfiguration will handle
-  /// and the `NavigationInstruction`s that will be executed by the `Navigator`
+  /// and the `NavigationInstruction`s that will be executed by the `Navigator`.
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] { get }
 }
 
 public extension RoutableWithConfiguration where Self: UIViewController {
   
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
-  /// implementing automatically looking at the `navigationConfiguration`
+  /// implementing automatically looking at the `navigationConfiguration`.
   public func show(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
@@ -303,7 +305,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
   }
   
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
-  /// implementing automatically looking at the `navigationConfiguration`
+  /// implementing automatically looking at the `navigationConfiguration`.
   public func hide(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,

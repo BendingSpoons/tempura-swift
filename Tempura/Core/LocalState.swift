@@ -34,6 +34,6 @@
 ///    }
 /// ```
 public protocol LocalState {
-  /// Initializes and returns a new LocalState
+  /// Initializes and returns a new LocalState.
   init()
 }

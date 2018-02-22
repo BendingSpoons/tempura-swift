@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-/// Identifier to be used for a `Routable`
+/// Identifier to be used for a `Routable`.
 public typealias RouteElementIdentifier = String
-/// A path to identify a specific navigation state
+/// A path to identify a specific navigation state.
 public typealias Route = [RouteElementIdentifier]
-/// Closure called when a navigation action is completed
+/// Closure called when a navigation action is completed.
 public typealias RoutingCompletion = () -> ()
 
 /// A Routable is a `ViewController` that takes active part to the execution of a navigation action.
@@ -65,7 +65,7 @@ public typealias RoutingCompletion = () -> ()
 ///    }
 /// ```
 public protocol Routable: class {
-  /// The identifier associated to this Routable
+  /// The identifier associated to this Routable.
   /// ```swift
   ///    extension TodoListViewController: Routable {
   ///

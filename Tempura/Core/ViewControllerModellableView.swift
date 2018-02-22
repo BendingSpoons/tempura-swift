@@ -12,11 +12,11 @@ import UIKit
 fileprivate var viewControllerKey = "modellableview_view_controller_key"
 
 /// Extends the `ModellableView` protocol to add
-/// some convenience variables that refers to the ViewController that owns the View
+/// some convenience variables that refers to the ViewController that owns the View.
 
 
 /// A special case of `ModellableView` representing the UIView that the `ViewController` is managing.
-/// It's intended to be used only as the main View of a `ViewController`
+/// It's intended to be used only as the main View of a `ViewController`.
 
 /// ## Overview
 /// A ViewControllerModellableView is a `ModellableView` that a `ViewController` is managing directly.
@@ -29,22 +29,22 @@ fileprivate var viewControllerKey = "modellableview_view_controller_key"
 
 public protocol ViewControllerModellableView: ModellableView where VM: ViewModelWithState {
   
-  /// Syntactic sugar to access the `ViewController` that is managing this View
+  /// Syntactic sugar to access the `ViewController` that is managing this View.
   var viewController: UIViewController? { get set }
 }
 
 public extension ViewControllerModellableView {
   
-  /// Shortcut to the navigationBar, if present
+  /// Shortcut to the navigationBar, if present.
   public var navigationBar: UINavigationBar? {
     return viewController?.navigationController?.navigationBar
   }
   
-  /// Shortcut to the navigationItem, if present
+  /// Shortcut to the navigationItem, if present.
   public var navigationItem: UINavigationItem? {
     return viewController?.navigationItem
   }
-  /// Syntactic sugar to access the `ViewController` that is managing this View
+  /// Syntactic sugar to access the `ViewController` that is managing this View.
   public var viewController: UIViewController? {
     get {
       return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
@@ -61,11 +61,9 @@ public extension ViewControllerModellableView {
   }
 }
 
-// MARK: SafeAreaInsets
-
 public extension ViewControllerModellableView where Self: UIView {
   
-  /// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions
+  /// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
   /// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
   
   public var universalSafeAreaInsets: UIEdgeInsets {

@@ -37,7 +37,7 @@ import Foundation
 ///      }
 ///    }
 public protocol RootInstaller {
-  /// Called by the `Navigator` when it's time to install the root of the navigation
+  /// Called by the `Navigator` when it's time to install the root of the navigation.
   ///
   /// ```swift
   ///      // install the root of the app

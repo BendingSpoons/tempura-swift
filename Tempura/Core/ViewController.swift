@@ -150,7 +150,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Tempura will set this property to true when the ViewController is about to be displayed on screen,
   /// if you want to change this behaviour look at the `shouldConnectWhenVisible` property.
   /// Tempura will set this property to false when the ViewController is about to be hidden,
-  /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property
+  /// if you want to change this behaviour look at the `shouldDisconnectWhenVisible` property.
   open var connected: Bool {
     get {
       return self.unsubscribe != nil
@@ -160,7 +160,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// The store the ViewController will use to receive state updates
+  /// The store the ViewController will use to receive state updates.
   public var store: Store<V.VM.S>
   
   /// The state of this ViewController
@@ -168,11 +168,11 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     return self.store.state
   }
   
-  /// Closure used to unsubscribe the viewController from state updates
+  /// Closure used to unsubscribe the viewController from state updates.
  var unsubscribe: StoreUnsubscribe?
   
-  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`
-  /// deprecated, use `shouldDisconnectWhenInvisible` instead
+  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`.
+  /// Deprecated, use `shouldDisconnectWhenInvisible` instead.
   @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
   public var shouldDisconnectOnViewWillDisappear: Bool {
     get {
@@ -182,13 +182,13 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.shouldDisconnectWhenInvisible = newValue
     }
   }
-  /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible
+  /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible.
   public var shouldConnectWhenVisible = true
   
-  /// When `true` the ViewController will be set to `connected` = `false` as soon as it becomes invisible
+  /// When `true` the ViewController will be set to `connected` = `false` as soon as it becomes invisible.
   public var shouldDisconnectWhenInvisible = true
   
-  /// The latest ViewModel received by this ViewController from the state
+  /// The latest ViewModel received by this ViewController from the state.
   public var viewModel: V.VM? {
     willSet {
       self.willUpdate(new: newValue)
@@ -202,12 +202,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// Use the rootView to access the main view managed by this viewController
+  /// Use the rootView to access the main view managed by this viewController.
   open var rootView: V {
     return self.view as! V
   }
   
-  /// Used internally to load the specific main view managed by this view controller
+  /// Used internally to load the specific main view managed by this view controller.
   open override func loadView() {
     let v = V(frame: .zero)
     v.viewController = self
@@ -216,7 +216,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.view = v
   }
   
-  /// Returns a newly initialized ViewController object
+  /// Returns a newly initialized ViewController object.
   public init(store: Store<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
@@ -224,27 +224,27 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.connected = connected
   }
   
-  /// Override to setup something after init
+  /// Override to setup something after init.
   open func setup() {}
   
-  /// Shortcut to the dispatch function
+  /// Shortcut to the dispatch function.
   @available(*, deprecated, message: "remove `action` label")
   open func dispatch(action: Action) {
     self.store.dispatch(action)
   }
   
-  /// Shortcut to the dispatch function
+  /// Shortcut to the dispatch function.
   open func dispatch(_ action: Action) {
     self.store.dispatch(action)
   }
   
-  /// Required init
+  /// Required init.
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// Subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change
-  /// silent = true if you don't want to trigger a state update after connecting to the store
+  /// Subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change.
+  /// Specify `silent` = `true` if you don't want to trigger a state update after connecting to the store.
   func updateConnect(to connected: Bool, silent: Bool = false) {
     if connected {
       self.subscribe(silent: silent)
@@ -257,7 +257,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// Subscribe to state updates from the store
+  /// Subscribe to state updates from the store.
   func subscribe(silent: Bool = false) {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
@@ -274,7 +274,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// Called every time the store trigger a state update
+  /// Called every time the store trigger a state update.
   func storeDidChange() {
     mainThread {
      self.update(with: self.state)
@@ -282,40 +282,40 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   
-  /// Handle the state update, create a new updated viewModel and feed the view with that
+  /// Handle the state update, create a new updated viewModel and feed the view with that.
   func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = V.VM(state: state)
   }
   
-  /// The ViewController is about to be displayed
+  /// The ViewController is about to be displayed.
   open override func viewWillAppear(_ animated: Bool) {
     self.warmUp()
     super.viewWillAppear(animated)
   }
   
- /// WarmUp phase, check if we should connect to the state
+ /// WarmUp phase, check if we should connect to the state.
  func warmUp() {
     if self.shouldConnectWhenVisible {
       self.connected = true
     }
   }
   
-  /// TearDown phase, check if we should disconnect from the state
+  /// TearDown phase, check if we should disconnect from the state.
   func tearDown() {
     if self.shouldDisconnectWhenInvisible {
       self.connected = false
     }
   }
   
-  /// The ViewController is about to be removed from the view hierarchy
+  /// The ViewController is about to be removed from the view hierarchy.
   open override func viewWillDisappear(_ animated: Bool) {
     self.tearDown()
     super.viewWillDisappear(animated)
   }
   
-  /// Called after the controller's view is loaded into memory
+  /// Called after the controller's view is loaded into memory.
   open override func viewDidLoad() {
     super.viewDidLoad()
     if let vm = self.viewModel {
@@ -325,16 +325,16 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.setupInteraction()
   }
   
-  /// Called just before the update, override point for subclasses
+  /// Called just before the update, override point for subclasses.
   open func willUpdate(new: V.VM?) {}
   
-  /// Called right after the update, override point for subclasses
+  /// Called right after the update, override point for subclasses.
   open func didUpdate(old: V.VM?) {}
   
-  /// Asks to setup the interaction with the managed view, override point for subclasses
+  /// Asks to setup the interaction with the managed view, override point for subclasses.
   open func setupInteraction() {}
   
-  /// Called just before the unsubscribe, override point for subclasses
+  /// Called just before the unsubscribe, override point for subclasses.
   open func willUnsubscribe() {}
   
   // not needed?

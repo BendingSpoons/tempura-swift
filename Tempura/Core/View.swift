@@ -9,9 +9,11 @@
 import Foundation
 
 /// Basic protocol representing the 4 main phases of the lifecycle of a UIView in Tempura.
+///
 /// Ideally all the reusable simple Views of the app should conform to this protocol.
 /// Please note that this protocol is just used in order to enforce the same lifecycle for all the views.
-/// For more complex Views please refer to `ModellableView` protocol
+///
+/// For more complex Views please refer to the `ModellableView` protocol.
 
 /// ## Overview
 /// A view is a piece of UI that is visible on screen. It contains no business logic, it can contain UI logic.
@@ -127,7 +129,7 @@ import Foundation
 
 /// ## Note on layout updates
 /// When the layout of your view changes over time, you are responsible to call
-/// `setNeedsLayout()` inside the `update()` phase in order to trigger a layout update
+/// `setNeedsLayout()` inside the `update()` phase in order to trigger a layout update.
 
 /// ```swift
 /// func update() {
@@ -146,7 +148,7 @@ import Foundation
 
 /// ## Note on calling setup and style
 /// When your UIView subclass conforms to the View protocol, you are responsible to call
-/// the `setup()` and `style()` methods inside the init
+/// the `setup()` and `style()` methods inside the init.
 
 /// ```swift
 /// class TestView: UIView, View {
@@ -165,7 +167,7 @@ import Foundation
 
 public protocol View: class {
   /// The setup phase should execute only once when the `View` is created,
-  /// here you tipically want to create and add all the children views as subviews
+  /// here you tipically want to create and add all the children views as subviews.
   func setup()
   /// The style phase should execute only once when the `View` is created,
   /// right after the setup phase.

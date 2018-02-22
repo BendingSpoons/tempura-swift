@@ -31,7 +31,7 @@ import Chocolate
 /// the `LocalState` manipulating directly the `localState` variable.
 ///
 /// The lifecycle of a ViewControllerWithLocalState is the same as a normal `ViewController`, please refer to that
-/// for more details
+/// for more details.
 
 /// ```swift
 ///    struct GlobalState: State {
@@ -127,7 +127,7 @@ import Chocolate
 
 open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView>: ViewController<V> where V.VM: ViewModelWithLocalState {
   
-  /// The `LocalState` of this ViewController
+  /// The `LocalState` of this ViewController.
   public var localState: V.VM.LS = V.VM.LS() {
     didSet {
       self.localStateDidChange()
@@ -135,10 +135,10 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   }
   
   /// This is the last value for global state we observed, we are saving this to be able to update the `ViewModelWithLocalState`
-  /// when the local state changes and we are disconnected from the global state
+  /// when the local state changes and we are disconnected from the global state.
   public var lastKnownState: V.VM.S?
   
-  /// Returns a newly initialized ViewControllerWithLocalState object
+  /// Returns a newly initialized ViewControllerWithLocalState object.
   override public init(store: Store<V.VM.S>, connected: Bool = false) {
     super.init(store: store, connected: connected)
     // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
@@ -147,17 +147,17 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     }
   }
   
-  /// Required init
+  /// Required init.
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  /// Called just before the unsubscribe, override point for subclasses
+  /// Called just before the unsubscribe, override point for subclasses.
   open override func willUnsubscribe() {
     self.lastKnownState = self.state
   }
   
-  /// WarmUp phase, check if we should connect to the state
+  /// WarmUp phase, check if we should connect to the state.
   override func warmUp() {
     // we are using silent = true because we don't want to trigger two updates
     // one after the subscribing and one after the localStateDidChange()
@@ -168,21 +168,21 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     self.localStateDidChange()
   }
  
-  /// Handle the state update, create a new updated viewModel and feed the view with that
+  /// Handle the state update, create a new updated viewModel and feed the view with that.
   override func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
      self.viewModel = V.VM(state: state, localState: self.localState)
  }
   
-  /// This method is called every time the local state changes
+  /// This method is called every time the local state changes.
   private func localStateDidChange() {
     mainThread {
       self.updateLocalState(with: self.localState)
     }
   }
   
-  /// Handle the local state update
+  /// Handle the local state update.
   private func updateLocalState(with localState: V.VM.LS) {
     let state = self.connected ? self.state : self.lastKnownState
     self.viewModel = V.VM(state: state, localState: localState)

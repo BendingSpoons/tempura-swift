@@ -32,7 +32,7 @@ import Katana
 ///
 /// ## The Routable protocol
 /// If a Screen (read ViewController) takes an active part on the navigation
-/// (i.e. needs to present another screen) it must conform to the `RoutableWithConfiguration` protocol:
+/// (i.e. needs to present another screen) it must conform to the `RoutableWithConfiguration` protocol.
 ///
 /// ```swift
 ///    protocol RoutableWithConfiguration: Routable {
@@ -170,19 +170,19 @@ import Katana
 ///    }
 
 public class Navigator {
-  /// Completion closure typealias, needed by the navigator to know when a navigation has been handled
+  /// Completion closure typealias, needed by the navigator to know when a navigation has been handled.
   public typealias Completion = () -> ()
   
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller!
   private var window: UIWindow!
   
-  /// Initializes and return a Navigator
+  /// Initializes and return a Navigator.
   public init() {}
-  /// Start the navigator
+  /// Start the navigator.
   ///
   /// In order to use the navigation system, you need to start the navigator
-  /// specifying a `RootInstaller` and the first screen you want to install
+  /// specifying a `RootInstaller` and the first screen you want to install.
   /// ```swift
   ///    class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   ///
@@ -212,7 +212,7 @@ public class Navigator {
     self.window = window
     self.install(identifier: rootElementIdentifier, context: nil)
   }
-  /// Generic version of the same method
+  /// Generic version of the same method.
   public func start<K: RawRepresentable>(using rootInstaller: RootInstaller,
                                          in window: UIWindow,
                                          at rootElementIdentifier: K) where K.RawValue == RouteElementIdentifier {
@@ -256,7 +256,7 @@ public class Navigator {
     self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
   }
   
-  /// extract rounting changes to go from `old` to `new`
+  /// extract rounting changes to go from `old` to `new`.
   private static func routingChanges(from old: [Routable], new: Route, atomic: Bool = false) -> [RouteChange] {
     var routeChanges: [RouteChange] = []
     
@@ -267,7 +267,7 @@ public class Navigator {
       return []
     }
     
-    /// if there is no route in common, ask the UIApplication to handle that
+    // if there is no route in common, ask the UIApplication to handle that
     if commonRouteIndex < 0 {
       let change = RouteChange.rootChange(from: old.first!.routeIdentifier, to: new.first!)
       return [change]
@@ -317,7 +317,7 @@ public class Navigator {
     return routeChanges
   }
   
-  /// execute all the `changes` one at a time, asking to the routables on the hierarchy
+  // execute all the `changes` one at a time, asking to the routables on the hierarchy
   private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil) {
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
@@ -444,13 +444,13 @@ extension UIApplication {
 }
 
 public extension UIApplication {
-  /// The routables in the visible hierarchy
+  /// The routables in the visible hierarchy.
   var currentRoutables: [Routable] {
     return self.currentViewControllers.flatMap {
       return $0 as? Routable
     }
   }
-  /// The indentifiers of the routables in the visible hierarchy
+  /// The indentifiers of the routables in the visible hierarchy.
   public var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.flatMap {
       return $0.routeIdentifier
@@ -458,11 +458,11 @@ public extension UIApplication {
   }
 }
 
-/// this method returs the hierarchy of the UIViewControllers in the visible stack
-/// using the RouteInspectable protocol
-/// if you introduce a custom UIViewController like for instance a `SideMenuViewController`
-/// you need it to conform to the RouteInspectable protocol
 extension UIApplication {
+  /// This method returs the hierarchy of the UIViewControllers in the visible stack
+  /// using the RouteInspectable protocol.
+  /// If you introduce a custom UIViewController like for instance a `SideMenuViewController`
+  /// you need it to conform to the RouteInspectable protocol.
   var currentViewControllers: [UIViewController] {
     
     let findViewControllers: () -> [UIViewController] = {
@@ -496,7 +496,7 @@ extension UIApplication {
   }
 }
 
-/// define a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack
+/// Defines a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack.
 protocol CustomRouteInspectables: class {
   var nextRouteControllers: [UIViewController] { get }
 }
@@ -505,25 +505,25 @@ protocol RouteInspectable: class {
   var nextRouteController: UIViewController? { get }
 }
 
-/// conformance of the UINavigationController to the RouteInspectable protocol
-/// in a UINavigationController the next visible controller is the `topViewController`
+/// Conformance of the UINavigationController to the RouteInspectable protocol.
+/// In a UINavigationController the next visible controller is the `topViewController`.
 extension UINavigationController: CustomRouteInspectables {
  var nextRouteControllers: [UIViewController] {
     return self.viewControllers
   }
 }
 
-/// conformance of the UITabBarController to the RouteInspectable protocol
-/// in a UITabBarController the next visible controller is the `selectedViewController`
+/// Conformance of the UITabBarController to the RouteInspectable protocol.
+/// In a UITabBarController the next visible controller is the `selectedViewController`.
 extension UITabBarController: CustomRouteInspectables {
   var nextRouteControllers: [UIViewController] {
     return self.selectedViewController.flatMap { [$0] } ?? []
   }
 }
 
-/// conformance of the UIViewController to the RouteInspectable protocol
-/// in a UIViewController the next visible controller is the `presentedViewController` if != nil
-/// otherwise there is no next UIViewController in the visible stack
+/// Conformance of the UIViewController to the RouteInspectable protocol.
+/// In a UIViewController the next visible controller is the `presentedViewController` if != nil
+/// otherwise there is no next UIViewController in the visible stack.
 extension UIViewController: RouteInspectable {
   var nextRouteController: UIViewController? {
     return self.presentedViewController
