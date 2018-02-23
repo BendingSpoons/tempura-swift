@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="300" />
+  <img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="400" />
 </p>
 
 # 
@@ -13,6 +13,15 @@ Tempura is a pragmatic approach to app development, it borrows concepts from [Re
 - Ship, iterate
 
 Here at [Bending Spoons](http://bndspn.com/2ELtTxf) we are using Tempura on all our apps, serving millions of users.
+
+## Used in production
+
+<p align="center">
+  <a href="https://itunes.apple.com/app/id1099771240"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id509987785"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon2.png" alt="Pic Jointer" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id1310491340"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon3.png" alt="Rized" width="200" /></a>
+  <a href="https://itunes.apple.com/app/id1214593569"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon4.png" alt="ReadIt" width="200" /></a>
+</p>
 
 ## Show me the code
 
