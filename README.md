@@ -4,10 +4,15 @@
 
 # 
 
-Tempura is the framework we use at [Bending Spoons](www.bendingspoons.com) to power all our apps, used by millions of users.
-It is a pragmatic Redux + MVVM approach at architecting applications.
+Tempura is a pragmatic approach to app development, it borrows concepts from [Redux](https://redux.js.org/) (through [Katana](https://github.com/BendingSpoons/katana-swift)) and [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel).
 
+- Model your app state
+- Define the actions that can change it
+- Create the UI
+- Enjoy automatic sync between state and UI
+- Ship, iterate
 
+Here at [Bending Spoons](http://bndspn.com/2ELtTxf) we are using Tempura on all our apps, serving millions of users.
 
 ## Show me the code
 
@@ -206,4 +211,4 @@ Tempura is available under the [MIT license](https://github.com/BendingSpoons/te
 
 Tempura is maintained by Bending Spoons.
 We create our own tech products, used and loved by millions all around the world.
-Interested? [Check us out]()
+Interested? [Check us out](http://bndspn.com/2ELtTxf)
