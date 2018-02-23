@@ -16,12 +16,12 @@ Your app state is defined in a [single struct](https://github.com/BendingSpoons/
 ```swift
 struct AppState: State {
 
-var items: [Todo] = [
-Todo(text: "Pet my unicorn"),
-Todo(text: "Become a doctor.\nChange last name to Acula"),
-Todo(text: "Hire two private investigators.\nGet them to follow each other"),
-Todo(text: "Visit mars")
-]
+  var items: [Todo] = [
+    Todo(text: "Pet my unicorn"),
+    Todo(text: "Become a doctor.\nChange last name to Acula"),
+    Todo(text: "Hire two private investigators.\nGet them to follow each other"),
+    Todo(text: "Visit mars")
+  ]
 }
 ```
 
@@ -29,11 +29,11 @@ You can only manipulate state through [actions](https://github.com/BendingSpoons
 
 ```swift
 struct CompleteItem: AppAction {
-var index: Int
+  var index: Int
 
-func updatedState(currentState: inout AppState) {
-currentState.items[index].completed = true
-}
+  func updatedState(currentState: inout AppState) {
+    currentState.items[index].completed = true
+  }
 }
 ```
 
@@ -41,11 +41,11 @@ The part of the state needed to render the UI of a screen is selected by a [View
 
 ```swift
 struct ListViewModel: ViewModelWithState {
-var todos: [Todo]
+  var todos: [Todo]
 
-init(state: AppState) {
-self.todos = state.todos
-}
+  init(state: AppState) {
+    self.todos = state.todos
+  }
 }
 ```
 
@@ -53,21 +53,21 @@ The UI of each screen of your app is composed in a [ViewControllerModellableView
 
 ```swift
 class ListView: UIView, ViewControllerModellableView {
-// subviews
-var todoButton: UIButton = UIButton(type: .custom)
-var todoButton: UIButton = UIButton(type: .custom)
-var list: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>
+  // subviews
+  var todoButton: UIButton = UIButton(type: .custom)
+  var todoButton: UIButton = UIButton(type: .custom)
+  var list: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>
 
-// interactions
-var didTapAddItem: ((String) -> ())?
-var didCompleteItem: ((String) -> ())?
+  // interactions
+  var didTapAddItem: ((String) -> ())?
+  var didCompleteItem: ((String) -> ())?
 
-// update based on ViewModel
-func update(oldModel: ListViewModel?) {
-guard let model = self.model else { return }
-let todos = model.todos
-self.list.source = SimpleSource<TodoCellViewModel>(todos)
-}
+  // update based on ViewModel
+  func update(oldModel: ListViewModel?) {
+    guard let model = self.model else { return }
+    let todos = model.todos
+    self.list.source = SimpleSource<TodoCellViewModel>(todos)
+  }
 }
 ```
 
@@ -75,12 +75,12 @@ Each screen of your app is managed by a [ViewController](./docs/Classes/ViewCont
 
 ```swift
 class ListViewController: ViewController<ListView> {
-// listen for interactions from the view
-override func setupInteraction() {
-self.rootView.didCompleteItem = { [unowned self] index in
-self.dispatch(CompleteItem(index: index))
-}
-}
+  // listen for interactions from the view
+  override func setupInteraction() {
+    self.rootView.didCompleteItem = { [unowned self] index in
+      self.dispatch(CompleteItem(index: index))
+    }
+  }
 }
 ```
 
@@ -90,16 +90,16 @@ Real apps are made by more than one screen. If a screen needs to present another
 
 ```swift
 extension ListViewController: RoutableWithConfiguration {
-var routeIdentifier: RouteElementIdentifier { return "list screen"}
+  var routeIdentifier: RouteElementIdentifier { return "list screen"}
 
-var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
-return [
-.show("add item screen"): .presentModally({ [unowned self] _ in
-let aivc = AddItemViewController(store: self.store)
-return aivc
-})
-]
-}
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .show("add item screen"): .presentModally({ [unowned self] _ in
+        let aivc = AddItemViewController(store: self.store)
+        return aivc
+      })
+    ]
+  }
 }
 ```
 
