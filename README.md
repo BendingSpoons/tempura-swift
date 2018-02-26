@@ -6,15 +6,15 @@
 
 Tempura is a pragmatic approach to app development, it borrows concepts from [Redux](https://redux.js.org/) (through [Katana](https://github.com/BendingSpoons/katana-swift)) and [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel).
 
-- Model your app state
-- Define the actions that can change it
-- Create the UI
-- Enjoy automatic sync between state and UI
-- Ship, iterate
+1. Model your app state
+2. Define the actions that can change it
+3. Create the UI
+4. Enjoy automatic sync between state and UI
+5. Ship, iterate
 
-Here at [Bending Spoons](http://bndspn.com/2ELtTxf) we are using Tempura on all our apps, serving millions of users.
+## Why should I use this?
 
-## Used in production
+We started using Tempura in a small team inside [Bending Spoons](http://bndspn.com/2HOnxis). It worked so well for us that we ended up developing and maintaining more than twenty high quality apps with more than 10 millions of active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We were so satisfied that we wanted to share this with the iOS community, hoping that you would be as excited as us. <3
 
 <p align="center">
   <a href="https://itunes.apple.com/app/id1099771240"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
@@ -25,7 +25,8 @@ Here at [Bending Spoons](http://bndspn.com/2ELtTxf) we are using Tempura on all 
 
 ## Show me the code
 
-Your app state is defined in a [single struct](https://github.com/BendingSpoons/katana-swift).
+Tempura is using [Katana](https://github.com/BendingSpoons/katana-swift)) to handle the logic of your app.
+Your app state is defined in a single struct.
 
 ```swift
 struct AppState: State {
@@ -146,7 +147,7 @@ Tempura is available through [CocoaPods](https://cocoapods.org) and [Carthage](h
 ### Requirements
 
 - iOS 9+
-- Xcode 8.0+
+- Xcode 9.0+
 - Swift 4.0+
 
 ### CocoaPods
@@ -165,7 +166,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 target 'MyApp' do
-pod 'Tempura'
+  pod 'Tempura'
 end
 ```
 
@@ -207,7 +208,7 @@ We'd love to hear from you **any questions** or **feedback** at [opensource@bend
 - If you've **found a bug**, open an issue;
 - If you have a **feature request**, open an issue;
 - If you **want to contribute**, submit a pull request;
-- If you **have an idea** on how to improve the framework or how to spread the word, please [get in touch](https://github.com/BendingSpoons/katana-swift#get-in-touch);
+- If you **have an idea** on how to improve the framework or how to spread the word, please [get in touch](https://github.com/BendingSpoons/tempura-swift#get-in-touch);
 - If you want to **try the framework** for your project or to write a demo, please send us the link of the repo.
 
 ## License
