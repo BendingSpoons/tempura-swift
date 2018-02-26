@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/BendingSpoons/tempura-swift.svg?branch=master)](https://travis-ci.org/BendingSpoons/katana-swift)
 [![CocoaPods](https://img.shields.io/cocoapods/v/Tempura.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields)](http://makeapullrequest.com)
-[![Licence](https://img.shields.io/badge/Licence-MIT-lightgrey.svg)](https://github.com/BendingSpoons/tempura-swift/blob/master/LICENSE)
+[![Licence](https://img.shields.io/badge/Licence-MIT-lightgrey.svg)](https://github.com/BendingSpoons/tempura-swift/blob/master/LICENSE.md)
 
 # 
 
