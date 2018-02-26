@@ -2,7 +2,7 @@ language: swift
 osx_image: xcode9
 env:
   global:
-    - PROJECT=Tempura.xcodeproj
+    - PROJECT=Tempura.xcworkspace
   matrix:
     - SCHEME="Tempura"
       SDK=iphonesimulator11.0
