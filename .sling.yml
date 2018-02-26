@@ -1,7 +1,18 @@
 project: Tempura
 
+documentation:
+  author: Bending Spoons Team
+  author_url: http://bendingspoons.com
+  github_url: https://github.com/BendingSpoons/katana-swift
+  
 cocoapods:
-  private_repo:
-    url: https://github.com/BendingSpoons/kss-cocoapods
-    name: "kss-cocoapods"
-    allow_warnings: true
+  public_repo:
+    email: katana@bendingspoons.com
+    author: Bending Spoons
+  skip_linting: true
+
+  tests:
+  runs:
+    - scheme: Tempura
+      sdk: iphonesimulator11.2
+      simulator: platform=iOS Simulator,OS=11.2,name=iPhone 7
