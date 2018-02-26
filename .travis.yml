@@ -21,4 +21,4 @@ script:
   - instruments -s devices
 
   # Build Framework in Debug and Run Tests if specified
-  - travis_retry xcodebuild -project $PROJECT -scheme "$SCHEME" -sdk $SDK test -destination "$SIMULATOR" | xcpretty -c
+  - travis_retry xcodebuild -workspace $PROJECT -scheme "$SCHEME" -sdk $SDK test -destination "$SIMULATOR" | xcpretty -c
