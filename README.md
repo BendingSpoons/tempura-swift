@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="400" />
+  <img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="400" />
 </p>
+
+[![Build Status](https://travis-ci.org/BendingSpoons/tempura-swift.svg?branch=master)](https://travis-ci.org/BendingSpoons/katana-swift)
 
 # 
 
@@ -17,10 +19,10 @@ Tempura is a holistic approach to iOS development, it borrows concepts from [Red
 We started using Tempura in a small team inside [Bending Spoons](http://bndspn.com/2HOnxis). It worked so well for us that we ended up developing and maintaining more than twenty high quality apps with more than 10 millions of active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We were so satisfied that we wanted to share this with the iOS community, hoping that you would be as excited as us. ❤️ 
 
 <p align="center">
-  <a href="https://itunes.apple.com/app/id1099771240"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
-  <a href="https://itunes.apple.com/it/app/id509987785"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon2.png" alt="Pic Jointer" width="200" /></a>
-  <a href="https://itunes.apple.com/it/app/id1310491340"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon3.png" alt="Rized" width="200" /></a>
-  <a href="https://itunes.apple.com/app/id1214593569"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon4.png" alt="ReadIt" width="200" /></a>
+  <a href="https://itunes.apple.com/app/id1099771240"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id509987785"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/icon2.png" alt="Pic Jointer" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id1310491340"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/icon3.png" alt="Rized" width="200" /></a>
+  <a href="https://itunes.apple.com/app/id1214593569"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/icon4.png" alt="ReadIt" width="200" /></a>
 </p>
 
 ## Show me the code
@@ -40,7 +42,7 @@ struct AppState: State {
 }
 ```
 
-You can only manipulate state through [actions](https://github.com/BendingSpoons/katana-swift).
+You can only manipulate state through [actions](https://github.com/BendingSpoons/katana-swift/blob/master/docs/1.0.0/Protocols/Action.html).
 
 ```swift
 struct CompleteItem: AppAction {
@@ -52,7 +54,7 @@ struct CompleteItem: AppAction {
 }
 ```
 
-The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](./docs/Protocols/ViewModelWithState.html).
+The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](http://tempura.bendingspoons.com/Protocols/ViewModelWithState.html).
 
 ```swift
 struct ListViewModel: ViewModelWithState {
@@ -64,7 +66,7 @@ struct ListViewModel: ViewModelWithState {
 }
 ```
 
-The UI of each screen of your app is composed in a [ViewControllerModellableView](./docs/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
+The UI of each screen of your app is composed in a [ViewControllerModellableView](http://tempura.bendingspoons.com/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
 
 ```swift
 class ListView: UIView, ViewControllerModellableView {
@@ -86,7 +88,7 @@ class ListView: UIView, ViewControllerModellableView {
 }
 ```
 
-Each screen of your app is managed by a [ViewController](./docs/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
+Each screen of your app is managed by a [ViewController](http://tempura.bendingspoons.com/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
 
 ```swift
 class ListViewController: ViewController<ListView> {
@@ -101,7 +103,7 @@ class ListViewController: ViewController<ListView> {
 
 ### Navigation
 
-Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](./docs/Protocols/RoutableWithConfiguration.html) protocol.
+Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](http://tempura.bendingspoons.com/Protocols/RoutableWithConfiguration.html) protocol.
 
 ```swift
 extension ListViewController: RoutableWithConfiguration {
@@ -124,7 +126,7 @@ You can then trigger the presentation using one of the navigation actions from t
 self.dispatch(Show("add item screen"))
 ```
 
-Learn more about the navigation [here](./docs/Classes/Navigator.html)
+Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
 
 
 
@@ -136,7 +138,7 @@ This repository contains a demo of a todo list application done with Tempura. Af
 
 ### Check out the documentation
 
-[Documentation](./docs/index.html)
+[Documentation](http://tempura.bendingspoons.com)
 
 
 
