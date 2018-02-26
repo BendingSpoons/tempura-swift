@@ -14,7 +14,7 @@
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -148,7 +148,7 @@
   <img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="400" />
 </p>
 
-<p>Tempura is a pragmatic approach to app development, it borrows concepts from <a href="https://redux.js.org/">Redux</a> (through <a href="https://github.com/BendingSpoons/katana-swift">Katana</a>) and <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">MVVM</a>.</p>
+<p>Tempura is a holistic approach to iOS development, it borrows concepts from <a href="https://redux.js.org/">Redux</a> (through <a href="https://github.com/BendingSpoons/katana-swift">Katana</a>) and <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">MVVM</a>.</p>
 
 <ol>
 <li>Model your app state</li>
@@ -159,7 +159,7 @@
 </ol>
 <h2 id='why-should-i-use-this' class='heading'>Why should I use this?</h2>
 
-<p>We started using Tempura in a small team inside <a href="http://bndspn.com/2HOnxis">Bending Spoons</a>. It worked so well for us that we ended up developing and maintaining more than twenty high quality apps with more than 10 millions of active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We were so satisfied that we wanted to share this with the iOS community, hoping that you would be as excited as us. &lt;3</p>
+<p>We started using Tempura in a small team inside <a href="http://bndspn.com/2HOnxis">Bending Spoons</a>. It worked so well for us that we ended up developing and maintaining more than twenty high quality apps with more than 10 millions of active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We were so satisfied that we wanted to share this with the iOS community, hoping that you would be as excited as us. ❤️ </p>
 
 <p align="center">
   <a href="https://itunes.apple.com/app/id1099771240"><img src="https://github.com/BendingSpoons/tempura-lib-swift/blob/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
@@ -169,7 +169,7 @@
 </p>
 <h2 id='show-me-the-code' class='heading'>Show me the code</h2>
 
-<p>Tempura is using <a href="https://github.com/BendingSpoons/katana-swift">Katana</a>) to handle the logic of your app.
+<p>Tempura uses <a href="https://github.com/BendingSpoons/katana-swift">Katana</a> to handle the logic of your app.
 Your app state is defined in a single struct.</p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">AppState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
 
@@ -182,7 +182,7 @@ Your app state is defined in a single struct.</p>
 <span class="p">}</span>
 </code></pre>
 
-<p>You can only manipulate state through <a href="https://github.com/BendingSpoons/katana-swift">actions</a>.</p>
+<p>You can only manipulate state through <a href="https://github.com/BendingSpoons/katana-swift/blob/master/docs/1.0.0/Protocols/Action.html">actions</a>.</p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CompleteItem</span><span class="p">:</span> <span class="kt">AppAction</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span>
 
