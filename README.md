@@ -4,7 +4,7 @@
 
 # 
 
-Tempura is a pragmatic approach to app development, it borrows concepts from [Redux](https://redux.js.org/) (through [Katana](https://github.com/BendingSpoons/katana-swift)) and [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel).
+Tempura is a holistic approach to iOS development, it borrows concepts from [Redux](https://redux.js.org/) (through [Katana](https://github.com/BendingSpoons/katana-swift)) and [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel).
 
 1. Model your app state
 2. Define the actions that can change it
@@ -25,7 +25,7 @@ We started using Tempura in a small team inside [Bending Spoons](http://bndspn.c
 
 ## Show me the code
 
-Tempura is using [Katana](https://github.com/BendingSpoons/katana-swift)) to handle the logic of your app.
+Tempura uses [Katana](https://github.com/BendingSpoons/katana-swift) to handle the logic of your app.
 Your app state is defined in a single struct.
 
 ```swift
