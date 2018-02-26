@@ -1,4 +1,3 @@
-source "https://github.com/BendingSpoons/kss-cocoapods"
 source 'https://github.com/CocoaPods/Specs.git'
 
 inhibit_all_warnings!
