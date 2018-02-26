@@ -142,7 +142,7 @@ This repository contains a demo of a todo list application done with Tempura. Af
 
 ## Installation
 
-Tempura is available through [CocoaPods](https://cocoapods.org) and [Carthage](https://github.com/Carthage/Carthage).
+Tempura is available through [CocoaPods](https://cocoapods.org).
 
 ### Requirements
 
@@ -175,29 +175,6 @@ Now you just need to run:
 ```shell
 $ pod install
 ```
-
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager for Cocoa projects. You can install Carthage downloading and running the `Carthage.pkg` file from [here](https://github.com/Carthage/Carthage/releases) or you can install it using [Homebrew](http://brew.sh/) simply by running:
-
-```
-$ brew update
-$ brew install carthage
-```
-
-To integrate Tempura into your Xcode project using Carthage, add it to your `Cartfile`:
-
-```Shell
-github "Bendingspoons/tempura-swift"
-```
-
-And Run:
-
-```shell
-$ carthage update
-```
-
-Then drag the build `Tempura.framework` into your Xcode project.
 
 ## Get in touch
 
