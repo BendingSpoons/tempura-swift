@@ -16,21 +16,5 @@ target 'Tempura' do
   target 'Demo' do
     pod 'PinLayout'
     pod 'DeepDiff', '~> 1.1'
-    pod 'BonMot', '~> 5.0'
-    pod 'Hero', '1.0.0-alpha.4'
-  end
-end
-
-
-post_install do |installer|
-  # Your list of targets here.
-  legacyTargets = ['Hero']
-  
-  installer.pods_project.targets.each do |target|
-    if legacyTargets.include? target.name
-      target.build_configurations.each do |config|
-        config.build_settings['SWIFT_VERSION'] = '3.2'
-      end
-    end
   end
 end
