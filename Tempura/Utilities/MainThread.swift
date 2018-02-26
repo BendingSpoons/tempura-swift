@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func mainThread(_ block: () -> ()) {
+func mainThread(_ block: () -> ()) {
   if !Thread.isMainThread {
     DispatchQueue.main.sync {
       block()
@@ -17,7 +17,7 @@ public func mainThread(_ block: () -> ()) {
   }
 }
 
-public func mainThread<T>(_ block: () -> (T)) -> T {
+func mainThread<T>(_ block: () -> (T)) -> T {
   var result: T!
   mainThread {
     result = block()
