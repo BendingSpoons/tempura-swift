@@ -19,7 +19,7 @@ Tempura is a holistic approach to iOS development, it borrows concepts from [Red
 
 ## Why should I use this?
 
-We started using Tempura in a small team inside [Bending Spoons](http://bndspn.com/2HOnxis). It worked so well for us that we ended up developing and maintaining more than twenty high quality apps with more than 10 millions of active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We were so satisfied that we wanted to share this with the iOS community, hoping that you would be as excited as us. ❤️ 
+We started using Tempura in a small team inside [Bending Spoons](http://bndspn.com/2HOnxis). It worked so well for us, that we ended up developing and maintaining more than twenty high quality apps, with more than 10 million active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We are so satisfied that we wanted to share this with the iOS community, hoping that you will be as excited as we are. ❤️ 
 
 <p align="center">
   <a href="https://itunes.apple.com/app/id1099771240"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
@@ -183,7 +183,7 @@ $ pod install
 
 ## Get in touch
 
-We'd love to hear from you **any questions** or **feedback** at [opensource@bendingspoons.com](mailto:opensource@bendingspoons.com).
+If you have any **questions** or **feedback** we'd love to hear from you at [opensource@bendingspoons.com](mailto:opensource@bendingspoons.com)
 
 ## Contribute
 
@@ -201,6 +201,6 @@ Tempura is available under the [MIT license](https://github.com/BendingSpoons/te
 
 ## About
 
-Tempura is maintained by Bending Spoons.
+Tempura is maintained by [Bending Spoons](http://bndspn.com/2HOnxis).
 We create our own tech products, used and loved by millions all around the world.
-Interested? [Check us out](http://bndspn.com/2ELtTxf)
+Sounds cool? [Check us out](http://bndspn.com/2ELtTxf)

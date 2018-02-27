@@ -13,7 +13,7 @@ import Katana
 /// Main class that is handling the navigation in a Tempura app.
 ///
 /// ## Overview
-/// When it comes to create a complex app, the way you handle the navigation between
+/// When it comes to creating a complex app, the way you handle the navigation between
 /// different screens is an important factor on the final result.
 ///
 /// We believe that relying on the native iOS navigation system, even in a Redux-like
