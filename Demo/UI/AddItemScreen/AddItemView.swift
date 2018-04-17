@@ -107,6 +107,10 @@ struct AddItemViewModel: ViewModelWithLocalState {
     return self.editingText != nil
   }
   
+  init(editingText: String) {
+    self.editingText = editingText
+  }
+  
   init?(state: AppState?, localState: AddItemLocalState) {
     guard let state = state else { return nil }
     if let itemID = localState.itemID {
