@@ -14,7 +14,8 @@ tempura = target do |target|
     target.all_configurations.each do |configuration|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Tempura"
-	configuration.settings["SWIFT_VERSION"] = "4.0"
+	    configuration.settings["SWIFT_VERSION"] = "4.0"
+        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(SRCROOT)/Lib/** $(PLATFORM_DIR)/Developer/Library/Frameworks"
     end
 
     target.headers_build_phase do |phase|

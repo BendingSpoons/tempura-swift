@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import XCTest
 
 /// this uiTest global function can be used inside a XCTest environment
 /// this will create a snapshot of the ViewController `vc` taken in input
