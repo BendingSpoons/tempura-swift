@@ -509,7 +509,10 @@ protocol RouteInspectable: class {
 /// In a UINavigationController the next visible controller is the `topViewController`.
 extension UINavigationController: CustomRouteInspectables {
  var nextRouteControllers: [UIViewController] {
-    return self.viewControllers
+   if let presentedVC = self.presentedViewController {
+     return [presentedVC]
+   }
+   return self.viewControllers
   }
 }
 
@@ -517,7 +520,15 @@ extension UINavigationController: CustomRouteInspectables {
 /// In a UITabBarController the next visible controller is the `selectedViewController`.
 extension UITabBarController: CustomRouteInspectables {
   var nextRouteControllers: [UIViewController] {
-    return self.selectedViewController.flatMap { [$0] } ?? []
+    if let presentedVC = self.presentedViewController {
+      return [presentedVC]
+    }
+
+    if let selectedVC = self.selectedViewController {
+      return [selectedVC]
+    }
+
+    return []
   }
 }
 
