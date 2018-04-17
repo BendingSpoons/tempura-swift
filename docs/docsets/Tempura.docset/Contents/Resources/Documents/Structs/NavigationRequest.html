@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NavigationRequest Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/NavigationRequest" class="dashAnchor"></a>
+    <a title="NavigationRequest Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Tempura Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        NavigationRequest Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Navigator.html">Navigator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewController.html">ViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction.html">NavigationInstruction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction/ModalDismissBehaviour.html">– ModalDismissBehaviour</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/UIApplication.html">UIApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ModellableView.html">ModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RootInstaller.html">RootInstaller</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Routable.html">Routable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Hide.html">Hide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Navigate.html">Navigate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Show.html">Show</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura29CustomNavigationOptionClosurea">CustomNavigationOptionClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura17RoutingCompletiona">RoutingCompletion</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>NavigationRequest</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+
+                </div>
+              </div>
+            <p>Used by a <code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> inside its <code><a href="../Protocols/RoutableWithConfiguration.html#/s:7Tempura25RoutableWithConfigurationP010navigationD0s10DictionaryVyAA17NavigationRequestVAA0G11InstructionOGv">RoutableWithConfiguration.navigationConfiguration</a></code>
+to describe the kind of navigation action (<code><a href="../Structs/Show.html">Show</a></code>, <code><a href="../Structs/Hide.html">Hide</a></code>) to handle.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
+
+     <span class="c1">// needed by the `Routable` protocol</span>
+     <span class="c1">// to identify this ViewController in the hierarchy</span>
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"listScreen"</span>
+     <span class="p">}</span>
+
+     <span class="c1">// the `NavigationRequest`s that this ViewController is handling</span>
+     <span class="c1">// with the `NavigationInstruction` to execute</span>
+     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">[</span>
+         <span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="s">"addItemScreen"</span><span class="p">):</span> <span class="o">.</span><span class="nf">presentModally</span><span class="p">({</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
+           <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">AddItemViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+           <span class="k">return</span> <span class="n">vc</span>
+         <span class="p">})</span>
+       <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura17NavigationRequestV9hashValueSiv"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura17NavigationRequestV9hashValueSiv">hashValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The computed hash value for the NavigationRequest.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura17NavigationRequestV4showACxs16RawRepresentableRzSS0E5ValueRtzlFZ"></a>
+                    <a name="//apple_ref/swift/Method/show(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura17NavigationRequestV4showACxs16RawRepresentableRzSS0E5ValueRtzlFZ">show(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a NavigationRequest to match a <code><a href="../Structs/Show.html">Show</a></code> action dispatched.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">show</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">RawRepresentable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NavigationRequest</span> <span class="k">where</span> <span class="kt">T</span><span class="o">.</span><span class="kt">RawValue</span> <span class="o">==</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L42-L44">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura17NavigationRequestV4hideACxs16RawRepresentableRzSS0E5ValueRtzlFZ"></a>
+                    <a name="//apple_ref/swift/Method/hide(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura17NavigationRequestV4hideACxs16RawRepresentableRzSS0E5ValueRtzlFZ">hide(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a NavigationRequest to match a <code><a href="../Structs/Hide.html">Hide</a></code> action dispatched.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">hide</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">RawRepresentable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NavigationRequest</span> <span class="k">where</span> <span class="kt">T</span><span class="o">.</span><span class="kt">RawValue</span> <span class="o">==</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L46-L48">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura17NavigationRequestV2eeoiSbAC_ACtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura17NavigationRequestV2eeoiSbAC_ACtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Implementation of the equality between two NavigationRequest.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">l</span><span class="p">:</span> <span class="kt">NavigationRequest</span><span class="p">,</span> <span class="nv">r</span><span class="p">:</span> <span class="kt">NavigationRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L63-L73">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

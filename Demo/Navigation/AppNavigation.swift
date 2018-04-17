@@ -9,104 +9,45 @@
 import Foundation
 import Tempura
 
+// MARK: - Screens identifiers
 enum Screen: String {
-  case tabbar
-  case navigation
-  case home
-  case storyCover
-  case storyChat
-  case modalTest
+  case list
+  case addItem
 }
 
-// HOME
-extension HomeViewController: Routable {
+// MARK: - List Screen navigation
+extension ListViewController: RoutableWithConfiguration {
+  
   var routeIdentifier: RouteElementIdentifier {
-    return Screen.home.rawValue
+    return Screen.list.rawValue
   }
   
-  func show(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    // HOME -> STORY COVER
-    if identifier == Screen.storyCover.rawValue {
-      let sc = StoryCoverViewController(store: self.store)
-      sc.hidesBottomBarWhenPushed = true
-      self.navigationController?.pushViewController(sc, animated: animated)
-      completion()
-    }
-    return true
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .show(Screen.addItem): .presentModally({ [unowned self] context in
+        if let editID = context as? String {
+          let ai = AddItemViewController(store: self.store, itemIDToEdit: editID)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        } else {
+          let ai = AddItemViewController(store: self.store)
+          ai.modalPresentationStyle = .overCurrentContext
+          return ai
+        }
+    })]
   }
 }
 
-// NAVIGATION
-extension RoutableNavigationController: Routable {
+// MARK: - AddItem Screen navigation
+extension AddItemViewController: RoutableWithConfiguration {
+  
   var routeIdentifier: RouteElementIdentifier {
-    return Screen.navigation.rawValue
+    return Screen.addItem.rawValue
   }
   
-  func hide(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    self.popViewController(animated: animated)
-    completion()
-    return true
-  }
-}
-
-// STORY COVER
-extension StoryCoverViewController: Routable {
-  var routeIdentifier: RouteElementIdentifier {
-    return Screen.storyCover.rawValue
-  }
-}
-
-// MODAL TEST
-extension ModalTestViewController: Routable {
-  var routeIdentifier: RouteElementIdentifier {
-    return Screen.modalTest.rawValue
-  }
-  
-  func hide(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    
-    if self.presentingViewController != nil {
-      self.tempuraDismiss(animated: true) {
-        completion()
-      }
-      return true
-    } else {
-      completion()
-      return true
-    }
-  }
-}
-
-// TABBAR
-extension TabBarController: Routable {
-  var routeIdentifier: RouteElementIdentifier {
-    return Screen.tabbar.rawValue
-  }
-  
-  func show(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool {
-    
-    if identifier == Screen.modalTest.rawValue {
-      let vc = ModalTestViewController(store: self.store)
-      self.tempuraPresent(vc, animated: animated, completion: { 
-        completion()
-      })
-      return true
-    }
-    return false
+  var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
+    return [
+      .hide(Screen.addItem): .dismissModally(behaviour: .hard)
+    ]
   }
 }

@@ -9,6 +9,7 @@ class ViewControllerSpec: QuickSpec {
       
       struct AppState: State {
         var counter: Int = 0
+        var dataFromAPIRequest: String? = "something"
       }
       
       struct Increment: Action {
@@ -21,10 +22,21 @@ class ViewControllerSpec: QuickSpec {
         }
       }
       
+      struct ResetDataFromAPI: Action {
+        func updatedState(currentState: State) -> State {
+          guard var state = currentState as? AppState else {
+            fatalError()
+          }
+          state.dataFromAPIRequest = nil
+          return state
+        }
+      }
+      
       struct TestViewModel: ViewModelWithState {
         var counter: Int = 0
         
-        init(state: AppState) {
+        init?(state: AppState) {
+          guard let _ = state.dataFromAPIRequest else { return nil }
           self.counter = state.counter
         }
         
@@ -84,7 +96,7 @@ class ViewControllerSpec: QuickSpec {
       
       beforeEach {
         store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
-        testVC = TestViewController(store: store)
+        testVC = TestViewController(store: store, connected: true)
       }
       
       
@@ -184,6 +196,13 @@ class ViewControllerSpec: QuickSpec {
         vc.viewWillDisappear(false)
         store.dispatch(Increment())
         expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
+      }
+      
+      it("a ViewController with connected == 'true' should have a nil ViewModel when a specific state result in a nil ViewModel") {
+        let vc = TestViewController(store: store, connected: true)
+        expect(vc.viewModel).toNot(beNil())
+        store.dispatch(ResetDataFromAPI())
+        expect(vc.viewModel).toEventually(beNil())
       }
     }
   }

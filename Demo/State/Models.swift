@@ -8,24 +8,20 @@
 import Foundation
 import UIKit
 
-extension Story {
-  enum Genre: String {
-    case horror = "Horror"
-    case romance = "Romance"
-    case comedy = "Comedy"
+struct Todo: Equatable {
+  let id: String
+  var text: String
+  var completed: Bool
+  var archived: Bool
+  
+  init(text: String, completed: Bool = false) {
+    self.id = String.random(length: 16)
+    self.text = text
+    self.completed = completed
+    self.archived = false
   }
-}
-
-struct Story {
-  typealias Sender = String
-  typealias Message = String
-  typealias ID = String
-
-  let id: ID
-  let title: String
-  let genre: Genre
-  let author: String
-  let cover: UIImage
-  let description: String
-  let chat: [Sender: Message]
+  
+  static func == (l: Todo, r: Todo) -> Bool {
+    return l.id == r.id && l.text == r.text
+  }
 }

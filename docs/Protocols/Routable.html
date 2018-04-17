@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Routable Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/Routable" class="dashAnchor"></a>
+    <a title="Routable Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Tempura Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Routable Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Navigator.html">Navigator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewController.html">ViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction.html">NavigationInstruction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction/ModalDismissBehaviour.html">– ModalDismissBehaviour</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/UIApplication.html">UIApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ModellableView.html">ModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RootInstaller.html">RootInstaller</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Routable.html">Routable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Hide.html">Hide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Navigate.html">Navigate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Show.html">Show</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura29CustomNavigationOptionClosurea">CustomNavigationOptionClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura17RoutingCompletiona">RoutingCompletion</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Routable</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Routable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+
+                </div>
+              </div>
+            <p>A Routable is a <code><a href="../Classes/ViewController.html">ViewController</a></code> that takes active part to the execution of a navigation action.
+This is intended to be used in the few cases the <code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> is not enough.</p>
+
+<p>For instance, if we want a screen <code>A</code> to present <code>B</code>, the ViewController that
+is handling A, must conform to the Routable protocol.</p>
+
+<p>Each Routable can be asked by the <code><a href="../Classes/Navigator.html">Navigator</a></code> to perform a specific navigation task
+(like present another ViewController) based on the NavigationAction you dispatch
+(see <code><a href="../Structs/Show.html">Show</a></code> or <code><a href="../Structs/Hide.html">Hide</a></code>).</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">:</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"todoList"</span>
+     <span class="p">}</span>
+
+     <span class="kd">func</span> <span class="nf">show</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">NextViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+         <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">hide</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">if</span> <span class="n">identifier</span> <span class="o">==</span> <span class="k">self</span><span class="o">.</span><span class="n">routeIdentifier</span> <span class="p">{</span>
+           <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+           <span class="k">return</span> <span class="kc">true</span>
+         <span class="p">}</span>
+         <span class="k">return</span> <span class="kc">false</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura8RoutableP15routeIdentifierSSv"></a>
+                    <a name="//apple_ref/swift/Property/routeIdentifier" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura8RoutableP15routeIdentifierSSv">routeIdentifier</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The identifier associated to this Routable.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">:</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"todoList"</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L77">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura8RoutableP4showSbSS10identifier_SS4fromSb8animatedypSg7contextyyc10completiontF"></a>
+                    <a name="//apple_ref/swift/Method/show(identifier:from:animated:context:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura8RoutableP4showSbSS10identifier_SS4fromSb8animatedypSg7contextyyc10completiontF">show(identifier:from:animated:context:completion:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When a <code><a href="../Structs/Show.html">Show</a></code> action is dispatched, the <code><a href="../Classes/Navigator.html">Navigator</a></code> can ask this Routable
+to show another Routable identified by <code>identifier</code> calling this method.
+You must call the completion callback as soon as the navigation is completed.
+Return <code>true</code> if this Routable is handling the action, <code>false</code> otherwise.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">show</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">NextViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+         <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">show</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">,</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L99">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura8RoutableP4hideSbSS10identifier_SS4fromSb8animatedypSg7contextyyc10completiontF"></a>
+                    <a name="//apple_ref/swift/Method/hide(identifier:from:animated:context:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura8RoutableP4hideSbSS10identifier_SS4fromSb8animatedypSg7contextyyc10completiontF">hide(identifier:from:animated:context:completion:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When a <code><a href="../Structs/Hide.html">Hide</a></code> action is dispatched, the <code><a href="../Classes/Navigator.html">Navigator</a></code> can ask this Routable
+to hide itself or another Routable identified by <code>identifier</code> calling this method.
+Return <code>true</code> if this Routable is handling the action, <code>false</code> otherwise.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">hide</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">if</span> <span class="n">identifier</span> <span class="o">==</span> <span class="k">self</span><span class="o">.</span><span class="n">routeIdentifier</span> <span class="p">{</span>
+           <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+           <span class="k">return</span> <span class="kc">true</span>
+         <span class="p">}</span>
+         <span class="k">return</span> <span class="kc">false</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">hide</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">,</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L126">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura8RoutableP6changeySS4from_SS2toSb8animatedypSg7contextyyc10completiontF"></a>
+                    <a name="//apple_ref/swift/Method/change(from:to:animated:context:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura8RoutableP6changeySS4from_SS2toSb8animatedypSg7contextyyc10completiontF">change(from:to:animated:context:completion:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When a <code><a href="../Structs/Navigate.html">Navigate</a></code> action is dispatched, the <code><a href="../Classes/Navigator.html">Navigator</a></code> can ask this Routable
+to hide/show itself or another Routable identified by <code>identifier</code> calling this method.
+Return <code>true</code> if this Routable is handling the action, <code>false</code> otherwise.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">change</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">,</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L135">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

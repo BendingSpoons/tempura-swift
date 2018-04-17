@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tempura  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Tempura  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">Tempura Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Tempura  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/Navigator.html">Navigator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ViewController.html">ViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/NavigationInstruction.html">NavigationInstruction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/NavigationInstruction/ModalDismissBehaviour.html">– ModalDismissBehaviour</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/UIApplication.html">UIApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ModellableView.html">ModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/NavigationProvider.html">NavigationProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/RootInstaller.html">RootInstaller</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Routable.html">Routable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ViewModelWithState.html">ViewModelWithState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/Hide.html">Hide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Navigate.html">Navigate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/NavigationRequest.html">NavigationRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Show.html">Show</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura29CustomNavigationOptionClosurea">CustomNavigationOptionClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura5Routea">Route</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura17RoutingCompletiona">RoutingCompletion</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p align="center">
+  <img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/tempura_header.png" alt="Tempura by Bending Spoons" width="400" />
+</p>
+
+<p><a href="https://travis-ci.org/BendingSpoons/katana-swift"><img src="https://travis-ci.org/BendingSpoons/tempura-swift.svg?branch=master" alt="Build Status"></a>
+<a href=""><img src="https://img.shields.io/cocoapods/v/Tempura.svg" alt="CocoaPods"></a>
+<a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields" alt="PRs Welcome"></a>
+<a href="https://github.com/BendingSpoons/tempura-swift/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/Licence-MIT-lightgrey.svg" alt="Licence"></a></p>
+
+<p>Tempura is a holistic approach to iOS development, it borrows concepts from <a href="https://redux.js.org/">Redux</a> (through <a href="https://github.com/BendingSpoons/katana-swift">Katana</a>) and <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">MVVM</a>.</p>
+
+<ol>
+<li>Model your app state</li>
+<li>Define the actions that can change it</li>
+<li>Create the UI</li>
+<li>Enjoy automatic sync between state and UI</li>
+<li>Ship, iterate</li>
+</ol>
+<h2 id='why-should-i-use-this' class='heading'>Why should I use this?</h2>
+
+<p>We started using Tempura in a small team inside <a href="http://bndspn.com/2HOnxis">Bending Spoons</a>. It worked so well for us, that we ended up developing and maintaining more than twenty high quality apps, with more than 10 million active users in the last year using this approach. Crash rates and development time went down, user engagement and quality went up. We are so satisfied that we wanted to share this with the iOS community, hoping that you will be as excited as we are. ❤️ </p>
+
+<p align="center">
+  <a href="https://itunes.apple.com/app/id1099771240"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/icon1.png" alt="Thirty Day Fitness" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id509987785"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/icon2.png" alt="Pic Jointer" width="200" /></a>
+  <a href="https://itunes.apple.com/it/app/id1310491340"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/icon3.png" alt="Rized" width="200" /></a>
+  <a href="https://itunes.apple.com/app/id1214593569"><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/icon4.png" alt="ReadIt" width="200" /></a>
+</p>
+<h2 id='show-me-the-code' class='heading'>Show me the code</h2>
+
+<p>Tempura uses <a href="https://github.com/BendingSpoons/katana-swift">Katana</a> to handle the logic of your app.
+Your app state is defined in a single struct.</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">AppState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+
+  <span class="k">var</span> <span class="nv">items</span><span class="p">:</span> <span class="p">[</span><span class="kt">Todo</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">Todo</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="s">"Pet my unicorn"</span><span class="p">),</span>
+    <span class="kt">Todo</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="s">"Become a doctor.</span><span class="se">\n</span><span class="s">Change last name to Acula"</span><span class="p">),</span>
+    <span class="kt">Todo</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="s">"Hire two private investigators.</span><span class="se">\n</span><span class="s">Get them to follow each other"</span><span class="p">),</span>
+    <span class="kt">Todo</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="s">"Visit mars"</span><span class="p">)</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>You can only manipulate state through <a href="https://github.com/BendingSpoons/katana-swift/blob/master/docs/1.0.0/Protocols/Action.html">actions</a>.</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CompleteItem</span><span class="p">:</span> <span class="kt">AppAction</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span>
+
+  <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="nv">currentState</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">AppState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">currentState</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">completed</span> <span class="o">=</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>The part of the state needed to render the UI of a screen is selected by a <a href="http://tempura.bendingspoons.com/Protocols/ViewModelWithState.html">ViewModelWithState</a>.</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ListViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">Todo</span><span class="p">]</span>
+
+  <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">AppState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">todos</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">todos</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>The UI of each screen of your app is composed in a <a href="http://tempura.bendingspoons.com/Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a>. It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ListView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ViewControllerModellableView</span> <span class="p">{</span>
+  <span class="c1">// subviews</span>
+  <span class="k">var</span> <span class="nv">todoButton</span><span class="p">:</span> <span class="kt">UIButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
+  <span class="k">var</span> <span class="nv">todoButton</span><span class="p">:</span> <span class="kt">UIButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
+  <span class="k">var</span> <span class="nv">list</span><span class="p">:</span> <span class="kt">CollectionView</span><span class="o">&lt;</span><span class="kt">TodoCell</span><span class="p">,</span> <span class="kt">SimpleSource</span><span class="o">&lt;</span><span class="kt">TodoCellViewModel</span><span class="o">&gt;&gt;</span>
+
+  <span class="c1">// interactions</span>
+  <span class="k">var</span> <span class="nv">didTapAddItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+  <span class="k">var</span> <span class="nv">didCompleteItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+
+  <span class="c1">// update based on ViewModel</span>
+  <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">ListViewModel</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">model</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">todos</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">todos</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="kt">SimpleSource</span><span class="o">&lt;</span><span class="kt">TodoCellViewModel</span><span class="o">&gt;</span><span class="p">(</span><span class="n">todos</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Each screen of your app is managed by a <a href="http://tempura.bendingspoons.com/Classes/ViewController.html">ViewController</a>. Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">ListView</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="c1">// listen for interactions from the view</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">setupInteraction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didCompleteItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">index</span> <span class="k">in</span>
+      <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">CompleteItem</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="n">index</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='navigation' class='heading'>Navigation</h3>
+
+<p>Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the <a href="http://tempura.bendingspoons.com/Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a> protocol.</p>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span> <span class="k">return</span> <span class="s">"list screen"</span><span class="p">}</span>
+
+  <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="s">"add item screen"</span><span class="p">):</span> <span class="o">.</span><span class="nf">presentModally</span><span class="p">({</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">aivc</span> <span class="o">=</span> <span class="kt">AddItemViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">aivc</span>
+      <span class="p">})</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>You can then trigger the presentation using one of the navigation actions from the ViewController.</p>
+<pre class="highlight swift"><code><span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">Show</span><span class="p">(</span><span class="s">"add item screen"</span><span class="p">))</span>
+</code></pre>
+
+<p>Learn more about the navigation <a href="http://tempura.bendingspoons.com/Classes/Navigator.html">here</a></p>
+<h2 id='where-to-go-from-here' class='heading'>Where to go from here</h2>
+<h3 id='example-application' class='heading'>Example application</h3>
+
+<p>This repository contains a demo of a todo list application done with Tempura. After a <code>pod install</code>, open the project and run the <code>Demo</code> target.</p>
+<h3 id='check-out-the-documentation' class='heading'>Check out the documentation</h3>
+
+<p><a href="http://tempura.bendingspoons.com">Documentation</a></p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>Tempura is available through <a href="https://cocoapods.org">CocoaPods</a>.</p>
+<h3 id='requirements' class='heading'>Requirements</h3>
+
+<ul>
+<li>iOS 9+</li>
+<li>Xcode 9.0+</li>
+<li>Swift 4.0+</li>
+</ul>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
+
+<p><a href="https://cocoapods.org/">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>sudo gem install cocoapods
+</code></pre>
+
+<p>To integrate Tempura in your Xcode project using CocoaPods you need to create a <code>Podfile</code> with this content:</p>
+<pre class="highlight ruby"><code><span class="n">use_frameworks!</span>
+<span class="n">source</span> <span class="s1">'https://github.com/CocoaPods/Specs.git'</span>
+<span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'9.0'</span>
+
+<span class="n">target</span> <span class="s1">'MyApp'</span> <span class="k">do</span>
+  <span class="n">pod</span> <span class="s1">'Tempura'</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Now you just need to run:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>pod install
+</code></pre>
+<h2 id='get-in-touch' class='heading'>Get in touch</h2>
+
+<p>If you have any <strong>questions</strong> or <strong>feedback</strong> we&rsquo;d love to hear from you at <a href="mailto:opensource@bendingspoons.com">opensource@bendingspoons.com</a></p>
+<h2 id='contribute' class='heading'>Contribute</h2>
+
+<ul>
+<li>If you&rsquo;ve <strong>found a bug</strong>, open an issue;</li>
+<li>If you have a <strong>feature request</strong>, open an issue;</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request;</li>
+<li>If you <strong>have an idea</strong> on how to improve the framework or how to spread the word, please <a href="https://github.com/BendingSpoons/tempura-swift#get-in-touch">get in touch</a>;</li>
+<li>If you want to <strong>try the framework</strong> for your project or to write a demo, please send us the link of the repo.</li>
+</ul>
+<h2 id='license' class='heading'>License</h2>
+
+<p>Tempura is available under the <a href="https://github.com/BendingSpoons/tempura-swift/blob/master/LICENSE">MIT license</a>.</p>
+<h2 id='about' class='heading'>About</h2>
+
+<p>Tempura is maintained by <a href="http://bndspn.com/2HOnxis">Bending Spoons</a>.
+We create our own tech products, used and loved by millions all around the world.
+Sounds cool? <a href="http://bndspn.com/2ELtTxf">Check us out</a></p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -25,9 +25,10 @@ class DemoTests: XCTestCase {
     func testExample() {
       
       let store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
-      let vc = StoryCoverViewController(store: store)
-      
+      let vc = ListViewController(store: store)
       uiTest(vc: vc)
+      let model = ListViewModel(state: nil, localState: ListLocalState())
+      uiTest(view: ListView.self, viewModel: model!)
     }
     
     func testPerformanceExample() {

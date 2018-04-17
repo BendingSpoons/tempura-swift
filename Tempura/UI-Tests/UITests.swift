@@ -12,33 +12,63 @@ import Foundation
 /// the snapshot will be saved under the UI_TEST_DIR specified in your info.plist
 
 public func uiTest<VC: ViewController<V>, V>(vc: VC) {
+  uiTest(view: vc.rootView)
+}
+
+public func uiTest<V: ModellableView & UIView, VM>(view: V, viewModel: VM) where V.VM == VM {
+  view.model = viewModel
+  uiTest(view: view)
+}
+
+public func uiTest<V: ModellableView & UIView, VM>(view: V.Type, viewModel: VM) where V.VM == VM {
+  let v = view.init()
+  v.model = viewModel
+  uiTest(view: v)
+}
+
+public func uiTest(view: UIView, description: String? = nil) {
+  let description = description ?? String(describing: type(of: view))
   let frame = UIScreen.main.bounds
-  vc.rootView.frame = frame
+  view.frame = frame
   
-  let snapshot = vc.rootView.snapshot()
+  let snapshot = view.snapshot()
   guard let image = snapshot else { return }
   let fileManager: FileManager = FileManager()
   guard let dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
   let dirURL = URL(fileURLWithPath: dirPath)
   guard let pngData = UIImagePNGRepresentation(image) else { return }
   let scaleFactor = Int(UIScreen.main.scale)
-  let fileURL = dirURL.appendingPathComponent("\(String(describing: VC.self))@\(scaleFactor)x.png")
+  let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
   guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }
   guard let didWrite = try? pngData.write(to: fileURL) else { return }
 }
 
 public extension UIView {
   func snapshot() -> UIImage? {
+    let window: UIWindow?
+    var removeFromSuperview: Bool = false
+    
+    if let w = self as? UIWindow {
+      window = w
+    } else if let w = self.window {
+      window = w
+    } else {
+      window = UIApplication.shared.keyWindow
+      window?.addSubview(self)
+      removeFromSuperview = true
+    }
+    
     self.layoutIfNeeded()
-    self.layer.layoutIfNeeded()
     
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
-    guard let context = UIGraphicsGetCurrentContext() else { return nil }
-    context.saveGState()
-    self.layer.layoutIfNeeded()
-    self.layer.render(in: context)
-    context.restoreGState()
+    self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+    let snapshot = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
     
-    return UIGraphicsGetImageFromCurrentImageContext()
+    if removeFromSuperview {
+      self.removeFromSuperview()
+    }
+    
+    return snapshot
   }
 }

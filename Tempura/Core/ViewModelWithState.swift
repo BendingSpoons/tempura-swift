@@ -9,9 +9,26 @@
 import Foundation
 import Katana
 
+/// A special case of `ViewModel` used to select part of the Katana app state
+/// that is of interest for the View.
+
+/// ```swift
+///    struct CounterState: State {
+///      var counter: Int = 0
+///    }
+/// ```
+
+/// ```swift
+///    struct CounterViewModel: ViewModelWithState {
+///      var countDescription: String
+///
+///      init(state: CounterState) {
+///        self.countDescription = "the counter is at \(state.counter)"
+///      }
+///    }
+/// ```
 public protocol ViewModelWithState: ViewModel {
   associatedtype S: State
-  
-  init(state: S)
-  
+  /// Instantiate a ViewModelWithState given the Katana app state.
+  init?(state: S)
 }
