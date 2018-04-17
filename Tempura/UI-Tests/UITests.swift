@@ -217,11 +217,12 @@ open class TempuraUITest: XCTestCase {
 /// the snapshot will be saved under the UI_TEST_DIR specified in your info.plist
 
 private func verifyView(view: UIView, description: String) {
-  uiTest(view: view, description: description)
+  let recording: Bool = (Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool) == true
+  uiTest(view: view, recording: recording, description: description)
   XCTAssertTrue(true)
 }
 
-public func uiTest(view: UIView, description: String? = nil) {
+public func uiTest(view: UIView, recording: Bool = false, description: String? = nil) {
   let description = description ?? String(describing: type(of: view))
   let frame = UIScreen.main.bounds
   view.frame = frame
@@ -230,7 +231,10 @@ public func uiTest(view: UIView, description: String? = nil) {
   guard let image = snapshot else { return }
   let fileManager: FileManager = FileManager()
   guard let dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
-  let dirURL = URL(fileURLWithPath: dirPath)
+  var dirURL = URL(fileURLWithPath: dirPath)
+  if recording {
+    dirURL.appendPathComponent("/reference")
+  }
   guard let pngData = UIImagePNGRepresentation(image) else { return }
   let scaleFactor = Int(UIScreen.main.scale)
   let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
