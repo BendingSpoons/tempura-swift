@@ -131,6 +131,60 @@ self.dispatch(Show("add item screen"))
 
 Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
 
+### UI Testing
+
+Tempura has a UI testing system that can be used to take screenshots of your views in all possible states, with all devices and all supported languages.
+
+#### Usage
+
+You need to specify where the screenshots will be placed inside your `plist` :
+
+```plist
+UI_TEST_DIR: $(SOURCE_ROOT)/Demo/UITests
+```
+
+In Xcode, create a new UI test case class:
+
+`File -> New -> File... -> UI Test Case Class ` 
+
+Here you can use the `test` function to take a snapshot of a `ViewControllerModellableView`  with a specific `ViewModel`.
+
+```swift
+class UITests: XCTestCase {
+  
+  func testAddItemScreen() {
+    test(AddItemView.self,
+         with: AddItemViewModel(editingText: "this is a test"),
+         container: .none,
+         identifier: "addItem01")
+  } 
+}
+
+```
+
+You can also embed the View inside a specific container (UINavigationController or UITabBarController).
+The identifier will define the name of the snapshot image in the file system.
+
+The test will pass as soon as the snapshot is taken.
+
+#### Multiple devices
+
+By default, tests are run only in the device you have choose from xcode (or your device, or CI system). We can run the snapshotting in all the devices by using a script like the following one:
+
+```bash
+xcodebuild \
+  -workspace <project>.xcworkspace \
+  -scheme "<target name>" \
+  -destination name="iPhone 5s" \
+  -destination name="iPhone 6 Plus" \
+  -destination name="iPhone 6" \
+  -destination name="iPhone X" \
+  -destination name="iPad Pro (12.9 inch)" \
+  test
+```
+
+Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the `xcodebuild` documentation
+
 
 
 ## Where to go from here
