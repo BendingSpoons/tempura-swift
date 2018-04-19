@@ -10,17 +10,16 @@ import XCTest
 import Tempura
 import Katana
 
-class DemoTest: TempuraUITest {
-  override var screenSnapshots: [AnyScreenSnapshot] {
-    return [
-      ScreenSnapshot<AddItemView>(
-        type: AddItemView.self,
-        container: .tabBarController,
-        models: [
-          "first": AddItemViewModel(editingText: "test"),
-          "second": AddItemViewModel(editingText: "test2")
-        ]
-      )
-    ]
+
+class UITests: XCTestCase {
+  
+  func testAddItemScreen() {
+
+    test(AddItemView.self, with: AddItemViewModel(editingText: "this is a test"), container: .none, identifier: "addItem01")
+    
+    test(AddItemView.self, with: ["addItem02": AddItemViewModel(editingText: "this is another test"),
+                                  "addItem03": AddItemViewModel(editingText: "what about this?")],
+         container: .none)
   }
+  
 }
