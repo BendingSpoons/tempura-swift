@@ -105,6 +105,9 @@ public enum UITests {
         let tabVC = UITabBarController()
         tabVC.viewControllers = [containerVC]
         containerViewController = tabVC
+      
+      case .custom(let customController):
+        containerViewController = customController(containerVC)
       }
       
       containerViewController.view.frame.size = self.size
@@ -191,6 +194,8 @@ public enum UITests {
     case navigationController
     /// UITabBarController
     case tabBarController
+    /// provide a custom UIViewController as a container
+    case custom((UIViewController) -> (UIViewController))
   }
   
   /// Create a snapshot image of the view and pass the test
@@ -233,8 +238,8 @@ public enum UITests {
 /// This function can only be used in a XCTest environment.
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with model: V.VM,
-                                                           container: UITests.Container,
                                                            identifier: String,
+                                                           container: UITests.Container = .none,
                                                            hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
                                                            size: CGSize = UIScreen.main.bounds.size) {
   test(viewType, with: [identifier: model], container: container, hooks: hooks, size: size)
@@ -247,12 +252,20 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
 /// This function can only be used in a XCTest environment.
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with models: [String: V.VM],
-                                                           container: UITests.Container,
+                                                           container: UITests.Container = .none,
                                                            hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
                                                            size: CGSize = UIScreen.main.bounds.size) {
   let snapshotConfiguration = UITests.ScreenSnapshot<V>(type: viewType, container: container, models: models, hooks: hooks, size: size)
   let viewControllers = snapshotConfiguration.renderingViewControllers
+  let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
   for (identifier, vc) in viewControllers {
-    UITests.verifyView(view: vc.view, description: identifier)
+    let description = "\(identifier) \(screenSizeDescription)"
+    UITests.verifyView(view: vc.view, description: description)
+  }
+}
+
+extension CGSize: CustomStringConvertible {
+  public var description: String {
+    return "\(Int(self.width))x\(Int(self.height))"
   }
 }
