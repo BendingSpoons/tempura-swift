@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Tempura
 import XCTest
 
 public enum UITests {
@@ -264,7 +265,7 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
   }
 }
 
-extension CGSize: CustomStringConvertible {
+extension CGSize {
   public var description: String {
     return "\(Int(self.width))x\(Int(self.height))"
   }

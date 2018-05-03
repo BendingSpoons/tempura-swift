@@ -8,7 +8,10 @@ tempura = target do |target|
     target.language = :swift
     target.type = :framework
     target.include_files = [
-        "Tempura/**/*.swift",
+        "Tempura/Core/**/*.swift",
+        "Tempura/Navigation/**/*.swift",
+        "Tempura/SupportingFiles/**/*.swift",
+        "Tempura/Utilities/**/*.swift",
     ]
 
     target.all_configurations.each do |configuration|
@@ -37,6 +40,32 @@ tempura = target do |target|
 
     target.scheme(target.name)
 end
+
+# TempuraTesting Framework target
+tempuraTesting = target do |target|
+    target.name = "TempuraTesting"
+    target.platform = :ios
+    target.deployment_target = 9.0
+    target.language = :swift
+    target.type = :framework
+    target.include_files = [
+        "Tempura/UITests/**/*.swift",
+    ]
+
+    target.all_configurations.each do |configuration|
+        configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
+        configuration.settings["PRODUCT_NAME"] = "TempuraTesting"
+        configuration.settings["SWIFT_VERSION"] = "4.0"
+        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(SRCROOT)/Lib/** $(PLATFORM_DIR)/Developer/Library/Frameworks"
+    end
+
+    target.headers_build_phase do |phase|
+        phase.public << "Tempura/SupportingFiles/Tempura.h"
+    end
+
+    target.scheme(target.name)
+end
+
 
 # Demo target
 demo = target do |target|

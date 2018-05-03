@@ -8,6 +8,7 @@
 import XCTest
 @testable import Demo
 import Tempura
+import TempuraTesting
 import Katana
 
 

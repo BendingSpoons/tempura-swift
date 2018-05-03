@@ -137,6 +137,17 @@ Tempura has a UI testing system that can be used to take screenshots of your vie
 
 #### Usage
 
+You need to include the Tempura Testing pod in your Podfile:
+
+```ruby
+target 'MyApp' do
+  pod 'Tempura'
+  pod 'TempuraTesting'
+end
+```
+
+
+
 You need to specify where the screenshots will be placed inside your `plist` :
 
 ```plist
@@ -150,6 +161,8 @@ In Xcode, create a new UI test case class:
 Here you can use the `test` function to take a snapshot of a `ViewControllerModellableView`  with a specific `ViewModel`.
 
 ```swift
+import TempuraTesting
+
 class UITests: XCTestCase {
   
   func testAddItemScreen() {
