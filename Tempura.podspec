@@ -16,4 +16,10 @@ Pod::Spec.new do |s|
   s.ios.source_files = [
     'Tempura/**/*.swift',
   ]
+
+  s.pod_target_xcconfig = {
+    'OTHER_LDFLAGS' => '-weak-lswiftXCTest',
+    'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
+    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks"',
+  }
 end
