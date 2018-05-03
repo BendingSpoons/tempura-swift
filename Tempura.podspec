@@ -9,7 +9,8 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-
+  s.weak_framework = "XCTest"
+  s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   s.dependency 'Katana', '>= 1.0', '< 1.1'
 
   s.ios.source_files = [

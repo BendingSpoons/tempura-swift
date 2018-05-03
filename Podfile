@@ -15,6 +15,13 @@ target 'Tempura' do
 
   target 'Demo' do
     pod 'PinLayout'
-    pod 'DeepDiff', '~> 1.1'
+    pod 'DeepDiff', '~> 1.2'
   end
+
+  target 'DemoTests' do
+    inherit! :search_paths
+    pod 'Quick', '~> 1.2'
+    pod 'Nimble', '~> 7.0'
+  end
+
 end
