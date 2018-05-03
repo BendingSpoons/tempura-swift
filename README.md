@@ -137,18 +137,15 @@ Tempura has a UI testing system that can be used to take screenshots of your vie
 
 #### Usage
 
-You need to include the Tempura Testing pod in your Podfile:
+You need to include the `TempuraTesting` pod in the test target of your app:
 
 ```ruby
-target 'MyApp' do
-  pod 'Tempura'
+target 'MyAppTests' do
   pod 'TempuraTesting'
 end
 ```
 
-
-
-You need to specify where the screenshots will be placed inside your `plist` :
+Specify where the screenshots will be placed inside your `plist` :
 
 ```plist
 UI_TEST_DIR: $(SOURCE_ROOT)/Demo/UITests
