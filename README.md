@@ -212,7 +212,7 @@ Given an url, `LocalFileURLProtocol` matches the file name using the following r
 
 if a matching file cannot be retrieved, then the newtwork call is performed.
 
-In order to register `LocalFileURLProtocol` in your application, you have to invoke the following API as soon as possible in your tests lifecycle
+In order to register `LocalFileURLProtocol` in your application, you have to invoke the following API as soon as possible in your tests lifecycle:
 ```swift
 URLProtocol.registerClass(LocalFileURLProtocol.self)
 ```
