@@ -23,5 +23,9 @@ target 'Tempura' do
     pod 'Quick', '~> 1.2'
     pod 'Nimble', '~> 7.0'
   end
+end
 
+target 'TempuraTesting' do
+  platform :ios, '9.0'
+  pod 'Tempura', :path => '.'
 end
