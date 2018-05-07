@@ -195,6 +195,33 @@ xcodebuild \
 
 Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the `xcodebuild` documentation
 
+#### Async UI Tests
+Sometimes the standard `UITest` system may not fit your needs. In particular, when you have UIs that should wait a little bit before being ready (e.g, an image taken from the network or that is slow to be computed).
+
+For these cases, you should use `AsyncUITest`. The usage is quite similar to the standard `UITest`:
+
+```swift
+// subclass XCTestCase and adopt the AsyncUITest protocol
+class DemoMainUITests: XCTestCase, AsyncUITest {
+  dynamic func testDefault() {
+    let vm = AddItemViewModel(editingText: "this is a test")
+      
+    // invoke uiTest method, one for each snapshot you want to have
+    self.uiTest(model: vm, identifier: "test_snapshot")
+
+    // you can add more here
+  }
+  
+  // return true when the view is ready to be snapshotted (e.g., an image has been downloaded and shown)
+  func isViewReady(_ view: AddItemView) -> Bool {
+    if the_view_is_ready_to_be_snapshotted {
+      return true
+    }
+      
+    return false
+  }
+}
+```
 
 
 ## Where to go from here
