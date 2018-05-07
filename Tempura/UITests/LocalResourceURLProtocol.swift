@@ -23,7 +23,7 @@ import MobileCoreServices
  request will occur)
 */
 public final class LocalFileURLProtocol: URLProtocol {
-  override class func canInit(with request: URLRequest) -> Bool {
+  public override class func canInit(with request: URLRequest) -> Bool {
     guard let url = request.url else {
       return false
     }
@@ -31,11 +31,11 @@ public final class LocalFileURLProtocol: URLProtocol {
     return self.localPath(for: url) != nil
   }
   
-  override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+  public override class func canonicalRequest(for request: URLRequest) -> URLRequest {
     return request
   }
   
-  override func startLoading() {
+  public override func startLoading() {
     guard
       let client = self.client,
       let url = request.url,
@@ -53,7 +53,7 @@ public final class LocalFileURLProtocol: URLProtocol {
     client.urlProtocolDidFinishLoading(self)
   }
   
-  override func stopLoading() {
+  public override func stopLoading() {
     
   }
   
