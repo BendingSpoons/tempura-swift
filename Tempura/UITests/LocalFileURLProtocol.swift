@@ -56,7 +56,6 @@ public final class LocalFileURLProtocol: URLProtocol, NSURLConnectionDataDelegat
         return
     }
 
-    print("CACHE: HANDLING \(url.absoluteString)")
     let req = URLRequest(url: localURL, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData, timeoutInterval: 100)
     let connection = NSURLConnection(request: req, delegate: self, startImmediately: true)
     self.connection = connection
