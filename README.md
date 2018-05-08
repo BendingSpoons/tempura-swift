@@ -195,6 +195,29 @@ xcodebuild \
 
 Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the `xcodebuild` documentation
 
+#### Remote Resources
+
+It happens often that the UI needs to show remote content (that is, remote images, remote videos, ...). While executing UITests this could be a problem as:
+* tests may fail due to network or server issues
+* system should take care of tracking when remote resources are loaded, put them in the UI and only then take the screenshots
+
+To fix this issue, Tempura offers a [URLProtocol](https://developer.apple.com/documentation/foundation/urlprotocol) subclass named `LocalFileURLProtocol` that tries to load remote files from your local bundle.
+
+The idea is to put in your (test) bundle all the resources that are needed to render the UI and `LocalFileURLProtocol` will try to load them instead of making the network request. 
+
+Given an url, `LocalFileURLProtocol` matches the file name using the following rules:
+* search a file that has the url as a name (e.g., http://example.com/image.png)
+* search a file that has the last path component as file name (e.g., image.png)
+* search a file that has the last path component without extension as file name (e.g., image)
+
+if a matching file cannot be retrieved, then the network call is performed.
+
+In order to register `LocalFileURLProtocol` in your application, you have to invoke the following API as soon as possible in your tests lifecycle:
+```swift
+URLProtocol.registerClass(LocalFileURLProtocol.self)
+```
+
+Note that if you are using [Alamofire](https://github.com/Alamofire/Alamofire/) this won't work. [Here](https://github.com/Alamofire/Alamofire/issues/1247) you can find a related issue and a link on how to configure Alamofire to deal with `URLProtocol` classes.
 
 
 ## Where to go from here
