@@ -202,34 +202,57 @@ public enum UITests {
   /// Create a snapshot image of the view and pass the test
   /// The snapshot will be saved under the UI_TEST_DIR specified in your info.plist
   static func verifyView(view: UIView, description: String) {
-    let recording: Bool = (Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool) == true
-    snapshot(view: view, recording: recording, description: description)
+    snapshot(view: view, description: description)
     XCTAssertTrue(true)
   }
   
   /// Create a snapshot image of the view.
   /// The snapshot will be saved under the UI_TEST_DIR specified in your info.plist
-  private static func snapshot(view: UIView, recording: Bool = false, description: String? = nil) {
+  private static func snapshot(view: UIView, description: String? = nil) {
     let description = description ?? String(describing: type(of: view))
     let frame = UIScreen.main.bounds
     view.frame = frame
     
     let snapshot = view.snapshot()
     guard let image = snapshot else { return }
-    let fileManager: FileManager = FileManager()
+    self.saveImage(image, description: description)
+  }
+  
+  static func asyncSnapshot(view: UIView, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
+    let frame = UIScreen.main.bounds
+    view.frame = frame
+    
+    view.snapshotAsync(isViewReadyClosure: isViewReadyClosure) { snapshot in
+      defer {
+        completionClosure()
+      }
+
+      guard let image = snapshot else {
+        return
+      }
+      
+      self.saveImage(image, description: description)
+    }
+  }
+  
+  private static func saveImage(_ image: UIImage, description: String) {
     guard let dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
+    
+    let fileManager = FileManager.default
+    
     var dirURL = URL(fileURLWithPath: dirPath)
+    let recording: Bool = (Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool) == true
+
     if recording {
       dirURL.appendPathComponent("/reference")
     }
+
     guard let pngData = UIImagePNGRepresentation(image) else { return }
     let scaleFactor = Int(UIScreen.main.scale)
     let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
     guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }
     guard let _ = try? pngData.write(to: fileURL) else { return }
   }
-  
-  
 }
 
 /// Test a ViewControllerModellableView embedded in a Container with a specific ViewModel.
