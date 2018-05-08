@@ -197,9 +197,9 @@ Tests will run in parallel on all the devices. If you want to change the behavio
 
 #### Remote Resources
 
-It often happens that  the UI should show remote content (that is, remote images, remote videos, ...). During an UITest, that could be a problem as:
+It happens often that the UI needs to show remote content (that is, remote images, remote videos, ...). While executing UITests this could be a problem as:
 * tests may fail due to network or server issues
-* system should take care of traking when remote resources are loaded, put them in the UI and only then take the screenshots
+* system should take care of tracking when remote resources are loaded, put them in the UI and only then take the screenshots
 
 To fix this issue, Tempura offers a [URLProtocol](https://developer.apple.com/documentation/foundation/urlprotocol) subclass named `LocalFileURLProtocol` that tries to load remote files from your local bundle.
 
@@ -210,7 +210,7 @@ Given an url, `LocalFileURLProtocol` matches the file name using the following r
 * search a file that has the last path component as file name (e.g., image.png)
 * search a file that has the last path component without extension as file name (e.g., image)
 
-if a matching file cannot be retrieved, then the newtwork call is performed.
+if a matching file cannot be retrieved, then the network call is performed.
 
 In order to register `LocalFileURLProtocol` in your application, you have to invoke the following API as soon as possible in your tests lifecycle:
 ```swift

@@ -14,12 +14,12 @@ import MobileCoreServices
  - make UITests independent from server status, network connection and related topics
  - make so that there are no delays in the loading of the resource, which prevents us from adding mechanisms to wait for the resources before taking the screenshots (and therefore make UITests faster)
  
- The class will try to find a matching file in one of the bundles. Given an url, files will be matched in the following order:
+ The class will try to find a matching file in one of the bundles. Given a url, files will be matched in the following order:
  - search a file that has the url as a name (e.g., http://example.com/image.png)
  - search a file that has the last path component as file name (e.g., image.png)
  - search a file that has the last path component without extension as file name (e.g., image)
  
- If the class is not able to locale the file, then it returns that it is not able to manage the request (and most likely a network
+ If the class is not able to locate the file, then it returns that it is not able to manage the request (and most likely a network
  request will occur)
 */
 public final class LocalFileURLProtocol: URLProtocol {
