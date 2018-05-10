@@ -106,7 +106,7 @@ public struct Hide: Action, ActionWithSideEffect {
     self.animated = animated
     self.context = context
     self.animated = animated
-    self.atomic = false
+    self.atomic = atomic
   }
   
   /// Initializes and return a Hide action.
