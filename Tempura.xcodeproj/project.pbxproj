@@ -1,7 +1,8 @@
 // !$*UTF8*$!
 {
-	archiveVersion = "";
-	classes = "";
+	archiveVersion = 1;
+	classes = {
+	};
 	objectVersion = 46;
 	objects = {
 
@@ -28,7 +29,6 @@
 		60732F55BDCE9185AE509895 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44B2C8B57611F6BB456545C /* AppDelegate.swift */; };
 		67067EDDA3446C0F13F1B134 /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E77FB40DA81B6937A603B8 /* Routable.swift */; };
 		6A3EBDF3264AEF857BB8AFD2 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF5181D8B0055F25B48925 /* AddItemViewController.swift */; };
-		6FB4EA3D831DFDD7E77A6326 /* LocalResourceURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC4BDC57132C8C2FB7E5AF /* LocalResourceURLProtocol.swift */; };
 		70480ED5EEC06DDC212085AF /* NavigationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BDA097BB85789B2E6F63A5 /* NavigationProvider.swift */; };
 		71EBCD91E463162151360DD8 /* CGRect+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0CFA98D914027E7554C09A /* CGRect+Utils.swift */; };
 		73F207069E31E8BF0EAB15F8 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BFDA0575A0152A8A1018614 /* Media.xcassets */; };
@@ -52,6 +52,7 @@
 		9FD8DD25823F63D9B3EEE1EF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0165E43419CD3F3C59573D7B /* DataSource.swift */; };
 		A112E48D985E4F98352ED496 /* ViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6A0FDEBF59E8BA26EB08AB /* ViewControllerSpec.swift */; };
 		A2C029D5306622A1FF0B8AC3 /* ModellableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5B03A62BF0F4D6FC0AB21 /* ModellableView.swift */; };
+		A77BB2C120A1EF9D00663A65 /* LocalFileURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BB2C020A1EF9D00663A65 /* LocalFileURLProtocol.swift */; };
 		A90459D2367FEFA41B1B3B73 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93246E328C464DE95351C261 /* View.swift */; };
 		AD1F5DB6F3EB524484DD712B /* ViewControllerWithLocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F5F10ED6E540B1B4F53EBC /* ViewControllerWithLocalState.swift */; };
 		AE7EBDB3A4210C928E7AA310 /* Tempura.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4197EBCBF63B79ACCA29CF9 /* Tempura.framework */; };
@@ -127,7 +128,6 @@
 		424F2A1AD5818A7F3211FD2B /* Pods-TempuraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempuraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TempuraTests/Pods-TempuraTests.release.xcconfig"; sourceTree = "<group>"; };
 		45B983FF8687BF1E9B28494B /* Pods-Tempura.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempura.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tempura/Pods-Tempura.debug.xcconfig"; sourceTree = "<group>"; };
 		4BFDA0575A0152A8A1018614 /* Media.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		54BC4BDC57132C8C2FB7E5AF /* LocalResourceURLProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalResourceURLProtocol.swift; sourceTree = "<group>"; };
 		58AD5B2AC2F0D9CA27E4741C /* ListView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		5A58995A7A8A6356ABA009BC /* RootInstaller.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootInstaller.swift; sourceTree = "<group>"; };
 		5E0CFA98D914027E7554C09A /* CGRect+Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGRect+Utils.swift"; sourceTree = "<group>"; };
@@ -154,6 +154,7 @@
 		A1A7420696F93A11695E733B /* Pods-DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTests/Pods-DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		A371BFB9290C7EABE249800F /* ListViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A6E9DB069E7C9799E604024A /* Pods_Tempura.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tempura.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A77BB2C020A1EF9D00663A65 /* LocalFileURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalFileURLProtocol.swift; sourceTree = "<group>"; };
 		AF28D6EFC703FCD8C9BB7E92 /* Source.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		B4197EBCBF63B79ACCA29CF9 /* Tempura.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tempura.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6646B8C1C49DC2F1F049B1E /* NavigationActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NavigationActions.swift; sourceTree = "<group>"; };
@@ -239,7 +240,6 @@
 				8013E4C9970D3B71DCC7B790 /* ListScreen */,
 				F37920A88D7746262402B551 /* AddItemScreen */,
 			);
-			name = UI;
 			path = UI;
 			sourceTree = "<group>";
 		};
@@ -260,7 +260,6 @@
 			children = (
 				26E496D7B5B27045E9862CF9 /* Tempura.h */,
 			);
-			name = SupportingFiles;
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
@@ -276,7 +275,6 @@
 				91A3A65C2C5C28C46AB5FCA8 /* Application */,
 				33B7BFE633259DE09D36AF05 /* Resources */,
 			);
-			name = Demo;
 			path = Demo;
 			sourceTree = "<group>";
 		};
@@ -286,7 +284,6 @@
 				FD6A0FDEBF59E8BA26EB08AB /* ViewControllerSpec.swift */,
 				86F5F10ED6E540B1B4F53EBC /* ViewControllerWithLocalState.swift */,
 			);
-			name = TempuraTests;
 			path = TempuraTests;
 			sourceTree = "<group>";
 		};
@@ -295,7 +292,6 @@
 			children = (
 				280C927229CE6C5E91DC1B70 /* MainThread.swift */,
 			);
-			name = Utilities;
 			path = Utilities;
 			sourceTree = "<group>";
 		};
@@ -304,7 +300,6 @@
 			children = (
 				4BFDA0575A0152A8A1018614 /* Media.xcassets */,
 			);
-			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -313,7 +308,6 @@
 			children = (
 				D82C3C281E9A6A78021DAB54 /* DependenciesContainer.swift */,
 			);
-			name = Dependencies;
 			path = Dependencies;
 			sourceTree = "<group>";
 		};
@@ -327,7 +321,6 @@
 				CEA6D05DE147B51DAE631F44 /* UIView+Blink.swift */,
 				9D90D25F834A5B656DB4D247 /* String+Height.swift */,
 			);
-			name = Utilities;
 			path = Utilities;
 			sourceTree = "<group>";
 		};
@@ -339,7 +332,6 @@
 				0165E43419CD3F3C59573D7B /* DataSource.swift */,
 				01662C8D37CC78DE5D2EA429 /* ConfigurableCell.swift */,
 			);
-			name = CollectionView;
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
@@ -357,7 +349,6 @@
 			children = (
 				1A2F4905D2540E3B3E9F4993 /* TextView.swift */,
 			);
-			name = Subviews;
 			path = Subviews;
 			sourceTree = "<group>";
 		};
@@ -380,7 +371,6 @@
 				283247723C351CE9C45D8DAE /* AppActions.swift */,
 				6A9099F36E7E8934FD6E9542 /* ItemActions.swift */,
 			);
-			name = Actions;
 			path = Actions;
 			sourceTree = "<group>";
 		};
@@ -391,7 +381,6 @@
 				58AD5B2AC2F0D9CA27E4741C /* ListView.swift */,
 				EF4BD6A5CFBA5B6625983F2C /* Subviews */,
 			);
-			name = ListScreen;
 			path = ListScreen;
 			sourceTree = "<group>";
 		};
@@ -400,19 +389,17 @@
 			children = (
 				C44B2C8B57611F6BB456545C /* AppDelegate.swift */,
 			);
-			name = Application;
 			path = Application;
 			sourceTree = "<group>";
 		};
 		9A501664B45C0FDD5DD7B0EB /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				A77BB2C020A1EF9D00663A65 /* LocalFileURLProtocol.swift */,
 				0ED2E73D977AB7393C2B02AC /* UITests.swift */,
 				C3C916949226DE0B9428C45F /* AsyncUITest.swift */,
-				54BC4BDC57132C8C2FB7E5AF /* LocalResourceURLProtocol.swift */,
 				DCFCFB23794A5FDEA9405B03 /* UIView+snapshot.swift */,
 			);
-			name = UITests;
 			path = UITests;
 			sourceTree = "<group>";
 		};
@@ -440,7 +427,6 @@
 				F7BDA097BB85789B2E6F63A5 /* NavigationProvider.swift */,
 				6E23272E38284C6D29C0B5F8 /* Navigator.swift */,
 			);
-			name = Navigation;
 			path = Navigation;
 			sourceTree = "<group>";
 		};
@@ -449,7 +435,6 @@
 			children = (
 				0A4EA2ED4708FBBFD2FB6984 /* DemoTests.swift */,
 			);
-			name = DemoTests;
 			path = DemoTests;
 			sourceTree = "<group>";
 		};
@@ -475,7 +460,6 @@
 			children = (
 				9F1B2BEF31E3A99C84E6FB63 /* AppNavigation.swift */,
 			);
-			name = Navigation;
 			path = Navigation;
 			sourceTree = "<group>";
 		};
@@ -486,7 +470,6 @@
 				B8BDF1A0338C19DFB99BCE08 /* TodoCell.swift */,
 				336DDB1953C9D00C1221FDA5 /* TodoFlowLayout.swift */,
 			);
-			name = Subviews;
 			path = Subviews;
 			sourceTree = "<group>";
 		};
@@ -497,7 +480,6 @@
 				941BF3E9F7B557240FE4D393 /* AddItemView.swift */,
 				6BAF5181D8B0055F25B48925 /* AddItemViewController.swift */,
 			);
-			name = AddItemScreen;
 			path = AddItemScreen;
 			sourceTree = "<group>";
 		};
@@ -510,7 +492,6 @@
 				9A501664B45C0FDD5DD7B0EB /* UITests */,
 				1D26FB4006BCD0C823467EC1 /* SupportingFiles */,
 			);
-			name = Tempura;
 			path = Tempura;
 			sourceTree = "<group>";
 		};
@@ -520,7 +501,6 @@
 				017E2366B685C39B9772D2BC /* AppState.swift */,
 				ED901AF69A87620D6EAD9A1D /* Models.swift */,
 			);
-			name = State;
 			path = State;
 			sourceTree = "<group>";
 		};
@@ -537,7 +517,6 @@
 				E3BA3045061D2358925F8A6F /* ViewControllerModellableView.swift */,
 				927CCEC6984E8EFDA2BA15DD /* ViewControllerWithLocalState.swift */,
 			);
-			name = Core;
 			path = Core;
 			sourceTree = "<group>";
 		};
@@ -717,7 +696,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		2131529B1C0242436F573677 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -750,7 +728,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		4D48218CC292EAAC28E70811 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -765,7 +742,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		95E9490557DA9E801225595A /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -780,7 +756,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		A059910F0220C195FF270706 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -895,7 +870,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		CAA5C12B3AC5A510B112A638 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1004,8 +978,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8F01681D7B750FA53A97206 /* UITests.swift in Sources */,
+				A77BB2C120A1EF9D00663A65 /* LocalFileURLProtocol.swift in Sources */,
 				E8984CC9135F33B233DAE933 /* AsyncUITest.swift in Sources */,
-				6FB4EA3D831DFDD7E77A6326 /* LocalResourceURLProtocol.swift in Sources */,
 				3E2AFD2FCF4B7197B799742D /* UIView+snapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
