@@ -22,25 +22,13 @@ import MobileCoreServices
  If the class is not able to locate the file, then it returns that it is not able to manage the request (and most likely a network
  request will occur)
 */
-public final class LocalFileURLProtocol: URLProtocol, NSURLConnectionDataDelegate {
-  private var connection: NSURLConnection?
-  
+public final class LocalFileURLProtocol: URLProtocol {
   public override class func canInit(with request: URLRequest) -> Bool {
     guard let url = request.url else {
       return false
     }
     
-    let isSupportedScheme = url.scheme == "http" || url.scheme == "https"
-    let hasLocalResource = self.localURL(for: url) != nil
-    return hasLocalResource && isSupportedScheme
-  }
-  
-  public override class func canInit(with task: URLSessionTask) -> Bool {
-    guard let request = task.currentRequest else {
-      return false
-    }
-    
-    return self.canInit(with: request)
+    return self.localPath(for: url) != nil
   }
   
   public override class func canonicalRequest(for request: URLRequest) -> URLRequest {
@@ -49,27 +37,31 @@ public final class LocalFileURLProtocol: URLProtocol, NSURLConnectionDataDelegat
   
   public override func startLoading() {
     guard
+      let client = self.client,
       let url = request.url,
-      let localURL = LocalFileURLProtocol.localURL(for: url)
-
+      let localURL = LocalFileURLProtocol.localPath(for: url),
+      let data = try? Data(contentsOf: localURL)
+      
       else {
         return
     }
-
-    let req = URLRequest(url: localURL, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData, timeoutInterval: 100)
-    let connection = NSURLConnection(request: req, delegate: self, startImmediately: true)
-    self.connection = connection
+    
+    let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)!
+    
+    client.urlProtocol(self, didReceive: response, cacheStoragePolicy: .allowed)
+    client.urlProtocol(self, didLoad: data)
+    client.urlProtocolDidFinishLoading(self)
   }
   
   public override func stopLoading() {
-    self.connection?.cancel()
+    
   }
   
   /**
    Returns a local path (if any) that matches the requested url
    - parameter url: the requested url
   */
-  private static func localURL(for url: URL) -> URL? {
+  private static func localPath(for url: URL) -> URL? {
     let absoluteURL = url.absoluteString
     let fileName = url.lastPathComponent
     let fileNameWithoutExtension = url.deletingPathExtension().lastPathComponent
@@ -87,38 +79,6 @@ public final class LocalFileURLProtocol: URLProtocol, NSURLConnectionDataDelegat
     }
     
     return nil
-  }
-
-  // MARK: NSURLConnectionDataDelegate
-  public func connection(_ connection: NSURLConnection, willCacheResponse cachedResponse: CachedURLResponse) -> CachedURLResponse? {
-    return cachedResponse
-  }
-  
-  public func connection(_ connection: NSURLConnection, willSend request: URLRequest, redirectResponse response: URLResponse?) -> URLRequest? {
-    return request
-  }
-
-  public func connection(_ connection: NSURLConnection, didReceive response: URLResponse) {
-    self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-  }
-  
-  public func connection(_ connection: NSURLConnection, didReceive data: Data) {
-    self.client?.urlProtocol(self, didLoad: data)
-  }
-  
-  public func connection(_ connection: NSURLConnection, didFailWithError error: Error) {
-    self.client?.urlProtocol(self, didFailWithError: error)
-    self.connection = nil
-  }
-
-  public func connectionDidFinishLoading(_ connection: NSURLConnection) {
-    self.client?.urlProtocolDidFinishLoading(self)
-    self.connection = nil
-  }
-  
-  deinit {
-    self.connection?.cancel()
-    self.connection = nil
   }
 }
 

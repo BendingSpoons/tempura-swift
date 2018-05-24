@@ -1,3 +1,7 @@
+## Master
+
+- fixed LocalURLProtocol implementation to support DownloadTask and similar approaches
+
 ## 1.3.0
 
 - Added failable init for ViewModelWithState and ViewModelWithLocalState
