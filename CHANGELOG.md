@@ -1,3 +1,7 @@
+## 1.7.2
+
+- UITests snapshots are now saved under resolution subdir
+
 ## 1.3.0
 
 - Added failable init for ViewModelWithState and ViewModelWithLocalState
