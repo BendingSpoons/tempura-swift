@@ -1,3 +1,8 @@
+## 1.8.0
+
+- Implementation of the universalSafeAreaInsets for every UIView and not only for ViewControllerModellableView.
+ In case of a UIView down in the hierarchy, the universalSafeAreaInsets will be the intersection between the main safeArea and the actual frame of the view.
+
 ## 1.7.2
 
 - UITests snapshots are now saved under resolution subdir

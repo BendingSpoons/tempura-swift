@@ -27,8 +27,13 @@ fileprivate var viewControllerKey = "modellableview_view_controller_key"
 /// The `ViewController` that is managing this View is responsible to call `ModellableView.setup()` and
 /// `ModellableView.style()` during the setup phase of the ViewController so you don't need to do that.
 
-public protocol ViewControllerModellableView: ModellableView where VM: ViewModelWithState {
+public protocol ViewControllerModellableView: ModellableView, AnyViewControllerModellableView where VM: ViewModelWithState {
   
+}
+
+/// type erasure for ViewControllerModellableView in order to access to the viewController property
+/// without specifying the VM
+public protocol AnyViewControllerModellableView {
   /// Syntactic sugar to access the `ViewController` that is managing this View.
   var viewController: UIViewController? { get set }
 }
@@ -61,11 +66,9 @@ public extension ViewControllerModellableView {
   }
 }
 
-public extension ViewControllerModellableView where Self: UIView {
-  
-  /// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
-  /// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
-  
+/// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
+/// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
+public extension UIView {
   public var universalSafeAreaInsets: UIEdgeInsets {
     if #available(iOS 11.0, *) {
       return self.safeAreaInsets
@@ -73,17 +76,39 @@ public extension ViewControllerModellableView where Self: UIView {
       return self.legacyIOSSafeAreaInsets
     }
   }
-
+  
   private var legacyIOSSafeAreaInsets: UIEdgeInsets {
-    guard let vc = self.viewController else {
+    guard let vc = self.recursiveViewController else {
       return .zero
     }
+    let rootView: UIView! = vc.view
+    var top = vc.topLayoutGuide.length
+    var bottom = vc.bottomLayoutGuide.length
+    // the safe area expressed in rootView coordinates
+    let rootViewSafeAreaFrame = CGRect(x: 0, y: top, width: rootView.bounds.width, height: rootView.bounds.height - top - bottom)
+    // convert the rootViewSafeAreaFrame in self coordinates
+    let convertedFrame = rootView.convert(rootViewSafeAreaFrame, to: self)
+    // find the portion of safe area that intersects with self.bounds
+    let intersectionFrame = self.bounds.intersection(convertedFrame)
+    top = intersectionFrame.minY
+    bottom = self.bounds.maxY - intersectionFrame.maxY
     
     return UIEdgeInsets(
-      top: vc.topLayoutGuide.length,
+      top: top,
       left: 0,
-      bottom: vc.bottomLayoutGuide.length,
+      bottom: bottom,
       right: 0
     )
+  }
+  
+  /// Traverse up the hierarchy to find the first UIViewController
+  private var recursiveViewController: UIViewController? {
+    if let modellableView = self as? AnyViewControllerModellableView {
+      return modellableView.viewController
+    }
+    if let parent = self.superview {
+      return parent.recursiveViewController
+    }
+    return nil
   }
 }
