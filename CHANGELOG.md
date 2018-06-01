@@ -1,5 +1,7 @@
 ## Master
 
+* Make so that ui tests folders are consistent when landscape is involved. A screenshot from a portrait iPhone 5 will be in the same directory as a landscape iPhone 5 screenshot
+
 ## 1.8.1
 
 - fixed LocalURLProtocol implementation to support DownloadTask and similar approaches
