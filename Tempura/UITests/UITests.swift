@@ -236,7 +236,9 @@ public enum UITests {
   }
   
   private static func saveImage(_ image: UIImage, description: String) {
-    guard let dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
+    guard var dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
+    let screenSizeDescription: String = "\(UIScreen.main.bounds.size.description)"
+    dirPath = dirPath.appending("/\(screenSizeDescription)/")
     
     let fileManager = FileManager.default
     
@@ -281,7 +283,7 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            size: CGSize = UIScreen.main.bounds.size) {
   let snapshotConfiguration = UITests.ScreenSnapshot<V>(type: viewType, container: container, models: models, hooks: hooks, size: size)
   let viewControllers = snapshotConfiguration.renderingViewControllers
-  let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
+  let screenSizeDescription: String = "\(UIScreen.main.bounds.size.description)"
   for (identifier, vc) in viewControllers {
     let description = "\(identifier) \(screenSizeDescription)"
     UITests.verifyView(view: vc.view, description: description)
