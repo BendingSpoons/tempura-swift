@@ -1,6 +1,6 @@
-## Master
+## 1.8.2
 
-* Make so that ui tests folders are consistent when landscape is involved. A screenshot from a portrait iPhone 5 will be in the same directory as a landscape iPhone 5 screenshot
+* UI tests folders are consistent when landscape screenshots are involved. A screenshot from an iPhone X in portrait will be in the same directory of a screenshot of an iPhone X in landscape
 
 ## 1.8.1
 
