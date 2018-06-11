@@ -1,3 +1,8 @@
+## master
+
+* Introduces new `UITestCase` API that are easier to use and unify various approaches that used to coexist until now
+* Deprecates UITest APIs
+
 ## 1.8.2
 
 * UI tests folders are consistent when landscape screenshots are involved. A screenshot from an iPhone X in portrait will be in the same directory of a screenshot of an iPhone X in landscape
