@@ -160,20 +160,21 @@ Here you can use the `test` function to take a snapshot of a `ViewControllerMode
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase {
+class UITests: XCTestCase, UITestCase {
   
   func testAddItemScreen() {
-    test(AddItemView.self,
-         with: AddItemViewModel(editingText: "this is a test"),
-         container: .none,
-         identifier: "addItem01")
-  } 
+    self.uiTest(testCases: [
+      "addItem01": AddItemViewModel(editingText: "this is a test")
+    ])
+  }
 }
 
 ```
-
-You can also embed the View inside a specific container (UINavigationController or UITabBarController).
 The identifier will define the name of the snapshot image in the file system.
+
+You can also personalise how the view is rendered (for instance you can embed the view in an instance of UITabBar) using the context parameter.
+
+In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
 
 The test will pass as soon as the snapshot is taken.
 
@@ -218,33 +219,6 @@ URLProtocol.registerClass(LocalFileURLProtocol.self)
 ```
 
 Note that if you are using [Alamofire](https://github.com/Alamofire/Alamofire/) this won't work. [Here](https://github.com/Alamofire/Alamofire/issues/1247) you can find a related issue and a link on how to configure Alamofire to deal with `URLProtocol` classes.
-#### Async UI Tests
-Sometimes the standard `UITest` system may not fit your needs. In particular, when you have UIs that should wait a little bit before being ready (e.g, an image taken from the network or that is slow to be computed).
-
-For these cases, you should use `AsyncUITest`. The usage is quite similar to the standard `UITest`:
-
-```swift
-// subclass XCTestCase and adopt the AsyncUITest protocol
-class DemoMainUITests: XCTestCase, AsyncUITest {
-  dynamic func testDefault() {
-    let vm = AddItemViewModel(editingText: "this is a test")
-      
-    // invoke uiTest method, one for each snapshot you want to have
-    self.uiTest(model: vm, identifier: "test_snapshot")
-
-    // you can add more here
-  }
-  
-  // return true when the view is ready to be snapshotted (e.g., an image has been downloaded and shown)
-  func isViewReady(_ view: AddItemView) -> Bool {
-    if the_view_is_ready_to_be_snapshotted {
-      return true
-    }
-      
-    return false
-  }
-}
-```
 
 
 ## Where to go from here
