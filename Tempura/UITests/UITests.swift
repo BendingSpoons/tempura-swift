@@ -265,6 +265,7 @@ public enum UITests {
 /// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
 /// After the screenshot is completed, the test will pass.
 /// This function can only be used in a XCTest environment.
+@available(*, deprecated: 1.9, message: "Use UITestCase API instead")
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with model: V.VM,
                                                            identifier: String,
@@ -279,6 +280,7 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
 /// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
 /// After the screenshot is completed, the test will pass.
 /// This function can only be used in a XCTest environment.
+@available(*, deprecated: 1.9, message: "Use UITestCase API instead")
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with models: [String: V.VM],
                                                            container: UITests.Container = .none,

@@ -23,6 +23,9 @@ extension UITests {
   }
 }
 
+@available(*, deprecated: 1.9, message: "Use UITestCase instead")
+public typealias AsyncUITest = UITestCase
+
 /**
  AsyncUITest is a more complex form of UITest that is used when the UI cannot be rendered immediately.
  This happens for instance when things that are shown in the screen are taken from a remote server.
@@ -33,7 +36,7 @@ extension UITests {
  
  Note that this is a protocol as XCode fails to recognize subclasses of XCTestCase's subclasses that are written in Swift.
 */
-public protocol AsyncUITest {
+public protocol UITestCase {
   associatedtype V: UIView & ViewControllerModellableView
   
   /**
