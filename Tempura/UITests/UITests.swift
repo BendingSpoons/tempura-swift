@@ -236,8 +236,9 @@ public enum UITests {
   }
   
   private static func saveImage(_ image: UIImage, description: String) {
-    guard var dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
-    
+    guard let mainDirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
+    let languageCode = Locale.current.languageCode ?? ""
+    var dirPath = languageCode.isEmpty ? mainDirPath : "\(mainDirPath)/\(languageCode)"
     let screenSize = UIScreen.main.bounds.size
     let screenSizeDescription: String = "\(min(screenSize.width, screenSize.height))x\(max(screenSize.width, screenSize.height)))"
     
