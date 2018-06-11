@@ -37,7 +37,15 @@ public protocol AsyncUITest {
    Method used to check whether the view is ready to be snapshotted
    - parameter view: the view that will be snapshotted
   */
+  @available(*, deprecated: 1.9, message: "Use isViewReady(:identifier:) instead")
   func isViewReady(_ view: V) -> Bool
+  
+  /**
+   Method used to check whether the view is ready to be snapshotted
+   - parameter view: the view that will be snapshotted
+   - parameter identifier: the test case identifier
+   */
+  func isViewReady(_ view: V, identifier: String) -> Bool
 }
 
 public extension AsyncUITest where Self: XCTestCase {
@@ -53,8 +61,12 @@ public extension AsyncUITest where Self: XCTestCase {
       let description = "\(identifier) \(screenSizeDescription)"
 
       let expectation = XCTestExpectation(description: description)
+      
+      let isViewReadyClosure: (UIView) -> Bool = { view in
+        return self.typeErasedIsViewReady(view, identifier: identifier)
+      }
 
-      UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: self.typeErasedIsViewReady) {
+      UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: isViewReadyClosure) {
         expectation.fulfill()
       }
 
@@ -64,8 +76,8 @@ public extension AsyncUITest where Self: XCTestCase {
     self.wait(for: expectations, timeout: 100)
   }
   
-  func typeErasedIsViewReady(_ view: UIView) -> Bool {
-    return self.isViewReady(view as! V)
+  func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
+    return self.isViewReady(view as! V, identifier: identifier)
   }
 }
 
@@ -73,6 +85,11 @@ public extension AsyncUITest {
   /// The default implementation returns true
   func isViewReady(_ view: V) -> Bool {
     return true
+  }
+  
+  /// The default implementation returns true
+  func isViewReady(_ view: V, identifier: String) -> Bool {
+    return self.isViewReady(view)
   }
   
   func uiTest(model: V.VM, identifier: String) {
