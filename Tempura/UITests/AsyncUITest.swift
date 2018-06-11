@@ -121,13 +121,13 @@ extension UITests {
   public struct Context<V: ViewControllerModellableView> {
     
     /// the container in which the view will be embedded
-    var container: UITests.Container
+    public var container: UITests.Container
     
     /// some hooks that can be added to customize the view after its creation
-    var hooks: [UITests.Hook: UITests.HookClosure<V>]
+    public var hooks: [UITests.Hook: UITests.HookClosure<V>]
     
     /// the size of the window in which the view will be rendered
-    var screenSize: CGSize
+    public var screenSize: CGSize
     
     public init() {
       self.container = .none
