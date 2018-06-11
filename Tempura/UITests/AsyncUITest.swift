@@ -9,6 +9,20 @@ import Foundation
 import XCTest
 import Tempura
 
+extension UITests {
+  public struct Context<V: ViewControllerModellableView> {
+    var container: UITests.Container
+    var hooks: [UITests.Hook: UITests.HookClosure<V>]
+    var screenSize: CGSize
+    
+    init() {
+      self.container = .none
+      self.hooks = [:]
+      self.screenSize = UIScreen.main.bounds.size
+    }
+  }
+}
+
 /**
  AsyncUITest is a more complex form of UITest that is used when the UI cannot be rendered immediately.
  This happens for instance when things that are shown in the screen are taken from a remote server.
@@ -31,7 +45,10 @@ public protocol AsyncUITest {
    - parameter hooks: some hooks that can be added to customize the view after its creation
    - parameter size: the size of the view
   */
+  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
   func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize)
+  
+  func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)
   
   /**
    Method used to check whether the view is ready to be snapshotted
@@ -49,9 +66,15 @@ public protocol AsyncUITest {
 }
 
 public extension AsyncUITest where Self: XCTestCase {
-  /// Default implementation for XCTestCase subclasses
-  func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize) {
-    let snapshotConfiguration = UITests.ScreenSnapshot<V>(type: V.self, container: container, models: [identifier: model], hooks: hooks, size: size)
+  public func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
+    let snapshotConfiguration = UITests.ScreenSnapshot<V>(
+      type: V.self,
+      container: context.container,
+      models: testCases,
+      hooks: context.hooks,
+      size: context.screenSize
+    )
+    
     let viewControllers = snapshotConfiguration.renderingViewControllers
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
 
@@ -61,7 +84,7 @@ public extension AsyncUITest where Self: XCTestCase {
       let description = "\(identifier) \(screenSizeDescription)"
 
       let expectation = XCTestExpectation(description: description)
-      
+
       let isViewReadyClosure: (UIView) -> Bool = { view in
         return self.typeErasedIsViewReady(view, identifier: identifier)
       }
@@ -83,24 +106,54 @@ public extension AsyncUITest where Self: XCTestCase {
 
 public extension AsyncUITest {
   /// The default implementation returns true
-  func isViewReady(_ view: V) -> Bool {
-    return true
-  }
-  
-  /// The default implementation returns true
-  func isViewReady(_ view: V, identifier: String) -> Bool {
+  public func isViewReady(_ view: V, identifier: String) -> Bool {
     return self.isViewReady(view)
   }
   
-  func uiTest(model: V.VM, identifier: String) {
-    self.uiTest(model: model, identifier: identifier, container: .none, hooks: [:], size: UIScreen.main.bounds.size)
+  public func uiTest(testCases: [String: V.VM]) {
+    let standardContext = UITests.Context<V>()
+    self.uiTest(testCases: testCases, context: standardContext)
+  }
+}
+
+// MARK: Deprecated
+public extension AsyncUITest {
+  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
+  public func uiTest(model: V.VM, identifier: String) {
+    let context = UITests.Context<V>()
+    self.uiTest(testCases: [identifier: model], context: context)
   }
   
-  func uiTest(model: V.VM, identifier: String, container: UITests.Container) {
-    self.uiTest(model: model, identifier: identifier, container: container, hooks: [:], size: UIScreen.main.bounds.size)
+  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
+  public func uiTest(model: V.VM, identifier: String, container: UITests.Container) {
+    var context = UITests.Context<V>()
+    context.container = container
+    
+    self.uiTest(testCases: [identifier: model], context: context)
   }
   
-  func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>]) {
-    self.uiTest(model: model, identifier: identifier, container: container, hooks: hooks, size: UIScreen.main.bounds.size)
+  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
+  public func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize) {
+    var context = UITests.Context<V>()
+    context.container = container
+    context.hooks = hooks
+    context.screenSize = size
+    
+    self.uiTest(testCases: [identifier: model], context: context)
+  }
+  
+  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
+  public func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>]) {
+    var context = UITests.Context<V>()
+    context.container = container
+    context.hooks = hooks
+    
+    self.uiTest(testCases: [identifier: model], context: context)
+  }
+  
+  /// The default implementation returns true
+  @available(*, deprecated: 1.9, message: "Use isViewReady(:identifier:) instead")
+  public func isViewReady(_ view: V) -> Bool {
+    return true
   }
 }
