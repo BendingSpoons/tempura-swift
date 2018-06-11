@@ -242,7 +242,7 @@ public enum UITests {
       dirPath = dirPath.appending("/\(languageCode)/")
     }
     let screenSize = UIScreen.main.bounds.size
-    let screenSizeDescription: String = "\(min(screenSize.width, screenSize.height))x\(max(screenSize.width, screenSize.height)))"
+    let screenSizeDescription: String = "\(min(screenSize.width, screenSize.height))x\(max(screenSize.width, screenSize.height))"
     
     dirPath = dirPath.appending("/\(screenSizeDescription)/")
     
