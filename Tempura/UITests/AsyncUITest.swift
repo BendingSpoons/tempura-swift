@@ -9,26 +9,15 @@ import Foundation
 import XCTest
 import Tempura
 
-extension UITests {
-  public struct Context<V: ViewControllerModellableView> {
-    var container: UITests.Container
-    var hooks: [UITests.Hook: UITests.HookClosure<V>]
-    var screenSize: CGSize
-    
-    init() {
-      self.container = .none
-      self.hooks = [:]
-      self.screenSize = UIScreen.main.bounds.size
-    }
-  }
-}
-
 @available(*, deprecated: 1.9, message: "Use UITestCase instead")
 public typealias AsyncUITest = UITestCase
 
 /**
- AsyncUITest is a more complex form of UITest that is used when the UI cannot be rendered immediately.
- This happens for instance when things that are shown in the screen are taken from a remote server.
+ Test a ViewControllerModellableView embedded in a Container with a specific ViewModel.
+ The test will produce a screenshot of the view.
+ The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
+ After the screenshot is completed, the test will pass.
+ The protocol can only be used in a XCTest environment.
  
  The idea is that the view is rendered but the system waits until `isViewReady` returns true to take the snapshot
  and pass to the next test case. `isViewReady` is invoked various times with the view instance. The method should be implemented
@@ -51,6 +40,13 @@ public protocol UITestCase {
   @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
   func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize)
   
+  /**
+   Add new UI tests to be performed
+   
+   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the
+                          view model to use to render the view
+   - parameter context: a context used to pass information and control how the view should be rendered
+   */
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)
   
   /**
@@ -107,7 +103,7 @@ public extension AsyncUITest where Self: XCTestCase {
   }
 }
 
-public extension AsyncUITest {
+public extension UITestCase {
   /// The default implementation returns true
   public func isViewReady(_ view: V, identifier: String) -> Bool {
     return self.isViewReady(view)
@@ -119,8 +115,30 @@ public extension AsyncUITest {
   }
 }
 
+// MARK: Sub types
+extension UITests {
+  /// Struct that holds some information used to control how the view is rendered
+  public struct Context<V: ViewControllerModellableView> {
+    
+    /// the container in which the view will be embedded
+    var container: UITests.Container
+    
+    /// some hooks that can be added to customize the view after its creation
+    var hooks: [UITests.Hook: UITests.HookClosure<V>]
+    
+    /// the size of the window in which the view will be rendered
+    var screenSize: CGSize
+    
+    init() {
+      self.container = .none
+      self.hooks = [:]
+      self.screenSize = UIScreen.main.bounds.size
+    }
+  }
+}
+
 // MARK: Deprecated
-public extension AsyncUITest {
+public extension UITestCase {
   @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
   public func uiTest(model: V.VM, identifier: String) {
     let context = UITests.Context<V>()
