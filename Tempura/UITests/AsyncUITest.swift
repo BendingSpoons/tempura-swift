@@ -129,7 +129,7 @@ extension UITests {
     /// the size of the window in which the view will be rendered
     var screenSize: CGSize
     
-    init() {
+    public init() {
       self.container = .none
       self.hooks = [:]
       self.screenSize = UIScreen.main.bounds.size
