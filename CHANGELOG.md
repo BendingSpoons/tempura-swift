@@ -1,6 +1,8 @@
-## 1.8.3
+## 1.9.0
 
 * UI tests folder structure uses the locale of the app to support multiple language UITests
+* Introduces new `UITestCase` API that are easier to use and unify various approaches that used to coexist until now
+* Deprecates UITest APIs
 
 ## 1.8.2
 
