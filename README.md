@@ -172,9 +172,45 @@ class UITests: XCTestCase, UITestCase {
 ```
 The identifier will define the name of the snapshot image in the file system.
 
-You can also personalise how the view is rendered (for instance you can embed the view in an instance of UITabBar) using the context parameter.
+You can also personalise how the view is rendered (for instance you can embed the view in an instance of UITabBar) using the context parameter. Here is an example that
+embeds the view into a tabbar
+```swift
+import TempuraTesting
+
+class UITests: XCTestCase, UITestCase {
+  
+  func testAddItemScreen() {
+    var context = UITests.Context<AddItemView>()
+    context.container = .tabBarController
+
+
+    self.uiTest(testCases: [
+      "addItem01": AddItemViewModel(editingText: "this is a test")
+    ], context: context)
+  }
+}
+
+```
+
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
+For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
+```swift
+import TempuraTesting
+
+class UITests: XCTestCase, UITestCase {
+  
+  func testAddItemScreen() {
+    self.uiTest(testCases: [
+      "addItem01": AddItemViewModel(editingText: "this is a test")
+    ])
+  }
+
+  func isViewReady(_ view: AddItemView, identifier: String) -> Bool {
+    return view.remoteImage.state == .loaded
+  }
+}
+```
 
 The test will pass as soon as the snapshot is taken.
 

@@ -23,7 +23,7 @@ public typealias AsyncUITest = UITestCase
  and pass to the next test case. `isViewReady` is invoked various times with the view instance. The method should be implemented
  so that it checks possible things that may not be ready yet and return true only when the view is ready to be snapshotted.
  
- Note that this is a protocol as XCode fails to recognize subclasses of XCTestCase's subclasses that are written in Swift.
+ Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
 */
 public protocol UITestCase {
   associatedtype V: UIView & ViewControllerModellableView
