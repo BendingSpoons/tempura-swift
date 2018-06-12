@@ -1,3 +1,7 @@
+## 1.8.3
+
+* UI tests folder structure uses the locale of the app to support multiple language UITests
+
 ## 1.8.2
 
 * UI tests folders are consistent when landscape screenshots are involved. A screenshot from an iPhone X in portrait will be in the same directory of a screenshot of an iPhone X in landscape

@@ -195,6 +195,22 @@ xcodebuild \
 
 Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the `xcodebuild` documentation
 
+If you want to test a specific language in the ui test, you can replace the `test` command with the `-testLanguage <iso code639-1>`.
+The app will be launched in that language and the UITests will be executed with that locale. An example:
+
+```bash
+xcodebuild \
+  -workspace <project>.xcworkspace \
+  -scheme "<target name>" \
+  -destination name="iPhone 5s" \
+  -destination name="iPhone 6 Plus" \
+  -destination name="iPhone 6" \
+  -destination name="iPhone X" \
+  -destination name="iPad Pro (12.9 inch)" \
+  -testLanguage it
+```
+
+
 #### Remote Resources
 
 It happens often that the UI needs to show remote content (that is, remote images, remote videos, ...). While executing UITests this could be a problem as:
