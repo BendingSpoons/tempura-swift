@@ -1,5 +1,5 @@
 //
-//  AsyncUITest.swift
+//  UITestCase.swift
 //  Tempura
 //
 //  Created by Mauro Bolis on 07/05/2018.
