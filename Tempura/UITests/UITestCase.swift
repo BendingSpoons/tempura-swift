@@ -78,14 +78,28 @@ public extension AsyncUITest where Self: XCTestCase {
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
 
     var expectations: [XCTestExpectation] = []
+    
 
     for (identifier, vc) in viewControllers {
       let description = "\(identifier) \(screenSizeDescription)"
 
       let expectation = XCTestExpectation(description: description)
-
+      XCUIDevice.shared.orientation = context.orientation
+      
       let isViewReadyClosure: (UIView) -> Bool = { view in
-        return self.typeErasedIsViewReady(view, identifier: identifier)
+        var isOrientationCorrect = true
+        
+        // read again in case some weird code changed it outside the UITestCase APIs
+        let isViewInPortrait = view.frame.size.height > view.frame.size.width
+        
+        if context.orientation.isPortrait {
+          isOrientationCorrect = isViewInPortrait
+        
+        } else if context.orientation.isLandscape {
+          isOrientationCorrect = !isViewInPortrait
+        }
+        
+        return isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
       }
 
       UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: isViewReadyClosure) {
@@ -129,10 +143,14 @@ extension UITests {
     /// the size of the window in which the view will be rendered
     public var screenSize: CGSize
     
+    /// the orientation of the view
+    public var orientation: UIDeviceOrientation
+    
     public init() {
       self.container = .none
       self.hooks = [:]
       self.screenSize = UIScreen.main.bounds.size
+      self.orientation = .portrait
     }
   }
 }
