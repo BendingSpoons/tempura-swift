@@ -1,3 +1,7 @@
+## master
+
+* Add support for orientation change in `UITestCase`
+
 ## 1.9.0
 
 * UI tests folder structure uses the locale of the app to support multiple language UITests
