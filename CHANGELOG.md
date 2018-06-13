@@ -1,4 +1,4 @@
-## master
+## 1.10.0
 
 * Add support for orientation change in `UITestCase`
 
