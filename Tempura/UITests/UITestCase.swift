@@ -79,8 +79,7 @@ public extension AsyncUITest where Self: XCTestCase {
 
     var expectations: [XCTestExpectation] = []
     
-
-    for (identifier, vc) in viewControllers {
+    for (identifier, vcs) in viewControllers {
       let description = "\(identifier) \(screenSizeDescription)"
 
       let expectation = XCTestExpectation(description: description)
@@ -101,9 +100,12 @@ public extension AsyncUITest where Self: XCTestCase {
         
         return isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
       }
-
-      UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: isViewReadyClosure) {
-        expectation.fulfill()
+      
+      UITests.asyncSnapshot(view: vcs.container.view,
+                            viewToCheck: vcs.contained.view,
+                            description: description,
+                            isViewReadyClosure: isViewReadyClosure) {
+                              expectation.fulfill()
       }
 
       expectations.append(expectation)
@@ -113,7 +115,10 @@ public extension AsyncUITest where Self: XCTestCase {
   }
   
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
-    return self.isViewReady(view as! V, identifier: identifier)
+    guard let unwrappedView = view as? V else {
+      return false
+    }
+    return self.isViewReady(unwrappedView, identifier: identifier)
   }
 }
 

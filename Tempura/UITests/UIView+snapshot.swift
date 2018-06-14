@@ -34,7 +34,7 @@ extension UIView {
     return snapshot
   }
   
-  func snapshotAsync(isViewReadyClosure: @escaping (UIView) -> Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
+  func snapshotAsync(viewToCheck: UIView? = nil, isViewReadyClosure: @escaping (UIView) -> Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -50,7 +50,7 @@ extension UIView {
     
     self.layoutIfNeeded()
     
-    self.snapshotAsyncImpl(isViewReadyClosure: isViewReadyClosure) { snapshot in
+    self.snapshotAsyncImpl(viewToCheck: viewToCheck, isViewReadyClosure: isViewReadyClosure) { snapshot in
       if removeFromSuperview {
         self.removeFromSuperview()
       }
@@ -59,10 +59,14 @@ extension UIView {
     }
   }
   
-  func snapshotAsyncImpl(isViewReadyClosure: @escaping (UIView) -> Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
-    guard isViewReadyClosure(self) else {
+  func snapshotAsyncImpl(viewToCheck: UIView? = nil,
+                         isViewReadyClosure: @escaping (UIView) -> Bool,
+                         _ completionClosure: @escaping (UIImage?) -> Void) {
+    
+    let viewToCheck = viewToCheck ?? self
+    guard isViewReadyClosure(viewToCheck) else {
       DispatchQueue.main.async {
-        self.snapshotAsyncImpl(isViewReadyClosure: isViewReadyClosure, completionClosure)
+        self.snapshotAsyncImpl(viewToCheck: viewToCheck, isViewReadyClosure: isViewReadyClosure, completionClosure)
       }
       
       return
