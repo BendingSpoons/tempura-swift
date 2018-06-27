@@ -191,7 +191,17 @@ class UITests: XCTestCase, UITestCase {
 }
 
 ```
+If some important content inside a UIScrollView is not fully visibile, you can laverage the `scrollViewsToTest(in view: V, identifier: String)` method.
+This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.
 
+In this example we use `scrollViewsToTest(in view: V, identifier: String)`  to take an extended snapshot of the *mood picker* at the bottom of the screen.
+```swift
+func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView] {
+  return ["mood_collection_view": view.moodCollectionView]
+}
+```
+<img src="https://user-images.githubusercontent.com/28312286/41921658-aa16c5bc-7963-11e8-97cf-68790ee15a1c.png" height="400" />
+![main_editor_moods_collection_view 3x](https://user-images.githubusercontent.com/28312286/41921284-cd431d48-7962-11e8-9fc5-9d09356206fc.png)
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
 For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
