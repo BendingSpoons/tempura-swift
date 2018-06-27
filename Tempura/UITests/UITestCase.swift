@@ -49,7 +49,7 @@ public protocol UITestCase {
    */
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)
   
-  /// Retrives a dictionary containing the scrollable subviews to test.
+  /// Retrieves a dictionary containing the scrollable subviews to test.
   /// The snapshot will contain the whole scrollView content.
   ///
   /// - Parameters:
@@ -57,7 +57,7 @@ public protocol UITestCase {
   ///           `isViewReady` has already returned `true` at this point.
   ///   - identifier: the test case identifier.
   /// - Returns: A dictionary where the value is the ScrollView instance to snapshot and the key is a suffix for the test case identifier.
-  func scrollViewTestCases(in view: V, identifier: String) -> [String: UIScrollView]
+  func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
   
   /**
    Method used to check whether the view is ready to be snapshotted
@@ -75,7 +75,7 @@ public protocol UITestCase {
 }
 
 public extension AsyncUITest {
-  func scrollViewTestCases(in view: V, identifier: String) -> [String: UIScrollView] { return [:] }
+  func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView] { return [:] }
 }
 
 public extension AsyncUITest where Self: XCTestCase {
@@ -118,7 +118,7 @@ public extension AsyncUITest where Self: XCTestCase {
 
       UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: isViewReadyClosure) {
         // ScrollViews snapshot
-        self.scrollViewTestCases(in: vc.view as! V, identifier: identifier).forEach { entry in
+        self.scrollViewsToTest(in: vc.view as! V, identifier: identifier).forEach { entry in
           UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)")
         }
         expectation.fulfill()
