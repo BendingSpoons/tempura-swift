@@ -235,6 +235,21 @@ public enum UITests {
     }
   }
   
+  static func snapshotScrollableContent(_ scrollView: UIScrollView, description: String) {
+    // Resize the frame to render all the content
+    let fullWidth = scrollView.contentSize.width + scrollView.contentInset.left + scrollView.contentInset.right
+    let fullHeight = scrollView.contentSize.height + scrollView.contentInset.top + scrollView.contentInset.bottom
+    let fullSize = CGSize(width: max(scrollView.frame.width, fullWidth),
+                          height: max(scrollView.frame.height, fullHeight))
+    scrollView.frame = CGRect(origin: scrollView.frame.origin, size: fullSize)
+    
+    scrollView.setNeedsLayout()
+    scrollView.layoutIfNeeded()
+    
+    guard let snapshot = scrollView.snapshot() else { return }
+    self.saveImage(snapshot, description: description)
+  }
+  
   private static func saveImage(_ image: UIImage, description: String) {
     guard var dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
     

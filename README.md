@@ -191,6 +191,17 @@ class UITests: XCTestCase, UITestCase {
 }
 
 ```
+If some important content inside a UIScrollView is not fully visibile, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
+This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.
+
+In this example we use `scrollViewsToTest(in view: V, identifier: String)`  to take an extended snapshot of the *mood picker* at the bottom of the screen.
+```swift
+func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView] {
+  return ["mood_collection_view": view.moodCollectionView]
+}
+```
+<img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/screen1.png" height="400" />
+<img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/screen2.png" />
 
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
