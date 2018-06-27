@@ -200,8 +200,8 @@ func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
   return ["mood_collection_view": view.moodCollectionView]
 }
 ```
-<img src="https://user-images.githubusercontent.com/28312286/41921658-aa16c5bc-7963-11e8-97cf-68790ee15a1c.png" height="400" />
-![main_editor_moods_collection_view 3x](https://user-images.githubusercontent.com/28312286/41921284-cd431d48-7962-11e8-9fc5-9d09356206fc.png)
+<img src="https://user-images.githubusercontent.com/28312286/41967961-450f8e10-7a03-11e8-8abd-0f762b660428.png" height="400" />
+<img src="https://user-images.githubusercontent.com/28312286/41921284-cd431d48-7962-11e8-9fc5-9d09356206fc.png" />
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
 For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
