@@ -102,7 +102,7 @@ public extension AsyncUITest where Self: XCTestCase {
       }
       
       UITests.asyncSnapshot(view: vcs.container.view,
-                            viewToCheck: vcs.contained.view,
+                            viewToWaitFor: vcs.contained.view,
                             description: description,
                             isViewReadyClosure: isViewReadyClosure) {
                               expectation.fulfill()
@@ -115,10 +115,10 @@ public extension AsyncUITest where Self: XCTestCase {
   }
   
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
-    guard let unwrappedView = view as? V else {
+    guard let view = view as? V else {
       return false
     }
-    return self.isViewReady(unwrappedView, identifier: identifier)
+    return self.isViewReady(view, identifier: identifier)
   }
 }
 

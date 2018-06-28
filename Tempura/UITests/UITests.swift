@@ -39,7 +39,7 @@ public enum UITests {
     public var renderingViewControllers: [String: (container: UIViewController, contained: UIViewController)] {
       return self.models.mapValues { model in
         let renderer = Renderer(self.viewType, model: model, container: self.container, size: self.size, hooks: self.hooks)
-        return renderer.getRenderingViewController()
+        return renderer.getRenderingViewControllers()
       }
     }
     
@@ -66,7 +66,7 @@ public enum UITests {
   
   /// A Renderer will take a type of View, a ViewModel, a Container and will create the rendering UIViewController
   /// that will be used to render the View.
-  /// Use `getRenderingViewController()` in order to get the configured UIViewController
+  /// Use `getRenderingViewControllers()` in order to get the configured view controllers
   class Renderer<V: ViewControllerModellableView> {
     private var modellableViewType: V.Type
     private var model: V.VM
@@ -82,9 +82,9 @@ public enum UITests {
       self.hooks = hooks
     }
     
-    func getRenderingViewController() -> (UIViewController, UIViewController) {
+    func getRenderingViewControllers() -> (UIViewController, UIViewController) {
       
-      let containerViewController: UIViewController
+      let containerVC: UIViewController
       
       let containedVC = HookableViewController<V>()
       containedVC.hooks = hooks
@@ -92,11 +92,11 @@ public enum UITests {
       
       switch self.container {
       case .none:
-        containerViewController = containedVC
+        containerVC = containedVC
         
       case .navigationController:
         let navVC = UINavigationController(rootViewController: containedVC)
-        containerViewController = navVC
+        containerVC = navVC
         
         if let hook = hooks[.navigationControllerHasBeenCreated] {
           hook(containedVC.rootView)
@@ -104,15 +104,15 @@ public enum UITests {
         
       case .tabBarController:
         let tabVC = UITabBarController()
-        tabVC.viewControllers = [containerVC]
-        containerViewController = tabVC
+        tabVC.viewControllers = [containedVC]
+        containerVC = tabVC
         
       case .custom(let customController):
-        containerViewController = customController(containedVC)
+        containerVC = customController(containedVC)
       }
       
-      containerViewController.view.frame.size = self.size
-      return (containerViewController, containedVC)
+      containerVC.view.frame.size = self.size
+      return (containerVC, containedVC)
     }
   }
   
@@ -218,11 +218,11 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToCheck: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(viewToCheck: viewToCheck, isViewReadyClosure: isViewReadyClosure) { snapshot in
+    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure) { snapshot in
       defer {
         completionClosure()
       }
