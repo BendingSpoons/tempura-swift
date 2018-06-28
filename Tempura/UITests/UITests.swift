@@ -36,10 +36,10 @@ public enum UITests {
     let hooks: [Hook: HookClosure<V>]
     
     /// A dictionary of configured view controllers for the various snapshot's cases
-    public var renderingViewControllers: [String: UIViewController] {
+    public var renderingViewControllers: [String: (container: UIViewController, contained: UIViewController)] {
       return self.models.mapValues { model in
         let renderer = Renderer(self.viewType, model: model, container: self.container, size: self.size, hooks: self.hooks)
-        return renderer.getRenderingViewController()
+        return renderer.getRenderingViewControllers()
       }
     }
     
@@ -66,7 +66,7 @@ public enum UITests {
   
   /// A Renderer will take a type of View, a ViewModel, a Container and will create the rendering UIViewController
   /// that will be used to render the View.
-  /// Use `getRenderingViewController()` in order to get the configured UIViewController
+  /// Use `getRenderingViewControllers()` in order to get the configured view controllers
   class Renderer<V: ViewControllerModellableView> {
     private var modellableViewType: V.Type
     private var model: V.VM
@@ -82,37 +82,37 @@ public enum UITests {
       self.hooks = hooks
     }
     
-    func getRenderingViewController() -> UIViewController {
+    func getRenderingViewControllers() -> (UIViewController, UIViewController) {
       
-      let containerViewController: UIViewController
+      let containerVC: UIViewController
       
-      let containerVC = HookableViewController<V>()
-      containerVC.hooks = hooks
-      containerVC.rootView.model = self.model
+      let containedVC = HookableViewController<V>()
+      containedVC.hooks = hooks
+      containedVC.rootView.model = self.model
       
       switch self.container {
       case .none:
-        containerViewController = containerVC
+        containerVC = containedVC
         
       case .navigationController:
-        let navVC = UINavigationController(rootViewController: containerVC)
-        containerViewController = navVC
+        let navVC = UINavigationController(rootViewController: containedVC)
+        containerVC = navVC
         
         if let hook = hooks[.navigationControllerHasBeenCreated] {
-          hook(containerVC.rootView)
+          hook(containedVC.rootView)
         }
         
       case .tabBarController:
         let tabVC = UITabBarController()
-        tabVC.viewControllers = [containerVC]
-        containerViewController = tabVC
-      
+        tabVC.viewControllers = [containedVC]
+        containerVC = tabVC
+        
       case .custom(let customController):
-        containerViewController = customController(containerVC)
+        containerVC = customController(containedVC)
       }
       
-      containerViewController.view.frame.size = self.size
-      return containerViewController
+      containerVC.view.frame.size = self.size
+      return (containerVC, containedVC)
     }
   }
   
@@ -218,15 +218,15 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(isViewReadyClosure: isViewReadyClosure) { snapshot in
+    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure) { snapshot in
       defer {
         completionClosure()
       }
-
+      
       guard let image = snapshot else {
         return
       }
@@ -265,11 +265,11 @@ public enum UITests {
     
     var dirURL = URL(fileURLWithPath: dirPath)
     let recording: Bool = (Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool) == true
-
+    
     if recording {
       dirURL.appendPathComponent("/reference")
     }
-
+    
     guard let pngData = UIImagePNGRepresentation(image) else { return }
     let scaleFactor = Int(UIScreen.main.scale)
     let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
@@ -307,9 +307,9 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
   let snapshotConfiguration = UITests.ScreenSnapshot<V>(type: viewType, container: container, models: models, hooks: hooks, size: size)
   let viewControllers = snapshotConfiguration.renderingViewControllers
   let screenSizeDescription: String = "\(UIScreen.main.bounds.size.description)"
-  for (identifier, vc) in viewControllers {
+  for (identifier, vcs) in viewControllers {
     let description = "\(identifier) \(screenSizeDescription)"
-    UITests.verifyView(view: vc.view, description: description)
+    UITests.verifyView(view: vcs.container.view, description: description)
   }
 }
 

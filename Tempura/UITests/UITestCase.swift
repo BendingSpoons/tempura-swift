@@ -93,8 +93,7 @@ public extension AsyncUITest where Self: XCTestCase {
 
     var expectations: [XCTestExpectation] = []
     
-
-    for (identifier, vc) in viewControllers {
+    for (identifier, vcs) in viewControllers {
       let description = "\(identifier) \(screenSizeDescription)"
 
       let expectation = XCTestExpectation(description: description)
@@ -115,13 +114,16 @@ public extension AsyncUITest where Self: XCTestCase {
         
         return isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
       }
-
-      UITests.asyncSnapshot(view: vc.view, description: description, isViewReadyClosure: isViewReadyClosure) {
-        // ScrollViews snapshot
-        self.scrollViewsToTest(in: vc.view as! V, identifier: identifier).forEach { entry in
-          UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)")
-        }
-        expectation.fulfill()
+      
+      UITests.asyncSnapshot(view: vcs.container.view,
+                            viewToWaitFor: vcs.contained.view,
+                            description: description,
+                            isViewReadyClosure: isViewReadyClosure) {
+                              // ScrollViews snapshot
+                              self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
+                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)")
+                              }
+                              expectation.fulfill()
       }
 
       expectations.append(expectation)
@@ -131,7 +133,10 @@ public extension AsyncUITest where Self: XCTestCase {
   }
   
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
-    return self.isViewReady(view as! V, identifier: identifier)
+    guard let view = view as? V else {
+      return false
+    }
+    return self.isViewReady(view, identifier: identifier)
   }
 }
 
@@ -164,11 +169,14 @@ extension UITests {
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
     
-    public init() {
-      self.container = .none
-      self.hooks = [:]
-      self.screenSize = UIScreen.main.bounds.size
-      self.orientation = .portrait
+    public init(container: Container = .none,
+                hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
+                screenSize: CGSize = UIScreen.main.bounds.size,
+                orientation: UIDeviceOrientation = .portrait) {
+      self.container = container
+      self.hooks = hooks
+      self.screenSize = screenSize
+      self.orientation = orientation
     }
   }
 }
