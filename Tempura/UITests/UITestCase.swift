@@ -120,7 +120,7 @@ public extension AsyncUITest where Self: XCTestCase {
                             description: description,
                             isViewReadyClosure: isViewReadyClosure) {
                               // ScrollViews snapshot
-                              self.scrollViewsToTest(in: vc.view as! V, identifier: identifier).forEach { entry in
+                              self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
                                 UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)")
                               }
                               expectation.fulfill()
@@ -169,11 +169,14 @@ extension UITests {
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
     
-    public init() {
-      self.container = .none
-      self.hooks = [:]
-      self.screenSize = UIScreen.main.bounds.size
-      self.orientation = .portrait
+    public init(container: Container = .none,
+                hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
+                screenSize: CGSize = UIScreen.main.bounds.size,
+                orientation: UIDeviceOrientation = .portrait) {
+      self.container = container
+      self.hooks = hooks
+      self.screenSize = screenSize
+      self.orientation = orientation
     }
   }
 }
