@@ -1,3 +1,8 @@
+## 1.11.0
+
+- Added ability to create UI tests for scrollViews content
+- Fixed issue with UI tests of ViewControllers inside other controllers
+
 ## 1.10.0
 
 * Add support for orientation change in `UITestCase`
