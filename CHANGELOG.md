@@ -1,3 +1,7 @@
+## 1.12.0
+
+- Added completion callbacks for `UINavigationController` methods like `pushViewController`, `popViewController`,  `popToRootViewController`,  `popToViewController`
+
 ## 1.11.0
 
 - Added ability to create UI tests for scrollViews content
