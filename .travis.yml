@@ -1,12 +1,8 @@
 osx_image: xcode9.4
 language: swift
 before_install:
-  - rvm install 2.5.0
-  - rvm use 2.5.0
   - gem install bundler
   - bundle install
-  - pod repo update
 script:
   - pwd
-  - xcrun simctl list
   - bundle exec fastlane ios tests
