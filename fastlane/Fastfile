@@ -22,7 +22,10 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :tests do
-    scan(scheme: "Tempura", clean: true)
+    run_tests(workspace: "Tempura.xcworkspace",
+	devices: ["iPhone 8"], 
+	scheme: "Tempura", 
+	clean: true)
   end
 end
 
