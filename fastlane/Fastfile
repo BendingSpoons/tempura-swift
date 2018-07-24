@@ -22,7 +22,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :tests do
-    scan(scheme: "Tempura")
+    scan(scheme: "Tempura", clean: true)
   end
 end
 
