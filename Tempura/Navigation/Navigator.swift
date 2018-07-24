@@ -436,7 +436,7 @@ public class Navigator {
 extension UIApplication {
   var currentRoute: Route {
     let controllers = self.currentViewControllers
-    let route: Route = controllers.flatMap {
+    let route: Route = controllers.compactMap {
       return ($0 as? Routable)?.routeIdentifier ?? String(describing: type(of: $0))
     }
     return route
@@ -446,13 +446,13 @@ extension UIApplication {
 public extension UIApplication {
   /// The routables in the visible hierarchy.
   var currentRoutables: [Routable] {
-    return self.currentViewControllers.flatMap {
+    return self.currentViewControllers.compactMap {
       return $0 as? Routable
     }
   }
   /// The indentifiers of the routables in the visible hierarchy.
   public var currentRoutableIdentifiers: [RouteElementIdentifier] {
-    return self.currentRoutables.flatMap {
+    return self.currentRoutables.compactMap {
       return $0.routeIdentifier
     }
   }

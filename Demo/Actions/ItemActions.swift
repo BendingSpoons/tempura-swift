@@ -68,7 +68,7 @@ struct ToggleArchiveItems: AppAction {
   }
   
   func updatedState(currentState: inout AppState) {
-    let positions = ids.flatMap { [currentState] id -> Int? in
+    let positions = ids.compactMap { [currentState] id -> Int? in
       currentState.items.index { $0.id == id }
     }
     positions.forEach {

@@ -38,16 +38,16 @@ import Katana
 ///    }
 /// ```
 
-public protocol ViewModelWithLocalState: ViewModelWithState {
-  // we are keeping this first associatedtype even if it's redundant
-  // so that Swift 4.0 is able to infer both S and LS from the signature of the init when conforming to the protocol
-  // if we remove this line, each time you conform to ViewModelWithLocalState you also need to specify the associatedtypes
+public protocol _ViewModelWithLocalState: ViewModel {
   associatedtype S: State
   associatedtype LS: LocalState
   
   /// Instantiate a ViewModelWithState given the Katana app state and the `LocalState`.
   init?(state: S?, localState: LS)
-  
+}
+
+// resolve Swift complaining about rendundant associated type through composition
+public protocol ViewModelWithLocalState: ViewModelWithState, _ViewModelWithLocalState {
 }
 
 public extension ViewModelWithLocalState {
