@@ -38,7 +38,7 @@ import Foundation
 ///   }
 ///
 ///   // interactions
-///   var valueDidChange: ((Double) -> ())?
+///   var valueDidChange: ((Bool) -> ())?
 ///
 ///   func setup() {
 ///     // define the subviews that will make up the UI
@@ -52,7 +52,7 @@ import Foundation
 ///     // update the UI based on the value of the properties
 ///   }
 ///
-///   func layoutSubviews() {
+///   override func layoutSubviews() {
 ///     // layout the subviews, optionally considering the properties
 ///   }
 /// }

@@ -18,7 +18,7 @@ tempura = target do |target|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Tempura"
 	    configuration.settings["SWIFT_VERSION"] = "4.0"
-        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(SRCROOT)/Lib/** $(PLATFORM_DIR)/Developer/Library/Frameworks"
+        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks"
     end
 
     target.headers_build_phase do |phase|
@@ -56,7 +56,7 @@ tempuraTesting = target do |target|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "TempuraTesting"
         configuration.settings["SWIFT_VERSION"] = "4.0"
-        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(SRCROOT)/Lib/** $(PLATFORM_DIR)/Developer/Library/Frameworks"
+        configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks"
     end
 
     target.headers_build_phase do |phase|
