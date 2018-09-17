@@ -9,8 +9,6 @@ import Foundation
 import XCTest
 import Tempura
 
-@available(*, deprecated: 1.9, message: "Use UITestCase instead")
-public typealias AsyncUITest = UITestCase
 
 /**
  Test a ViewControllerModellableView embedded in a Container with a specific ViewModel.
@@ -95,47 +93,5 @@ extension UITests {
       self.screenSize = screenSize
       self.orientation = orientation
     }
-  }
-}
-
-// MARK: Deprecated
-public extension UITestCase {
-  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
-  public func uiTest(model: V.VM, identifier: String) {
-    let context = UITests.Context<V>()
-    self.uiTest(testCases: [identifier: model], context: context)
-  }
-  
-  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
-  public func uiTest(model: V.VM, identifier: String, container: UITests.Container) {
-    var context = UITests.Context<V>()
-    context.container = container
-    
-    self.uiTest(testCases: [identifier: model], context: context)
-  }
-  
-  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
-  public func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize) {
-    var context = UITests.Context<V>()
-    context.container = container
-    context.hooks = hooks
-    context.screenSize = size
-    
-    self.uiTest(testCases: [identifier: model], context: context)
-  }
-  
-  @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
-  public func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>]) {
-    var context = UITests.Context<V>()
-    context.container = container
-    context.hooks = hooks
-    
-    self.uiTest(testCases: [identifier: model], context: context)
-  }
-  
-  /// The default implementation returns true
-  @available(*, deprecated: 1.9, message: "Use isViewReady(:identifier:) instead")
-  public func isViewReady(_ view: V) -> Bool {
-    return true
   }
 }
