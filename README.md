@@ -294,7 +294,14 @@ This repository contains a demo of a todo list application done with Tempura. Af
 
 [Documentation](http://tempura.bendingspoons.com)
 
+## Swift Version
+Certain versions of Tempura only support certain versions of Swift. Depending on wich version of Swift your project is using, you should use specific versions of Tempura.
+Use this table in order to check which version of Tempura you need.
 
+| Swift Version  | Tempura Version |
+| ------------- | ------------- |
+| Swift 4.2 | Tempura 2.0  |
+| Swift 4 | Tempura 1.12 |
 
 ## Installation
 
