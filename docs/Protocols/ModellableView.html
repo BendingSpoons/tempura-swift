@@ -14,8 +14,8 @@
     <a title="ModellableView Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -60,6 +60,12 @@
                 <a href="../Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -68,7 +74,13 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ModellableView.html">ModellableView</a>
@@ -176,7 +188,7 @@ A ViewModel is a struct that contains all the properties that define the state o
 <p>A <code>ModellableView</code> then is a special case of <code><a href="../Protocols/View.html">View</a></code> that is using a ViewModel to represent its state.
 All the Setup, Style and Layout phases described in <code><a href="../Protocols/View.html">View</a></code> are still in use, the only difference is that
 the Update method of the ModellableView is getting an <code>oldModel</code> parameter.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactView</span><span class="p">:</span> <span class="kt">ModellableView</span> <span class="p">{</span>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ModellableView</span> <span class="p">{</span>
 
      <span class="c1">// subviews to create the UI</span>
      <span class="kd">private</span> <span class="k">var</span> <span class="nv">title</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
@@ -216,7 +228,7 @@ the Update method of the ModellableView is getting an <code>oldModel</code> para
        <span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">lastname</span>
      <span class="p">}</span>
 
-     <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
        <span class="c1">// layout the subviews</span>
      <span class="p">}</span>
    <span class="p">}</span>
@@ -226,9 +238,9 @@ the Update method of the ModellableView is getting an <code>oldModel</code> para
 
 <ul>
 <li>create the <code>model: ContactViewModel</code> variable automatically for you.</li>
-<li>automatically call the <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code> method every time the model changes</li>
+<li>automatically call the <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code> method every time the model changes</li>
 <li>allow to test the ViewModel instead of testing the ModellableView</li>
-<li>include the oldModel inside the <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code> so that you can reason about diffs</li>
+<li>include the oldModel inside the <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code> so that you can reason about diffs</li>
 <li>allow to change more than one property and trigger only one update</li>
 </ul>
 <pre class="highlight swift"><code>   <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModellableView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
@@ -237,7 +249,7 @@ the Update method of the ModellableView is getting an <code>oldModel</code> para
 
      <span class="c1">// the ViewModel of the View.</span>
      <span class="c1">// `update(oldModel: VM?)` will be called each time model will change</span>
-     <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">VM</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
+     <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
 
      <span class="c1">// the model is changed, update the View</span>
      <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?)</span>
@@ -251,9 +263,39 @@ the Update method of the ModellableView is getting an <code>oldModel</code> para
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ModellableViewP5model2VMQzSgv"></a>
+                    <a name="/s:7Tempura14ModellableViewP2VMQa"></a>
+                    <a name="//apple_ref/swift/Alias/VM" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ModellableViewP2VMQa">VM</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ModellableView.swift#L">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ModellableViewP5model2VMQzSgvp"></a>
                     <a name="//apple_ref/swift/Property/model" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ModellableViewP5model2VMQzSgv">model</a>
+                    <a class="token" href="#/s:7Tempura14ModellableViewP5model2VMQzSgvp">model</a>
                     </code>
                       <span class="declaration-note">
                         Default implementation
@@ -282,7 +324,7 @@ and we are adding the var exploiting a feature of the Objective-C runtime called
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP2VMQa">VM</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -295,9 +337,9 @@ and we are adding the var exploiting a feature of the Objective-C runtime called
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF"></a>
+                    <a name="/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF"></a>
                     <a name="//apple_ref/swift/Method/update(oldModel:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">update(oldModel:)</a>
+                    <a class="token" href="#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">update(oldModel:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -312,7 +354,7 @@ and we are adding the var exploiting a feature of the Objective-C runtime called
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP2VMQa">VM</a></span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>

@@ -13,8 +13,8 @@
     <a title="Structures  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p><a href="index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,6 +59,12 @@
                 <a href="Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -67,7 +73,13 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ModellableView.html">ModellableView</a>
@@ -198,7 +210,7 @@
 identified by the <code>identifierToShow</code>.</p>
 
 <p>The <code><a href="Classes/ViewController.html">ViewController</a></code> that is managing that screen must implement <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code>
-or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be identified with a matching <code><a href="Protocols/Routable.html#/s:7Tempura8RoutableP15routeIdentifierSSv">Routable.routeIdentifier</a></code>.</p>
+or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be identified with a matching <code><a href="Protocols/Routable.html#/s:7Tempura8RoutableP15routeIdentifierSSvp">Routable.routeIdentifier</a></code>.</p>
 
                         <a href="Structs/Show.html" class="slightly-smaller">See more</a>
                       </div>
@@ -233,7 +245,7 @@ or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be id
 identified by the <code>identifierToHide</code>.</p>
 
 <p>The <code><a href="Classes/ViewController.html">ViewController</a></code> that is managing that screen must implement <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code>
-or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be identified with a matching <code><a href="Protocols/Routable.html#/s:7Tempura8RoutableP15routeIdentifierSSv">Routable.routeIdentifier</a></code>.</p>
+or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be identified with a matching <code><a href="Protocols/Routable.html#/s:7Tempura8RoutableP15routeIdentifierSSvp">Routable.routeIdentifier</a></code>.</p>
 
                         <a href="Structs/Hide.html" class="slightly-smaller">See more</a>
                       </div>
@@ -268,7 +280,7 @@ or <code><a href="Protocols/Routable.html">Routable</a></code> in order to be id
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Used by a <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> inside its <code><a href="Protocols/RoutableWithConfiguration.html#/s:7Tempura25RoutableWithConfigurationP010navigationD0s10DictionaryVyAA17NavigationRequestVAA0G11InstructionOGv">RoutableWithConfiguration.navigationConfiguration</a></code>
+                        <p>Used by a <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> inside its <code><a href="Protocols/RoutableWithConfiguration.html#/s:7Tempura25RoutableWithConfigurationP010navigationD0SDyAA17NavigationRequestVAA0F11InstructionOGvp">RoutableWithConfiguration.navigationConfiguration</a></code>
 to describe the kind of navigation action (<code><a href="Structs/Show.html">Show</a></code>, <code><a href="Structs/Hide.html">Hide</a></code>) to handle.</p>
 <pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
 

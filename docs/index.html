@@ -13,8 +13,8 @@
     <a title="Tempura  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p><a href="index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,6 +59,12 @@
                 <a href="Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -67,7 +73,13 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ModellableView.html">ModellableView</a>
@@ -259,6 +271,147 @@ Your app state is defined in a single struct.</p>
 </code></pre>
 
 <p>Learn more about the navigation <a href="http://tempura.bendingspoons.com/Classes/Navigator.html">here</a></p>
+<h3 id='ui-testing' class='heading'>UI Testing</h3>
+
+<p>Tempura has a UI testing system that can be used to take screenshots of your views in all possible states, with all devices and all supported languages.</p>
+<h4 id='usage' class='heading'>Usage</h4>
+
+<p>You need to include the <code>TempuraTesting</code> pod in the test target of your app:</p>
+<pre class="highlight ruby"><code><span class="n">target</span> <span class="s1">'MyAppTests'</span> <span class="k">do</span>
+  <span class="n">pod</span> <span class="s1">'TempuraTesting'</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Specify where the screenshots will be placed inside your <code>plist</code> :</p>
+<pre class="highlight plaintext"><code>UI_TEST_DIR: $(SOURCE_ROOT)/Demo/UITests
+</code></pre>
+
+<p>In Xcode, create a new UI test case class:</p>
+
+<p><code>File -&gt; New -&gt; File... -&gt; UI Test Case Class</code> </p>
+
+<p>Here you can use the <code>test</code> function to take a snapshot of a <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code>  with a specific <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code>.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">TempuraTesting</span>
+
+<span class="kd">class</span> <span class="kt">UITests</span><span class="p">:</span> <span class="kt">XCTestCase</span><span class="p">,</span> <span class="kt">UITestCase</span> <span class="p">{</span>
+
+  <span class="kd">func</span> <span class="nf">testAddItemScreen</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">uiTest</span><span class="p">(</span><span class="nv">testCases</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s">"addItem01"</span><span class="p">:</span> <span class="kt">AddItemViewModel</span><span class="p">(</span><span class="nv">editingText</span><span class="p">:</span> <span class="s">"this is a test"</span><span class="p">)</span>
+    <span class="p">])</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+
+<p>The identifier will define the name of the snapshot image in the file system.</p>
+
+<p>You can also personalise how the view is rendered (for instance you can embed the view in an instance of UITabBar) using the context parameter. Here is an example that
+embeds the view into a tabbar</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">TempuraTesting</span>
+
+<span class="kd">class</span> <span class="kt">UITests</span><span class="p">:</span> <span class="kt">XCTestCase</span><span class="p">,</span> <span class="kt">UITestCase</span> <span class="p">{</span>
+
+  <span class="kd">func</span> <span class="nf">testAddItemScreen</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">context</span> <span class="o">=</span> <span class="kt">UITests</span><span class="o">.</span><span class="kt">Context</span><span class="o">&lt;</span><span class="kt">AddItemView</span><span class="o">&gt;</span><span class="p">()</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="o">.</span><span class="n">tabBarController</span>
+
+
+    <span class="k">self</span><span class="o">.</span><span class="nf">uiTest</span><span class="p">(</span><span class="nv">testCases</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s">"addItem01"</span><span class="p">:</span> <span class="kt">AddItemViewModel</span><span class="p">(</span><span class="nv">editingText</span><span class="p">:</span> <span class="s">"this is a test"</span><span class="p">)</span>
+    <span class="p">],</span> <span class="nv">context</span><span class="p">:</span> <span class="n">context</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+
+<p>If some important content inside a UIScrollView is not fully visibile, you can leverage the <code>scrollViewsToTest(in view: V, identifier: String)</code> method.
+This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.</p>
+
+<p>In this example we use <code>scrollViewsToTest(in view: V, identifier: String)</code>  to take an extended snapshot of the <em>mood picker</em> at the bottom of the screen.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scrollViewsToTest</span><span class="p">(</span><span class="k">in</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">V</span><span class="p">,</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">UIScrollView</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s">"mood_collection_view"</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">moodCollectionView</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/screen1.png" height="400" />
+<img src="https://raw.githubusercontent.com/BendingSpoons/tempura-swift/master/.github/Assets/screen2.png" /></p>
+
+<p>In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the <code>isViewReady(view:identifier:)</code> method.
+For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is <code>loaded</code>, then the snapshot is taken)</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">TempuraTesting</span>
+
+<span class="kd">class</span> <span class="kt">UITests</span><span class="p">:</span> <span class="kt">XCTestCase</span><span class="p">,</span> <span class="kt">UITestCase</span> <span class="p">{</span>
+
+  <span class="kd">func</span> <span class="nf">testAddItemScreen</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">uiTest</span><span class="p">(</span><span class="nv">testCases</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s">"addItem01"</span><span class="p">:</span> <span class="kt">AddItemViewModel</span><span class="p">(</span><span class="nv">editingText</span><span class="p">:</span> <span class="s">"this is a test"</span><span class="p">)</span>
+    <span class="p">])</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">isViewReady</span><span class="p">(</span><span class="n">_</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">AddItemView</span><span class="p">,</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">view</span><span class="o">.</span><span class="n">remoteImage</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="o">.</span><span class="n">loaded</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>The test will pass as soon as the snapshot is taken.</p>
+<h4 id='multiple-devices' class='heading'>Multiple devices</h4>
+
+<p>By default, tests are run only in the device you have choose from xcode (or your device, or CI system). We can run the snapshotting in all the devices by using a script like the following one:</p>
+<pre class="highlight shell"><code>xcodebuild <span class="se">\</span>
+  -workspace &lt;project&gt;.xcworkspace <span class="se">\</span>
+  -scheme <span class="s2">"&lt;target name&gt;"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 5s"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 6 Plus"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 6"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone X"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPad Pro (12.9 inch)"</span> <span class="se">\</span>
+  <span class="nb">test</span>
+</code></pre>
+
+<p>Tests will run in parallel on all the devices. If you want to change the behaviour, refer to the <code>xcodebuild</code> documentation</p>
+
+<p>If you want to test a specific language in the ui test, you can replace the <code>test</code> command with the <code>-testLanguage &lt;iso code639-1&gt;</code>.
+The app will be launched in that language and the UITests will be executed with that locale. An example:</p>
+<pre class="highlight shell"><code>xcodebuild <span class="se">\</span>
+  -workspace &lt;project&gt;.xcworkspace <span class="se">\</span>
+  -scheme <span class="s2">"&lt;target name&gt;"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 5s"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 6 Plus"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone 6"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPhone X"</span> <span class="se">\</span>
+  -destination <span class="nv">name</span><span class="o">=</span><span class="s2">"iPad Pro (12.9 inch)"</span> <span class="se">\</span>
+  -testLanguage it
+</code></pre>
+<h4 id='remote-resources' class='heading'>Remote Resources</h4>
+
+<p>It happens often that the UI needs to show remote content (that is, remote images, remote videos, &hellip;). While executing UITests this could be a problem as:</p>
+
+<ul>
+<li>tests may fail due to network or server issues</li>
+<li>system should take care of tracking when remote resources are loaded, put them in the UI and only then take the screenshots</li>
+</ul>
+
+<p>To fix this issue, Tempura offers a <a href="https://developer.apple.com/documentation/foundation/urlprotocol">URLProtocol</a> subclass named <code>LocalFileURLProtocol</code> that tries to load remote files from your local bundle.</p>
+
+<p>The idea is to put in your (test) bundle all the resources that are needed to render the UI and <code>LocalFileURLProtocol</code> will try to load them instead of making the network request. </p>
+
+<p>Given an url, <code>LocalFileURLProtocol</code> matches the file name using the following rules:</p>
+
+<ul>
+<li>search a file that has the url as a name (e.g., <a href="http://example.com/image.png">http://example.com/image.png</a>)</li>
+<li>search a file that has the last path component as file name (e.g., image.png)</li>
+<li>search a file that has the last path component without extension as file name (e.g., image)</li>
+</ul>
+
+<p>if a matching file cannot be retrieved, then the network call is performed.</p>
+
+<p>In order to register <code>LocalFileURLProtocol</code> in your application, you have to invoke the following API as soon as possible in your tests lifecycle:</p>
+<pre class="highlight swift"><code><span class="kt">URLProtocol</span><span class="o">.</span><span class="nf">registerClass</span><span class="p">(</span><span class="kt">LocalFileURLProtocol</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+</code></pre>
+
+<p>Note that if you are using <a href="https://github.com/Alamofire/Alamofire/">Alamofire</a> this won&rsquo;t work. <a href="https://github.com/Alamofire/Alamofire/issues/1247">Here</a> you can find a related issue and a link on how to configure Alamofire to deal with <code>URLProtocol</code> classes.</p>
 <h2 id='where-to-go-from-here' class='heading'>Where to go from here</h2>
 <h3 id='example-application' class='heading'>Example application</h3>
 

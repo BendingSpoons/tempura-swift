@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>UIApplication Extension Reference</title>
+    <title>UIView Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/UIApplication" class="dashAnchor"></a>
-    <a title="UIApplication Extension Reference"></a>
+    <a name="//apple_ref/swift/Extension/UIView" class="dashAnchor"></a>
+    <a title="UIView Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Tempura Reference</a>
         <img id="carat" src="../img/carat.png" />
-        UIApplication Extension Reference
+        UIView Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -156,8 +156,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>UIApplication</h1>
-            
+            <h1>UIView</h1>
+            <p>Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
+see also <a href="https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area">https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area</a></p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -165,9 +167,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutables" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp">currentRoutables</a>
+                    <a name="/s:So6UIViewC7TempuraE23universalSafeAreaInsetsSo06UIEdgeF0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/universalSafeAreaInsets" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So6UIViewC7TempuraE23universalSafeAreaInsetsSo06UIEdgeF0Vvp">universalSafeAreaInsets</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -175,49 +177,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The routables in the visible hierarchy.</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentRoutables</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Routable.html">Routable</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">universalSafeAreaInsets</span><span class="p">:</span> <span class="kt">UIEdgeInsets</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L448-L452">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutableIdentifiers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp">currentRoutableIdentifiers</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The indentifiers of the routables in the visible hierarchy.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">currentRoutableIdentifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">]</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L454-L458">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L72-L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

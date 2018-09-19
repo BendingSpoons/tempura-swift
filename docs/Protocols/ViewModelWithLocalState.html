@@ -14,8 +14,8 @@
     <a title="ViewModelWithLocalState Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -60,6 +60,12 @@
                 <a href="../Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -68,7 +74,13 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ModellableView.html">ModellableView</a>
@@ -147,7 +159,7 @@
             <h1>ViewModelWithLocalState</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithLocalState</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithLocalState</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a></span><span class="p">,</span> <span class="kt"><a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a></span></code></pre>
 
                 </div>
               </div>
@@ -181,43 +193,9 @@ that is of interest for the View.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura23ViewModelWithLocalStatePxSg1SQzSg5state_2LSQz05localF0tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(state:localState:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura23ViewModelWithLocalStatePxSg1SQzSg5state_2LSQz05localF0tcfc">init(state:localState:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Instantiate a ViewModelWithState given the Katana app state and the <code><a href="../Protocols/LocalState.html">LocalState</a></code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">?(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">S</span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">LS</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L49">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura23ViewModelWithLocalStatePAAExSg1SQz5state_tcfc"></a>
+                    <a name="/s:7Tempura23ViewModelWithLocalStatePAAE5statexSg1SQz_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(state:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura23ViewModelWithLocalStatePAAExSg1SQz5state_tcfc">init(state:)</a>
+                    <a class="token" href="#/s:7Tempura23ViewModelWithLocalStatePAAE5statexSg1SQz_tcfc">init(state:)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -228,7 +206,7 @@ that is of interest for the View.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Do not use this, use the <code><a href="../Protocols/ViewModelWithLocalState.html#/s:7Tempura23ViewModelWithLocalStatePxSg1SQzSg5state_2LSQz05localF0tcfc">ViewModelWithLocalState.init(state:localState:)</a></code> instead.</p>
+                        <p>Do not use this, use the <code>ViewModelWithLocalState.init(state:localState:)</code> instead.</p>
 
                       </div>
                       <div class="declaration">
@@ -240,7 +218,7 @@ that is of interest for the View.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L55-L57">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L45-L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
