@@ -14,8 +14,8 @@
     <a title="ViewControllerModellableView Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -60,6 +60,12 @@
                 <a href="../Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -68,7 +74,13 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ModellableView.html">ModellableView</a>
@@ -147,7 +159,7 @@
             <h1>ViewControllerModellableView</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewControllerModellableView</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ModellableView.html">ModellableView</a></span> <span class="k">where</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewControllerModellableView</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ModellableView.html">ModellableView</a></span><span class="p">,</span> <span class="kt"><a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a></span> <span class="k">where</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
 
                 </div>
               </div>
@@ -161,9 +173,9 @@ It&rsquo;s intended to be used only as the main View of a <code><a href="../Clas
 It differs from a ModellableView only for a couple of computed variables
 used as syntactic sugar to access navigation items on the navigation bar
 (if present).
-A ViewControllerModellableView has also access to the <code>universalSafeAreaInsets.
-The</code>ViewController<code>that is managing this View is responsible to call</code>ModellableView.setup()<code>and
-</code>ModellableView.style()` during the setup phase of the ViewController so you don&rsquo;t need to do that.</p>
+A ViewControllerModellableView has also access to the <code>universalSafeAreaInsets</code>.
+The <code><a href="../Classes/ViewController.html">ViewController</a></code> that is managing this View is responsible to call <code>ModellableView.setup()</code> and
+<code>ModellableView.style()</code> during the setup phase of the ViewController so you don&rsquo;t need to do that.</p>
 
           </section>
           <section class="section task-group-section">
@@ -172,51 +184,9 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura024ViewControllerModellableB0P04viewC0So06UIViewC0CSgv"></a>
-                    <a name="//apple_ref/swift/Property/viewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0P04viewC0So06UIViewC0CSgv">viewController</a>
-                    </code>
-                      <span class="declaration-note">
-                        Default implementation
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Syntactic sugar to access the <code><a href="../Classes/ViewController.html">ViewController</a></code> that is managing this View.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>Syntactic sugar to access the <code>ViewController</code> that is managing this View.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L33">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura024ViewControllerModellableB0PAAE13navigationBarSo012UINavigationF0CSgv"></a>
+                    <a name="/s:7Tempura024ViewControllerModellableB0PAAE13navigationBarSo012UINavigationF0CSgvp"></a>
                     <a name="//apple_ref/swift/Property/navigationBar" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAAE13navigationBarSo012UINavigationF0CSgv">navigationBar</a>
+                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAAE13navigationBarSo012UINavigationF0CSgvp">navigationBar</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -239,7 +209,7 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L39-L41">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L44-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -247,9 +217,9 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura024ViewControllerModellableB0PAAE14navigationItemSo012UINavigationF0CSgv"></a>
+                    <a name="/s:7Tempura024ViewControllerModellableB0PAAE14navigationItemSo012UINavigationF0CSgvp"></a>
                     <a name="//apple_ref/swift/Property/navigationItem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAAE14navigationItemSo012UINavigationF0CSgv">navigationItem</a>
+                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAAE14navigationItemSo012UINavigationF0CSgvp">navigationItem</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -272,21 +242,17 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L44-L46">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L49-L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura024ViewControllerModellableB0PAASo6UIViewCRbzAaBRzlE23universalSafeAreaInsetsSC06UIEdgeI0Vv"></a>
-                    <a name="//apple_ref/swift/Property/universalSafeAreaInsets" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAASo6UIViewCRbzAaBRzlE23universalSafeAreaInsetsSC06UIEdgeI0Vv">universalSafeAreaInsets</a>
+                    <a name="/s:7Tempura024ViewControllerModellableB0PAAE04viewC0So06UIViewC0CSgvp"></a>
+                    <a name="//apple_ref/swift/Property/viewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0PAAE04viewC0So06UIViewC0CSgvp">viewController</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -297,20 +263,19 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
-see also <a href="https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area">https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area</a></p>
+                        <p>Syntactic sugar to access the <code><a href="../Classes/ViewController.html">ViewController</a></code> that is managing this View.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">universalSafeAreaInsets</span><span class="p">:</span> <span class="kt">UIEdgeInsets</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L69-L75">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L53-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

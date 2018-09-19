@@ -38,21 +38,21 @@ import Katana
 ///    }
 /// ```
 
-public protocol ViewModelWithLocalState: ViewModelWithState {
-  // we are keeping this first associatedtype even if it's redundant
-  // so that Swift 4.0 is able to infer both S and LS from the signature of the init when conforming to the protocol
-  // if we remove this line, each time you conform to ViewModelWithLocalState you also need to specify the associatedtypes
-  associatedtype S: State
-  associatedtype LS: LocalState
-  
-  /// Instantiate a ViewModelWithState given the Katana app state and the `LocalState`.
-  init?(state: S?, localState: LS)
-  
-}
+public protocol ViewModelWithLocalState: ViewModelWithState, LocalStateableViewModel {}
 
 public extension ViewModelWithLocalState {
   /// Do not use this, use the `ViewModelWithLocalState.init(state:localState:)` instead.
   init?(state: S) {
     fatalError("use `init(state: S, localState: LS)` instead")
   }
+}
+
+// The requirement for a ViewModelWithLocalState, it needs to have both a State and a LocalState
+public protocol LocalStateableViewModel: ViewModel {
+  associatedtype S: State
+  associatedtype LS: LocalState
+  
+  /// Instantiate a ViewModelWithState given the Katana app state and the `LocalState`.
+  init?(state: S?, localState: LS)
+  
 }

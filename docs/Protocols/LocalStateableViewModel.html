@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>UIApplication Extension Reference</title>
+    <title>LocalStateableViewModel Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/UIApplication" class="dashAnchor"></a>
-    <a title="UIApplication Extension Reference"></a>
+    <a name="//apple_ref/swift/Protocol/LocalStateableViewModel" class="dashAnchor"></a>
+    <a title="LocalStateableViewModel Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Tempura Reference</a>
         <img id="carat" src="../img/carat.png" />
-        UIApplication Extension Reference
+        LocalStateableViewModel Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -156,8 +156,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>UIApplication</h1>
-            
+            <h1>LocalStateableViewModel</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">LocalStateableViewModel</span><span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Undocumented</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -165,9 +172,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutables" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp">currentRoutables</a>
+                    <a name="/s:7Tempura23LocalStateableViewModelP1SQa"></a>
+                    <a name="//apple_ref/swift/Alias/S" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura23LocalStateableViewModelP1SQa">S</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -175,19 +182,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The routables in the visible hierarchy.</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentRoutables</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Routable.html">Routable</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">S</span><span class="p">:</span> <span class="kt">State</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L448-L452">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -195,9 +202,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutableIdentifiers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp">currentRoutableIdentifiers</a>
+                    <a name="/s:7Tempura23LocalStateableViewModelP2LSQa"></a>
+                    <a name="//apple_ref/swift/Alias/LS" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura23LocalStateableViewModelP2LSQa">LS</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -205,19 +212,49 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The indentifiers of the routables in the visible hierarchy.</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">currentRoutableIdentifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">LS</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LocalState.html">LocalState</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L454-L458">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura23LocalStateableViewModelP5state10localStatexSg1SQzSg_2LSQztcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(state:localState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura23LocalStateableViewModelP5state10localStatexSg1SQzSg_2LSQztcfc">init(state:localState:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Instantiate a ViewModelWithState given the Katana app state and the <code><a href="../Protocols/LocalState.html">LocalState</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">?(</span><span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LocalStateableViewModel.html#/s:7Tempura23LocalStateableViewModelP1SQa">S</a></span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LocalStateableViewModel.html#/s:7Tempura23LocalStateableViewModelP2LSQa">LS</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

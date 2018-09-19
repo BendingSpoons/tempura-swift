@@ -13,8 +13,8 @@
     <a title="Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p><a href="index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,6 +59,12 @@
                 <a href="Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -67,7 +73,13 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ModellableView.html">ModellableView</a>
@@ -153,6 +165,435 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:7Tempura10LocalStateP"></a>
+                    <a name="//apple_ref/swift/Protocol/LocalState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura10LocalStateP">LocalState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The LocalState of a <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>.</p>
+
+<p>A <code><a href="Classes/ViewController.html">ViewController</a></code> is managing the UI of a screen, listening for Katana global state changes, keeping the UI updated
+and dispatching actions in response to user interactions in order to change the global state.</p>
+
+<p>There are times when you have some kind of state information that is only specific to the screen managed
+by a ViewController, like for instance the item selected in a list.
+In this case, in order to avoid polluting the global state, you can represent that information inside
+a <code>LocalState</code> and promote that ViewController to be a <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>.</p>
+
+<p>A ViewControllerWithLocalState contains a <code>localState</code> variable that you can change directly in order
+to represent local state changes.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">GlobalState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+       <span class="s">"buy milk"</span><span class="p">,</span>
+       <span class="s">"find a unicorn"</span><span class="p">,</span>
+       <span class="s">"visit Rome"</span>
+     <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ListLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/LocalState.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">LocalState</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/LocalState.swift#L36-L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ModellableViewP"></a>
+                    <a name="//apple_ref/swift/Protocol/ModellableView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ModellableViewP">ModellableView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mixin protocol for UIView subclasses based on the same SSUL lifecycle of <code><a href="Protocols/View.html">View</a></code>. Conforming to <code>ModellableView</code>, a UIView will get a <code>model: ViewModel</code> property
+and the <code>update(oldModel: ViewModel?)</code> will be automatically called each time the model property will change.
+If your UIView is simple and you don&rsquo;t want to use a ViewModel, refer to the <code><a href="Protocols/View.html">View</a></code> protocol instead.</p>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>The <code><a href="Protocols/View.html">View</a></code> protocol is good enough for small reusable UI elements that can be manipulated through <strong>properties</strong>.
+There are a couple of drawbacks to this approach:</p>
+
+<ul>
+<li>it&rsquo;s not easy to test UI elements</li>
+<li>in the <code><a href="Protocols/View.html#/s:7Tempura4ViewP6updateyyF">View.update()</a></code> phase we don&rsquo;t know the actual property that is changed, meaning that we cannot reason in terms of differences from the old values</li>
+<li>changing two or more properties at the same time will trigger two or more updates.</li>
+</ul>
+
+<p>To solve all of these issues we introduce the concept of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code>.
+A ViewModel is a struct that contains all the properties that define the state of the View.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactViewModel</span><span class="p">:</span> <span class="kt">ViewModel</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"John"</span>
+     <span class="k">var</span> <span class="nv">lastName</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"Doe"</span>
+   <span class="p">}</span>
+</code></pre>
+
+<p>A <code>ModellableView</code> then is a special case of <code><a href="Protocols/View.html">View</a></code> that is using a ViewModel to represent its state.
+All the Setup, Style and Layout phases described in <code><a href="Protocols/View.html">View</a></code> are still in use, the only difference is that
+the Update method of the ModellableView is getting an <code>oldModel</code> parameter.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ModellableView</span> <span class="p">{</span>
+
+     <span class="c1">// subviews to create the UI</span>
+     <span class="kd">private</span> <span class="k">var</span> <span class="nv">title</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
+     <span class="kd">private</span> <span class="k">var</span> <span class="nv">subtitle</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
+
+     <span class="c1">// interactions</span>
+     <span class="k">var</span> <span class="nv">nameDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+     <span class="k">var</span> <span class="nv">lastNameDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+
+     <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">CGRect</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="n">frame</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">()</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">style</span><span class="p">()</span>
+     <span class="p">}</span>
+
+     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+       <span class="c1">// define the subviews that will make up the UI</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="p">)</span>
+
+       <span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">didEndEditing</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">label</span> <span class="k">in</span>
+         <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">nameDidChange</span><span class="p">?(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+       <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">didEndEditing</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">label</span> <span class="k">in</span>
+         <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">lastNameDidChange</span><span class="p">?(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+       <span class="p">}</span>
+     <span class="p">}</span>
+
+     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
+       <span class="c1">// define the default look and feel of the UI elements</span>
+     <span class="p">}</span>
+
+     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">ContactViewModel</span><span class="p">?)</span> <span class="p">{</span>
+       <span class="c1">// update the UI based on the value of `self.model`</span>
+       <span class="c1">// you can use `oldModel` to reason about diffs</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">name</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">lastname</span>
+     <span class="p">}</span>
+
+     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+       <span class="c1">// layout the subviews</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+<p>Conforming to <code>ModellableView</code> will:</p>
+
+<ul>
+<li>create the <code>model: ContactViewModel</code> variable automatically for you.</li>
+<li>automatically call the <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code> method every time the model changes</li>
+<li>allow to test the ViewModel instead of testing the ModellableView</li>
+<li>include the oldModel inside the <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code> so that you can reason about diffs</li>
+<li>allow to change more than one property and trigger only one update</li>
+</ul>
+<pre class="highlight swift"><code>   <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModellableView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+
+     <span class="kd">associatedtype</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt">ViewModel</span>
+
+     <span class="c1">// the ViewModel of the View.</span>
+     <span class="c1">// `update(oldModel: VM?)` will be called each time model will change</span>
+     <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
+
+     <span class="c1">// the model is changed, update the View</span>
+     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?)</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/ModellableView.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModellableView</span><span class="p">:</span> <span class="kt"><a href="Protocols/View.html">View</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ModellableView.swift#L107-L118">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura25RoutableWithConfigurationP"></a>
+                    <a name="//apple_ref/swift/Protocol/RoutableWithConfiguration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura25RoutableWithConfigurationP">RoutableWithConfiguration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A RoutableWithConfiguration is a <code><a href="Classes/ViewController.html">ViewController</a></code> that takes active part to the execution of a navigation action.</p>
+
+<p>If a screen <code>listScreen</code> needs to present <code>addItemScreen</code>, the ViewController that is handling <code>listScreen</code> must
+conform to the <code>RoutableWithConfiguration</code> protocol.</p>
+
+<p>When a <code>Show(&quot;addItemScreen&quot;)</code> action is dispatched, the <code><a href="Classes/Navigator.html">Navigator</a></code> will capture the action and will start
+finding a RoutableWithConfiguration in the active hierarchy that can handle the action.
+If the <code>navigationConfiguration</code> of <code>listScreen</code> will match the <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code> of <code>.show(addItemScreen)</code>
+than the Navigator will execute the relative <code><a href="Enums/NavigationInstruction.html">NavigationInstruction</a></code> where you can
+configure the ViewController to present.</p>
+
+<p>There are others <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>s and <code><a href="Enums/NavigationInstruction.html">NavigationInstruction</a></code>s that can be used to define the navigation
+structure of the app.</p>
+
+<p>In case you need more control, you can always implement the <code><a href="Protocols/Routable.html">Routable</a></code> protocol yourself and have
+fine grained control of the implementation of the navigation.
+In fact, a <code>RoutableWithConfiguration</code> and its <code>navigationConfiguration</code> are used behind the scenes
+to implement the <code><a href="Protocols/Routable.html">Routable</a></code> protocol for you.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
+
+     <span class="c1">// needed by the `Routable` protocol</span>
+     <span class="c1">// to identify this ViewController in the hierarchy</span>
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"listScreen"</span>
+     <span class="p">}</span>
+
+     <span class="c1">// the `NavigationRequest`s that this ViewController is handling</span>
+     <span class="c1">// with the `NavigationInstruction` to execute</span>
+     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">[</span>
+         <span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="s">"addItemScreen"</span><span class="p">):</span> <span class="o">.</span><span class="nf">presentModally</span><span class="p">({</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
+           <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">AddItemViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+           <span class="k">return</span> <span class="n">vc</span>
+         <span class="p">})</span>
+       <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/RoutableWithConfiguration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RoutableWithConfiguration</span><span class="p">:</span> <span class="kt"><a href="Protocols/Routable.html">Routable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L269-L273">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura18NavigationProviderP"></a>
+                    <a name="//apple_ref/swift/Protocol/NavigationProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura18NavigationProviderP">NavigationProvider</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Protocol that the <code>SideEffectDependencyContainer</code> of the app must conform in order to
+use <code><a href="Classes/Navigator.html">Navigator</a></code> and the navigation mechanism provided by Tempura.</p>
+
+                        <a href="Protocols/NavigationProvider.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NavigationProvider</span><span class="p">:</span> <span class="kt">SideEffectDependencyContainer</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationProvider.swift#L14-L17">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura13RootInstallerP"></a>
+                    <a name="//apple_ref/swift/Protocol/RootInstaller" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura13RootInstallerP">RootInstaller</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The object responsible to handle the installation of the first screen
+of the navigation.</p>
+
+<p>The <code><a href="Classes/Navigator.html">Navigator</a></code> will call the <code>RooInstaller.installRoot(identifier:context:completion:)</code>
+method that will handle the setup of the screen to be shown.</p>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span><span class="p">,</span> <span class="kt">RootInstaller</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+       <span class="o">...</span>
+       <span class="c1">// setup the root of the navigation</span>
+       <span class="c1">// this is done by invoking this method (and not in the init of the navigator)</span>
+       <span class="c1">// because the navigator is instantiated by the Store.</span>
+       <span class="c1">// this in turn will invoke the `installRootMethod` of the rootInstaller (self)</span>
+       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
+       <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+
+     <span class="c1">// install the root of the app</span>
+     <span class="c1">// this method is called by the navigator when needed</span>
+     <span class="c1">// you must call the `completion` callback when the navigation has been completed</span>
+     <span class="kd">func</span> <span class="nf">installRoot</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="p">{</span>
+       <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">ScreenAViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">vc</span>
+       <span class="nf">completion</span><span class="p">()</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/RootInstaller.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RootInstaller</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/RootInstaller.swift#L39-L53">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura8RoutableP"></a>
+                    <a name="//apple_ref/swift/Protocol/Routable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura8RoutableP">Routable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Routable is a <code><a href="Classes/ViewController.html">ViewController</a></code> that takes active part to the execution of a navigation action.
+This is intended to be used in the few cases the <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> is not enough.</p>
+
+<p>For instance, if we want a screen <code>A</code> to present <code>B</code>, the ViewController that
+is handling A, must conform to the Routable protocol.</p>
+
+<p>Each Routable can be asked by the <code><a href="Classes/Navigator.html">Navigator</a></code> to perform a specific navigation task
+(like present another ViewController) based on the NavigationAction you dispatch
+(see <code><a href="Structs/Show.html">Show</a></code> or <code><a href="Structs/Hide.html">Hide</a></code>).</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">:</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"todoList"</span>
+     <span class="p">}</span>
+
+     <span class="kd">func</span> <span class="nf">show</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">NextViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+         <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">hide</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
+       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+         <span class="k">if</span> <span class="n">identifier</span> <span class="o">==</span> <span class="k">self</span><span class="o">.</span><span class="n">routeIdentifier</span> <span class="p">{</span>
+           <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
+           <span class="k">return</span> <span class="kc">true</span>
+         <span class="p">}</span>
+         <span class="k">return</span> <span class="kc">false</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/Routable.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Routable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L67-L140">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:7Tempura4ViewP"></a>
                     <a name="//apple_ref/swift/Protocol/View" class="dashAnchor"></a>
                     <a class="token" href="#/s:7Tempura4ViewP">View</a>
@@ -192,7 +633,7 @@ Please note that this protocol is just used in order to enforce the same lifecyc
   <span class="p">}</span>
 
   <span class="c1">// interactions</span>
-  <span class="k">var</span> <span class="nv">valueDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+  <span class="k">var</span> <span class="nv">valueDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
 
   <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// define the subviews that will make up the UI</span>
@@ -206,7 +647,7 @@ Please note that this protocol is just used in order to enforce the same lifecyc
     <span class="c1">// update the UI based on the value of the properties</span>
   <span class="p">}</span>
 
-  <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// layout the subviews, optionally considering the properties</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -326,9 +767,9 @@ the <code>setup()</code> and <code>style()</code> methods inside the init.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura18ViewModelWithStateP"></a>
-                    <a name="//apple_ref/swift/Protocol/ViewModelWithState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura18ViewModelWithStateP">ViewModelWithState</a>
+                    <a name="/s:7Tempura024ViewControllerModellableB0P"></a>
+                    <a name="//apple_ref/swift/Protocol/ViewControllerModellableView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0P">ViewControllerModellableView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -336,173 +777,42 @@ the <code>setup()</code> and <code>style()</code> methods inside the init.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A special case of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code> used to select part of the Katana app state
-that is of interest for the View.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
-
-     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/ViewModelWithState.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithState</span><span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithState.swift#L30-L34">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura14ModellableViewP"></a>
-                    <a name="//apple_ref/swift/Protocol/ModellableView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ModellableViewP">ModellableView</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Mixin protocol for UIView subclasses based on the same SSUL lifecycle of <code><a href="Protocols/View.html">View</a></code>. Conforming to <code>ModellableView</code>, a UIView will get a <code>model: ViewModel</code> property
-and the <code>update(oldModel: ViewModel?)</code> will be automatically called each time the model property will change.
-If your UIView is simple and you don&rsquo;t want to use a ViewModel, refer to the <code><a href="Protocols/View.html">View</a></code> protocol instead.</p>
+                        <p>Extends the <code><a href="Protocols/ModellableView.html">ModellableView</a></code> protocol to add
+some convenience variables that refers to the ViewController that owns the View.
+A special case of <code><a href="Protocols/ModellableView.html">ModellableView</a></code> representing the UIView that the <code><a href="Classes/ViewController.html">ViewController</a></code> is managing.
+It&rsquo;s intended to be used only as the main View of a <code><a href="Classes/ViewController.html">ViewController</a></code>.</p>
 <h2 id='overview' class='heading'>Overview</h2>
 
-<p>The <code><a href="Protocols/View.html">View</a></code> protocol is good enough for small reusable UI elements that can be manipulated through <strong>properties</strong>.
-There are a couple of drawbacks to this approach:</p>
+<p>A ViewControllerModellableView is a <code><a href="Protocols/ModellableView.html">ModellableView</a></code> that a <code><a href="Classes/ViewController.html">ViewController</a></code> is managing directly.
+It differs from a ModellableView only for a couple of computed variables
+used as syntactic sugar to access navigation items on the navigation bar
+(if present).
+A ViewControllerModellableView has also access to the <code>universalSafeAreaInsets</code>.
+The <code><a href="Classes/ViewController.html">ViewController</a></code> that is managing this View is responsible to call <code>ModellableView.setup()</code> and
+<code>ModellableView.style()</code> during the setup phase of the ViewController so you don&rsquo;t need to do that.</p>
 
-<ul>
-<li>it&rsquo;s not easy to test UI elements</li>
-<li>in the <code><a href="Protocols/View.html#/s:7Tempura4ViewP6updateyyF">View.update()</a></code> phase we don&rsquo;t know the actual property that is changed, meaning that we cannot reason in terms of differences from the old values</li>
-<li>changing two or more properties at the same time will trigger two or more updates.</li>
-</ul>
-
-<p>To solve all of these issues we introduce the concept of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code>.
-A ViewModel is a struct that contains all the properties that define the state of the View.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactViewModel</span><span class="p">:</span> <span class="kt">ViewModel</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"John"</span>
-     <span class="k">var</span> <span class="nv">lastName</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"Doe"</span>
-   <span class="p">}</span>
-</code></pre>
-
-<p>A <code>ModellableView</code> then is a special case of <code><a href="Protocols/View.html">View</a></code> that is using a ViewModel to represent its state.
-All the Setup, Style and Layout phases described in <code><a href="Protocols/View.html">View</a></code> are still in use, the only difference is that
-the Update method of the ModellableView is getting an <code>oldModel</code> parameter.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ContactView</span><span class="p">:</span> <span class="kt">ModellableView</span> <span class="p">{</span>
-
-     <span class="c1">// subviews to create the UI</span>
-     <span class="kd">private</span> <span class="k">var</span> <span class="nv">title</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
-     <span class="kd">private</span> <span class="k">var</span> <span class="nv">subtitle</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
-
-     <span class="c1">// interactions</span>
-     <span class="k">var</span> <span class="nv">nameDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
-     <span class="k">var</span> <span class="nv">lastNameDidChange</span><span class="p">:</span> <span class="p">((</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
-
-     <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">CGRect</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span><span class="p">)</span> <span class="p">{</span>
-       <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="n">frame</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">()</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">style</span><span class="p">()</span>
-     <span class="p">}</span>
-
-     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
-       <span class="c1">// define the subviews that will make up the UI</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="p">)</span>
-
-       <span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">didEndEditing</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">label</span> <span class="k">in</span>
-         <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">nameDidChange</span><span class="p">?(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-       <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">didEndEditing</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">label</span> <span class="k">in</span>
-         <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">lastNameDidChange</span><span class="p">?(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-       <span class="p">}</span>
-     <span class="p">}</span>
-
-     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
-       <span class="c1">// define the default look and feel of the UI elements</span>
-     <span class="p">}</span>
-
-     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">ContactViewModel</span><span class="p">?)</span> <span class="p">{</span>
-       <span class="c1">// update the UI based on the value of `self.model`</span>
-       <span class="c1">// you can use `oldModel` to reason about diffs</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">name</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">subtitle</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">lastname</span>
-     <span class="p">}</span>
-
-     <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
-       <span class="c1">// layout the subviews</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-
-<p>Conforming to <code>ModellableView</code> will:</p>
-
-<ul>
-<li>create the <code>model: ContactViewModel</code> variable automatically for you.</li>
-<li>automatically call the <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code> method every time the model changes</li>
-<li>allow to test the ViewModel instead of testing the ModellableView</li>
-<li>include the oldModel inside the <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code> so that you can reason about diffs</li>
-<li>allow to change more than one property and trigger only one update</li>
-</ul>
-<pre class="highlight swift"><code>   <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModellableView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-
-     <span class="kd">associatedtype</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt">ViewModel</span>
-
-     <span class="c1">// the ViewModel of the View.</span>
-     <span class="c1">// `update(oldModel: VM?)` will be called each time model will change</span>
-     <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">VM</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
-
-     <span class="c1">// the model is changed, update the View</span>
-     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">VM</span><span class="p">?)</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/ModellableView.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ViewControllerModellableView.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModellableView</span><span class="p">:</span> <span class="kt"><a href="Protocols/View.html">View</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewControllerModellableView</span><span class="p">:</span> <span class="kt"><a href="Protocols/ModellableView.html">ModellableView</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a></span> <span class="k">where</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ModellableView.swift#L107-L118">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L30-L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura23ViewModelWithLocalStateP"></a>
-                    <a name="//apple_ref/swift/Protocol/ViewModelWithLocalState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura23ViewModelWithLocalStateP">ViewModelWithLocalState</a>
+                    <a name="/s:7Tempura027AnyViewControllerModellableC0P"></a>
+                    <a name="//apple_ref/swift/Protocol/AnyViewControllerModellableView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura027AnyViewControllerModellableC0P">AnyViewControllerModellableView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -510,99 +820,21 @@ the Update method of the ModellableView is getting an <code>oldModel</code> para
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A special case of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code> used to select part of the Katana app state and <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>&lsquo;s <code><a href="Protocols/LocalState.html">LocalState</a></code>
-that is of interest for the View.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ScreenLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">isCounting</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
+                        <p>type erasure for ViewControllerModellableView in order to access to the viewController property
+without specifying the VM</p>
 
-     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">ScreenLocalState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="k">if</span> <span class="k">let</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">,</span> <span class="n">localState</span><span class="o">.</span><span class="n">isCounting</span> <span class="p">{</span>
-         <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
-       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"we are not counting yet"</span>
-       <span class="p">}</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/ViewModelWithLocalState.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/AnyViewControllerModellableView.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithLocalState</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AnyViewControllerModellableView</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L41-L51">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura10LocalStateP"></a>
-                    <a name="//apple_ref/swift/Protocol/LocalState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura10LocalStateP">LocalState</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The LocalState of a <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>.</p>
-
-<p>A <code><a href="Classes/ViewController.html">ViewController</a></code> is managing the UI of a screen, listening for Katana global state changes, keeping the UI updated
-and dispatching actions in response to user interactions in order to change the global state.</p>
-
-<p>There are times when you have some kind of state information that is only specific to the screen managed
-by a ViewController, like for instance the item selected in a list.
-In this case, in order to avoid polluting the global state, you can represent that information inside
-a <code>LocalState</code> and promote that ViewController to be a <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>.</p>
-
-<p>A ViewControllerWithLocalState contains a <code>localState</code> variable that you can change directly in order
-to represent local state changes.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">GlobalState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-       <span class="s">"buy milk"</span><span class="p">,</span>
-       <span class="s">"find a unicorn"</span><span class="p">,</span>
-       <span class="s">"visit Rome"</span>
-     <span class="p">]</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ListLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/LocalState.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">LocalState</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/LocalState.swift#L36-L39">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L36-L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -654,9 +886,9 @@ needed by a <code><a href="Protocols/ModellableView.html">ModellableView</a></co
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura024ViewControllerModellableB0P"></a>
-                    <a name="//apple_ref/swift/Protocol/ViewControllerModellableView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura024ViewControllerModellableB0P">ViewControllerModellableView</a>
+                    <a name="/s:7Tempura23ViewModelWithLocalStateP"></a>
+                    <a name="//apple_ref/swift/Protocol/ViewModelWithLocalState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura23ViewModelWithLocalStateP">ViewModelWithLocalState</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -664,32 +896,72 @@ needed by a <code><a href="Protocols/ModellableView.html">ModellableView</a></co
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Extends the <code><a href="Protocols/ModellableView.html">ModellableView</a></code> protocol to add
-some convenience variables that refers to the ViewController that owns the View.
-A special case of <code><a href="Protocols/ModellableView.html">ModellableView</a></code> representing the UIView that the <code><a href="Classes/ViewController.html">ViewController</a></code> is managing.
-It&rsquo;s intended to be used only as the main View of a <code><a href="Classes/ViewController.html">ViewController</a></code>.</p>
-<h2 id='overview' class='heading'>Overview</h2>
+                        <p>A special case of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code> used to select part of the Katana app state and <code><a href="Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a></code>&lsquo;s <code><a href="Protocols/LocalState.html">LocalState</a></code>
+that is of interest for the View.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ScreenLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">isCounting</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
 
-<p>A ViewControllerModellableView is a <code><a href="Protocols/ModellableView.html">ModellableView</a></code> that a <code><a href="Classes/ViewController.html">ViewController</a></code> is managing directly.
-It differs from a ModellableView only for a couple of computed variables
-used as syntactic sugar to access navigation items on the navigation bar
-(if present).
-A ViewControllerModellableView has also access to the <code>universalSafeAreaInsets.
-The</code>ViewController<code>that is managing this View is responsible to call</code>ModellableView.setup()<code>and
-</code>ModellableView.style()` during the setup phase of the ViewController so you don&rsquo;t need to do that.</p>
+     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">ScreenLocalState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">if</span> <span class="k">let</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">,</span> <span class="n">localState</span><span class="o">.</span><span class="n">isCounting</span> <span class="p">{</span>
+         <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
+       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"we are not counting yet"</span>
+       <span class="p">}</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
 
-                        <a href="Protocols/ViewControllerModellableView.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ViewModelWithLocalState.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewControllerModellableView</span><span class="p">:</span> <span class="kt"><a href="Protocols/ModellableView.html">ModellableView</a></span> <span class="k">where</span> <span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithLocalState</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerModellableView.swift#L30-L34">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L41">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura23LocalStateableViewModelP"></a>
+                    <a name="//apple_ref/swift/Protocol/LocalStateableViewModel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura23LocalStateableViewModelP">LocalStateableViewModel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Protocols/LocalStateableViewModel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">LocalStateableViewModel</span><span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithLocalState.swift#L51-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -701,9 +973,9 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura8RoutableP"></a>
-                    <a name="//apple_ref/swift/Protocol/Routable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura8RoutableP">Routable</a>
+                    <a name="/s:7Tempura18ViewModelWithStateP"></a>
+                    <a name="//apple_ref/swift/Protocol/ViewModelWithState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura18ViewModelWithStateP">ViewModelWithState</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -711,230 +983,33 @@ The</code>ViewController<code>that is managing this View is responsible to call<
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A Routable is a <code><a href="Classes/ViewController.html">ViewController</a></code> that takes active part to the execution of a navigation action.
-This is intended to be used in the few cases the <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> is not enough.</p>
-
-<p>For instance, if we want a screen <code>A</code> to present <code>B</code>, the ViewController that
-is handling A, must conform to the Routable protocol.</p>
-
-<p>Each Routable can be asked by the <code><a href="Classes/Navigator.html">Navigator</a></code> to perform a specific navigation task
-(like present another ViewController) based on the NavigationAction you dispatch
-(see <code><a href="Structs/Show.html">Show</a></code> or <code><a href="Structs/Hide.html">Hide</a></code>).</p>
-<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
-
-     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">:</span> <span class="p">{</span>
-       <span class="k">return</span> <span class="s">"todoList"</span>
-     <span class="p">}</span>
-
-     <span class="kd">func</span> <span class="nf">show</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
-       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
-       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
-       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-
-         <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">NextViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
-         <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
-         <span class="k">return</span> <span class="kc">true</span>
-     <span class="p">}</span>
+                        <p>A special case of <code><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></code> used to select part of the Katana app state
+that is of interest for the View.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
    <span class="p">}</span>
 </code></pre>
-<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
 
-     <span class="kd">func</span> <span class="nf">hide</span><span class="p">(</span><span class="nv">indentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
-       <span class="nv">from</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span>
-       <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-       <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
-       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">RoutingCompletion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-
-         <span class="k">if</span> <span class="n">identifier</span> <span class="o">==</span> <span class="k">self</span><span class="o">.</span><span class="n">routeIdentifier</span> <span class="p">{</span>
-           <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="n">animated</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
-           <span class="k">return</span> <span class="kc">true</span>
-         <span class="p">}</span>
-         <span class="k">return</span> <span class="kc">false</span>
+     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
      <span class="p">}</span>
    <span class="p">}</span>
 </code></pre>
 
-                        <a href="Protocols/Routable.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ViewModelWithState.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Routable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ViewModelWithState</span><span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Routable.swift#L67-L140">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura13RootInstallerP"></a>
-                    <a name="//apple_ref/swift/Protocol/RootInstaller" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura13RootInstallerP">RootInstaller</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The object responsible to handle the installation of the first screen
-of the navigation.</p>
-
-<p>The <code><a href="Classes/Navigator.html">Navigator</a></code> will call the <code>RooInstaller.installRoot(identifier:context:completion:)</code>
-method that will handle the setup of the screen to be shown.</p>
-<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span><span class="p">,</span> <span class="kt">RootInstaller</span> <span class="p">{</span>
-
-     <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-       <span class="o">...</span>
-       <span class="c1">// setup the root of the navigation</span>
-       <span class="c1">// this is done by invoking this method (and not in the init of the navigator)</span>
-       <span class="c1">// because the navigator is instantiated by the Store.</span>
-       <span class="c1">// this in turn will invoke the `installRootMethod` of the rootInstaller (self)</span>
-       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
-       <span class="k">return</span> <span class="kc">true</span>
-     <span class="p">}</span>
-
-     <span class="c1">// install the root of the app</span>
-     <span class="c1">// this method is called by the navigator when needed</span>
-     <span class="c1">// you must call the `completion` callback when the navigation has been completed</span>
-     <span class="kd">func</span> <span class="nf">installRoot</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="p">{</span>
-       <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">ScreenAViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">vc</span>
-       <span class="nf">completion</span><span class="p">()</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/RootInstaller.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RootInstaller</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/RootInstaller.swift#L39-L53">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura25RoutableWithConfigurationP"></a>
-                    <a name="//apple_ref/swift/Protocol/RoutableWithConfiguration" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura25RoutableWithConfigurationP">RoutableWithConfiguration</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A RoutableWithConfiguration is a <code><a href="Classes/ViewController.html">ViewController</a></code> that takes active part to the execution of a navigation action.</p>
-
-<p>If a screen <code>listScreen</code> needs to present <code>addItemScreen</code>, the ViewController that is handling <code>listScreen</code> must
-conform to the <code>RoutableWithConfiguration</code> protocol.</p>
-
-<p>When a <code>Show(&quot;addItemScreen&quot;)</code> action is dispatched, the <code><a href="Classes/Navigator.html">Navigator</a></code> will capture the action and will start
-finding a RoutableWithConfiguration in the active hierarchy that can handle the action.
-If the <code>navigationConfiguration</code> of <code>listScreen</code> will match the <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code> of <code>.show(addItemScreen)</code>
-than the Navigator will execute the relative <code><a href="Enums/NavigationInstruction.html">NavigationInstruction</a></code> where you can
-configure the ViewController to present.</p>
-
-<p>There are others <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>s and <code><a href="Enums/NavigationInstruction.html">NavigationInstruction</a></code>s that can be used to define the navigation
-structure of the app.</p>
-
-<p>In case you need more control, you can always implement the <code><a href="Protocols/Routable.html">Routable</a></code> protocol yourself and have
-fine grained control of the implementation of the navigation.
-In fact, a <code>RoutableWithConfiguration</code> and its <code>navigationConfiguration</code> are used behind the scenes
-to implement the <code><a href="Protocols/Routable.html">Routable</a></code> protocol for you.</p>
-<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ListViewController</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
-
-     <span class="c1">// needed by the `Routable` protocol</span>
-     <span class="c1">// to identify this ViewController in the hierarchy</span>
-     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span>
-       <span class="k">return</span> <span class="s">"listScreen"</span>
-     <span class="p">}</span>
-
-     <span class="c1">// the `NavigationRequest`s that this ViewController is handling</span>
-     <span class="c1">// with the `NavigationInstruction` to execute</span>
-     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
-       <span class="k">return</span> <span class="p">[</span>
-         <span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="s">"addItemScreen"</span><span class="p">):</span> <span class="o">.</span><span class="nf">presentModally</span><span class="p">({</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
-           <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">AddItemViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
-           <span class="k">return</span> <span class="n">vc</span>
-         <span class="p">})</span>
-       <span class="p">]</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Protocols/RoutableWithConfiguration.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RoutableWithConfiguration</span><span class="p">:</span> <span class="kt"><a href="Protocols/Routable.html">Routable</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L269-L273">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura18NavigationProviderP"></a>
-                    <a name="//apple_ref/swift/Protocol/NavigationProvider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura18NavigationProviderP">NavigationProvider</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Protocol that the <code>SideEffectDependencyContainer</code> of the app must conform in order to
-use <code><a href="Classes/Navigator.html">Navigator</a></code> and the navigation mechanism provided by Tempura.</p>
-
-                        <a href="Protocols/NavigationProvider.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NavigationProvider</span><span class="p">:</span> <span class="kt">SideEffectDependencyContainer</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationProvider.swift#L14-L17">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewModelWithState.swift#L30-L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

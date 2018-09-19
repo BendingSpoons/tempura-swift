@@ -24,7 +24,7 @@ public typealias AsyncUITest = UITestCase
  so that it checks possible things that may not be ready yet and return true only when the view is ready to be snapshotted.
  
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
-*/
+ */
 public protocol UITestCase {
   associatedtype V: UIView & ViewControllerModellableView
   
@@ -36,7 +36,7 @@ public protocol UITestCase {
    - parameter container: a parameter that specify in which container the view will be embedded
    - parameter hooks: some hooks that can be added to customize the view after its creation
    - parameter size: the size of the view
-  */
+   */
   @available(*, deprecated: 1.9, message: "Use uiTest(testCases:context:) instead")
   func uiTest(model: V.VM, identifier: String, container: UITests.Container, hooks: [UITests.Hook: UITests.HookClosure<V>], size: CGSize)
   
@@ -44,7 +44,7 @@ public protocol UITestCase {
    Add new UI tests to be performed
    
    - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the
-                          view model to use to render the view
+   view model to use to render the view
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)
@@ -62,7 +62,7 @@ public protocol UITestCase {
   /**
    Method used to check whether the view is ready to be snapshotted
    - parameter view: the view that will be snapshotted
-  */
+   */
   @available(*, deprecated: 1.9, message: "Use isViewReady(:identifier:) instead")
   func isViewReady(_ view: V) -> Bool
   
@@ -90,12 +90,12 @@ public extension AsyncUITest where Self: XCTestCase {
     
     let viewControllers = snapshotConfiguration.renderingViewControllers
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
-
+    
     var expectations: [XCTestExpectation] = []
     
     for (identifier, vcs) in viewControllers {
       let description = "\(identifier) \(screenSizeDescription)"
-
+      
       let expectation = XCTestExpectation(description: description)
       XCUIDevice.shared.orientation = context.orientation
       
@@ -107,7 +107,7 @@ public extension AsyncUITest where Self: XCTestCase {
         
         if context.orientation.isPortrait {
           isOrientationCorrect = isViewInPortrait
-        
+          
         } else if context.orientation.isLandscape {
           isOrientationCorrect = !isViewInPortrait
         }
@@ -125,10 +125,10 @@ public extension AsyncUITest where Self: XCTestCase {
                               }
                               expectation.fulfill()
       }
-
+      
       expectations.append(expectation)
     }
-
+    
     self.wait(for: expectations, timeout: 100)
   }
   

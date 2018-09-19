@@ -13,8 +13,8 @@
     <a title="Classes  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p><a href="index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,6 +59,12 @@
                 <a href="Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -67,7 +73,13 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ModellableView.html">ModellableView</a>
@@ -148,290 +160,6 @@
 
           </section>
           <section class="section task-group-section">
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura14ViewControllerC"></a>
-                    <a name="//apple_ref/swift/Class/ViewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC">ViewController</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Manages a screen of your app, it keeps the UI updated and listens for user interactions.</p>
-<h2 id='overview' class='heading'>Overview</h2>
-
-<p>In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
-pixels on the screen and to keep them updated when the state changes.
-These are ViewController, <code><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></code> and <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code>.
-The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each screen of your UI.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">IncrementCounter</span><span class="p">:</span> <span class="kt">Action</span> <span class="p">{</span>
-     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">currentState</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">DecrementCounter</span><span class="p">:</span> <span class="kt">Action</span> <span class="p">{</span>
-     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">currentState</span><span class="o">.</span><span class="n">counter</span> <span class="o">-=</span> <span class="mi">1</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
-
-     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">CounterView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ViewControllerModellableView</span> <span class="p">{</span>
-
-     <span class="c1">// subviews</span>
-     <span class="k">var</span> <span class="nv">counterLabel</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
-     <span class="k">var</span> <span class="nv">addButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
-     <span class="k">var</span> <span class="nv">subButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
-
-     <span class="c1">// interactions</span>
-     <span class="k">var</span> <span class="nv">didTapAdd</span><span class="p">:</span> <span class="kt">Interaction</span><span class="p">?</span>
-     <span class="k">var</span> <span class="nv">didTapSub</span><span class="p">:</span> <span class="kt">Interaction</span><span class="p">?</span>
-
-     <span class="c1">// setup</span>
-     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">touchUpInside</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">button</span> <span class="k">in</span>
-         <span class="k">self</span><span class="o">.</span><span class="nf">didTapAdd</span><span class="p">?()</span>
-       <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">touchUpInside</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">button</span> <span class="k">in</span>
-         <span class="k">self</span><span class="o">.</span><span class="nf">didTapSub</span><span class="p">?()</span>
-       <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="p">)</span>
-     <span class="p">}</span>
-
-     <span class="c1">// style</span>
-     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="nf">setTitle</span><span class="p">(</span><span class="s">"Add"</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="nf">setTitle</span><span class="p">(</span><span class="s">"Sub"</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
-     <span class="p">}</span>
-
-     <span class="c1">// update</span>
-     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">CounterViewModel</span><span class="p">?)</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">countDescription</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">setNeedsLayout</span><span class="p">()</span>
-     <span class="p">}</span>
-
-     <span class="c1">// layout</span>
-     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="o">.</span><span class="nf">sizeToFit</span><span class="p">()</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">44</span><span class="p">)</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">44</span><span class="p">)</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">CounterViewController</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">CounterView</span><span class="o">&gt;</span> <span class="p">{</span>
-
-   <span class="k">override</span> <span class="kd">func</span> <span class="nf">setupInteraction</span><span class="p">()</span> <span class="p">{</span>
-     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapAdd</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">IncrementCounter</span><span class="p">())</span>
-     <span class="p">}</span>
-     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapSub</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">DecrementCounter</span><span class="p">())</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<h2 id='lifecycle-of-a-viewcontroller' class='heading'>Lifecycle of a ViewController</h2>
-
-<p>In order to instantiate a ViewController&rsquo;s subclass you need to provide a Katana <code>Store</code> instance.
-This instance will be used by the ViewController to listen for state updates.</p>
-<pre class="highlight swift"><code>   <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">CounterViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="n">appStore</span><span class="p">)</span>
-</code></pre>
-
-<p>When a ViewController is created it will start receiving state updates as soon as the <code>connected</code> property
-will become <code>true</code>.</p>
-
-<p>When the ViewController becomes visible, the UIKit <code>UIViewController.viewWillAppear()</code> will be called and
-Tempura will set <code>connected</code> to <code>true</code> and the ViewController will start receiving the updates
-from the state.
-If you don&rsquo;t want this to happen automatically every time the ViewController will become visible, set
-<code>shouldConnectWhenVisible</code> to <code>false</code>.</p>
-
-<p>As soon a new state is available from the Katana store, the ViewController will instantiate a new ViewModel
-out of that state and feed the <code>rootView</code> with that, calling <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code></p>
-
-<p>When something happens inside the <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code> (or its subviews)
-the ViewController is responsible to listen for these <code><a href="Typealiases.html#/s:7Tempura11Interactiona">Interaction</a></code> callbacks and react accordingly
-dispatching actions in order to change the state.</p>
-
-<p>When a ViewController is removed from the hierarchy or hidden by some other ViewController, UIKit will call
-<code>UIViewController.viewWillDisappear()</code> and Tempura will set <code>connected</code> to <code>false</code>, detaching the
-ViewController from the state updates.
-If you don&rsquo;t want this to happen automatically every time the ViewControllet will become invisible,
-set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
-
-                        <a href="Classes/ViewController.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L146-L343">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura28ViewControllerWithLocalStateC"></a>
-                    <a name="//apple_ref/swift/Class/ViewControllerWithLocalState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC">ViewControllerWithLocalState</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Special case of a <code><a href="Classes/ViewController.html">ViewController</a></code> that contains a <code><a href="Protocols/LocalState.html">LocalState</a></code>.</p>
-<h2 id='overview' class='heading'>Overview</h2>
-
-<p>A <code><a href="Classes/ViewController.html">ViewController</a></code> is managing the UI of a screen, listening for Katana global state changes, keeping the UI updated
-and dispatching actions in response to user interactions in order to change the global state.</p>
-
-<p>There are times when you have some kind of state information that is only specific to the screen managed
-by a ViewController, like for instance the item selected in a list.
-In this case, in order to avoid polluting the global state, you can represent that information inside
-a <code><a href="Protocols/LocalState.html">LocalState</a></code> and promote that ViewController to be a <code>ViewControllerWithLocalState</code>.</p>
-
-<p>A ViewControllerWithLocalState contains a <code>localState</code> variable that you can change directly in order
-to represent local state changes.
-The ViewControllerWithLocalState will be listening for changes of both global and local states, updating
-the UI using the appropriate <code><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></code>.</p>
-
-<p>You can change the global state dispatching Katana actions like in every <code><a href="Classes/ViewController.html">ViewController</a></code>. You can change
-the <code><a href="Protocols/LocalState.html">LocalState</a></code> manipulating directly the <code>localState</code> variable.</p>
-
-<p>The lifecycle of a ViewControllerWithLocalState is the same as a normal <code><a href="Classes/ViewController.html">ViewController</a></code>, please refer to that
-for more details.</p>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">GlobalState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-       <span class="s">"buy milk"</span><span class="p">,</span>
-       <span class="s">"find a unicorn"</span><span class="p">,</span>
-       <span class="s">"visit Rome"</span>
-     <span class="p">]</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">RemoveTodo</span><span class="p">:</span> <span class="kt">AppAction</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span>
-
-     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">GlobalState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">currentState</span><span class="o">.</span><span class="n">todos</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ListLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">TodolistViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithLocalState</span> <span class="p">{</span>
-     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
-     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
-
-     <span class="nf">init</span><span class="p">?(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">GlobalState</span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">ListLocalState</span><span class="p">)</span> <span class="p">{</span>
-       <span class="k">guard</span> <span class="k">let</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todos</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">todos</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">localState</span><span class="o">.</span><span class="n">selectedIndex</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">TodoListView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ViewControllerModellableView</span> <span class="p">{</span>
-
-     <span class="c1">// subviews</span>
-     <span class="k">var</span> <span class="nv">todoListView</span> <span class="o">=</span> <span class="kt">ListView</span><span class="p">()</span>
-
-     <span class="c1">// interactions</span>
-     <span class="k">var</span> <span class="nv">didTapToRemoveItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
-     <span class="k">var</span> <span class="nv">didSelectItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
-
-     <span class="c1">// setup</span>
-     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">selection</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">indexPath</span> <span class="k">in</span>
-         <span class="k">self</span><span class="o">.</span><span class="nf">didSelectItem</span><span class="p">?(</span><span class="n">indexPath</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
-       <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">deleteItem</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">indexPath</span> <span class="k">in</span>
-         <span class="n">seld</span><span class="o">.</span><span class="nf">didTapRemoveItem</span><span class="p">?(</span><span class="n">indexPath</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
-       <span class="p">}</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="p">)</span>
-     <span class="p">}</span>
-
-     <span class="c1">// style</span>
-     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
-     <span class="p">}</span>
-
-     <span class="c1">// update</span>
-     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">CounterViewModel</span><span class="p">?)</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">todos</span> <span class="p">??</span> <span class="p">[]</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">todos</span>
-     <span class="p">}</span>
-
-     <span class="c1">// layout</span>
-     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">bounds</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">TodoListView</span><span class="o">&gt;</span> <span class="p">{</span>
-
-   <span class="k">override</span> <span class="kd">func</span> <span class="nf">setupInteraction</span><span class="p">()</span> <span class="p">{</span>
-     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapRemoveItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">index</span> <span class="k">in</span>
-       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">RemoveTodo</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="n">index</span><span class="p">))</span>
-     <span class="p">}</span>
-     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didSelectItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">index</span> <span class="k">in</span>
-       <span class="k">self</span><span class="o">.</span><span class="n">localState</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">index</span>
-     <span class="p">}</span>
-   <span class="p">}</span>
-</code></pre>
-
-                        <a href="Classes/ViewControllerWithLocalState.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L127-L189">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -611,6 +339,290 @@ method that will handle the setup of the screen to be shown.</p>
                       </div>
                       <div class="slightly-smaller">
                         <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L172-L434">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ViewControllerC"></a>
+                    <a name="//apple_ref/swift/Class/ViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC">ViewController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Manages a screen of your app, it keeps the UI updated and listens for user interactions.</p>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
+pixels on the screen and to keep them updated when the state changes.
+These are ViewController, <code><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></code> and <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code>.
+The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each screen of your UI.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">IncrementCounter</span><span class="p">:</span> <span class="kt">Action</span> <span class="p">{</span>
+     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">currentState</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">DecrementCounter</span><span class="p">:</span> <span class="kt">Action</span> <span class="p">{</span>
+     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">currentState</span><span class="o">.</span><span class="n">counter</span> <span class="o">-=</span> <span class="mi">1</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">countDescription</span><span class="p">:</span> <span class="kt">String</span>
+
+     <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">CounterState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">countDescription</span> <span class="o">=</span> <span class="s">"the counter is at </span><span class="se">\(</span><span class="n">state</span><span class="o">.</span><span class="n">counter</span><span class="se">)</span><span class="s">"</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">CounterView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ViewControllerModellableView</span> <span class="p">{</span>
+
+     <span class="c1">// subviews</span>
+     <span class="k">var</span> <span class="nv">counterLabel</span> <span class="o">=</span> <span class="kt">UILabel</span><span class="p">()</span>
+     <span class="k">var</span> <span class="nv">addButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
+     <span class="k">var</span> <span class="nv">subButton</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">custom</span><span class="p">)</span>
+
+     <span class="c1">// interactions</span>
+     <span class="k">var</span> <span class="nv">didTapAdd</span><span class="p">:</span> <span class="kt">Interaction</span><span class="p">?</span>
+     <span class="k">var</span> <span class="nv">didTapSub</span><span class="p">:</span> <span class="kt">Interaction</span><span class="p">?</span>
+
+     <span class="c1">// setup</span>
+     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">touchUpInside</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">button</span> <span class="k">in</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">didTapAdd</span><span class="p">?()</span>
+       <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">touchUpInside</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">button</span> <span class="k">in</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">didTapSub</span><span class="p">?()</span>
+       <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="p">)</span>
+     <span class="p">}</span>
+
+     <span class="c1">// style</span>
+     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="nf">setTitle</span><span class="p">(</span><span class="s">"Add"</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="nf">setTitle</span><span class="p">(</span><span class="s">"Sub"</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+     <span class="p">}</span>
+
+     <span class="c1">// update</span>
+     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">CounterViewModel</span><span class="p">?)</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">countDescription</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">setNeedsLayout</span><span class="p">()</span>
+     <span class="p">}</span>
+
+     <span class="c1">// layout</span>
+     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">counterLabel</span><span class="o">.</span><span class="nf">sizeToFit</span><span class="p">()</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">addButton</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">44</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">subButton</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">44</span><span class="p">)</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">CounterViewController</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">CounterView</span><span class="o">&gt;</span> <span class="p">{</span>
+
+   <span class="k">override</span> <span class="kd">func</span> <span class="nf">setupInteraction</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapAdd</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">IncrementCounter</span><span class="p">())</span>
+     <span class="p">}</span>
+     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapSub</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">DecrementCounter</span><span class="p">())</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<h2 id='lifecycle-of-a-viewcontroller' class='heading'>Lifecycle of a ViewController</h2>
+
+<p>In order to instantiate a ViewController&rsquo;s subclass you need to provide a Katana <code>Store</code> instance.
+This instance will be used by the ViewController to listen for state updates.</p>
+<pre class="highlight swift"><code>   <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">CounterViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="n">appStore</span><span class="p">)</span>
+</code></pre>
+
+<p>When a ViewController is created it will start receiving state updates as soon as the <code>connected</code> property
+will become <code>true</code>.</p>
+
+<p>When the ViewController becomes visible, the UIKit <code>UIViewController.viewWillAppear()</code> will be called and
+Tempura will set <code>connected</code> to <code>true</code> and the ViewController will start receiving the updates
+from the state.
+If you don&rsquo;t want this to happen automatically every time the ViewController will become visible, set
+<code>shouldConnectWhenVisible</code> to <code>false</code>.</p>
+
+<p>As soon a new state is available from the Katana store, the ViewController will instantiate a new ViewModel
+out of that state and feed the <code>rootView</code> with that, calling <code><a href="Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code></p>
+
+<p>When something happens inside the <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code> (or its subviews)
+the ViewController is responsible to listen for these <code><a href="Typealiases.html#/s:7Tempura11Interactiona">Interaction</a></code> callbacks and react accordingly
+dispatching actions in order to change the state.</p>
+
+<p>When a ViewController is removed from the hierarchy or hidden by some other ViewController, UIKit will call
+<code>UIViewController.viewWillDisappear()</code> and Tempura will set <code>connected</code> to <code>false</code>, detaching the
+ViewController from the state updates.
+If you don&rsquo;t want this to happen automatically every time the ViewControllet will become invisible,
+set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
+
+                        <a href="Classes/ViewController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L146-L343">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura28ViewControllerWithLocalStateC"></a>
+                    <a name="//apple_ref/swift/Class/ViewControllerWithLocalState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC">ViewControllerWithLocalState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Special case of a <code><a href="Classes/ViewController.html">ViewController</a></code> that contains a <code><a href="Protocols/LocalState.html">LocalState</a></code>.</p>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>A <code><a href="Classes/ViewController.html">ViewController</a></code> is managing the UI of a screen, listening for Katana global state changes, keeping the UI updated
+and dispatching actions in response to user interactions in order to change the global state.</p>
+
+<p>There are times when you have some kind of state information that is only specific to the screen managed
+by a ViewController, like for instance the item selected in a list.
+In this case, in order to avoid polluting the global state, you can represent that information inside
+a <code><a href="Protocols/LocalState.html">LocalState</a></code> and promote that ViewController to be a <code>ViewControllerWithLocalState</code>.</p>
+
+<p>A ViewControllerWithLocalState contains a <code>localState</code> variable that you can change directly in order
+to represent local state changes.
+The ViewControllerWithLocalState will be listening for changes of both global and local states, updating
+the UI using the appropriate <code><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></code>.</p>
+
+<p>You can change the global state dispatching Katana actions like in every <code><a href="Classes/ViewController.html">ViewController</a></code>. You can change
+the <code><a href="Protocols/LocalState.html">LocalState</a></code> manipulating directly the <code>localState</code> variable.</p>
+
+<p>The lifecycle of a ViewControllerWithLocalState is the same as a normal <code><a href="Classes/ViewController.html">ViewController</a></code>, please refer to that
+for more details.</p>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">GlobalState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+       <span class="s">"buy milk"</span><span class="p">,</span>
+       <span class="s">"find a unicorn"</span><span class="p">,</span>
+       <span class="s">"visit Rome"</span>
+     <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">RemoveTodo</span><span class="p">:</span> <span class="kt">AppAction</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span>
+
+     <span class="kd">func</span> <span class="nf">updatedState</span><span class="p">(</span><span class="k">inout</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">GlobalState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">currentState</span><span class="o">.</span><span class="n">todos</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">ListLocalState</span><span class="p">:</span> <span class="kt">LocalState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">TodolistViewModel</span><span class="p">:</span> <span class="kt">ViewModelWithLocalState</span> <span class="p">{</span>
+     <span class="k">var</span> <span class="nv">todos</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
+     <span class="k">var</span> <span class="nv">selectedIndex</span><span class="p">:</span> <span class="kt">Int</span>
+
+     <span class="nf">init</span><span class="p">?(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">GlobalState</span><span class="p">?,</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">ListLocalState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">guard</span> <span class="k">let</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todos</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">todos</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">localState</span><span class="o">.</span><span class="n">selectedIndex</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">TodoListView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ViewControllerModellableView</span> <span class="p">{</span>
+
+     <span class="c1">// subviews</span>
+     <span class="k">var</span> <span class="nv">todoListView</span> <span class="o">=</span> <span class="kt">ListView</span><span class="p">()</span>
+
+     <span class="c1">// interactions</span>
+     <span class="k">var</span> <span class="nv">didTapToRemoveItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+     <span class="k">var</span> <span class="nv">didSelectItem</span><span class="p">:</span> <span class="p">((</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())?</span>
+
+     <span class="c1">// setup</span>
+     <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">selection</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">indexPath</span> <span class="k">in</span>
+         <span class="k">self</span><span class="o">.</span><span class="nf">didSelectItem</span><span class="p">?(</span><span class="n">indexPath</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+       <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">deleteItem</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">indexPath</span> <span class="k">in</span>
+         <span class="n">seld</span><span class="o">.</span><span class="nf">didTapRemoveItem</span><span class="p">?(</span><span class="n">indexPath</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+       <span class="p">}</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="p">)</span>
+     <span class="p">}</span>
+
+     <span class="c1">// style</span>
+     <span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
+     <span class="p">}</span>
+
+     <span class="c1">// update</span>
+     <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">oldModel</span><span class="p">:</span> <span class="kt">CounterViewModel</span><span class="p">?)</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">todos</span> <span class="p">??</span> <span class="p">[]</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">model</span><span class="p">?</span><span class="o">.</span><span class="n">todos</span>
+     <span class="p">}</span>
+
+     <span class="c1">// layout</span>
+     <span class="k">override</span> <span class="kd">func</span> <span class="nf">layoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">todoListView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">bounds</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">TodoListViewController</span><span class="p">:</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">TodoListView</span><span class="o">&gt;</span> <span class="p">{</span>
+
+   <span class="k">override</span> <span class="kd">func</span> <span class="nf">setupInteraction</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didTapRemoveItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">index</span> <span class="k">in</span>
+       <span class="k">self</span><span class="o">.</span><span class="nf">dispatch</span><span class="p">(</span><span class="kt">RemoveTodo</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="n">index</span><span class="p">))</span>
+     <span class="p">}</span>
+     <span class="k">self</span><span class="o">.</span><span class="n">rootView</span><span class="o">.</span><span class="n">didSelectItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">index</span> <span class="k">in</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">localState</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">index</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                        <a href="Classes/ViewControllerWithLocalState.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L127-L189">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

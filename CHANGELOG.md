@@ -1,3 +1,6 @@
+## 2.0.0
+* Add support for Swift 4.2
+
 ## 1.12.0
 
 - Added completion callbacks for `UINavigationController` methods like `pushViewController`, `popViewController`,  `popToRootViewController`,  `popToViewController`

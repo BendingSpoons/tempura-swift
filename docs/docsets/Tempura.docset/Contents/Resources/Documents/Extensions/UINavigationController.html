@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>UIApplication Extension Reference</title>
+    <title>UINavigationController Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/UIApplication" class="dashAnchor"></a>
-    <a title="UIApplication Extension Reference"></a>
+    <a name="//apple_ref/swift/Extension/UINavigationController" class="dashAnchor"></a>
+    <a title="UINavigationController Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Tempura Reference</a>
         <img id="carat" src="../img/carat.png" />
-        UIApplication Extension Reference
+        UINavigationController Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -156,7 +156,7 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>UIApplication</h1>
+            <h1>UINavigationController</h1>
             
           </section>
           <section class="section task-group-section">
@@ -165,9 +165,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutables" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE16currentRoutablesSayAC8Routable_pGvp">currentRoutables</a>
+                    <a name="/s:So22UINavigationControllerC7TempuraE08pushViewB0_8animated10completionySo06UIViewB0C_SbyycSgtF"></a>
+                    <a name="//apple_ref/swift/Method/pushViewController(_:animated:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22UINavigationControllerC7TempuraE08pushViewB0_8animated10completionySo06UIViewB0C_SbyycSgtF">pushViewController(_:animated:completion:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -175,19 +175,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The routables in the visible hierarchy.</p>
+                        <p><code>pushViewController</code> method with completion callback</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentRoutables</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Routable.html">Routable</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">pushViewController</span><span class="p">(</span><span class="n">_</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">())?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L448-L452">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/UINavigationController+Completion.swift#L24-L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -195,9 +195,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp"></a>
-                    <a name="//apple_ref/swift/Property/currentRoutableIdentifiers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So13UIApplicationC7TempuraE26currentRoutableIdentifiersSaySSGvp">currentRoutableIdentifiers</a>
+                    <a name="/s:So22UINavigationControllerC7TempuraE07popViewB08animated10completionySb_yycSgtF"></a>
+                    <a name="//apple_ref/swift/Method/popViewController(animated:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22UINavigationControllerC7TempuraE07popViewB08animated10completionySb_yycSgtF">popViewController(animated:completion:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -205,19 +205,79 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The indentifiers of the routables in the visible hierarchy.</p>
+                        <p><code>popViewController</code> method with completion callback</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">currentRoutableIdentifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">popViewController</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">())?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L454-L458">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/UINavigationController+Completion.swift#L30-L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22UINavigationControllerC7TempuraE013popToRootViewB08animated10completionySb_yycSgtF"></a>
+                    <a name="//apple_ref/swift/Method/popToRootViewController(animated:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22UINavigationControllerC7TempuraE013popToRootViewB08animated10completionySb_yycSgtF">popToRootViewController(animated:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>popToRootViewController</code> method with completion callback</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">popToRootViewController</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">())?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/UINavigationController+Completion.swift#L36-L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22UINavigationControllerC7TempuraE09popToViewB0_8animated10completionySo06UIViewB0C_SbyycSgtF"></a>
+                    <a name="//apple_ref/swift/Method/popToViewController(_:animated:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22UINavigationControllerC7TempuraE09popToViewB0_8animated10completionySo06UIViewB0C_SbyycSgtF">popToViewController(_:animated:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>popToViewController</code> method with completion callback</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">popToViewController</span><span class="p">(</span><span class="n">_</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">())?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/UINavigationController+Completion.swift#L42-L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

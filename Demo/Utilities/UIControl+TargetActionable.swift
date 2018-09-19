@@ -23,7 +23,7 @@ class ActionTrampoline<T>: Trampoline {
   }
 }
 
-extension UIControlEvents {
+extension UIControl.Event {
   var number: NSNumber {
     return NSNumber(integerLiteral: Int(self.rawValue))
   }
@@ -35,7 +35,7 @@ fileprivate var actionTrampolinesKey = "targetactionable_action_trampolines_key"
 
 public extension TargetActionable where Self: UIControl {
   
-  mutating func on(_ event: UIControlEvents, _ action: @escaping (Self) -> ()) {
+  mutating func on(_ event: UIControl.Event, _ action: @escaping (Self) -> ()) {
     if let oldTrampoline = self.actionTrampolines?[event.number] as? Trampoline {
       self.removeTarget(oldTrampoline, action: #selector(oldTrampoline.action), for: event)
     }

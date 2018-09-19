@@ -14,8 +14,8 @@
     <a title="ViewController Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p><a href="../index.html">Tempura Docs</a> (95% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -60,6 +60,12 @@
                 <a href="../Extensions/UIApplication.html">UIApplication</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
               </li>
             </ul>
@@ -68,7 +74,13 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ModellableView.html">ModellableView</a>
@@ -255,7 +267,7 @@ If you don&rsquo;t want this to happen automatically every time the ViewControll
 <code>shouldConnectWhenVisible</code> to <code>false</code>.</p>
 
 <p>As soon a new state is available from the Katana store, the ViewController will instantiate a new ViewModel
-out of that state and feed the <code>rootView</code> with that, calling <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6updatey2VMQzSg8oldModel_tF">ModellableView.update(oldModel:)</a></code></p>
+out of that state and feed the <code>rootView</code> with that, calling <code><a href="../Protocols/ModellableView.html#/s:7Tempura14ModellableViewP6update8oldModely2VMQzSg_tF">ModellableView.update(oldModel:)</a></code></p>
 
 <p>When something happens inside the <code><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code> (or its subviews)
 the ViewController is responsible to listen for these <code><a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a></code> callbacks and react accordingly
@@ -274,9 +286,9 @@ set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC9connectedSbv"></a>
+                    <a name="/s:7Tempura14ViewControllerC9connectedSbvp"></a>
                     <a name="//apple_ref/swift/Property/connected" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC9connectedSbv">connected</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC9connectedSbvp">connected</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -287,7 +299,7 @@ set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
                         <p><code>true</code> if the ViewController is connected to the store, false otherwise.
 A connected ViewController will receive all the updates from the store.
 Tempura will set this property to true when the ViewController is about to be displayed on screen,
-if you want to change this behaviour look at the <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbv">shouldConnectWhenVisible</a></code> property.
+if you want to change this behaviour look at the <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbvp">shouldConnectWhenVisible</a></code> property.
 Tempura will set this property to false when the ViewController is about to be hidden,
 if you want to change this behaviour look at the <code>shouldDisconnectWhenVisible</code> property.</p>
 
@@ -309,9 +321,9 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC5store6Katana5StoreCy2VM_1SQZGv"></a>
+                    <a name="/s:7Tempura14ViewControllerC5store6Katana5StoreCy2VM_1SQZGvp"></a>
                     <a name="//apple_ref/swift/Property/store" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC5store6Katana5StoreCy2VM_1SQZGv">store</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5store6Katana5StoreCy2VM_1SQZGvp">store</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -339,9 +351,9 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC5state2VM_1SQZv"></a>
+                    <a name="/s:7Tempura14ViewControllerC5state2VM_1SQZvp"></a>
                     <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC5state2VM_1SQZv">state</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5state2VM_1SQZvp">state</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -369,9 +381,9 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC018shouldDisconnectOnB13WillDisappearSbv"></a>
+                    <a name="/s:7Tempura14ViewControllerC018shouldDisconnectOnB13WillDisappearSbvp"></a>
                     <a name="//apple_ref/swift/Property/shouldDisconnectOnViewWillDisappear" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC018shouldDisconnectOnB13WillDisappearSbv">shouldDisconnectOnViewWillDisappear</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC018shouldDisconnectOnB13WillDisappearSbvp">shouldDisconnectOnViewWillDisappear</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -380,7 +392,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Whether the view controller should disconnect itself from the store updates on <code>viewWillDisappear</code>.
-Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbv">shouldDisconnectWhenInvisible</a></code> instead.</p>
+Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbvp">shouldDisconnectWhenInvisible</a></code> instead.</p>
 
                       </div>
                       <div class="declaration">
@@ -400,9 +412,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbv"></a>
+                    <a name="/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbvp"></a>
                     <a name="//apple_ref/swift/Property/shouldConnectWhenVisible" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbv">shouldConnectWhenVisible</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC24shouldConnectWhenVisibleSbvp">shouldConnectWhenVisible</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -410,7 +422,7 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>When <code>true</code>, the ViewController will be set to <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC9connectedSbv">connected</a></code> = <code>true</code> as soon as it becomes visible.</p>
+                        <p>When <code>true</code>, the ViewController will be set to <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC9connectedSbvp">connected</a></code> = <code>true</code> as soon as it becomes visible.</p>
 
                       </div>
                       <div class="declaration">
@@ -430,9 +442,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbv"></a>
+                    <a name="/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbvp"></a>
                     <a name="//apple_ref/swift/Property/shouldDisconnectWhenInvisible" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbv">shouldDisconnectWhenInvisible</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC29shouldDisconnectWhenInvisibleSbvp">shouldDisconnectWhenInvisible</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -440,7 +452,7 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>When <code>true</code> the ViewController will be set to <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC9connectedSbv">connected</a></code> = <code>false</code> as soon as it becomes invisible.</p>
+                        <p>When <code>true</code> the ViewController will be set to <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewControllerC9connectedSbvp">connected</a></code> = <code>false</code> as soon as it becomes invisible.</p>
 
                       </div>
                       <div class="declaration">
@@ -460,9 +472,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC9viewModel2VMQzSgv"></a>
+                    <a name="/s:7Tempura14ViewControllerC9viewModel2VMQzSgvp"></a>
                     <a name="//apple_ref/swift/Property/viewModel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC9viewModel2VMQzSgv">viewModel</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC9viewModel2VMQzSgvp">viewModel</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -490,9 +502,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC04rootB0xv"></a>
+                    <a name="/s:7Tempura14ViewControllerC04rootB0xvp"></a>
                     <a name="//apple_ref/swift/Property/rootView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC04rootB0xv">rootView</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC04rootB0xvp">rootView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -550,9 +562,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerCACyxG6Katana5StoreCy2VM_1SQZG5store_Sb9connectedtcfc"></a>
+                    <a name="/s:7Tempura14ViewControllerC5store9connectedACyxG6Katana5StoreCy2VM_1SQZG_Sbtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(store:connected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerCACyxG6Katana5StoreCy2VM_1SQZG5store_Sb9connectedtcfc">init(store:connected:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5store9connectedACyxG6Katana5StoreCy2VM_1SQZG_Sbtcfc">init(store:connected:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -610,9 +622,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC8dispatchy6Katana6Action_p6action_tF"></a>
+                    <a name="/s:7Tempura14ViewControllerC8dispatch6actiony6Katana6Action_p_tF"></a>
                     <a name="//apple_ref/swift/Method/dispatch(action:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatchy6Katana6Action_p6action_tF">dispatch(action:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatch6actiony6Katana6Action_p_tF">dispatch(action:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -640,9 +652,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC8dispatchy6Katana6Action_pF"></a>
+                    <a name="/s:7Tempura14ViewControllerC8dispatchyy6Katana6Action_pF"></a>
                     <a name="//apple_ref/swift/Method/dispatch(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatchy6Katana6Action_pF">dispatch(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatchyy6Katana6Action_pF">dispatch(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -670,9 +682,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerCACyxGSgSo7NSCoderC5coder_tcfc"></a>
+                    <a name="/s:7Tempura14ViewControllerC5coderACyxGSgSo7NSCoderC_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerCACyxGSgSo7NSCoderC5coder_tcfc">init(coder:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5coderACyxGSgSo7NSCoderC_tcfc">init(coder:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -700,9 +712,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC14viewWillAppearySbF"></a>
+                    <a name="/s:7Tempura14ViewControllerC14viewWillAppearyySbF"></a>
                     <a name="//apple_ref/swift/Method/viewWillAppear(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC14viewWillAppearySbF">viewWillAppear(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC14viewWillAppearyySbF">viewWillAppear(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -730,9 +742,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC17viewWillDisappearySbF"></a>
+                    <a name="/s:7Tempura14ViewControllerC17viewWillDisappearyySbF"></a>
                     <a name="//apple_ref/swift/Method/viewWillDisappear(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC17viewWillDisappearySbF">viewWillDisappear(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC17viewWillDisappearyySbF">viewWillDisappear(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -790,9 +802,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC10willUpdatey2VMQzSg3new_tF"></a>
+                    <a name="/s:7Tempura14ViewControllerC10willUpdate3newy2VMQzSg_tF"></a>
                     <a name="//apple_ref/swift/Method/willUpdate(new:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC10willUpdatey2VMQzSg3new_tF">willUpdate(new:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC10willUpdate3newy2VMQzSg_tF">willUpdate(new:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -820,9 +832,9 @@ Deprecated, use <code><a href="../Classes/ViewController.html#/s:7Tempura14ViewC
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC9didUpdatey2VMQzSg3old_tF"></a>
+                    <a name="/s:7Tempura14ViewControllerC9didUpdate3oldy2VMQzSg_tF"></a>
                     <a name="//apple_ref/swift/Method/didUpdate(old:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC9didUpdatey2VMQzSg3old_tF">didUpdate(old:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC9didUpdate3oldy2VMQzSg_tF">didUpdate(old:)</a>
                     </code>
                   </div>
                   <div class="height-container">

@@ -37,7 +37,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 /// the Update method of the ModellableView is getting an `oldModel` parameter.
 
 /// ```swift
-///    struct ContactView: ModellableView {
+///    struct ContactView: UIView, ModellableView {
 ///
 ///      // subviews to create the UI
 ///      private var title = UILabel()
@@ -77,7 +77,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 ///        self.subtitle.text = self.model.lastname
 ///      }
 ///
-///      func layoutSubviews() {
+///      override func layoutSubviews() {
 ///        // layout the subviews
 ///      }
 ///    }
@@ -97,7 +97,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 ///
 ///      // the ViewModel of the View.
 ///      // `update(oldModel: VM?)` will be called each time model will change
-///      var model: VM! { get set }
+///      var model: VM? { get set }
 ///
 ///      // the model is changed, update the View
 ///      func update(oldModel: VM?)

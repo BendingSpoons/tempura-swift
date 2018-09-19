@@ -23,7 +23,7 @@ fileprivate var viewControllerKey = "modellableview_view_controller_key"
 /// It differs from a ModellableView only for a couple of computed variables
 /// used as syntactic sugar to access navigation items on the navigation bar
 /// (if present).
-/// A ViewControllerModellableView has also access to the `universalSafeAreaInsets.
+/// A ViewControllerModellableView has also access to the `universalSafeAreaInsets`.
 /// The `ViewController` that is managing this View is responsible to call `ModellableView.setup()` and
 /// `ModellableView.style()` during the setup phase of the ViewController so you don't need to do that.
 
