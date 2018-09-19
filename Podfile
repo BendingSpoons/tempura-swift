@@ -10,7 +10,7 @@ target 'Tempura' do
   target 'TempuraTests' do
     inherit! :search_paths
     pod 'Quick', '~> 1.2'
-    pod 'Nimble', '~> 7.0'
+    pod 'Nimble', '~> 7.1'
   end
 
   target 'Demo' do
@@ -21,11 +21,23 @@ target 'Tempura' do
   target 'DemoTests' do
     inherit! :search_paths
     pod 'Quick', '~> 1.2'
-    pod 'Nimble', '~> 7.0'
+    pod 'Nimble', '~> 7.1'
   end
 end
 
 target 'TempuraTesting' do
   platform :ios, '9.0'
   pod 'Tempura', :path => '.'
+end
+
+post_install do |installer|
+  oldTargets = ['Quick', 'Nimble', 'DeepDiff']
+ 
+  installer.pods_project.targets.each do |target|
+    if oldTargets.include? target.name
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4'
+      end
+    end
+  end
 end

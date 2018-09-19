@@ -270,7 +270,7 @@ public enum UITests {
       dirURL.appendPathComponent("/reference")
     }
     
-    guard let pngData = UIImagePNGRepresentation(image) else { return }
+    guard let pngData = image.pngData() else { return }
     let scaleFactor = Int(UIScreen.main.scale)
     let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
     guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }

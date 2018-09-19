@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   var window: UIWindow?
   var store: Store<AppState>!
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     self.store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
     
     self.window = UIWindow(frame: UIScreen.main.bounds)
