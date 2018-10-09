@@ -1,3 +1,6 @@
+## unrelease
+* Add CustomDebugStringConvertible extension to navigation actions
+
 ## 2.0.0
 * Add support for Swift 4.2
 

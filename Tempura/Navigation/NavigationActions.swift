@@ -36,6 +36,15 @@ public struct Navigate: Action, ActionWithSideEffect {
   
 }
 
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Navigate: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let routeToDescribe = self.route.joined(separator: ".")
+    return String(reflecting: type(of: self))
+      + "." + routeToDescribe
+  }
+}
+
 /// Navigation action used to ask the `Navigator` to show a specific screen
 /// identified by the `identifierToShow`.
 ///
@@ -84,6 +93,21 @@ public struct Show: Action, ActionWithSideEffect {
   
 }
 
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Show: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let actionDebugDescription = String(reflecting: type(of: self))
+    switch self.identifiersToShow.count {
+    case 1:
+      // most common usecase
+      return actionDebugDescription + "." + self.identifiersToShow.first!
+    default:
+      let identifiersToDescribe = self.identifiersToShow.joined(separator: ", ")
+      return actionDebugDescription + " [" + identifiersToDescribe  + "]"
+    }
+  }
+}
+
 /// Navigation action used to ask the `Navigator` to hide a specific screen
 /// identified by the `identifierToHide`.
 ///
@@ -128,4 +152,12 @@ public struct Hide: Action, ActionWithSideEffect {
     dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic)
   }
   
+}
+
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Hide: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let actionDebugDescription = String(reflecting: type(of: self))
+    return actionDebugDescription + "." + self.identifierToHide
+  }
 }
