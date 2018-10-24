@@ -10,7 +10,7 @@ import Katana
 import Tempura
 
 final class DependenciesContainer: NavigationProvider {
-  
+  let promisableDispatch: PromisableStoreDispatch
   let dispatch: StoreDispatch
   
   var getAppState: () -> AppState
@@ -21,14 +21,18 @@ final class DependenciesContainer: NavigationProvider {
     return self.getAppState
   }
   
-  required init(dispatch: @escaping StoreDispatch, getAppState: @escaping () -> AppState) {
-    self.dispatch = dispatch
+  init(dispatch: @escaping PromisableStoreDispatch, getAppState: @escaping () -> AppState) {
+    self.promisableDispatch = dispatch
     self.getAppState = getAppState
+    
+    self.dispatch = { dispatchable in
+      _ = dispatch(dispatchable)
+    }
   }
 }
 
 extension DependenciesContainer {
-  convenience init(dispatch: @escaping StoreDispatch, getState: @escaping () -> State) {
+  convenience init(dispatch: @escaping PromisableStoreDispatch, getState: @escaping GetState) {
     let getAppState: () -> AppState = {
       guard let state = getState() as? AppState else {
         fatalError("Wrong State Type")

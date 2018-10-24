@@ -11,7 +11,7 @@ import Tempura
 
 class AddItemViewController: ViewControllerWithLocalState<AddItemView> {
   
-  init(store: Store<AppState>, itemIDToEdit: String? = nil) {
+  init(store: AnyStore, itemIDToEdit: String? = nil) {
     super.init(store: store, connected: false)
     self.localState.itemID = itemIDToEdit
   }
