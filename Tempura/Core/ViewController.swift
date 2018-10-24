@@ -160,11 +160,11 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// The store the ViewController will use to receive state updates.
-  public var store: AnyStore
+  public var store: PartialStore<V.VM.S>
   
   /// The state of this ViewController
   public var state: V.VM.S {
-    return self.store.anyState as! V.VM.S
+    return self.store.state
   }
   
   /// Closure used to unsubscribe the viewController from state updates.
@@ -216,7 +216,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Returns a newly initialized ViewController object.
-  public init(store: AnyStore, connected: Bool = false) {
+  public init(store: PartialStore<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
     self.setup()
