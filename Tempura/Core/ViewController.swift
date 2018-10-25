@@ -341,3 +341,20 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.unsubscribe?()
   }
 }
+
+
+extension ViewController {
+  public func add<View: ViewControllerModellableView>(_ child: ViewController<View>) {
+    self.addChild(child)
+    self.rootView.addSubview(child.rootView)
+    child.didMove(toParent: self)
+    child.rootView.frame = CGRect(x: 20, y: 20, width: 200, height: 200)
+  }
+  
+  public func remove() {
+    guard let _ = parent else { return }
+    self.willMove(toParent: nil)
+    self.removeFromParent()
+    self.rootView.removeFromSuperview()
+  }
+}
