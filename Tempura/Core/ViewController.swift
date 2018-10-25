@@ -341,30 +341,3 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.unsubscribe?()
   }
 }
-
-
-extension ViewController {
-  public func add<View: ViewControllerModellableView>(_ child: ViewController<View>, in view: ContainerView) {
-    self.addChild(child)
-    view.addSubview(child.rootView)
-    child.didMove(toParent: self)
-  }
-  
-  public func remove() {
-    guard let _ = parent else { return }
-    self.willMove(toParent: nil)
-    self.removeFromParent()
-    self.rootView.removeFromSuperview()
-  }
-}
-
-
-public class ContainerView: UIView {
-  
-  public override func layoutSubviews() {
-    super.layoutSubviews()
-    self.subviews.forEach {
-      $0.frame = self.bounds
-    }
-  }
-}

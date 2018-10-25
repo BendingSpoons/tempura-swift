@@ -31,6 +31,7 @@
 		594C04507BB01614BA9DBD65 /* Tempura.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B1C39AEB59B5BE80D2A81B /* Tempura.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		646B03F7BDF4F9F857124D2B /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BD49BEEC5984A9FE893FB3 /* AddItemViewController.swift */; };
 		6506175121820AA400D9C6EE /* Tempura.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6B80CA27551310DFE47630 /* Tempura.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		650617542182211B00D9C6EE /* ViewController+Containment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650617532182211B00D9C6EE /* ViewController+Containment.swift */; };
 		655CFAC22181FCDF00602543 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CFAC12181FCDF00602543 /* ChildViewController.swift */; };
 		6708BA66963C651491A3A686 /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A5D20495241273A74CF0DD /* String+Random.swift */; };
 		6AA037B540B41299BCF0874D /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC63AF968F64847B54F746AC /* Source.swift */; };
@@ -150,6 +151,7 @@
 		58E99F4A8525915070A83850 /* ItemActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ItemActions.swift; sourceTree = "<group>"; };
 		5DADC016CF7CDA8114A79501 /* TempuraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempuraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61372EC0A04886BC73F0385A /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		650617532182211B00D9C6EE /* ViewController+Containment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Containment.swift"; sourceTree = "<group>"; };
 		655CFAC12181FCDF00602543 /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		65BD49BEEC5984A9FE893FB3 /* AddItemViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		724D934C812B7C374C74714F /* Pods_Tempura_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tempura_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -305,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				1BD94E381324B88145DAC193 /* ViewController.swift */,
+				650617532182211B00D9C6EE /* ViewController+Containment.swift */,
 				35ADC758788836A480B55F3D /* View.swift */,
 				E2EB5D3690630D1B08273ED3 /* ViewModelWithState.swift */,
 				DF01CFC8EB7F1FD405961E00 /* ModellableView.swift */,
@@ -966,6 +969,7 @@
 				8847E96E5D793ABD8206B2E0 /* UINavigationController+Completion.swift in Sources */,
 				CAAA33683805DB0ED2C9B30E /* NavigationActions.swift in Sources */,
 				F9447585269BB626C4DFEB22 /* NavigationUtilities.swift in Sources */,
+				650617542182211B00D9C6EE /* ViewController+Containment.swift in Sources */,
 				9805C5B7655D7B566C1DC394 /* Routable.swift in Sources */,
 				7E9FE5B2EA2007B0C6742F3F /* RootInstaller.swift in Sources */,
 				A713F7EEBB695AFA5F71615A /* NavigationDSL.swift in Sources */,
