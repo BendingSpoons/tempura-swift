@@ -13,7 +13,7 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
   
   override func setup() {
     self.childViewController = ChildViewController(store: self.store)
-    self.add(self.childViewController)
+    self.add(self.childViewController, in: self.rootView.childViewContainer)
   }
   
   // listen for interactions from the view

@@ -20,9 +20,7 @@ class ListView: UIView, ViewControllerModellableView {
   var archiveListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var sendToArchiveButton: UIButton = UIButton(type: .custom)
   // the view of the child view controller
-  var childViewControllerView: UIView {
-    return self.viewController!.children[0].view
-  }
+  var childViewContainer: ContainerView = ContainerView()
   
   // MARK: - Interactions
   var didTapAddItem: Interaction?
@@ -88,6 +86,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.addSubview(self.archiveButton)
     self.addSubview(self.actionButton)
     self.addSubview(self.sendToArchiveButton)
+    self.addSubview(self.childViewContainer)
   }
   
   // MARK: - Style
@@ -174,7 +173,7 @@ class ListView: UIView, ViewControllerModellableView {
       self.sendToArchiveButton.pin.below(of: self)
       self.todoListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-    self.childViewControllerView.pin.bottom().left().right().height(80)
+    self.childViewContainer.pin.bottom().left().right().height(80)
   }
 }
 

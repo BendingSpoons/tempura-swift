@@ -40,5 +40,5 @@ class ChildView: UIView, ViewControllerModellableView {
 }
 
 class ChildViewController: ViewController<ChildView> {
-  
+
 }

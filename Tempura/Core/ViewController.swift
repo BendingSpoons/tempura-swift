@@ -344,11 +344,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
 
 
 extension ViewController {
-  public func add<View: ViewControllerModellableView>(_ child: ViewController<View>) {
+  public func add<View: ViewControllerModellableView>(_ child: ViewController<View>, in view: ContainerView) {
     self.addChild(child)
-    self.rootView.addSubview(child.rootView)
+    view.addSubview(child.rootView)
     child.didMove(toParent: self)
-    child.rootView.frame = CGRect(x: 20, y: 20, width: 200, height: 200)
   }
   
   public func remove() {
@@ -356,5 +355,16 @@ extension ViewController {
     self.willMove(toParent: nil)
     self.removeFromParent()
     self.rootView.removeFromSuperview()
+  }
+}
+
+
+public class ContainerView: UIView {
+  
+  public override func layoutSubviews() {
+    super.layoutSubviews()
+    self.subviews.forEach {
+      $0.frame = self.bounds
+    }
   }
 }
