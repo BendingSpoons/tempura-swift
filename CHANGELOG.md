@@ -1,3 +1,6 @@
+## 2.1.0
+* Add support for ViewController containment
+
 ## 2.0.0
 * Add support for Swift 4.2
 
