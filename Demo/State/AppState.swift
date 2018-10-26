@@ -26,6 +26,10 @@ struct AppState: State {
     return self.items.filter { $0.completed }
   }
   
+  var uncompletedItems: [Todo] {
+    return self.items.filter { !$0.completed }
+  }
+  
   var archivedItems: [Todo] {
     return self.items.filter { $0.archived }
   }

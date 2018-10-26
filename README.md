@@ -131,6 +131,34 @@ self.dispatch(Show("add item screen"))
 
 Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
 
+### ViewController containment
+
+You can have ViewControllers inside other ViewControllers, this is useful if you want to reuse portions of UI including the logic. To do that, in the parent ViewController you need to provide a `ContainerView` that will receive the view of the child ViewController as subview.
+
+```swift
+class ParentView: UIView, ViewControllerModellableView {
+    var childView = ContainerView()
+}
+```
+
+Then, in the parent ViewController you just need to add the child ViewController:
+
+```swift
+class ParentViewController: ViewController<ParentView> {
+  let childVC: ChildViewController<ChildView>!
+    
+  override func setup() {
+    childVC = ChildViewController(store: self.store)
+    self.add(childVC, in: self.rootView.childView)  
+  }
+}
+```
+
+All of the automation will work out of the box.
+You will now have a `ChildViewController` inside the `ParentViewController`, the ChildViewController's view will be hosted inside the `childView`.
+
+
+
 ### UI Testing
 
 Tempura has a UI testing system that can be used to take screenshots of your views in all possible states, with all devices and all supported languages.
