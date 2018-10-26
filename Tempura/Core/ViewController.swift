@@ -233,8 +233,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Shortcut to the dispatch function.
-  open func dispatch(_ action: Action) {
-    self.store.dispatch(action)
+  @discardableResult
+  open func dispatch(_ dispatchable: Dispatchable) -> Katana.Promise<Void> {
+    return self.store.dispatch(dispatchable)
   }
   
   /// Required init.
