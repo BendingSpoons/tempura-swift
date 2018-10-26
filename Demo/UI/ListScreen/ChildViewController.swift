@@ -23,7 +23,7 @@ class ChildView: UIView, ViewControllerModellableView {
   }
   
   func style() {
-    self.backgroundColor = .red
+    self.backgroundColor = UIColor(red: 78.0 / 255.0, green: 205.0 / 255.0, blue: 196.0 / 255.0, alpha: 1.0)
     self.label.textColor = .black
     self.label.font = UIFont.systemFont(ofSize: 20)
     self.label.textAlignment = .center
