@@ -9,7 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - DeepDiff (~> 1.2)
-  - Katana (< 3, >= 2.0)
+  - Katana (from `https://github.com/BendingSpoons/katana-swift`, branch `experimental`)
   - Nimble (~> 7.1)
   - PinLayout
   - Quick (~> 1.2)
@@ -18,11 +18,20 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - DeepDiff
-    - Katana
     - Nimble
     - PinLayout
     - Quick
     - Tempura
+
+EXTERNAL SOURCES:
+  Katana:
+    :branch: experimental
+    :git: https://github.com/BendingSpoons/katana-swift
+
+CHECKOUT OPTIONS:
+  Katana:
+    :commit: b56202debfbd15c68b46def5e58edc78426010e6
+    :git: https://github.com/BendingSpoons/katana-swift
 
 SPEC CHECKSUMS:
   DeepDiff: 0ee83ac6942d441f677c22e981548c6e0937f2b6
@@ -32,6 +41,6 @@ SPEC CHECKSUMS:
   Quick: 03278013f71aa05fe9ecabc94fbcc6835f1ee76f
   Tempura: a1f844053e610e3f172bad9e8ed3d04a2362a2f5
 
-PODFILE CHECKSUM: 22bf2c8c4b223c6884076ccacedc362de68f33d6
+PODFILE CHECKSUM: 5409a55af9e7ac133fdfecae797811efccf65bb0
 
 COCOAPODS: 1.5.3

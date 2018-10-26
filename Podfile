@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'Tempura' do
   platform :ios, '9.0'
-  podspec
+  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift', :branch => 'experimental'
 
   target 'TempuraTests' do
     inherit! :search_paths
