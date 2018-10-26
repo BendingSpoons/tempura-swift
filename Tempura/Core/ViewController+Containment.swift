@@ -9,19 +9,22 @@
 /// ViewController containment
 extension ViewController {
   /// Add a ViewController (and its rootView) as a child of self
-  /// You must provide a ContainerView inside self.rootView to receive the rootView of the child ViewController
+  /// You must provide a ContainerView inside self.rootView, that container view
+  /// will automatically receive the rootView of the child ViewController as child
   public func add<View: ViewControllerModellableView>(_ child: ViewController<View>, in view: ContainerView) {
     self.addChild(child)
     view.addSubview(child.rootView)
     child.didMove(toParent: self)
   }
   
-  /// Remove a child ViewController
+  /// Remove self as child ViewController of parent
   public func remove() {
     guard let _ = parent else { return }
     self.willMove(toParent: nil)
     self.removeFromParent()
     self.rootView.removeFromSuperview()
+    self.viewWillDisappear(false)
+    self.viewDidDisappear(false)
   }
 }
 

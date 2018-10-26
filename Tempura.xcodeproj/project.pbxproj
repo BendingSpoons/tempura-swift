@@ -32,6 +32,7 @@
 		646B03F7BDF4F9F857124D2B /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BD49BEEC5984A9FE893FB3 /* AddItemViewController.swift */; };
 		6506175121820AA400D9C6EE /* Tempura.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6B80CA27551310DFE47630 /* Tempura.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		650617542182211B00D9C6EE /* ViewController+Containment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650617532182211B00D9C6EE /* ViewController+Containment.swift */; };
+		650617582182F6BF00D9C6EE /* ViewControlerContainmentSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650617572182F6BF00D9C6EE /* ViewControlerContainmentSpec.swift */; };
 		655CFAC22181FCDF00602543 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655CFAC12181FCDF00602543 /* ChildViewController.swift */; };
 		6708BA66963C651491A3A686 /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A5D20495241273A74CF0DD /* String+Random.swift */; };
 		6AA037B540B41299BCF0874D /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC63AF968F64847B54F746AC /* Source.swift */; };
@@ -70,7 +71,7 @@
 		DBEEDC5070F1927CE2560282 /* ViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B1DFC03BB4FDA7BD20AC40 /* ViewControllerSpec.swift */; };
 		DD09610E6461E833B3FA6236 /* DependenciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DD4CFFDBDD14CB66C4794A /* DependenciesContainer.swift */; };
 		E004EA54447E1A911B2D9C2B /* DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EE1E3D4E6D15D61928C89E /* DemoTests.swift */; };
-		E1976753698708E504DE26EA /* ViewControllerWithLocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2067F5E2669FA20801183DE0 /* ViewControllerWithLocalState.swift */; };
+		E1976753698708E504DE26EA /* ViewControllerWithLocalStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2067F5E2669FA20801183DE0 /* ViewControllerWithLocalStateSpec.swift */; };
 		E38E38B57718A80FA1A632A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E30FE8B5C021F357FE2C84A /* Foundation.framework */; };
 		E7A40310BF53C477558660EB /* Tempura.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B1C39AEB59B5BE80D2A81B /* Tempura.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7E2A15E2F43D5648D7F2380 /* ViewControllerModellableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E6F5C44777CAC59EA5986C /* ViewControllerModellableView.swift */; };
@@ -131,7 +132,7 @@
 		18736DA8E9077F04A3700C7D /* Pods-DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoTests/Pods-DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		1A5A0B668E2DD5AAFA1FB47C /* CollectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		1BD94E381324B88145DAC193 /* ViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2067F5E2669FA20801183DE0 /* ViewControllerWithLocalState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewControllerWithLocalState.swift; sourceTree = "<group>"; };
+		2067F5E2669FA20801183DE0 /* ViewControllerWithLocalStateSpec.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewControllerWithLocalStateSpec.swift; sourceTree = "<group>"; };
 		23A61E64E61A01C89A3F168A /* Models.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		24A72485EA8186BC7C9116B1 /* Pods-Tempura-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempura-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tempura-Demo/Pods-Tempura-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		24E6F5C44777CAC59EA5986C /* ViewControllerModellableView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewControllerModellableView.swift; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 		5DADC016CF7CDA8114A79501 /* TempuraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempuraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61372EC0A04886BC73F0385A /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		650617532182211B00D9C6EE /* ViewController+Containment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Containment.swift"; sourceTree = "<group>"; };
+		650617572182F6BF00D9C6EE /* ViewControlerContainmentSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControlerContainmentSpec.swift; sourceTree = "<group>"; };
 		655CFAC12181FCDF00602543 /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		65BD49BEEC5984A9FE893FB3 /* AddItemViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		724D934C812B7C374C74714F /* Pods_Tempura_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tempura_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -467,7 +469,8 @@
 			isa = PBXGroup;
 			children = (
 				13B1DFC03BB4FDA7BD20AC40 /* ViewControllerSpec.swift */,
-				2067F5E2669FA20801183DE0 /* ViewControllerWithLocalState.swift */,
+				2067F5E2669FA20801183DE0 /* ViewControllerWithLocalStateSpec.swift */,
+				650617572182F6BF00D9C6EE /* ViewControlerContainmentSpec.swift */,
 			);
 			path = TempuraTests;
 			sourceTree = "<group>";
@@ -984,7 +987,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBEEDC5070F1927CE2560282 /* ViewControllerSpec.swift in Sources */,
-				E1976753698708E504DE26EA /* ViewControllerWithLocalState.swift in Sources */,
+				E1976753698708E504DE26EA /* ViewControllerWithLocalStateSpec.swift in Sources */,
+				650617582182F6BF00D9C6EE /* ViewControlerContainmentSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
