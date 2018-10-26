@@ -68,7 +68,7 @@ public struct Show: AnySideEffect {
   /// to know what a `SideEffect` is.
   public func sideEffect(_ context: AnySideEffectContext) throws {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context)
+    try await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
   }
   
 }
@@ -109,7 +109,7 @@ public struct Hide: AnySideEffect {
   /// to know what a `SideEffect` is.
   public func sideEffect(_ context: AnySideEffectContext) throws {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic)
+    try await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
   }
   
 }
