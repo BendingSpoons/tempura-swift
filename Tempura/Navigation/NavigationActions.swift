@@ -11,9 +11,9 @@ import Katana
 
 /// Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
 public struct Navigate: Action, ActionWithSideEffect {
-  var route: Route
-  var animated: Bool
-  var context: Any?
+  public let route: Route
+  public let animated: Bool
+  public let context: Any?
   
   /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
@@ -42,9 +42,9 @@ public struct Navigate: Action, ActionWithSideEffect {
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
 public struct Show: Action, ActionWithSideEffect {
-  var identifiersToShow: [RouteElementIdentifier]
-  var animated: Bool
-  var context: Any?
+  public let identifiersToShow: [RouteElementIdentifier]
+  public let animated: Bool
+  public let context: Any?
   
   /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
@@ -90,10 +90,10 @@ public struct Show: Action, ActionWithSideEffect {
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
 public struct Hide: Action, ActionWithSideEffect {
-  var identifierToHide: RouteElementIdentifier
-  var animated: Bool
-  var context: Any?
-  var atomic: Bool
+  public let identifierToHide: RouteElementIdentifier
+  public let animated: Bool
+  public let context: Any?
+  public let atomic: Bool
   
   /// Returns the new state after the action is dispatched.
   public func updatedState(currentState: State) -> State {
@@ -105,7 +105,6 @@ public struct Hide: Action, ActionWithSideEffect {
     self.identifierToHide = identifierToHide
     self.animated = animated
     self.context = context
-    self.animated = animated
     self.atomic = atomic
   }
   

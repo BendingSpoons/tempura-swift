@@ -1,3 +1,6 @@
+## unrelease
+* Make navigation actions' properties public (e.g. Show.identifiersToShow)
+
 ## 2.1.0
 * Add support for ViewController containment
 
