@@ -237,6 +237,7 @@ public class Navigator {
     return promise
   }
   
+  @discardableResult
   func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) -> Promise<Void> {
     let promise = Promise<Void>(in: .background) { resolve, reject, _ in
       let oldRoutables = UIApplication.shared.currentRoutables
@@ -251,6 +252,7 @@ public class Navigator {
     return promise
   }
   
+  @discardableResult
   func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool = false) -> Promise<Void> {
     let promise = Promise<Void>(in: .background) { resolve, reject, _ in
       let oldRoutables = UIApplication.shared.currentRoutables

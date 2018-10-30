@@ -33,10 +33,10 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
       self.dispatch(ToggleArchiveItems(ids: [toBeUnarchivedID], archived: false))
     }
     self.rootView.didTapAddItem = { [unowned self] in
-      self.dispatch(Show(Screen.addItem))
+      self.dispatch(ShowNew(Screen.addItem))
     }
     self.rootView.didTapEditItem = { [unowned self] itemID in
-      self.dispatch(Show(Screen.addItem, animated: false, context: itemID))
+      self.dispatch(ShowNew(Screen.addItem, animated: false, context: itemID))
     }
     self.rootView.didTapClearItems = { [unowned self] in
       self.dispatch(DeleteArchivedItems())
