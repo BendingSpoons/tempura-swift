@@ -114,7 +114,7 @@ extension ListViewController: RoutableWithConfiguration {
 
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
-      .show("add item screen"): .presentModally({ [unowned self] _ in
+      .show(Screen.SomeScreen): .presentModally({ [unowned self] _ in
         let aivc = AddItemViewController(store: self.store)
         return aivc
       })
@@ -126,7 +126,7 @@ extension ListViewController: RoutableWithConfiguration {
 You can then trigger the presentation using one of the navigation actions from the ViewController.
 
 ```swift
-self.dispatch(Show("add item screen"))
+self.dispatch(Show(Screen.SomeScreen))
 ```
 
 Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
