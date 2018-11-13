@@ -1,5 +1,5 @@
 ## unreleased
-* Added `localStateDidChange` hook to `ViewControllerWithLocalState`
+* Added `didUpdateLocalState` hook to `ViewControllerWithLocalState`
 
 ## 2.1.0
 * Add support for ViewController containment
