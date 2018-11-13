@@ -79,6 +79,7 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         var numberOfTimesDidUpdateIsCalled: Int = 0
         var viewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
         var oldViewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
+        var numberOfTimesLocalStateDidChangeCalled: Int = 0
         
         override func willUpdate(new: TestViewModelWithLocalState?) {
           self.numberOfTimesWillUpdateIsCalled += 1
@@ -90,6 +91,10 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
           self.numberOfTimesDidUpdateIsCalled += 1
           self.viewModelWhenDidUpdateHasBeenCalled = self.viewModel
           self.oldViewModelWhenDidUpdateHasBeenCalled = old
+        }
+        
+        override func localStateDidChange() {
+          self.numberOfTimesLocalStateDidChangeCalled += 1
         }
       }
       
@@ -120,9 +125,12 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       
       it("when localState is changed, the viewModel is updated") {
         testVC.viewWillAppear(true)
-        expect(testVC.rootView.model?.localCounter).to(equal(0))
-        testVC.localState.localCounter = 11
-        expect(testVC.rootView.model?.localCounter).to(equal(11))
+        
+        testVC.localState.localCounter += 1
+        expect(testVC.numberOfTimesLocalStateDidChangeCalled) == 1
+        
+        testVC.localState.localCounter = 100
+        expect(testVC.numberOfTimesLocalStateDidChangeCalled) == 2
       }
       
       it("when localState is changed, the ViewModel is updated, if the ViewController is not connected the global state part of the ViewModel is not updated") {
@@ -134,6 +142,13 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         // check if the dispatch of the Increment is not resetting the local state
         expect(testVC.rootView.model?.localCounter).toNotEventually(equal(0))
         expect(testVC.rootView.model?.counter).toEventually(equal(1))
+      }
+      
+      it("when localState is changed, localStateDidChange is called") {
+        testVC.viewWillAppear(true)
+        expect(testVC.rootView.model?.localCounter).to(equal(0))
+        testVC.localState.localCounter = 11
+        expect(testVC.rootView.model?.localCounter).to(equal(11))
       }
       
       it("when the ViewControllerWithLocalState appears on screen, the update is called exactly once") {

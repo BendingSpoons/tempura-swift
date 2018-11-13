@@ -129,6 +129,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// The `LocalState` of this ViewController.
   public var localState: V.VM.LS = V.VM.LS() {
     didSet {
+      self.handleLocalStateChange()
       self.localStateDidChange()
     }
   }
@@ -142,7 +143,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     super.init(store: store, connected: connected)
     // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
     if !self.connected {
-      self.localStateDidChange()
+      self.handleLocalStateChange()
     }
   }
   
@@ -150,6 +151,9 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  /// Called after the local state is updated, override point for subclasses.
+  open func localStateDidChange() {}
   
   /// Called just before the unsubscribe, override point for subclasses.
   open override func willUnsubscribe() {
@@ -164,7 +168,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
       // we want to connect with silent = true
       self.updateConnect(to: true, silent: true)
     }
-    self.localStateDidChange()
+    self.handleLocalStateChange()
   }
  
   /// Handle the state update, create a new updated viewModel and feed the view with that.
@@ -175,7 +179,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
  }
   
   /// This method is called every time the local state changes.
-  private func localStateDidChange() {
+  private func handleLocalStateChange() {
     mainThread {
       self.updateLocalState(with: self.localState)
     }
