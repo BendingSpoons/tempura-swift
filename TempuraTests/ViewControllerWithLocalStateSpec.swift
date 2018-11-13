@@ -79,7 +79,7 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         var numberOfTimesDidUpdateIsCalled: Int = 0
         var viewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
         var oldViewModelWhenDidUpdateHasBeenCalled: TestViewModelWithLocalState?
-        var numberOfTimesLocalStateDidChangeCalled: Int = 0
+        var numberOfTimesDidUpdateLocalStateCalled: Int = 0
         
         override func willUpdate(new: TestViewModelWithLocalState?) {
           self.numberOfTimesWillUpdateIsCalled += 1
@@ -93,8 +93,8 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
           self.oldViewModelWhenDidUpdateHasBeenCalled = old
         }
         
-        override func localStateDidChange() {
-          self.numberOfTimesLocalStateDidChangeCalled += 1
+        override func didUpdateLocalState() {
+          self.numberOfTimesDidUpdateLocalStateCalled += 1
         }
       }
       
@@ -124,13 +124,10 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       }
       
       it("when localState is changed, the viewModel is updated") {
-        testVC.viewWillAppear(true)
-        
         testVC.localState.localCounter += 1
-        expect(testVC.numberOfTimesLocalStateDidChangeCalled) == 1
-        
+        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 1
         testVC.localState.localCounter = 100
-        expect(testVC.numberOfTimesLocalStateDidChangeCalled) == 2
+        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 2
       }
       
       it("when localState is changed, the ViewModel is updated, if the ViewController is not connected the global state part of the ViewModel is not updated") {

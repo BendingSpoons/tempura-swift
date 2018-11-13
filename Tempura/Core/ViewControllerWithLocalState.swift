@@ -129,8 +129,8 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// The `LocalState` of this ViewController.
   public var localState: V.VM.LS = V.VM.LS() {
     didSet {
-      self.handleLocalStateChange()
       self.localStateDidChange()
+      self.didUpdateLocalState()
     }
   }
   
@@ -143,7 +143,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     super.init(store: store, connected: connected)
     // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
     if !self.connected {
-      self.handleLocalStateChange()
+      self.localStateDidChange()
     }
   }
   
@@ -153,7 +153,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   }
   
   /// Called after the local state is updated, override point for subclasses.
-  open func localStateDidChange() {}
+  open func didUpdateLocalState() {}
   
   /// Called just before the unsubscribe, override point for subclasses.
   open override func willUnsubscribe() {
@@ -163,12 +163,12 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// WarmUp phase, check if we should connect to the state.
   override func warmUp() {
     // we are using silent = true because we don't want to trigger two updates
-    // one after the subscribing and one after the localStateDidChange()
+    // one after the subscribing and one after the handleLocalStateChange()
     if self.shouldConnectWhenVisible {
       // we want to connect with silent = true
       self.updateConnect(to: true, silent: true)
     }
-    self.handleLocalStateChange()
+    self.localStateDidChange()
   }
  
   /// Handle the state update, create a new updated viewModel and feed the view with that.
@@ -179,7 +179,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
  }
   
   /// This method is called every time the local state changes.
-  private func handleLocalStateChange() {
+  private func localStateDidChange() {
     mainThread {
       self.updateLocalState(with: self.localState)
     }
