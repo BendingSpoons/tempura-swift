@@ -124,10 +124,10 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
       }
       
       it("when localState is changed, the viewModel is updated") {
-        testVC.localState.localCounter += 1
-        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 1
-        testVC.localState.localCounter = 100
-        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 2
+        testVC.viewWillAppear(true)
+        expect(testVC.rootView.model?.localCounter).to(equal(0))
+        testVC.localState.localCounter = 11
+        expect(testVC.rootView.model?.localCounter).to(equal(11))
       }
       
       it("when localState is changed, the ViewModel is updated, if the ViewController is not connected the global state part of the ViewModel is not updated") {
@@ -141,11 +141,11 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         expect(testVC.rootView.model?.counter).toEventually(equal(1))
       }
       
-      it("when localState is changed, localStateDidChange is called") {
-        testVC.viewWillAppear(true)
-        expect(testVC.rootView.model?.localCounter).to(equal(0))
-        testVC.localState.localCounter = 11
-        expect(testVC.rootView.model?.localCounter).to(equal(11))
+      it("when localState is changed, didUpdateLocalState is called") {
+        testVC.localState.localCounter += 1
+        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 1
+        testVC.localState.localCounter = 100
+        expect(testVC.numberOfTimesDidUpdateLocalStateCalled) == 2
       }
       
       it("when the ViewControllerWithLocalState appears on screen, the update is called exactly once") {
