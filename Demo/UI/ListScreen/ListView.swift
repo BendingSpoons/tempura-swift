@@ -19,6 +19,8 @@ class ListView: UIView, ViewControllerModellableView {
   var todoListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var archiveListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var sendToArchiveButton: UIButton = UIButton(type: .custom)
+  // the view of the child view controller
+  var childViewContainer: ContainerView = ContainerView()
   
   // MARK: - Interactions
   var didTapAddItem: Interaction?
@@ -84,6 +86,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.addSubview(self.archiveButton)
     self.addSubview(self.actionButton)
     self.addSubview(self.sendToArchiveButton)
+    self.addSubview(self.childViewContainer)
   }
   
   // MARK: - Style
@@ -161,7 +164,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.todoListView.frame = self.scrollView.frame.bounds
     self.archiveListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
     guard let model = self.model else { return }
-    self.sendToArchiveButton.pin.size(CGSize(width: 260, height: 58)).hCenter()
+    self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 70)
     if model.containsArchivableItems && model.selectedSection == .todo {
       self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 20)
       let bottomInset = self.frame.height - self.sendToArchiveButton.frame.minY
@@ -170,6 +173,7 @@ class ListView: UIView, ViewControllerModellableView {
       self.sendToArchiveButton.pin.below(of: self)
       self.todoListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
+    self.childViewContainer.pin.bottom().left().right().height(80)
   }
 }
 
