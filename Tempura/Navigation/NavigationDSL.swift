@@ -127,6 +127,8 @@ public enum NavigationInstruction {
   case presentModally((_ context: Any?) -> UIViewController)
   /// Dismiss the ViewController presented modally using `UIViewController.dismiss(animated:completion:)`.
   case dismissModally(behaviour: ModalDismissBehaviour)
+  /// Set the rootViewController, it uses `UIView.transition(..)` if animated.
+  case changeRoot((_ context: Any?) -> UIViewController)
   
   /// Define your custom implementation of the navigation.
   case custom(CustomNavigationOptionClosure)
@@ -154,6 +156,10 @@ public enum NavigationInstruction {
       
     case let .dismissModally(behaviour):
       self.handleDismissModally(sourceViewController: sourceViewController, animated: animated, behaviour: behaviour, completion: completion)
+
+    case let .changeRoot(vcClosure):
+      let vc = vcClosure(context)
+      self.handleChangeRoot(viewController: vc, animated: animated, completion: completion)
       
     case let .custom(closure):
       closure(identifier, from, animated, context, completion)
@@ -222,6 +228,33 @@ public enum NavigationInstruction {
     
     case .hard:
       sourceViewController.dismiss(animated: animated, completion: completion)
+    }
+  }
+
+  private func handleChangeRoot(
+    viewController: UIViewController,
+    animated: Bool,
+    completion: @escaping RoutingCompletion) {
+
+    guard let window = UIApplication.shared.keyWindow else {
+      fatalError("KeyWindow not found")
+    }
+
+    if animated && window.rootViewController != nil {
+      UIView.transition(
+        with: window,
+        duration: 0.3,
+        options: [.transitionCrossDissolve],
+        animations: {
+          window.rootViewController = viewController
+        },
+        completion: { _ in
+          completion()
+        }
+      )
+    } else {
+      window.rootViewController = viewController
+      completion()
     }
   }
 }
