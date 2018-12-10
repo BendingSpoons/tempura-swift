@@ -143,7 +143,13 @@ public typealias Interaction = () -> ()
 /// If you don't want this to happen automatically every time the ViewControllet will become invisible,
 /// set `sholdDisconnectWhenInvisible` to `false`
 
-open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
+public protocol AnyViewController {
+  associatedtype V: ViewControllerModellableView & UIView
+  
+  var rootView: V { get }
+}
+
+open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController, AnyViewController {
   /// `true` if the ViewController is connected to the store, false otherwise.
   /// A connected ViewController will receive all the updates from the store.
   /// Tempura will set this property to true when the ViewController is about to be displayed on screen,

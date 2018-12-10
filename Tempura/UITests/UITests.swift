@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Katana
 import Tempura
 import XCTest
 
@@ -28,6 +29,26 @@ public enum UITests {
    Sometimes it is required to execute some arbitrary code during the view lifecycle.
    Hooks can be used to customize the behaviour of the mocked view controller that renders the view.
    */
+  
+  
+  public struct VCScreenSnapshot<VC: AnyViewController> {
+    let vc: VC
+    let container: Container
+    let testCases: [String]
+    let hooks: [Hook: HookClosure<VC.V>]
+    let size: CGSize
+    
+    
+    public var renderingViewControllers: [String: (container: UIViewController, contained: VC)] {
+      return self.testCases.reduce(into: [String: (container: UIViewController, contained: VC)]()) { dict, identifier in
+        let containedVC = vc
+        let containerVC = container.container(for: containedVC as! UIViewController)
+        dict[identifier] = (container: containerVC, contained: containedVC)
+      }
+    }
+    
+  }
+  
   public struct ScreenSnapshot<V: ViewControllerModellableView> {
     let viewType: V.Type
     let models: [String: V.VM]
@@ -197,6 +218,21 @@ public enum UITests {
     case tabBarController
     /// provide a custom UIViewController as a container
     case custom((UIViewController) -> (UIViewController))
+    
+    func container(for vc: UIViewController) -> UIViewController {
+      switch self {
+        case .none:
+          return vc
+        case .navigationController:
+          return UINavigationController(rootViewController: vc)
+        case .tabBarController:
+          let tc = UITabBarController()
+          tc.viewControllers = [vc]
+          return tc
+        case .custom (let customController):
+          return customController(vc)
+      }
+    }
   }
   
   /// Create a snapshot image of the view and pass the test

@@ -13,7 +13,7 @@ DEPENDENCIES:
   - Nimble (~> 7.1)
   - PinLayout
   - Quick (~> 1.2)
-  - Tempura (~> 2.0)
+  - Tempura (from `.`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -21,12 +21,13 @@ SPEC REPOS:
     - Nimble
     - PinLayout
     - Quick
-    - Tempura
 
 EXTERNAL SOURCES:
   Katana:
     :branch: experimental
     :git: https://github.com/BendingSpoons/katana-swift
+  Tempura:
+    :path: "."
 
 CHECKOUT OPTIONS:
   Katana:
@@ -39,8 +40,8 @@ SPEC CHECKSUMS:
   Nimble: 391f07782af4b37914f9bd7b2ffbb952731b8202
   PinLayout: 7903960df1061eeebd393690286df73e002d9b20
   Quick: 03278013f71aa05fe9ecabc94fbcc6835f1ee76f
-  Tempura: a1f844053e610e3f172bad9e8ed3d04a2362a2f5
+  Tempura: 9da3d2b2b867048fd0b62cee36729cbf330b1af3
 
-PODFILE CHECKSUM: 5409a55af9e7ac133fdfecae797811efccf65bb0
+PODFILE CHECKSUM: f57ead5e97d0d4e65e1fff94d73475be74e48e5d
 
 COCOAPODS: 1.5.3
