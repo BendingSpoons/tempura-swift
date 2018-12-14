@@ -131,6 +131,37 @@ self.dispatch(Show("add item screen"))
 
 Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
 
+### ViewController containment
+
+You can have ViewControllers inside other ViewControllers, this is useful if you want to reuse portions of UI including the logic. To do that, in the parent ViewController you need to provide a `ContainerView` that will receive the view of the child ViewController as subview.
+
+```swift
+class ParentView: UIView, ViewControllerModellableView {
+    var titleView = UILabel()
+    var childView = ContainerView()
+    
+    func update(oldModel: ParentViewModel?) {
+      // update only the titleView, the childView is managed by another VC
+    }
+}
+```
+
+Then, in the parent ViewController you just need to add the child ViewController:
+
+```swift
+class ParentViewController: ViewController<ParentView> {
+  let childVC: ChildViewController<ChildView>!
+    
+  override func setup() {
+    self.childVC = ChildViewController(store: self.store)
+    self.add(childVC, in: self.rootView.childView)  
+  }
+}
+```
+
+All of the automation will work out of the box.
+You will now have a `ChildViewController` inside the `ParentViewController`, the ChildViewController's view will be hosted inside the `childView`.
+
 ### UI Testing
 
 Tempura has a UI testing system that can be used to take screenshots of your views in all possible states, with all devices and all supported languages.
@@ -160,7 +191,7 @@ Here you can use the `test` function to take a snapshot of a `ViewControllerMode
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     self.uiTest(testCases: [
@@ -177,7 +208,7 @@ embeds the view into a tabbar
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     var context = UITests.Context<AddItemView>()
@@ -209,7 +240,7 @@ For instance, here we wait until an hypotetical view that shows an image from a 
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     self.uiTest(testCases: [
@@ -282,6 +313,46 @@ URLProtocol.registerClass(LocalFileURLProtocol.self)
 ```
 
 Note that if you are using [Alamofire](https://github.com/Alamofire/Alamofire/) this won't work. [Here](https://github.com/Alamofire/Alamofire/issues/1247) you can find a related issue and a link on how to configure Alamofire to deal with `URLProtocol` classes.
+
+
+
+### UI Testing with ViewController containment
+
+`ViewTestCase` is centred about the use case of testing `ViewControllerModellableView`s with the automatic injection of `ViewModel`s representing testing conditions for that View.
+
+In case you are using ViewController containment (like in our `ParentView` example above) there is part of the View that will not be updated when injecting the ViewModel, as there is another ViewController responsible for that.
+
+In that case you need to scale up and test at the ViewController's level using the `ViewControllerTestCase` protocol:
+
+```swift
+class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
+  /// provide the instance of the ViewController to test
+  var viewController: ParentViewController {
+    let fakeStore = Store<AppState, EmptySideEffectDependencyContainer>()
+    let vc = ParentViewController(store: testStore)
+    return vc
+  }
+  
+  /// define the ViewModels
+  let vm = ParentViewModel(title: "A test title")
+  let childVM = ChildViewModel(value: 12)
+    
+  /// configure the ViewController with ViewModels, also for the children VCs
+  func configure(vc: ParentViewController, for testCase: String) {
+    vc.viewModel = vm
+    vc.childVC.viewModel = childVM
+  }
+    
+  /// execute the UI tests
+  func test() {
+    self.uiTest(testCases: ["first_test"], context: context)  
+  }
+}
+```
+
+
+
+
 
 
 ## Where to go from here
