@@ -1,5 +1,5 @@
 //
-//  UIVCTestCase.swift
+//  ViewControllerTestCase.swift
 //  Tempura
 //
 //  Created by Andrea De Angelis on 22/11/2018.
@@ -10,7 +10,7 @@ import XCTest
 import Tempura
 
 
-public protocol UIVCTestCase {
+public protocol ViewControllerTestCase {
   associatedtype VC: AnyViewController
   
   /**
@@ -39,7 +39,7 @@ public protocol UIVCTestCase {
 }
 
 
-public extension UIVCTestCase where Self: XCTestCase {
+public extension ViewControllerTestCase where Self: XCTestCase {
   public func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
     let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
       vc: self.viewController,
@@ -63,7 +63,7 @@ public extension UIVCTestCase where Self: XCTestCase {
       let isViewReadyClosure: (UIView) -> Bool = { view in
         var isOrientationCorrect = true
         
-        // read again in case some weird code changed it outside the UITestCase APIs
+        // read again in case some weird code changed it outside the ViewControllerTestCase APIs
         let isViewInPortrait = view.frame.size.height > view.frame.size.width
         
         if context.orientation.isPortrait {
@@ -103,7 +103,7 @@ public extension UIVCTestCase where Self: XCTestCase {
   }
 }
 
-public extension UIVCTestCase {
+public extension ViewControllerTestCase {
   /// The default implementation returns true
   public func isViewReady(_ view: VC.V, identifier: String) -> Bool {
     return true

@@ -1,5 +1,5 @@
 //
-//  UITestCase.swift
+//  ViewTestCase.swift
 //  Tempura
 //
 //  Created by Mauro Bolis on 07/05/2018.
@@ -22,7 +22,11 @@ import Tempura
  
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
-public protocol UITestCase {
+
+@available(*, deprecated: 2.2, message: "`UITestCase` has been renamed to `ViewTestCase`")
+typealias UITestCase = ViewTestCase
+
+public protocol ViewTestCase {
   associatedtype V: UIView & ViewControllerModellableView
 
   /**
@@ -53,7 +57,7 @@ public protocol UITestCase {
 }
 
 
-public extension UITestCase where Self: XCTestCase {
+public extension ViewTestCase where Self: XCTestCase {
   public func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
       type: V.self,
@@ -115,7 +119,7 @@ public extension UITestCase where Self: XCTestCase {
   }
 }
 
-public extension UITestCase {
+public extension ViewTestCase {
   /// The default implementation returns true
   public func isViewReady(_ view: V, identifier: String) -> Bool {
     return true

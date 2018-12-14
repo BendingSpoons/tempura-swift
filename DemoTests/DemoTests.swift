@@ -12,7 +12,7 @@ import TempuraTesting
 import Katana
 
 
-class ScreenTests: XCTestCase, UITestCase {
+class ScreenTests: XCTestCase, ViewTestCase {
 //  
   typealias V = AddItemView
   
@@ -59,7 +59,7 @@ class ScreenTests: XCTestCase, UITestCase {
   
 }
 
-class VCTests: XCTestCase, UIVCTestCase {
+class VCTests: XCTestCase, ViewControllerTestCase {
   
   var viewController: AddItemViewController {
     let store = Store<VC.V.VM.S, EmptySideEffectDependencyContainer>()
