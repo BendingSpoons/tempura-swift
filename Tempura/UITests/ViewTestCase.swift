@@ -49,7 +49,7 @@ public protocol ViewTestCase {
   func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
   
   /**
-   Method used to check whether the view is ready to be snapshotted
+   Method used to check whether the view is ready for the snapshot
    - parameter view: the view that will be snapshotted
    - parameter identifier: the test case identifier
    */

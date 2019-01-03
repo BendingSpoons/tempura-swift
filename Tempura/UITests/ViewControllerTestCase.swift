@@ -9,6 +9,19 @@ import Foundation
 import XCTest
 import Tempura
 
+/**
+ Test a ViewController and its ViewControllerModellableView embedded in a Container with a specific ViewModel.
+ The test will produce a screenshot of the view.
+ The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
+ After the screenshot is completed, the test will pass.
+ The protocol can only be used in a XCTest environment.
+ 
+ The idea is that the view is rendered but the system waits until `isViewReady` returns true to take the snapshot
+ and pass to the next test case. `isViewReady` is invoked various times with the view instance. The method should be implemented
+ so that it checks possible things that may not be ready yet and return true only when the view is ready to be snapshotted.
+ 
+ Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
+ */
 
 public protocol ViewControllerTestCase {
   associatedtype VC: AnyViewController
@@ -23,18 +36,19 @@ public protocol ViewControllerTestCase {
   func uiTest(testCases: [String], context: UITests.VCContext<VC>)
   
   /**
-   Method used to check whether the view is ready to be snapshotted
+   Method used to check whether the view is ready for the snapshot
    - parameter view: the view that will be snapshotted
    - parameter identifier: the test case identifier
    */
   func isViewReady(_ view: VC.V, identifier: String) -> Bool
   
-  /// used to provide the VC, we cannot instantiate it as we cannot require an init in the AnyViewController protocol
-  /// otherwise it will require all of the subclasses to have that init
+  /// used to provide the ViewController to test.
+  /// We cannot instantiate it as we cannot require an init in the AnyViewController protocol
+  /// otherwise it will require all of the subclasses to have it specified.
   var viewController: VC { get }
   
   /// configure the VC for the specified `testCase`
-  /// this is when you manually inject the ViewModel to all the children VCs
+  /// this is typically used to manually inject the ViewModel to all the children VCs.
   func configure(vc: VC, for testCase: String)
 }
 

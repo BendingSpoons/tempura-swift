@@ -14,6 +14,14 @@ import Katana
 /// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
 
+/// Partial Type Erasure for the ViewController
+/// Each `ViewController` is an `AnyViewController`
+public protocol AnyViewController {
+  associatedtype V: ViewControllerModellableView & UIView
+  
+  var rootView: V { get }
+}
+
 /// Manages a screen of your app, it keeps the UI updated and listens for user interactions.
 
 /// ## Overview
@@ -142,12 +150,6 @@ public typealias Interaction = () -> ()
 /// ViewController from the state updates.
 /// If you don't want this to happen automatically every time the ViewControllet will become invisible,
 /// set `sholdDisconnectWhenInvisible` to `false`
-
-public protocol AnyViewController {
-  associatedtype V: ViewControllerModellableView & UIView
-  
-  var rootView: V { get }
-}
 
 open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController, AnyViewController {
   /// `true` if the ViewController is connected to the store, false otherwise.

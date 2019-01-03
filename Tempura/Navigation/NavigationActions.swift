@@ -10,7 +10,7 @@ import Foundation
 import Katana
 
 /// Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
-public struct NavigateNew: AnySideEffect {
+public struct Navigate: AnySideEffect {
   public let route: Route
   public let animated: Bool
   public let context: Any?
@@ -29,8 +29,8 @@ public struct NavigateNew: AnySideEffect {
     try await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
   }
 }
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you can use the `NavigateNew` SideEffect")
-public struct Navigate: Action, ActionWithSideEffect {
+@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Navigate` SideEffect")
+public struct NavigateLegacy: Action, ActionWithSideEffect {
   var route: Route
   var animated: Bool
   var context: Any?
@@ -51,7 +51,7 @@ public struct Navigate: Action, ActionWithSideEffect {
   /// to know what a `SideEffect` is.
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
     guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context).void
+    let _ = dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context).void
   }
 }
 
@@ -60,7 +60,7 @@ public struct Navigate: Action, ActionWithSideEffect {
 ///
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
-public struct ShowNew: AnySideEffect {
+public struct Show: AnySideEffect {
   public let identifiersToShow: [RouteElementIdentifier]
   public let animated: Bool
   public let context: Any?
@@ -97,8 +97,8 @@ public struct ShowNew: AnySideEffect {
   }
 }
 
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you can use the `ShowNew` SideEffect")
-public struct Show: Action, ActionWithSideEffect {
+@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Show` SideEffect")
+public struct ShowLegacy: Action, ActionWithSideEffect {
   var identifiersToShow: [RouteElementIdentifier]
   var animated: Bool
   var context: Any?
@@ -136,7 +136,7 @@ public struct Show: Action, ActionWithSideEffect {
   /// to know what a `SideEffect` is.
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
     guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context).void
+    let _ = dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context).void
   }
 }
 
@@ -145,7 +145,7 @@ public struct Show: Action, ActionWithSideEffect {
 ///
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
-public struct HideNew: AnySideEffect {
+public struct Hide: AnySideEffect {
   public let identifierToHide: RouteElementIdentifier
   public let animated: Bool
   public let context: Any?
@@ -179,8 +179,8 @@ public struct HideNew: AnySideEffect {
   }
 }
 
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you can use the `HideNew` SideEffect")
-public struct Hide: Action, ActionWithSideEffect {
+@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Hide` SideEffect")
+public struct HideLegacy: Action, ActionWithSideEffect {
   var identifierToHide: RouteElementIdentifier
   var animated: Bool
   var context: Any?
@@ -216,7 +216,7 @@ public struct Hide: Action, ActionWithSideEffect {
   /// to know what a `SideEffect` is.
   public func sideEffect(currentState: State, previousState: State, dispatch: @escaping StoreDispatch, dependencies: SideEffectDependencyContainer) {
     guard let dependencies = dependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic).void
+    let _ = dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic).void
   }
   
 }

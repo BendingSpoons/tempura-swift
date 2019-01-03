@@ -13,7 +13,7 @@ import XCTest
 public enum UITests {
   
   /**
-   A snapshot is a struct that contains all the informations to create a view-homogenous set of snapshosts.
+   A snapshot is a struct that contains all the informations to create a view-homogenous set of snapshots.
    
    The idea is that you can provide different configurations for the same view.
    Each configuration is basically a view model.
