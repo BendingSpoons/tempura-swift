@@ -107,12 +107,12 @@ class ViewControllerContainmentSpec: QuickSpec {
       
       class ChildViewController: TestViewController<ChildView> {}
       
-      var store: Store<AppState>!
+      var store: PartialStore<AppState>!
       var mainVC: MainViewController!
       var childVC: ChildViewController!
       
       beforeEach {
-        store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
+        store = Store<AppState, EmptySideEffectDependencyContainer>()
         mainVC = MainViewController(store: store, connected: true)
       }
       
