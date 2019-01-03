@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'Tempura' do
   platform :ios, '9.0'
-  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift', :branch => 'experimental'
+  podspec
 
   target 'TempuraTests' do
     inherit! :search_paths
@@ -29,7 +29,7 @@ target 'TempuraTesting' do
   platform :ios, '9.0'
   # change this before releasing
   pod 'Tempura', :path => '.'
-  # pod 'Tempura', '~> 2.0'
+  # pod 'Tempura', '~> 3.0'
 end
 
 post_install do |installer|
