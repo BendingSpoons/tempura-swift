@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
@@ -243,7 +244,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// Shortcut to the dispatch function.
   @discardableResult
-  open func dispatch(_ dispatchable: Dispatchable) -> Katana.Promise<Void> {
+  open func dispatch(_ dispatchable: Dispatchable) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
   

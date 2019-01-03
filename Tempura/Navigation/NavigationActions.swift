@@ -8,6 +8,7 @@
 
 import Foundation
 import Katana
+import Hydra
 
 /// Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
 public struct Navigate: AnySideEffect {

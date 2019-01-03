@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Main class that is handling the navigation in a Tempura app.
 ///
