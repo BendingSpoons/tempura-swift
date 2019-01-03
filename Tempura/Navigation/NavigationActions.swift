@@ -11,8 +11,11 @@ import Katana
 
 /// Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
 public struct Navigate: AnySideEffect {
+  /// The final `Route` after the navigation is completed
   public let route: Route
+  /// Specify if the `Navigation` should be animated
   public let animated: Bool
+  /// The context of this `Navigation`
   public let context: Any?
   
   /// Initializes and return a Navigate action.
@@ -29,6 +32,8 @@ public struct Navigate: AnySideEffect {
     try await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
   }
 }
+
+/// Old Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
 @available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Navigate` SideEffect")
 public struct NavigateLegacy: Action, ActionWithSideEffect {
   var route: Route
@@ -61,8 +66,11 @@ public struct NavigateLegacy: Action, ActionWithSideEffect {
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
 public struct Show: AnySideEffect {
+  /// The identifiers of the `Routable` to be shown
   public let identifiersToShow: [RouteElementIdentifier]
+  /// Specify if the `Show` should be animated
   public let animated: Bool
+  /// The context of the `Show`
   public let context: Any?
   
   /// Initializes and return a Show action.
@@ -97,6 +105,8 @@ public struct Show: AnySideEffect {
   }
 }
 
+/// Old Show action used to ask the `Navigator` to show specific screens
+/// identified by the `identifiersToShow`.
 @available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Show` SideEffect")
 public struct ShowLegacy: Action, ActionWithSideEffect {
   var identifiersToShow: [RouteElementIdentifier]
@@ -146,9 +156,16 @@ public struct ShowLegacy: Action, ActionWithSideEffect {
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
 public struct Hide: AnySideEffect {
+  /// The identifier of the `Routable` to be hidden
   public let identifierToHide: RouteElementIdentifier
+  /// Specify if the `Hide` should be animated
   public let animated: Bool
+  /// The context of the `Hide`
   public let context: Any?
+  /// Specify if the Hide should generate one single navigation request.
+  /// For instance, if we have a Route like `A/B/C/D` and we ask to hide `B`, with `atomic = false`, three different Hide commands will be generated:
+  /// the request to hide D, then the request to hide C and finally the request to hide B.
+  /// If we use `atomic = true`, only the request to hide B will be generated.
   public let atomic: Bool
   
   /// Initializes and return a Hide action.
@@ -179,6 +196,8 @@ public struct Hide: AnySideEffect {
   }
 }
 
+/// Old Hide action used to ask the `Navigator` to hide a specific screen
+/// identified by the `identifierToHide`.
 @available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Hide` SideEffect")
 public struct HideLegacy: Action, ActionWithSideEffect {
   var identifierToHide: RouteElementIdentifier

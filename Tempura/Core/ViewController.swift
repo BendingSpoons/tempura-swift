@@ -17,8 +17,9 @@ public typealias Interaction = () -> ()
 /// Partial Type Erasure for the ViewController
 /// Each `ViewController` is an `AnyViewController`
 public protocol AnyViewController {
+  /// The type of the View managed by the ViewController
   associatedtype V: ViewControllerModellableView & UIView
-  
+  /// The View managed by the ViewController
   var rootView: V { get }
 }
 

@@ -105,6 +105,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 /// ```
 
 public protocol ModellableView: View {
+  /// The type of the ViewModel associated with the View
   associatedtype VM: ViewModel
   
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
