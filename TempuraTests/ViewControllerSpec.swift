@@ -12,23 +12,15 @@ class ViewControllerSpec: QuickSpec {
         var dataFromAPIRequest: String? = "something"
       }
       
-      struct Increment: Action {
-        func updatedState(currentState: State) -> State {
-          guard var state = currentState as? AppState else {
-            fatalError()
-          }
-          state.counter += 1
-          return state
+      struct Increment: StateUpdater {
+        func updateState(_ currentState: inout AppState) {
+          currentState.counter += 1
         }
       }
       
-      struct ResetDataFromAPI: Action {
-        func updatedState(currentState: State) -> State {
-          guard var state = currentState as? AppState else {
-            fatalError()
-          }
-          state.dataFromAPIRequest = nil
-          return state
+      struct ResetDataFromAPI: StateUpdater {
+        func updateState(_ currentState: inout AppState) {
+          currentState.dataFromAPIRequest = nil
         }
       }
       

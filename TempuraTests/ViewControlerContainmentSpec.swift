@@ -18,13 +18,9 @@ class ViewControllerContainmentSpec: QuickSpec {
         var counter: Int = 0
       }
       
-      struct Increment: Action {
-        func updatedState(currentState: State) -> State {
-          guard var state = currentState as? AppState else {
-            fatalError()
-          }
-          state.counter += 1
-          return state
+      struct Increment: StateUpdater {
+        func updateState(_ currentState: inout AppState) {
+          currentState.counter += 1
         }
       }
       
