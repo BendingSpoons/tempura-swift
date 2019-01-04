@@ -47,9 +47,11 @@ public extension ViewModelWithLocalState {
   }
 }
 
-// The requirement for a ViewModelWithLocalState, it needs to have both a State and a LocalState
+/// The requirement for a ViewModelWithLocalState, it needs to have both a State and a LocalState
 public protocol LocalStateableViewModel: ViewModel {
+  /// The type of the State for this ViewModel
   associatedtype S: State
+  /// The type of the LocalState for this ViewModel
   associatedtype LS: LocalState
   
   /// Instantiate a ViewModelWithState given the Katana app state and the `LocalState`.

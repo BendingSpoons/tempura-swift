@@ -12,7 +12,7 @@ import TempuraTesting
 import Katana
 
 
-class ScreenTests: XCTestCase, UITestCase {
+class ScreenTests: XCTestCase, ViewTestCase {
 //  
   typealias V = AddItemView
   
@@ -57,4 +57,26 @@ class ScreenTests: XCTestCase, UITestCase {
       )
   }
   
+}
+
+class VCTests: XCTestCase, ViewControllerTestCase {
+  
+  var viewController: AddItemViewController {
+    let store = Store<VC.V.VM.S, EmptySideEffectDependencyContainer>()
+    let vc = AddItemViewController(store: store)
+    return vc
+  }
+  
+  typealias VC = AddItemViewController
+  
+  func configure(vc: AddItemViewController, for testCase: String) {
+    if testCase == "firstTest" {
+      vc.rootView.model = AddItemViewModel(editingText: "ViewController test")
+    }
+  }
+  
+
+  func testVC() {
+    self.uiTest(testCases: ["firstTest"], context: UITests.VCContext<VCTests.VC>())
+  }
 }

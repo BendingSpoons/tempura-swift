@@ -45,14 +45,14 @@ struct AppState: State {
 }
 ```
 
-You can only manipulate state through [actions](https://github.com/BendingSpoons/katana-swift/blob/master/docs/1.0.0/Protocols/Action.html).
+You can only manipulate state through [State Updater](https://github.com/BendingSpoons/katana-swift/blob/master/docs/3.0.0/Protocols/StateUpdater.html)s. 
 
 ```swift
-struct CompleteItem: AppAction {
+struct CompleteItem: StateUpdater {
   var index: Int
 
-  func updatedState(currentState: inout AppState) {
-    currentState.items[index].completed = true
+  func updateState(_ state: inout AppState) {
+    state.items[index].completed = true
   }
 }
 ```
@@ -114,7 +114,7 @@ extension ListViewController: RoutableWithConfiguration {
 
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] {
     return [
-      .show(Screen.SomeScreen): .presentModally({ [unowned self] _ in
+      .show("add item screen"): .presentModally({ [unowned self] _ in
         let aivc = AddItemViewController(store: self.store)
         return aivc
       })
@@ -126,7 +126,7 @@ extension ListViewController: RoutableWithConfiguration {
 You can then trigger the presentation using one of the navigation actions from the ViewController.
 
 ```swift
-self.dispatch(Show(Screen.SomeScreen))
+self.dispatch(Show("add item screen"))
 ```
 
 Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
@@ -137,7 +137,12 @@ You can have ViewControllers inside other ViewControllers, this is useful if you
 
 ```swift
 class ParentView: UIView, ViewControllerModellableView {
+    var titleView = UILabel()
     var childView = ContainerView()
+    
+    func update(oldModel: ParentViewModel?) {
+      // update only the titleView, the childView is managed by another VC
+    }
 }
 ```
 
@@ -148,7 +153,7 @@ class ParentViewController: ViewController<ParentView> {
   let childVC: ChildViewController<ChildView>!
     
   override func setup() {
-    childVC = ChildViewController(store: self.store)
+    self.childVC = ChildViewController(store: self.store)
     self.add(childVC, in: self.rootView.childView)  
   }
 }
@@ -156,8 +161,6 @@ class ParentViewController: ViewController<ParentView> {
 
 All of the automation will work out of the box.
 You will now have a `ChildViewController` inside the `ParentViewController`, the ChildViewController's view will be hosted inside the `childView`.
-
-
 
 ### UI Testing
 
@@ -188,7 +191,7 @@ Here you can use the `test` function to take a snapshot of a `ViewControllerMode
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     self.uiTest(testCases: [
@@ -205,7 +208,7 @@ embeds the view into a tabbar
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     var context = UITests.Context<AddItemView>()
@@ -237,7 +240,7 @@ For instance, here we wait until an hypotetical view that shows an image from a 
 ```swift
 import TempuraTesting
 
-class UITests: XCTestCase, UITestCase {
+class UITests: XCTestCase, ViewTestCase {
   
   func testAddItemScreen() {
     self.uiTest(testCases: [
@@ -312,6 +315,46 @@ URLProtocol.registerClass(LocalFileURLProtocol.self)
 Note that if you are using [Alamofire](https://github.com/Alamofire/Alamofire/) this won't work. [Here](https://github.com/Alamofire/Alamofire/issues/1247) you can find a related issue and a link on how to configure Alamofire to deal with `URLProtocol` classes.
 
 
+
+### UI Testing with ViewController containment
+
+`ViewTestCase` is centred about the use case of testing `ViewControllerModellableView`s with the automatic injection of `ViewModel`s representing testing conditions for that View.
+
+In case you are using ViewController containment (like in our `ParentView` example above) there is part of the View that will not be updated when injecting the ViewModel, as there is another ViewController responsible for that.
+
+In that case you need to scale up and test at the ViewController's level using the `ViewControllerTestCase` protocol:
+
+```swift
+class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
+  /// provide the instance of the ViewController to test
+  var viewController: ParentViewController {
+    let fakeStore = Store<AppState, EmptySideEffectDependencyContainer>()
+    let vc = ParentViewController(store: testStore)
+    return vc
+  }
+  
+  /// define the ViewModels
+  let vm = ParentViewModel(title: "A test title")
+  let childVM = ChildViewModel(value: 12)
+    
+  /// configure the ViewController with ViewModels, also for the children VCs
+  func configure(vc: ParentViewController, for testCase: String) {
+    vc.viewModel = vm
+    vc.childVC.viewModel = childVM
+  }
+    
+  /// execute the UI tests
+  func test() {
+    self.uiTest(testCases: ["first_test"], context: context)  
+  }
+}
+```
+
+
+
+
+
+
 ## Where to go from here
 
 ### Example application
@@ -328,7 +371,7 @@ Use this table in order to check which version of Tempura you need.
 
 | Swift Version  | Tempura Version |
 | ------------- | ------------- |
-| Swift 4.2 | Tempura 2.0  |
+| Swift 4.2 | Tempura 3.0 |
 | Swift 4 | Tempura 1.12 |
 
 ## Installation

@@ -164,7 +164,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.todoListView.frame = self.scrollView.frame.bounds
     self.archiveListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
     guard let model = self.model else { return }
-    self.sendToArchiveButton.pin.size(CGSize(width: 260, height: 58)).hCenter()
+    self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 70)
     if model.containsArchivableItems && model.selectedSection == .todo {
       self.sendToArchiveButton.pin.bottom(self.universalSafeAreaInsets.bottom + 70)
       let bottomInset = self.frame.height - self.sendToArchiveButton.frame.minY

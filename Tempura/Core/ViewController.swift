@@ -9,10 +9,20 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
+
+/// Partial Type Erasure for the ViewController
+/// Each `ViewController` is an `AnyViewController`
+public protocol AnyViewController {
+  /// The type of the View managed by the ViewController
+  associatedtype V: ViewControllerModellableView & UIView
+  /// The View managed by the ViewController
+  var rootView: V { get }
+}
 
 /// Manages a screen of your app, it keeps the UI updated and listens for user interactions.
 
@@ -143,7 +153,7 @@ public typealias Interaction = () -> ()
 /// If you don't want this to happen automatically every time the ViewControllet will become invisible,
 /// set `sholdDisconnectWhenInvisible` to `false`
 
-open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
+open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController, AnyViewController {
   /// `true` if the ViewController is connected to the store, false otherwise.
   /// A connected ViewController will receive all the updates from the store.
   /// Tempura will set this property to true when the ViewController is about to be displayed on screen,
@@ -160,7 +170,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// The store the ViewController will use to receive state updates.
-  public var store: Store<V.VM.S>
+  public var store: PartialStore<V.VM.S>
   
   /// The state of this ViewController
   public var state: V.VM.S {
@@ -216,7 +226,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Returns a newly initialized ViewController object.
-  public init(store: Store<V.VM.S>, connected: Bool = false) {
+  public init(store: PartialStore<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
     self.setup()
@@ -233,8 +243,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Shortcut to the dispatch function.
-  open func dispatch(_ action: Action) {
-    self.store.dispatch(action)
+  @discardableResult
+  open func dispatch(_ dispatchable: Dispatchable) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
   }
   
   /// Required init.

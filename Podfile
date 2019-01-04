@@ -27,7 +27,9 @@ end
 
 target 'TempuraTesting' do
   platform :ios, '9.0'
-  pod 'Tempura', '~> 2.0'
+  # change this before releasing
+  pod 'Tempura', :path => '.'
+  # pod 'Tempura', '~> 3.0'
 end
 
 post_install do |installer|

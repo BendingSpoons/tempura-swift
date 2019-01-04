@@ -7,76 +7,56 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForAnalyzing = "YES"
+            buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "674CA9A75FF5B74E10AC0DC1"
-               BuildableName = "Demo.app"
+               BlueprintIdentifier = "8B8E9FF86D50332DC2EE0D47"
                BlueprintName = "Demo"
-               ReferencedContainer = "container:Tempura.xcodeproj">
+               ReferencedContainer = "container:Tempura.xcodeproj"
+               BuildableName = "Demo.app">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
+            buildForAnalyzing = "YES"
             buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForArchiving = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "68B734BF364920E7AE76F00F"
-               BuildableName = "DemoTests.xctest"
+               BlueprintIdentifier = "7FFC9CB9330B5FB62A0AE5A4"
                BlueprintName = "DemoTests"
-               ReferencedContainer = "container:Tempura.xcodeproj">
+               ReferencedContainer = "container:Tempura.xcodeproj"
+               BuildableName = "DemoTests.xctest">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      buildConfiguration = "Debug">
+      <AdditionalOptions>
+      </AdditionalOptions>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "68B734BF364920E7AE76F00F"
-               BuildableName = "DemoTests.xctest"
+               BlueprintIdentifier = "7FFC9CB9330B5FB62A0AE5A4"
                BlueprintName = "DemoTests"
-               ReferencedContainer = "container:Tempura.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "83B7964A9B0AD49AD46BD823"
-               BuildableName = "TempuraTests.xctest"
-               BlueprintName = "TempuraTests"
-               ReferencedContainer = "container:Tempura.xcodeproj">
+               ReferencedContainer = "container:Tempura.xcodeproj"
+               BuildableName = "DemoTests.xctest">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "674CA9A75FF5B74E10AC0DC1"
-            BuildableName = "Demo.app"
-            BlueprintName = "Demo"
-            ReferencedContainer = "container:Tempura.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -84,34 +64,34 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
+      buildConfiguration = "Debug"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "674CA9A75FF5B74E10AC0DC1"
-            BuildableName = "Demo.app"
-            BlueprintName = "Demo"
-            ReferencedContainer = "container:Tempura.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
-   </LaunchAction>
-   <ProfileAction
-      buildConfiguration = "Debug"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      savedToolIdentifier = ""
-      useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "674CA9A75FF5B74E10AC0DC1"
-            BuildableName = "Demo.app"
+            BlueprintIdentifier = "8B8E9FF86D50332DC2EE0D47"
             BlueprintName = "Demo"
-            ReferencedContainer = "container:Tempura.xcodeproj">
+            ReferencedContainer = "container:Tempura.xcodeproj"
+            BuildableName = "Demo.app">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </LaunchAction>
+   <ProfileAction
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES"
+      buildConfiguration = "Debug"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8B8E9FF86D50332DC2EE0D47"
+            BlueprintName = "Demo"
+            ReferencedContainer = "container:Tempura.xcodeproj"
+            BuildableName = "Demo.app">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

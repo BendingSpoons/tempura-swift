@@ -32,6 +32,7 @@ extension ViewController {
 /// This is the View that will contain the View of the managed ViewController
 public class ContainerView: UIView {
   
+  /// See `UIView.layoutSubviews()`
   public override func layoutSubviews() {
     super.layoutSubviews()
     self.subviews.forEach {

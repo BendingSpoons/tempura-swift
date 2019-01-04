@@ -93,11 +93,11 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         }
       }
       
-      var store: Store<AppState>!
+      var store: PartialStore<AppState>!
       var testVC: TestViewControllerWithLocalState!
       
       beforeEach {
-        store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
+        store = Store<AppState, EmptySideEffectDependencyContainer>()
         testVC = TestViewControllerWithLocalState(store: store)
       }
       

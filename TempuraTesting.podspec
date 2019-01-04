@@ -11,7 +11,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.weak_framework = "XCTest"
   s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
-  s.dependency 'Tempura', '>= 2.0', '< 3.0'
+  #include this before releasing
+  s.dependency 'Tempura', '>= 3.0', '< 4.0'
 
   s.ios.source_files = [
     'Tempura/UITests/**/*.swift',
@@ -21,6 +22,7 @@ Pod::Spec.new do |s|
     'OTHER_LDFLAGS' => '-weak-lswiftXCTest',
     'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
     'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks"',
+    'ENABLE_BITCODE' => 'NO',
   }
   
 end

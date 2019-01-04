@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Main class that is handling the navigation in a Tempura app.
 ///
@@ -225,35 +226,52 @@ public class Navigator {
     })
   }
   
-  func changeRoute(newRoute: Route, animated: Bool, context: Any?) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
-  }
-  
-  func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let oldRoute = oldRoutables.map { $0.routeIdentifier }
-    let newRoute: Route = oldRoute + elementsToShow
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
-  }
-  
-  func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let oldRoute = oldRoutables.map { $0.routeIdentifier }
-    
-    guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
-      return
+  func changeRoute(newRoute: Route, animated: Bool, context: Any?) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
     }
-    
-    let newRoute = Array(oldRoute[0..<start])
-    
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
+    return promise
+  }
+  
+  @discardableResult
+  func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let oldRoute = oldRoutables.map { $0.routeIdentifier }
+      let newRoute: Route = oldRoute + elementsToShow
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
+    }
+    return promise
+  }
+  
+  @discardableResult
+  func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool = false) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let oldRoute = oldRoutables.map { $0.routeIdentifier }
+      
+      guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
+        return
+      }
+      
+      let newRoute = Array(oldRoute[0..<start])
+      
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
+    }
+    return promise
   }
   
   /// extract rounting changes to go from `old` to `new`.
@@ -318,7 +336,7 @@ public class Navigator {
   }
   
   // execute all the `changes` one at a time, asking to the routables on the hierarchy
-  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil) {
+  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil, completion: (() -> ())? = nil) {
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
@@ -405,6 +423,7 @@ public class Navigator {
         if case .timedOut = result {
           print("stuck waiting for routing to complete. Ensure that you called the completion handler in each Routable element")
         }
+        completion?()
       }
     }
   }
