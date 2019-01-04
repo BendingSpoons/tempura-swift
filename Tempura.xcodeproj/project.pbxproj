@@ -1,7 +1,8 @@
 // !$*UTF8*$!
 {
-	archiveVersion = "";
-	classes = "";
+	archiveVersion = 1;
+	classes = {
+	};
 	objectVersion = 46;
 	objects = {
 
@@ -31,7 +32,6 @@
 		3DACB3FD69684295E34357A2 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4140BAA3072695B54827DB22 /* Navigator.swift */; };
 		45EFD6136D3ED15F3A95EF86 /* ModellableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F8CFB3C547BB98C0BD8507 /* ModellableView.swift */; };
 		483F8B93EBDCCF8F8ED49BCE /* Pods_TempuraTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 325C9CE2696CFB7213588D44 /* Pods_TempuraTesting.framework */; };
-		5028B999D8037F9D63AEEA5C /* AppActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562ECEE3324FFF80C10AF949 /* AppActions.swift */; };
 		5A1D0CB0360AE65384BB22F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B877E1EC1BF9444B3933D2A /* Foundation.framework */; };
 		5DB469C46B840B007234AF46 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D579656DAFC3B7457FC147B /* AddItemView.swift */; };
 		623345A0C54874E0B367AA54 /* RootInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4D34A2F7E4385CD92456B6 /* RootInstaller.swift */; };
@@ -131,7 +131,6 @@
 		4E73A1CB844BE37CBC707FD0 /* ItemActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ItemActions.swift; sourceTree = "<group>"; };
 		4EB29FA86117AA2FD1F63925 /* Pods-Tempura-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempura-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tempura-Demo/Pods-Tempura-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		55CC454509C2E7E8807A62E4 /* CGRect+Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGRect+Utils.swift"; sourceTree = "<group>"; };
-		562ECEE3324FFF80C10AF949 /* AppActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppActions.swift; sourceTree = "<group>"; };
 		5953531E0963E0B78615E099 /* ViewModelWithLocalState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewModelWithLocalState.swift; sourceTree = "<group>"; };
 		595940604D64860B691B431F /* Pods-TempuraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempuraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TempuraTests/Pods-TempuraTests.release.xcconfig"; sourceTree = "<group>"; };
 		5D579656DAFC3B7457FC147B /* AddItemView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
@@ -255,7 +254,6 @@
 				6D9A32D94EA0FD91DEA4FFCA /* NavigationProvider.swift */,
 				4140BAA3072695B54827DB22 /* Navigator.swift */,
 			);
-			name = Navigation;
 			path = Navigation;
 			sourceTree = "<group>";
 		};
@@ -276,7 +274,6 @@
 			children = (
 				01888F42C04C7D26DC9C5AE3 /* AppDelegate.swift */,
 			);
-			name = Application;
 			path = Application;
 			sourceTree = "<group>";
 		};
@@ -295,7 +292,6 @@
 				32054AF655285E5A19E25B09 /* ListScreen */,
 				97CE4BBDEC73DD47692DDE2C /* AddItemScreen */,
 			);
-			name = UI;
 			path = UI;
 			sourceTree = "<group>";
 		};
@@ -304,7 +300,6 @@
 			children = (
 				17E1F454B32C9915D9F494BE /* DemoTests.swift */,
 			);
-			name = DemoTests;
 			path = DemoTests;
 			sourceTree = "<group>";
 		};
@@ -315,7 +310,6 @@
 				C17F8A37072FFC61B059E7DD /* ViewControllerWithLocalStateSpec.swift */,
 				DD5AC80AFAA5CE99FAFD77CD /* ViewControlerContainmentSpec.swift */,
 			);
-			name = TempuraTests;
 			path = TempuraTests;
 			sourceTree = "<group>";
 		};
@@ -327,7 +321,6 @@
 				1F343FA2F5E0E51E347DC8DA /* DataSource.swift */,
 				E848503FBF5968E6E2CF12EB /* ConfigurableCell.swift */,
 			);
-			name = CollectionView;
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
@@ -339,7 +332,6 @@
 				CB8D8C93C2AFB5FAD5E5A35A /* Subviews */,
 				DA5370C654CD0088E90F8895 /* ChildViewController.swift */,
 			);
-			name = ListScreen;
 			path = ListScreen;
 			sourceTree = "<group>";
 		};
@@ -348,7 +340,6 @@
 			children = (
 				101F612391880B61B9EB5E78 /* TextView.swift */,
 			);
-			name = Subviews;
 			path = Subviews;
 			sourceTree = "<group>";
 		};
@@ -361,7 +352,6 @@
 				D86BBCEB2591EE180F269B04 /* UITests */,
 				E4BAB2EB1F19EDD04D8FF245 /* SupportingFiles */,
 			);
-			name = Tempura;
 			path = Tempura;
 			sourceTree = "<group>";
 		};
@@ -371,7 +361,6 @@
 				9BB077A53541D212BE907D68 /* AppState.swift */,
 				BADF03B5A3B2276B7FE16499 /* Models.swift */,
 			);
-			name = State;
 			path = State;
 			sourceTree = "<group>";
 		};
@@ -389,7 +378,6 @@
 				A3CB1596291C4F7C90B6787F /* ViewControllerWithLocalState.swift */,
 				8ED9D0EEAA21F2C0E10F712E /* ViewController+Containment.swift */,
 			);
-			name = Core;
 			path = Core;
 			sourceTree = "<group>";
 		};
@@ -411,7 +399,6 @@
 			children = (
 				CE13C99FE0C722D0FA58DE63 /* Media.xcassets */,
 			);
-			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -422,7 +409,6 @@
 				5D579656DAFC3B7457FC147B /* AddItemView.swift */,
 				AD134CCA651F4E4E472DBAB2 /* AddItemViewController.swift */,
 			);
-			name = AddItemScreen;
 			path = AddItemScreen;
 			sourceTree = "<group>";
 		};
@@ -451,17 +437,14 @@
 				070015C114C2C685EC9767B5 /* Application */,
 				88C7C14953DCA73A0052FF40 /* Resources */,
 			);
-			name = Demo;
 			path = Demo;
 			sourceTree = "<group>";
 		};
 		A18F1869056F60ECBEDA09F3 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				562ECEE3324FFF80C10AF949 /* AppActions.swift */,
 				4E73A1CB844BE37CBC707FD0 /* ItemActions.swift */,
 			);
-			name = Actions;
 			path = Actions;
 			sourceTree = "<group>";
 		};
@@ -470,7 +453,6 @@
 			children = (
 				DE8FB3485FA1495A6D87C0D2 /* AppNavigation.swift */,
 			);
-			name = Navigation;
 			path = Navigation;
 			sourceTree = "<group>";
 		};
@@ -501,7 +483,6 @@
 				31F17B93DCD586824C23F22C /* UIView+Blink.swift */,
 				CB62F53B4CF04A290CAA1603 /* String+Height.swift */,
 			);
-			name = Utilities;
 			path = Utilities;
 			sourceTree = "<group>";
 		};
@@ -510,7 +491,6 @@
 			children = (
 				C84C81930E47B558DFD15307 /* DependenciesContainer.swift */,
 			);
-			name = Dependencies;
 			path = Dependencies;
 			sourceTree = "<group>";
 		};
@@ -521,7 +501,6 @@
 				66E8866C80FCACF4A40F6AD5 /* TodoCell.swift */,
 				5E0334DD2E17C5A63E94AC7F /* TodoFlowLayout.swift */,
 			);
-			name = Subviews;
 			path = Subviews;
 			sourceTree = "<group>";
 		};
@@ -534,7 +513,6 @@
 				7BFD73E1B2888B7195559BEF /* ViewTestCase.swift */,
 				A1E3A7C8A388313129B0F244 /* ViewControllerTestCase.swift */,
 			);
-			name = UITests;
 			path = UITests;
 			sourceTree = "<group>";
 		};
@@ -543,7 +521,6 @@
 			children = (
 				B416E87D680DD16AC4B41B4D /* MainThread.swift */,
 			);
-			name = Utilities;
 			path = Utilities;
 			sourceTree = "<group>";
 		};
@@ -552,7 +529,6 @@
 			children = (
 				A7A8F95A3C5074559A7A85EB /* Tempura.h */,
 			);
-			name = SupportingFiles;
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
@@ -758,7 +734,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		5B80D471C503AA4B13DE2E2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -877,7 +852,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		96FFF4BFE61B502660C1AF44 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -896,7 +870,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		AC74050D5FA49E63D30337F9 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -915,7 +888,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 		B228B720ED0805C7C739A881 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1002,7 +974,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-			showEnvVarsInLog = 1;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1041,7 +1012,6 @@
 				A5A8CA7F8014F8C5F17E1321 /* CGRect+Utils.swift in Sources */,
 				7119C0E63A45A8BA48D3C52A /* UIView+Blink.swift in Sources */,
 				0382928600FEDE1465A9CAC5 /* String+Height.swift in Sources */,
-				5028B999D8037F9D63AEEA5C /* AppActions.swift in Sources */,
 				EE070C1628A4B7F67BEC3270 /* ItemActions.swift in Sources */,
 				673F9810042B509E671C2F30 /* AppDelegate.swift in Sources */,
 			);
@@ -1140,8 +1110,7 @@
 				PRODUCT_NAME = TempuraTesting;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1226,8 +1195,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dk.bendingspoons.AppStation;
 				PRODUCT_NAME = Demo;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1300,8 +1268,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1408,8 +1375,7 @@
 				PRODUCT_NAME = Tempura;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1428,8 +1394,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Demo.app/Demo";
 				VALIDATE_PRODUCT = YES;

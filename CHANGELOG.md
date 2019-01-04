@@ -1,3 +1,7 @@
+## 3.0.0
+* Use Katana 3.0
+* Add support for UITests with ViewController containment
+
 ## 2.1.0
 * Add support for ViewController containment
 

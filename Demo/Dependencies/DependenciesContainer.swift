@@ -11,7 +11,6 @@ import Tempura
 
 final class DependenciesContainer: NavigationProvider {
   let promisableDispatch: PromisableStoreDispatch
-  let dispatch: StoreDispatch
   
   var getAppState: () -> AppState
     
@@ -24,10 +23,6 @@ final class DependenciesContainer: NavigationProvider {
   init(dispatch: @escaping PromisableStoreDispatch, getAppState: @escaping () -> AppState) {
     self.promisableDispatch = dispatch
     self.getAppState = getAppState
-    
-    self.dispatch = { dispatchable in
-      _ = dispatch(dispatchable)
-    }
   }
 }
 

@@ -45,14 +45,14 @@ struct AppState: State {
 }
 ```
 
-You can only manipulate state through [actions](https://github.com/BendingSpoons/katana-swift/blob/master/docs/1.0.0/Protocols/Action.html).
+You can only manipulate state through [State Updater](https://github.com/BendingSpoons/katana-swift/blob/master/docs/3.0.0/Protocols/StateUpdater.html)s. 
 
 ```swift
-struct CompleteItem: AppAction {
+struct CompleteItem: StateUpdater {
   var index: Int
 
-  func updatedState(currentState: inout AppState) {
-    currentState.items[index].completed = true
+  func updateState(_ state: inout AppState) {
+    state.items[index].completed = true
   }
 }
 ```
@@ -371,7 +371,7 @@ Use this table in order to check which version of Tempura you need.
 
 | Swift Version  | Tempura Version |
 | ------------- | ------------- |
-| Swift 4.2 | Tempura 2.0  |
+| Swift 4.2 | Tempura 3.0 |
 | Swift 4 | Tempura 1.12 |
 
 ## Installation
