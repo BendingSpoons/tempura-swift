@@ -1,3 +1,6 @@
+## 3.0.1
+* Fix UITests by using the `collatorIdentifier` instead of the `languageCode`
+
 ## 3.0.0
 * Use Katana 3.0
 * Add support for UITests with ViewController containment
