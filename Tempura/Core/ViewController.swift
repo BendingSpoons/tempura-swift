@@ -14,6 +14,7 @@ import Hydra
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
+public typealias CustomInteraction<T> = (T) -> ()
 
 /// Partial Type Erasure for the ViewController
 /// Each `ViewController` is an `AnyViewController`
