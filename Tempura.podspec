@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
   s.dependency 'Katana', '>= 3.0', '< 4'
+  s.swift_version = '5.0'
 
   s.ios.source_files = [
     'Tempura/Core/**/*.swift',
