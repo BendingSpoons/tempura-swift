@@ -8,6 +8,7 @@
 
 import Foundation
 import Tempura
+import Katana
 
 // MARK: - Screens identifiers
 enum Screen: String {
