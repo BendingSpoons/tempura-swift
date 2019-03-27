@@ -351,7 +351,7 @@ public class Navigator {
             
             let routables = UIApplication.shared.currentRoutables
             
-            guard let indexToHide = routables.index(where: {
+            guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }
             
