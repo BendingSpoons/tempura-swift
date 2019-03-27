@@ -30,10 +30,11 @@ import Foundation
 ///      // install the root of the app
 ///      // this method is called by the navigator when needed
 ///      // you must call the `completion` callback when the navigation has been completed
-///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
 ///        let vc = ScreenAViewController(store: self.store)
 ///        self.window.rootViewController = vc
 ///        completion()
+///        return true
 ///      }
 ///    }
 public protocol RootInstaller {
@@ -43,10 +44,11 @@ public protocol RootInstaller {
   ///      // install the root of the app
   ///      // this method is called by the navigator when needed
   ///      // you must call the `completion` callback when the navigation has been completed
-  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
   ///        let vc = ScreenAViewController(store: self.store)
   ///        self.window.rootViewController = vc
   ///        completion()
+  ///        return true
   ///      }
   /// ```
   @discardableResult
