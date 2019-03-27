@@ -54,7 +54,7 @@ public protocol ViewControllerTestCase {
 
 
 public extension ViewControllerTestCase where Self: XCTestCase {
-  public func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
+  func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
     let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
       vc: self.viewController,
       container: context.container,
@@ -119,11 +119,11 @@ public extension ViewControllerTestCase where Self: XCTestCase {
 
 public extension ViewControllerTestCase {
   /// The default implementation returns true
-  public func isViewReady(_ view: VC.V, identifier: String) -> Bool {
+  func isViewReady(_ view: VC.V, identifier: String) -> Bool {
     return true
   }
   
-  public func uiTest(testCases: [String]) {
+  func uiTest(testCases: [String]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }

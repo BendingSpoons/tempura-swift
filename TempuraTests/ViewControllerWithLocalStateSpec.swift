@@ -87,6 +87,15 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
           self.viewModelWhenDidUpdateHasBeenCalled = self.viewModel
           self.oldViewModelWhenDidUpdateHasBeenCalled = old
         }
+        
+        override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
+          let localState = TestLocalState()
+          super.init(store: store, localState: localState, connected: connected)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+          fatalError("init(coder:) has not been implemented")
+        }
       }
       
       var store: PartialStore<AppState>!
