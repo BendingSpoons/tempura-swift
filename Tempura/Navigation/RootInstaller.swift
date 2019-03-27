@@ -49,5 +49,5 @@ public protocol RootInstaller {
   ///        completion()
   ///      }
   /// ```
-  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: Navigator.Completion)
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: Navigator.Completion) -> Bool
 }

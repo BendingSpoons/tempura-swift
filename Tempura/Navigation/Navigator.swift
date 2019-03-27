@@ -396,6 +396,14 @@ public class Navigator {
             }
             
             if !handled {
+              handled = self.rootInstaller.installRoot(identifier: toShow,
+                                                       context: context,
+                                                       completion: {
+                                                        semaphore.signal()
+              })
+            }
+            
+            if !handled {
               semaphore.signal()
               fatalError("presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
@@ -412,9 +420,10 @@ public class Navigator {
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
-            self.rootInstaller.installRoot(identifier: to, context: context) {
+            let handled = self.rootInstaller.installRoot(identifier: to, context: context) {
               semaphore.signal()
             }
+            if !handled { fatalError("installRoot of identifier: '\(to)' is not handled by the rootInstaller") }
           }
         }
         let waitUntil = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
