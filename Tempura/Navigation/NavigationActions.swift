@@ -35,7 +35,7 @@ public struct Navigate: AnySideEffect {
 }
 
 /// Old Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Navigate` SideEffect")
+@available(*, deprecated, message: "With the new Katana 3.0 you should use the `Navigate` SideEffect")
 public struct NavigateLegacy: Action, ActionWithSideEffect {
   var route: Route
   var animated: Bool
@@ -108,8 +108,8 @@ public struct Show: AnySideEffect {
 
 /// Old Show action used to ask the `Navigator` to show specific screens
 /// identified by the `identifiersToShow`.
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Show` SideEffect")
-public struct ShowLegacy: Action, ActionWithSideEffect {
+@available(*, deprecated, message: "With the new Katana 3.0 you should use the `Show` SideEffect")
+struct ShowLegacy: Action, ActionWithSideEffect {
   var identifiersToShow: [RouteElementIdentifier]
   var animated: Bool
   var context: Any?
@@ -199,8 +199,8 @@ public struct Hide: AnySideEffect {
 
 /// Old Hide action used to ask the `Navigator` to hide a specific screen
 /// identified by the `identifierToHide`.
-@available(*, deprecated: 2.2.0, message: "With the new Katana 3.0 you should use the `Hide` SideEffect")
-public struct HideLegacy: Action, ActionWithSideEffect {
+@available(*, deprecated, message: "With the new Katana 3.0 you should use the `Hide` SideEffect")
+struct HideLegacy: Action, ActionWithSideEffect {
   var identifierToHide: RouteElementIdentifier
   var animated: Bool
   var context: Any?

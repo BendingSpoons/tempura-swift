@@ -23,7 +23,7 @@ import Tempura
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
 
-@available(*, deprecated: 2.2, message: "`UITestCase` has been renamed to `ViewTestCase`")
+@available(*, deprecated, message: "`UITestCase` has been renamed to `ViewTestCase`")
 typealias UITestCase = ViewTestCase
 
 public protocol ViewTestCase {
@@ -58,7 +58,7 @@ public protocol ViewTestCase {
 
 
 public extension ViewTestCase where Self: XCTestCase {
-  public func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
+  func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
       type: V.self,
       container: context.container,
@@ -121,16 +121,16 @@ public extension ViewTestCase where Self: XCTestCase {
 
 public extension ViewTestCase {
   /// The default implementation returns true
-  public func isViewReady(_ view: V, identifier: String) -> Bool {
+  func isViewReady(_ view: V, identifier: String) -> Bool {
     return true
   }
   
-  public func uiTest(testCases: [String: V.VM]) {
+  func uiTest(testCases: [String: V.VM]) {
     let standardContext = UITests.Context<V>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
   
-  public func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView] { return [:] }
+  func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView] { return [:] }
 
 }
 

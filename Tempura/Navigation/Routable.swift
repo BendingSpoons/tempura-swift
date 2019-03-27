@@ -141,7 +141,7 @@ public protocol Routable: class {
 
 public extension Routable {
   
-  public func change(from: RouteElementIdentifier,
+  func change(from: RouteElementIdentifier,
                           to: RouteElementIdentifier,
                           animated: Bool,
                           context: Any?,
@@ -149,7 +149,7 @@ public extension Routable {
     fatalError("This Routable element cannot change the navigation from \"\(from)\" to \"\(to)\", the implementation of \(#function) is missing")
   }
   
-  public func show(identifier: RouteElementIdentifier,
+  func show(identifier: RouteElementIdentifier,
                              from: RouteElementIdentifier,
                              animated: Bool,
                              context: Any?,
@@ -157,7 +157,7 @@ public extension Routable {
     return false
   }
   
-  public func hide(identifier: RouteElementIdentifier,
+  func hide(identifier: RouteElementIdentifier,
                              from: RouteElementIdentifier,
                              animated: Bool,
                              context: Any?,

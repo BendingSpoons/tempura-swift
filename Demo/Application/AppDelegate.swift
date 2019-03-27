@@ -33,12 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   /// install the root of the app
   /// this method is called by the navigator when needed
-  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
     if identifier == Screen.list.rawValue {
-      let listViewController = ListViewController(store: self.store)
+      let listViewController = ListViewController(store: self.store, localState: ListLocalState())
       self.window?.rootViewController = listViewController
       completion()
+      return true
     }
+    return false
   }
 
   func applicationWillResignActive(_ application: UIApplication) {}

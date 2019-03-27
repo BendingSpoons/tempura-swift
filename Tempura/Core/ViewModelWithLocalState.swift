@@ -38,23 +38,19 @@ import Katana
 ///    }
 /// ```
 
-public protocol ViewModelWithLocalState: ViewModelWithState, LocalStateableViewModel {}
+public protocol ViewModelWithLocalState: ViewModelWithState {
+  /// The type of the LocalState for this ViewModel
+  //associatedtype S: State
+  associatedtype SS: State where S == SS
+  associatedtype LS: LocalState
+  
+  /// Instantiate a ViewModelWithLocalState given the Katana app state and the `LocalState`.
+  init?(state: SS?, localState: LS)
+}
 
 public extension ViewModelWithLocalState {
   /// Do not use this, use the `ViewModelWithLocalState.init(state:localState:)` instead.
-  init?(state: S) {
+  init?(state: SS) {
     fatalError("use `init(state: S, localState: LS)` instead")
   }
-}
-
-/// The requirement for a ViewModelWithLocalState, it needs to have both a State and a LocalState
-public protocol LocalStateableViewModel: ViewModel {
-  /// The type of the State for this ViewModel
-  associatedtype S: State
-  /// The type of the LocalState for this ViewModel
-  associatedtype LS: LocalState
-  
-  /// Instantiate a ViewModelWithState given the Katana app state and the `LocalState`.
-  init?(state: S?, localState: LS)
-  
 }

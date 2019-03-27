@@ -1,3 +1,10 @@
+## 4.0.0
+* Add support for Swift 5.0
+* Remove `init()` requirement for `LocalState` protocol
+* Force `ViewControllerWithLocalState` to specify a `LocalState` in the `init(...)`
+* `RootInstaller`'s `installRoot(identifier:context:completion)` now returns a `Bool` value
+* If there are no Routables handing a `Show()` with a specific identifier, the `Navigator` will ask the `RootInstaller` before raising a fatalError().
+
 ## 3.0.1
 * Fix UITests by using the `collatorIdentifier` instead of the `languageCode`
 

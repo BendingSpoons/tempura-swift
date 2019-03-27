@@ -163,10 +163,11 @@ import Hydra
 ///      // install the root of the app
 ///      // this method is called by the navigator when needed
 ///      // you must call the `completion` callback when the navigation has been completed
-///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
 ///        let vc = ScreenAViewController(store: self.store)
 ///        self.window.rootViewController = vc
 ///        completion()
+///        return true
 ///      }
 ///    }
 
@@ -200,10 +201,11 @@ public class Navigator {
   ///      // install the root of the app
   ///      // this method is called by the navigator when needed
   ///      // you must call the `completion` callback when the navigation has been completed
-  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
   ///        let vc = ScreenAViewController(store: self.store)
   ///        self.window.rootViewController = vc
   ///        completion()
+  ///        return true
   ///      }
   ///    }
   public func start(using rootInstaller: RootInstaller,
@@ -351,7 +353,7 @@ public class Navigator {
             
             let routables = UIApplication.shared.currentRoutables
             
-            guard let indexToHide = routables.index(where: {
+            guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }
             
@@ -396,6 +398,14 @@ public class Navigator {
             }
             
             if !handled {
+              handled = self.rootInstaller.installRoot(identifier: toShow,
+                                                       context: context,
+                                                       completion: {
+                                                        semaphore.signal()
+              })
+            }
+            
+            if !handled {
               semaphore.signal()
               fatalError("presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
@@ -412,9 +422,10 @@ public class Navigator {
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
-            self.rootInstaller.installRoot(identifier: to, context: context) {
+            let handled = self.rootInstaller.installRoot(identifier: to, context: context) {
               semaphore.signal()
             }
+            if !handled { fatalError("installRoot of identifier: '\(to)' is not handled by the rootInstaller") }
           }
         }
         let waitUntil = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
@@ -470,7 +481,7 @@ public extension UIApplication {
     }
   }
   /// The indentifiers of the routables in the visible hierarchy.
-  public var currentRoutableIdentifiers: [RouteElementIdentifier] {
+  var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.compactMap {
       return $0.routeIdentifier
     }

@@ -155,7 +155,7 @@ public extension ModellableView {
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
   /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
-  public var model: VM? {
+  var model: VM? {
     get {
       return self.modelWrapper.model
     }

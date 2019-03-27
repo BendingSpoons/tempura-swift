@@ -21,25 +21,25 @@ public extension UINavigationController {
   }
   
   /// `pushViewController` method with completion callback
-  public func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
+  func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
     self.pushViewController(viewController, animated: animated)
     self.completionHelper(for: completion)
   }
   
   /// `popViewController` method with completion callback
-  public func popViewController(animated: Bool, completion: (() -> ())?) {
+  func popViewController(animated: Bool, completion: (() -> ())?) {
     self.popViewController(animated: animated)
     self.completionHelper(for: completion)
   }
   
   /// `popToRootViewController` method with completion callback
-  public func popToRootViewController(animated: Bool, completion: (() -> ())?) {
+  func popToRootViewController(animated: Bool, completion: (() -> ())?) {
     self.popToRootViewController(animated: animated)
     self.completionHelper(for: completion)
   }
   
   /// `popToViewController` method with completion callback
-  public func popToViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
+  func popToViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> ())?) {
     self.popToViewController(viewController, animated: animated)
     self.completionHelper(for: completion)
   }

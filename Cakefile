@@ -17,7 +17,7 @@ tempura = target do |target|
     target.all_configurations.each do |configuration|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Tempura"
-	    configuration.settings["SWIFT_VERSION"] = "4.2"
+	    configuration.settings["SWIFT_VERSION"] = "5.0"
         configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks"
     end
 
@@ -33,7 +33,7 @@ tempura = target do |target|
 
         unit_test.all_configurations.each do |configuration|
             configuration.settings["INFOPLIST_FILE"] = "TempuraTests/Info.plist"
-	    configuration.settings["SWIFT_VERSION"] = "4.2"
+	    configuration.settings["SWIFT_VERSION"] = "5.0"
         end
 
     end
@@ -55,7 +55,7 @@ tempuraTesting = target do |target|
     target.all_configurations.each do |configuration|
         configuration.settings["INFOPLIST_FILE"] = "Tempura/SupportingFiles/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "TempuraTesting"
-        configuration.settings["SWIFT_VERSION"] = "4.2"
+        configuration.settings["SWIFT_VERSION"] = "5.0"
         configuration.settings["FRAMEWORK_SEARCH_PATHS"] = "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks"
     end
 
@@ -85,7 +85,7 @@ demo = target do |target|
         configuration.product_bundle_identifier = "dk.bendingspoons.AppStation"
         configuration.settings["INFOPLIST_FILE"] = "Demo/Info.plist"
         configuration.settings["PRODUCT_NAME"] = "Demo"
-	configuration.settings["SWIFT_VERSION"] = "4.2"
+	configuration.settings["SWIFT_VERSION"] = "5.0"
     end
 
     unit_tests_for target do |unit_test|
@@ -96,7 +96,7 @@ demo = target do |target|
 
         unit_test.all_configurations.each do |configuration|
             configuration.settings["INFOPLIST_FILE"] = "DemoTests/Info.plist"
-	    configuration.settings["SWIFT_VERSION"] = "4.2"
+	    configuration.settings["SWIFT_VERSION"] = "5.0"
         end
 
     end
