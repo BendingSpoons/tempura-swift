@@ -159,7 +159,7 @@ class ParentViewController: ViewController<ParentView> {
 }
 ```
 
-All of the automation will work out of the box.
+All the automation will work out of the box.
 You will now have a `ChildViewController` inside the `ParentViewController`, the ChildViewController's view will be hosted inside the `childView`.
 
 ### UI Testing
@@ -371,6 +371,7 @@ Use this table in order to check which version of Tempura you need.
 
 | Swift Version  | Tempura Version |
 | ------------- | ------------- |
+| Swift 5.0 | Tempura 4.0 |
 | Swift 4.2 | Tempura 3.0 |
 | Swift 4 | Tempura 1.12 |
 
