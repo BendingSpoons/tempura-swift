@@ -127,7 +127,7 @@ import Katana
 open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView>: ViewController<V> where V.VM: ViewModelWithLocalState {
   
   /// The `LocalState` of this ViewController.
-  public var localState: V.VM.LS = V.VM.LS() {
+  public var localState: V.VM.LS {
     didSet {
       self.localStateDidChange()
       self.didUpdateLocalState()
@@ -138,8 +138,8 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   /// when the local state changes and we are disconnected from the global state.
   public var lastKnownState: V.VM.S?
   
-  /// Returns a newly initialized ViewControllerWithLocalState object.
-  public override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
+  public init(store: PartialStore<V.VM.S>, localState: V.VM.LS, connected: Bool = false) {
+    self.localState = localState
     super.init(store: store, connected: connected)
     // if the ViewControllerWithLocalState is not connected to the state when created, we still need to retrieve the local state
     if !self.connected {
@@ -147,9 +147,14 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     }
   }
   
+  /// Returns a newly initialized ViewControllerWithLocalState object.
+  public override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
+    fatalError("you should use `init(store:localState:)` instead.")
+  }
+  
   /// Required init.
   public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented.")
   }
     
   /// Called after the local state is updated, override point for subclasses.

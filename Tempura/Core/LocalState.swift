@@ -33,7 +33,4 @@
 ///      var selectedIndex: Int
 ///    }
 /// ```
-public protocol LocalState {
-  /// Initializes and returns a new LocalState.
-  init()
-}
+public protocol LocalState {}

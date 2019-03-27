@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
   /// this method is called by the navigator when needed
   func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
     if identifier == Screen.list.rawValue {
-      let listViewController = ListViewController(store: self.store)
+      let listViewController = ListViewController(store: self.store, localState: ListLocalState())
       self.window?.rootViewController = listViewController
       completion()
     }
