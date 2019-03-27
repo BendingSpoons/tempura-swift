@@ -179,19 +179,8 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Closure used to unsubscribe the viewController from state updates.
- var unsubscribe: StoreUnsubscribe?
+  var unsubscribe: StoreUnsubscribe?
   
-  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`.
-  /// Deprecated, use `shouldDisconnectWhenInvisible` instead.
-  @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
-  public var shouldDisconnectOnViewWillDisappear: Bool {
-    get {
-      return self.shouldDisconnectWhenInvisible
-    }
-    set {
-      self.shouldDisconnectWhenInvisible = newValue
-    }
-  }
   /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible.
   public var shouldConnectWhenVisible = true
   

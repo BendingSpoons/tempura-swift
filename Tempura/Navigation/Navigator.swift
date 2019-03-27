@@ -479,7 +479,7 @@ public extension UIApplication {
     }
   }
   /// The indentifiers of the routables in the visible hierarchy.
-  public var currentRoutableIdentifiers: [RouteElementIdentifier] {
+  var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.compactMap {
       return $0.routeIdentifier
     }

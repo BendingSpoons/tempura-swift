@@ -32,8 +32,6 @@ import Foundation
 /// ```
 ///
 public struct NavigationRequest: Hashable {
-  /// The computed hash value for the NavigationRequest.
-  public var hashValue: Int
   
   fileprivate enum NavigationKind: Int {
     case show, hide
@@ -53,7 +51,12 @@ public struct NavigationRequest: Hashable {
   private init(source: String, kind: NavigationKind) {
     self.source = source
     self.kind = kind
-    self.hashValue = "\(self.source.hashValue)\(self.kind)".hashValue
+  }
+  
+  // Conformance to Hashable
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(self.source)
+    hasher.combine(self.kind)
   }
   
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
@@ -276,7 +279,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
   
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
   /// implementing automatically looking at the `navigationConfiguration`.
-  public func show(
+  func show(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
     animated: Bool,
@@ -306,7 +309,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
   
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
   /// implementing automatically looking at the `navigationConfiguration`.
-  public func hide(
+  func hide(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
     animated: Bool,
