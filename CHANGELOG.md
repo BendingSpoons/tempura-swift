@@ -1,3 +1,6 @@
+## master
+* Fixed unresolving promise if calling `hide` on a view that is not in the `currentRoutables`
+
 ## 4.0.0
 * Add support for Swift 5.0
 * Remove `init()` requirement for `LocalState` protocol

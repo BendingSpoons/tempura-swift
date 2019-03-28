@@ -262,6 +262,7 @@ public class Navigator {
       let oldRoute = oldRoutables.map { $0.routeIdentifier }
       
       guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
+        resolve(())
         return
       }
       
