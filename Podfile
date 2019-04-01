@@ -20,8 +20,8 @@ target 'Tempura' do
 
   target 'DemoTests' do
     inherit! :search_paths
-    pod 'Quick', '~> 1.2'
-    pod 'Nimble', '~> 7.1'
+    pod 'Quick', '~> 1.3'
+    pod 'Nimble', '~> 7.3'
   end
 end
 

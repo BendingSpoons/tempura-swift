@@ -148,7 +148,7 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
   }
   
   /// Returns a newly initialized ViewControllerWithLocalState object.
-  public override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
+  private override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
     fatalError("you should use `init(store:localState:)` instead.")
   }
   
