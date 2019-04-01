@@ -1,5 +1,6 @@
-## master
+## 4.0.1
 * Fixed unresolving promise if calling `hide` on a view that is not in the `currentRoutables`
+* `ViewControllerWithLocalState.init(store:connected:)` is now private
 
 ## 4.0.0
 * Add support for Swift 5.0
