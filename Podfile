@@ -11,11 +11,12 @@ target 'Tempura' do
     inherit! :search_paths
     pod 'Quick', '~> 1.3'
     pod 'Nimble', '~> 7.3'
+    pod 'Katana', '~> 3.0'
   end
 
   target 'Demo' do
     pod 'PinLayout'
-    pod 'DeepDiff', '~> 1.2'
+    pod 'DeepDiff', '~> 2.0'
   end
 
   target 'DemoTests' do

@@ -8,6 +8,7 @@
 import UIKit
 import Tempura
 import PinLayout
+import DeepDiff
 
 public protocol SizeableCell: ModellableView {
   static func size(for model: VM) -> CGSize
@@ -112,15 +113,11 @@ extension TodoCell {
 }
 
 // MARK: View Model
-struct TodoCellViewModel: ViewModel, Hashable {
+struct TodoCellViewModel: ViewModel {
   var todoText: String = ""
   var completed: Bool = false
   var archived: Bool = false
   var identifier: String
-  
-  var hashValue: Int {
-    return identifier.hashValue
-  }
   
   static func == (l: TodoCellViewModel, r: TodoCellViewModel) -> Bool {
     if l.identifier != r.identifier { return false }
@@ -135,5 +132,17 @@ struct TodoCellViewModel: ViewModel, Hashable {
     self.todoText = todo.text
     self.completed = todo.completed
     self.archived = todo.archived
+  }
+}
+
+// MARK: - DiffAware conformance
+extension TodoCellViewModel: DiffAware {
+  var diffId: Int { return self.identifier.hashValue }
+  
+  static func compareContent(_ a: TodoCellViewModel, _ b: TodoCellViewModel) -> Bool {
+    if a.todoText != b.todoText { return false }
+    if a.completed != b.completed { return false }
+    if a.archived != b.archived { return false }
+    return true
   }
 }
