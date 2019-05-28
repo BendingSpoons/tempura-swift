@@ -1,3 +1,6 @@
+## master
+* Fixed broken UITest filename for a scrollable content's snapshot
+
 ## 4.0.1
 * Fixed unresolving promise if calling `hide` on a view that is not in the `currentRoutables`
 * `ViewControllerWithLocalState.init(store:connected:)` is now private
