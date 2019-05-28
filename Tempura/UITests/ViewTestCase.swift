@@ -100,7 +100,7 @@ public extension ViewTestCase where Self: XCTestCase {
                             isViewReadyClosure: isViewReadyClosure) {
                               // ScrollViews snapshot
                               self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
-                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)")
+                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
                               }
                               expectation.fulfill()
       }
