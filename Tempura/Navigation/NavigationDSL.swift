@@ -126,6 +126,12 @@ public enum NavigationInstruction {
   /// Pop the ViewController using `UINavigationController.popViewController(animated:)`.
   case pop
   
+  /// Pops up to the root ViewController using `UINavigationcontroller.popToRootViewController(animated:)
+  case popToRootViewController
+  
+  /// Pops up to a ViewController using `UINavigationcontroller.popToViewController(:animated:)
+  case popToViewController(identifier: RouteElementIdentifier)
+  
   /// Present the ViewController modally using `UIViewController.present(:animated:completion:)`.
   case presentModally((_ context: Any?) -> UIViewController)
   /// Dismiss the ViewController presented modally using `UIViewController.dismiss(animated:completion:)`.
@@ -150,6 +156,14 @@ public enum NavigationInstruction {
       
     case .pop:
       self.handlePop(sourceViewController: sourceViewController, animated: animated, completion: completion)
+      
+    case .popToRootViewController:
+      self.handlePopToRootViewController(sourceViewController: sourceViewController, animated: animated, completion: completion)
+      
+    case let .popToViewController(destinationIdentifier):
+      let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier })Tempura
+      
+      self.handlePopToViewController(sourceViewController: sourceViewController, destinationViewController: destinationViewController, animated: animated, completion: completion)
       
     case let .presentModally(vcClosure):
       let vc = vcClosure(context)
@@ -184,11 +198,52 @@ public enum NavigationInstruction {
     fatalError("Push requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
   }
   
+  private func handlePopToRootViewController(
+    sourceViewController: UIViewController,
+    animated: Bool,
+    completion: @escaping RoutingCompletion) {
+    
+    if let navVC = sourceViewController as? UINavigationController {
+      navVC.popToRootViewController(animated: animated)
+      completion()
+      return
+    }
+    
+    if let navVC = sourceViewController.navigationController {
+      navVC.popToRootViewController(animated: animated)
+      completion()
+      return
+    }
+    
+    fatalError("PopToRootViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+  }
+  
+  private func handlePopToViewController(
+    sourceViewController: UIViewController,
+    destinationViewController: UIViewController,
+    animated: Bool,
+    completion: @escaping RoutingCompletion) {
+    
+    if let navVC = sourceViewController as? UINavigationController {
+      navVC.popToViewController(destinationViewController, animated: animated)
+      completion()
+      return
+    }
+    
+    if let navVC = sourceViewController.navigationController {
+      navVC.popToViewController(destinationViewController,animated: animated)
+      completion()
+      return
+    }
+    
+    fatalError("PopToViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+  }
+  
   private func handlePop(
     sourceViewController: UIViewController,
     animated: Bool,
     completion: @escaping RoutingCompletion) {
-
+    
     if let navVC = sourceViewController as? UINavigationController {
       navVC.popViewController(animated: animated)
       completion()
