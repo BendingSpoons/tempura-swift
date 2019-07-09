@@ -161,7 +161,7 @@ public enum NavigationInstruction {
       self.handlePopToRootViewController(sourceViewController: sourceViewController, animated: animated, completion: completion)
       
     case let .popToViewController(destinationIdentifier):
-      let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier })Tempura
+      let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier })
       
       self.handlePopToViewController(sourceViewController: sourceViewController, destinationViewController: destinationViewController, animated: animated, completion: completion)
       
