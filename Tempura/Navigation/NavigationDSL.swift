@@ -161,7 +161,9 @@ public enum NavigationInstruction {
       self.handlePopToRootViewController(sourceViewController: sourceViewController, animated: animated, completion: completion)
       
     case let .popToViewController(destinationIdentifier):
-      let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier })
+      guard let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier }) else {
+        fatalError("PopToViewController requested to an unknown destination view controller")
+      }
       
       self.handlePopToViewController(sourceViewController: sourceViewController, destinationViewController: destinationViewController, animated: animated, completion: completion)
       
