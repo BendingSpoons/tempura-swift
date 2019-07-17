@@ -1,4 +1,4 @@
-## 4.1.0
+## 4.1.1
 * Added `popToRootViewController` and `popToViewController` to Navigation Instructions
 * Fixed broken UITest filename for a scrollable content's snapshot
 
