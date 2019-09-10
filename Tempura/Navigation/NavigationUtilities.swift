@@ -22,6 +22,10 @@ public extension UIViewController {
       vc.recursivePresent(viewController, animated: animated, completion: completion)
     } else {
       viewController.toBeDismissed = false
+      #warning("This is a temporary fix in order to keep the behaviour of the apps as is in iOS 13 before opting for a more stable solution.")
+      if #available(iOS 13, *) {
+        viewController.modalPresentationStyle = .fullScreen
+      } 
       self.present(viewController, animated: animated, completion: completion)
     }
     
