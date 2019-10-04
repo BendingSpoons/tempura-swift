@@ -34,8 +34,9 @@ extension ViewController {
       return
     }
 
+    let animated = duration > 0
     lastViewVC.willMove(toParent: nil)
-    lastViewVC.viewWillDisappear(true)
+    lastViewVC.viewWillDisappear(animated)
     UIView.transition(
       from: lastView,
       to: child.rootView,
@@ -46,7 +47,7 @@ extension ViewController {
         child.didMove(toParent: self)
 
         lastViewVC.removeFromParent()
-        lastViewVC.viewDidDisappear(false)
+        lastViewVC.viewDidDisappear(animated)
         completion?()
       }
     )
