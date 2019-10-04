@@ -16,10 +16,43 @@ extension ViewController {
     view.addSubview(child.rootView)
     child.didMove(toParent: self)
   }
-  
+
+  /// Replace a ViewController (and its rootView) to the last child of self.
+  /// You must provide a ContainerView inside self.rootView, the latest view of that container view
+  /// is replaced with the rootView of the child ViewController with a cross-dissolve transition
+  public func transition<View: ViewControllerModellableView>(
+    to child: ViewController<View>,
+    in view: ContainerView,
+    duration: Double = 0.3,
+    options: UIView.AnimationOptions = [],
+    completion: (() -> ())? = nil
+  ) {
+    guard
+      let lastView = view.subviews.last,
+      let lastViewVC = (lastView as? AnyViewControllerModellableView)?.viewController
+    else {
+      return
+    }
+
+    UIView.transition(
+      from: lastView,
+      to: child.rootView,
+      duration: duration,
+      options: [.transitionCrossDissolve],
+      completion: { _ in
+        self.addChild(child)
+        child.didMove(toParent: self)
+        lastViewVC.willMove(toParent: nil)
+        lastViewVC.viewWillDisappear(false)
+        lastViewVC.viewDidDisappear(false)
+        completion?()
+      }
+    )
+  }
+
   /// Remove self as child ViewController of parent
   public func remove() {
-    guard let _ = parent else { return }
+    guard let _ = self.parent else { return }
     self.willMove(toParent: nil)
     self.removeFromParent()
     self.rootView.removeFromSuperview()
