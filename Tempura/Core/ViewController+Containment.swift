@@ -24,7 +24,7 @@ extension ViewController {
     to child: ViewController<View>,
     in view: ContainerView,
     duration: Double = 0.3,
-    options: UIView.AnimationOptions = [],
+    options: UIView.AnimationOptions = [.transitionCrossDissolve],
     completion: (() -> ())? = nil
   ) {
     guard
@@ -38,7 +38,7 @@ extension ViewController {
       from: lastView,
       to: child.rootView,
       duration: duration,
-      options: [.transitionCrossDissolve],
+      options: options,
       completion: { _ in
         self.addChild(child)
         child.didMove(toParent: self)
