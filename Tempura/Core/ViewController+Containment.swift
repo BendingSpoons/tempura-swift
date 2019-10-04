@@ -34,6 +34,8 @@ extension ViewController {
       return
     }
 
+    lastViewVC.willMove(toParent: nil)
+    lastViewVC.viewWillDisappear(false)
     UIView.transition(
       from: lastView,
       to: child.rootView,
@@ -42,8 +44,6 @@ extension ViewController {
       completion: { _ in
         self.addChild(child)
         child.didMove(toParent: self)
-        lastViewVC.willMove(toParent: nil)
-        lastViewVC.viewWillDisappear(false)
         lastViewVC.viewDidDisappear(false)
         completion?()
       }
