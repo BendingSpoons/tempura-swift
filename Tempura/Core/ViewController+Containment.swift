@@ -44,6 +44,8 @@ extension ViewController {
       completion: { _ in
         self.addChild(child)
         child.didMove(toParent: self)
+
+        lastViewVC.removeFromParent()
         lastViewVC.viewDidDisappear(false)
         completion?()
       }
