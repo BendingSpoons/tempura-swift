@@ -214,6 +214,7 @@ public enum UITests {
   
   /// Closure invoked when a hook is triggered
   public typealias HookClosure<V: ViewControllerModellableView> = (V) -> Void
+  public typealias HookViewClosure<V: UIView> = (V) -> Void
   
   /// The container UIViewController subclass in which the view can be embedded
   public enum Container {

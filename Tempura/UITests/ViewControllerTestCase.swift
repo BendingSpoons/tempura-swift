@@ -10,7 +10,7 @@ import XCTest
 import Tempura
 
 /**
- Test a ViewController and its ViewControllerModellableView embedded in a Container with a specific ViewModel.
+ Test a ViewController embedded in a Container.
  The test will produce a screenshot of the view.
  The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
  After the screenshot is completed, the test will pass.
@@ -23,8 +23,9 @@ import Tempura
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
 
-public protocol ViewControllerTestCase {
-  associatedtype VC: AnyViewController
+public protocol UIViewControllerTestCase {
+  associatedtype VC: UIViewController
+  associatedtype V: UIView
   
   /**
    Add new UI tests to be performed
@@ -33,7 +34,7 @@ public protocol ViewControllerTestCase {
    view model to use to render the view
    - parameter context: a context used to pass information and control how the view should be rendered
    */
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>)
+  func uiTest(testCases: [String], context: UITests.VCContext<V>)
   
   /// Retrieves a dictionary containing the scrollable subviews to test.
   /// The snapshot will contain the whole scrollView content.
@@ -51,7 +52,7 @@ public protocol ViewControllerTestCase {
    - parameter view: the view that will be snapshotted
    - parameter identifier: the test case identifier
    */
-  func isViewReady(_ view: VC.V, identifier: String) -> Bool
+  func isViewReady(_ view: V, identifier: String) -> Bool
   
   /// used to provide the ViewController to test.
   /// We cannot instantiate it as we cannot require an init in the AnyViewController protocol
@@ -63,10 +64,9 @@ public protocol ViewControllerTestCase {
   func configure(vc: VC, for testCase: String)
 }
 
-
-public extension ViewControllerTestCase where Self: XCTestCase {
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
-    let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
+public extension UIViewControllerTestCase where Self: XCTestCase {
+  func uiTest(testCases: [String], context: UITests.VCContext<V>) {
+    let snapshotConfiguration = UITests.VCScreenSnapshot<VC, V>(
       vc: self.viewController,
       container: context.container,
       testCases: testCases,
@@ -98,6 +98,8 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           isOrientationCorrect = !isViewInPortrait
         }
         
+        guard let view = view as? V else { fatalError("Wrong View Type") }
+        
         let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
         
         if isReady {
@@ -108,7 +110,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
       }
       
       UITests.asyncSnapshot(view: vcs.container.view,
-                            viewToWaitFor: (vcs.contained as! UIViewController).view,
+                            viewToWaitFor: vcs.contained.view,
                             description: description,
                             isViewReadyClosure: isViewReadyClosure) {
                               // ScrollViews snapshot
@@ -124,38 +126,38 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     self.wait(for: expectations, timeout: 100)
   }
   
-  func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
-    guard let view = view as? VC.V else {
-      return false
-    }
+  func typeErasedIsViewReady(_ view: V, identifier: String) -> Bool {
     return self.isViewReady(view, identifier: identifier)
   }
 }
 
-public extension ViewControllerTestCase {
+public extension UIViewControllerTestCase {
   /// The default implementation returns true
-  func isViewReady(_ view: VC.V, identifier: String) -> Bool {
+  func isViewReady(_ view: V, identifier: String) -> Bool {
     return true
   }
   
   func uiTest(testCases: [String]) {
-    let standardContext = UITests.VCContext<VC>()
+    let standardContext = UITests.VCContext<V>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
   
   func scrollViewsToTest(in view: VC, identifier: String) -> [String: UIScrollView] { return [:] }
 }
 
+/// Test a ViewController and its ViewControllerModellableView embedded in a Container with a specific ViewModel.
+public protocol ViewControllerTestCase: UIViewControllerTestCase where VC: AnyViewController, V == VC.V {}
+
 // MARK: Sub types
 extension UITests {
   /// Struct that holds some information used to control how the view is rendered
-  public struct VCContext<VC: AnyViewController> {
+  public struct VCContext<V: UIView> {
     
     /// the container in which the main view of the VC will be embedded
     public var container: UITests.Container
     
     /// some hooks that can be added to customize the view after its creation
-    public var hooks: [UITests.Hook: UITests.HookClosure<VC.V>]
+    public var hooks: [UITests.Hook: UITests.HookViewClosure<V>]
     
     /// the size of the window in which the view will be rendered
     public var screenSize: CGSize
@@ -164,7 +166,7 @@ extension UITests {
     public var orientation: UIDeviceOrientation
     
     public init(container: Container = .none,
-                hooks: [UITests.Hook: UITests.HookClosure<VC.V>] = [:],
+                hooks: [UITests.Hook: UITests.HookViewClosure<V>] = [:],
                 screenSize: CGSize = UIScreen.main.bounds.size,
                 orientation: UIDeviceOrientation = .portrait) {
       self.container = container
