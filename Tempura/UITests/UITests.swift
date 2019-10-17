@@ -31,14 +31,14 @@ public enum UITests {
    */
   
   
-  public struct VCScreenSnapshot<VC: AnyViewController> {
+  public struct VCScreenSnapshot<VC: UIViewController, V: UIView> {
     let vc: () -> VC
     let container: Container
     let testCases: [String]
-    let hooks: [Hook: HookClosure<VC.V>]
+    let hooks: [Hook: HookViewClosure<V>]
     let size: CGSize
     
-    init(vc: @autoclosure @escaping () -> VC, container: Container, testCases: [String], hooks: [Hook: HookClosure<VC.V>], size: CGSize) {
+    init(vc: @autoclosure @escaping () -> VC, container: Container, testCases: [String], hooks: [Hook: HookViewClosure<V>], size: CGSize) {
       self.vc = vc
       self.container = container
       self.testCases = testCases
@@ -49,7 +49,7 @@ public enum UITests {
     public var renderingViewControllers: [String: (container: UIViewController, contained: VC)] {
       return self.testCases.reduce(into: [String: (container: UIViewController, contained: VC)]()) { dict, identifier in
         let containedVC = vc()
-        let containerVC = container.container(for: containedVC as! UIViewController)
+        let containerVC = container.container(for: containedVC)
         dict[identifier] = (container: containerVC, contained: containedVC)
       }
     }
