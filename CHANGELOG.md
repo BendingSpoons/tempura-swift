@@ -1,3 +1,6 @@
+## 4.1.3
+* Remove defaults from `UITestCase`
+
 ## 4.1.2
 * Make closure in `installRoot` escaping 
 
