@@ -1,5 +1,5 @@
 //
-//  ViewControlerContainmentSpec.swift
+//  ViewControllerContainmentSpec.swift
 //  TempuraTests
 //
 //  Created by Andrea De Angelis on 26/10/2018.
@@ -160,6 +160,38 @@ class ViewControllerContainmentSpec: QuickSpec {
         store.dispatch(Increment())
         expect(mainVC.rootView.model?.counter).toEventually(equal(1))
         expect(childVC.rootView.model?.counter).toNotEventually(equal(1))
+      }
+
+      describe("when using transition") {
+        it("the previous child of the parentView is removed") {
+          childVC = ChildViewController(store: store, connected: true)
+          mainVC.add(childVC, in: mainVC.rootView.container)
+          let secondChildVC = ChildViewController(store: store, connected: true)
+          mainVC.transition(to: secondChildVC, in: mainVC.rootView.container, duration: 0)
+          expect(childVC.rootView.superview).to(beNil())
+        }
+
+        it("will have the new view as child of the parentView") {
+          childVC = ChildViewController(store: store, connected: true)
+          mainVC.add(childVC, in: mainVC.rootView.container)
+          let secondChildVC = ChildViewController(store: store, connected: true)
+          mainVC.transition(to: secondChildVC, in: mainVC.rootView.container, duration: 0)
+          expect(secondChildVC.rootView.superview).to(equal(mainVC.rootView.container))
+        }
+
+        it("the previous child of the parentView will no longer receive updates") {
+          childVC = ChildViewController(store: store, connected: true)
+          mainVC.add(childVC, in: mainVC.rootView.container)
+          let secondChildVC = ChildViewController(store: store, connected: true)
+          mainVC.transition(to: secondChildVC, in: mainVC.rootView.container, duration: 0)
+          mainVC.viewWillAppear(true)
+          expect(mainVC.rootView.model?.counter).to(equal(0))
+          expect(childVC.rootView.model?.counter).to(equal(0))
+          store.dispatch(Increment())
+          expect(mainVC.rootView.model?.counter).toEventually(equal(1))
+          expect(childVC.rootView.model?.counter).toNotEventually(equal(1))
+          expect(secondChildVC.rootView.model?.counter).toEventually(equal(1))
+        }
       }
     }
   }
