@@ -164,9 +164,6 @@ public enum UITests {
     override func viewDidLoad() {
       super.viewDidLoad()
       
-      self.automaticallyAdjustsScrollViewInsets = false
-      self.edgesForExtendedLayout = []
-      
       if let hook = self.hooks?[.viewDidLoad] {
         hook(self.rootView)
       }

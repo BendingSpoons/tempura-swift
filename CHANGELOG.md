@@ -1,3 +1,9 @@
+## 4.2.0
+* Add transition method to the Containment API
+
+## 4.1.3
+* Remove defaults from `UITestCase`
+
 ## 4.1.2
 * Make closure in `installRoot` escaping 
 
