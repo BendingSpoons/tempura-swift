@@ -33,10 +33,5 @@ let package = Package(
       dependencies: ["Katana", "Tempura"],
       path: "TempuraTesting"
     ),
-    .target(
-      name: "Demo",
-      dependencies: ["Tempura"],
-      path: "Demo"
-    ),
   ]
 )

@@ -49,7 +49,7 @@ tempuraTesting = target do |target|
     target.language = :swift
     target.type = :framework
     target.include_files = [
-        "Tempura/UITests/**/*.swift",
+        "TempuraTesting/**/*.swift",
     ]
 
     target.all_configurations.each do |configuration|
