@@ -31,7 +31,12 @@ let package = Package(
     .target(
       name: "TempuraTesting",
       dependencies: ["Katana", "Tempura"],
-      path: "UITests"
-    )
+      path: "TempuraTesting"
+    ),
+    .target(
+      name: "Demo",
+      dependencies: ["Tempura"],
+      path: "Demo"
+    ),
   ]
 )
