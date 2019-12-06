@@ -1,3 +1,6 @@
+## 4.3.0
+* Add support for rendering Safe Area Insets in UITests
+
 ## 4.2.0
 * Add transition method to the Containment API
 
