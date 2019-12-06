@@ -1,3 +1,8 @@
+## 4.3.0
+* Added Package.swift to enable Swift Package Manager Compatibility
+* Moved `TempuraTesting` related sources to an outer folder
+* Updated Cakefile and Podfile for TempuraTesting
+
 ## 4.2.0
 * Add transition method to the Containment API
 

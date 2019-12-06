@@ -168,6 +168,14 @@ Tempura has a UI testing system that can be used to take screenshots of your vie
 
 #### Usage
 
+##### Swift Package Manager
+ There are two ways to integrate TempuraTesting in your project using Swift Package Manager:
+ - Adding it to your `Package.swift`
+ - Adding it directly from Xcode under `File` -> `Swift Packages` -> `Add Package dependency..`
+
+ In both cases you only need to provide this URL: `git@github.com:BendingSpoons/tempura-swift.git` and assign `TempuraTesting` to your UITests Target
+
+##### CocoaPods
 You need to include the `TempuraTesting` pod in the test target of your app:
 
 ```ruby
@@ -376,8 +384,7 @@ Use this table in order to check which version of Tempura you need.
 | Swift 4 | Tempura 1.12 |
 
 ## Installation
-
-Tempura is available through [CocoaPods](https://cocoapods.org).
+Tempura is available through [CocoaPods](https://cocoapods.org/) and [Swift Package Manager](https://swift.org/package-manager/)
 
 ### Requirements
 
@@ -385,8 +392,16 @@ Tempura is available through [CocoaPods](https://cocoapods.org).
 - Xcode 9.0+
 - Swift 4.0+
 
-### CocoaPods
+### Swift Package Manager
+ [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
+ There are two ways to integrate Tempura in your project using Swift Package Manager:
+ - Adding it to your `Package.swift`
+ - Adding it directly from Xcode under `File` -> `Swift Packages` -> `Add Package dependency..`
+
+ In both cases you only need to provide this URL: `git@github.com:BendingSpoons/tempura-swift.git` and assign `Tempura` to your Target
+
+### CocoaPods
 [CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects. You can install it with the following command:
 
 ```shell
