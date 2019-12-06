@@ -1,4 +1,5 @@
 @testable import Tempura
+import UIKit
 import Katana
 import Quick
 import Nimble

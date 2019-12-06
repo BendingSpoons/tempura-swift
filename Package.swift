@@ -10,7 +10,7 @@ let package = Package(
   ],
   products: [
     .library(name: "Tempura", targets: ["Tempura"]),
-    .library(name: "TempuraTesting", targets: ["TempuraTesting"]),
+    .library(name: "TempuraTesting", targets: ["TempuraTesting"])
   ],
   dependencies: [
     .package(url: "https://github.com/BendingSpoons/katana-swift.git", from: "3.1.0"),
@@ -21,9 +21,7 @@ let package = Package(
     .target(
       name: "Tempura",
       dependencies: ["Katana"],
-      path: "Tempura",
-      exclude: ["Tempura/UITests"],
-      publicHeadersPath: "Tempura/SupportingFiles/Tempura.h"
+      path: "Tempura"
     ),
     .testTarget(
       name: "TempuraTests",
@@ -32,8 +30,8 @@ let package = Package(
     ),
     .target(
       name: "TempuraTesting",
-      dependencies: ["Tempura"],
-      path: "Tempura/UITests"
+      dependencies: ["Katana", "Tempura"],
+      path: "UITests"
     )
   ]
 )

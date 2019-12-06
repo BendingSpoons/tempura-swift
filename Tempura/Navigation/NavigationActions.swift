@@ -6,7 +6,7 @@
 //  Copyright © 2017 Bending Spoons. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Katana
 import Hydra
 
