@@ -1,7 +1,10 @@
-## 4.3.0
+## 4.4.0
 * Added Package.swift to enable Swift Package Manager Compatibility
 * Moved `TempuraTesting` related sources to an outer folder
 * Updated Cakefile and Podfile for TempuraTesting
+
+## 4.3.0
+* Add support for rendering Safe Area Insets in UITests
 
 ## 4.2.0
 * Add transition method to the Containment API
