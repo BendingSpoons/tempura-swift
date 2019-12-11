@@ -227,12 +227,6 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   open func setup() {}
   
   /// Shortcut to the dispatch function.
-  @available(*, deprecated, message: "remove `action` label")
-  open func dispatch(action: Action) {
-    self.store.dispatch(action)
-  }
-  
-  /// Shortcut to the dispatch function.
   @discardableResult
   open func dispatch(_ dispatchable: Dispatchable) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
