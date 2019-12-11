@@ -10,7 +10,7 @@ target 'Tempura' do
   pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift.git', :branch => 'feature/documentation-and-tests'
 
   target 'TempuraTests' do
-    inherit! :search_paths
+    inherit! :complete
     pod 'Quick', '~> 1.3'
     pod 'Nimble', '~> 7.3'
   end
@@ -21,7 +21,7 @@ target 'Tempura' do
   end
 
   target 'DemoTests' do
-    inherit! :search_paths
+    inherit! :complete
     pod 'Quick', '~> 1.3'
     pod 'Nimble', '~> 7.3'
   end
