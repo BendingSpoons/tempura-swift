@@ -1,18 +1,16 @@
 PODS:
   - DeepDiff (2.3.1)
-  - HydraAsync (1.2.1)
-  - Katana (3.0.2):
-    - HydraAsync (~> 1.2)
+  - HydraAsync (2.0.2)
+  - Katana (3.1.0):
+    - HydraAsync (~> 2.0)
   - Nimble (7.3.4)
   - PinLayout (1.8.13)
   - Quick (1.3.4)
-  - Tempura (4.1.3):
-    - Katana (< 4, >= 3.0)
+  - Tempura (4.3.0)
 
 DEPENDENCIES:
   - DeepDiff (~> 2.0)
-  - Katana (< 4, >= 3.0)
-  - Katana (~> 3.0)
+  - Katana (from `https://github.com/BendingSpoons/katana-swift.git`, branch `feature/documentation-and-tests`)
   - Nimble (~> 7.3)
   - PinLayout
   - Quick (~> 1.3)
@@ -22,24 +20,31 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - DeepDiff
     - HydraAsync
-    - Katana
     - Nimble
     - PinLayout
     - Quick
 
 EXTERNAL SOURCES:
+  Katana:
+    :branch: feature/documentation-and-tests
+    :git: https://github.com/BendingSpoons/katana-swift.git
   Tempura:
     :path: "."
 
+CHECKOUT OPTIONS:
+  Katana:
+    :commit: 5e96d38ea6b74f7b5545d2ba60993501ab089879
+    :git: https://github.com/BendingSpoons/katana-swift.git
+
 SPEC CHECKSUMS:
   DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
-  HydraAsync: 8f2ab62d57e140b4ca587ae0f66e1eb04e8e6965
-  Katana: e22d5b5da00f593cc7ca5bd16a091278356ebb3d
+  HydraAsync: 690b8c1c9dcde7ee1093cee363a6c1ce36b56a83
+  Katana: 702fdd9bf527f9528b70713ae1163132884b7fd3
   Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
   PinLayout: e41a50260a76508b7a7fcee8955c76639adc69bc
   Quick: f4f7f063c524394c73ed93ac70983c609805d481
-  Tempura: 134037b86b529cc4a0360fb191799b0cf0463b54
+  Tempura: c5a04270f5c7cfd7c7a40fd6739a5dc0bd393828
 
-PODFILE CHECKSUM: 38702d0c43f34b8b0ef75f4af24856ae2bace63d
+PODFILE CHECKSUM: fc6158dc6809b9f08f718d20cf41badf28f8d0e5
 
 COCOAPODS: 1.8.4
