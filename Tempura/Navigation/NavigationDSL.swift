@@ -233,7 +233,7 @@ public enum NavigationInstruction {
     }
     
     if let navVC = sourceViewController.navigationController {
-      navVC.popToViewController(destinationViewController,animated: animated)
+      navVC.popToViewController(destinationViewController, animated: animated)
       completion()
       return
     }

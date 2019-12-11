@@ -41,7 +41,7 @@ import Katana
 public protocol ViewModelWithLocalState: ViewModelWithState {
   /// The type of the LocalState for this ViewModel
   //associatedtype S: State
-  associatedtype SS: State where S == SS
+  associatedtype SS where S == SS
   associatedtype LS: LocalState
   
   /// Instantiate a ViewModelWithLocalState given the Katana app state and the `LocalState`.

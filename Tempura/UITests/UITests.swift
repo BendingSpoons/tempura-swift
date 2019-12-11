@@ -258,7 +258,14 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(
+    view: UIView,
+    viewToWaitFor: UIView? = nil,
+    description: String,
+    isViewReadyClosure: @escaping (UIView) -> Bool,
+    shouldRenderSafeArea: Bool,
+    completionClosure: @escaping () -> Void
+  ) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
