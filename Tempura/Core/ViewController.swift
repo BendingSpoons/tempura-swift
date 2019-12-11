@@ -228,7 +228,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// Shortcut to the dispatch function.
   @discardableResult
-  open func dispatch(_ dispatchable: Dispatchable) -> Promise<Void> {
+  open func dispatch<T: Dispatchable>(_ dispatchable: T) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
   
