@@ -140,12 +140,11 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
         expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(1))
         store.dispatch(Increment())
-        expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(2))
-        expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
-        expect(testVC.viewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
+        // it will be 3 instead of 2 as Katana is performing a warm up update
+        expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(3))
+        expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(3))
         expect(testVC.newViewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(2))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
-        expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
       it("a ViewController with connected == 'false' should connect as soon as it becomes visible if 'shouldConnectWhenVisible' == true") {
@@ -187,7 +186,8 @@ class ViewControllerSpec: QuickSpec {
         expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
         vc.viewWillDisappear(false)
         store.dispatch(Increment())
-        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
+        /// it's 3 and not 2 as Katana is performing a warm up update
+        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(3))
       }
       
       it("a ViewController with connected == 'true' should have a nil ViewModel when a specific state result in a nil ViewModel") {

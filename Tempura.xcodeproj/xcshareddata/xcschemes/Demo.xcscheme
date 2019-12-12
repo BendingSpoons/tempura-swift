@@ -7,14 +7,14 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForAnalyzing = "YES"
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
-            buildForArchiving = "YES">
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4A7CE701194C3A2CE9BAB129"
+               BlueprintIdentifier = "A5FF27BB0BC2C9F526A0569B"
                BuildableName = "Demo.app"
                BlueprintName = "Demo"
                ReferencedContainer = "container:Tempura.xcodeproj">
@@ -23,16 +23,14 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
-      <AdditionalOptions>
-      </AdditionalOptions>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4A7CE701194C3A2CE9BAB129"
+            BlueprintIdentifier = "A5FF27BB0BC2C9F526A0569B"
             BuildableName = "Demo.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Tempura.xcodeproj">
@@ -43,15 +41,26 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8BF8D3B777C03F3E184DF09F"
+               BlueprintIdentifier = "BFD5079A5813F72929E3480F"
                BuildableName = "DemoTests.xctest"
                BlueprintName = "DemoTests"
+               ReferencedContainer = "container:Tempura.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AFA64DA89795A1E1C25894AC"
+               BuildableName = "TempuraTests.xctest"
+               BlueprintName = "TempuraTests"
                ReferencedContainer = "container:Tempura.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -59,15 +68,12 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      buildConfiguration = "Debug"
       allowLocationSimulation = "YES">
-      <AdditionalOptions>
-      </AdditionalOptions>
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4A7CE701194C3A2CE9BAB129"
+            BlueprintIdentifier = "A5FF27BB0BC2C9F526A0569B"
             BuildableName = "Demo.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Tempura.xcodeproj">
@@ -75,15 +81,16 @@
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Debug"
+      shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      buildConfiguration = "Debug"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <BuildableProductRunnable>
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4A7CE701194C3A2CE9BAB129"
+            BlueprintIdentifier = "A5FF27BB0BC2C9F526A0569B"
             BuildableName = "Demo.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Tempura.xcodeproj">
