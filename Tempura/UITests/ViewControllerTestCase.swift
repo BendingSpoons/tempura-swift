@@ -57,7 +57,7 @@ public protocol UIViewControllerTestCase {
   /// used to provide the ViewController to test.
   /// We cannot instantiate it as we cannot require an init in the AnyViewController protocol
   /// otherwise it will require all of the subclasses to have it specified.
-  var viewController: VC { get }
+  func viewController(for testCase: String) -> VC
   
   /// configure the VC for the specified `testCase`
   /// this is typically used to manually inject the ViewModel to all the children VCs.
