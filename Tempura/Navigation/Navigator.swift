@@ -528,18 +528,18 @@ extension UIApplication {
 }
 
 /// Defines a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack.
-protocol CustomRouteInspectables: class {
+public protocol CustomRouteInspectables: class {
   var nextRouteControllers: [UIViewController] { get }
 }
 
-protocol RouteInspectable: class {
+public protocol RouteInspectable: class {
   var nextRouteController: UIViewController? { get }
 }
 
 /// Conformance of the UINavigationController to the RouteInspectable protocol.
 /// In a UINavigationController the next visible controller is the `topViewController`.
 extension UINavigationController: CustomRouteInspectables {
- var nextRouteControllers: [UIViewController] {
+ public var nextRouteControllers: [UIViewController] {
   var controllers: [UIViewController] = self.viewControllers
    if let presentedVC = self.presentedViewController {
      controllers.append(presentedVC)
@@ -551,7 +551,7 @@ extension UINavigationController: CustomRouteInspectables {
 /// Conformance of the UITabBarController to the RouteInspectable protocol.
 /// In a UITabBarController the next visible controller is the `selectedViewController`.
 extension UITabBarController: CustomRouteInspectables {
-  var nextRouteControllers: [UIViewController] {
+  public var nextRouteControllers: [UIViewController] {
     var controllers: [UIViewController] = []
     
     if let selectedVC = self.selectedViewController {
@@ -570,7 +570,7 @@ extension UITabBarController: CustomRouteInspectables {
 /// In a UIViewController the next visible controller is the `presentedViewController` if != nil
 /// otherwise there is no next UIViewController in the visible stack.
 extension UIViewController: RouteInspectable {
-  var nextRouteController: UIViewController? {
+  public var nextRouteController: UIViewController? {
     return self.presentedViewController
   }
 }
