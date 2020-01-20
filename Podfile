@@ -7,7 +7,7 @@ target 'Tempura' do
   platform :ios, '9.0'
   podspec
   
-  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift.git', :branch => 'feature/documentation-and-tests'
+  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift.git', :branch => 'feature/context-dispatch-return'
 
   target 'TempuraTests' do
     inherit! :complete
@@ -16,6 +16,7 @@ target 'Tempura' do
   end
 
   target 'Demo' do
+    inherit! :complete
     pod 'PinLayout'
     pod 'DeepDiff', '~> 2.0'
   end
@@ -31,7 +32,7 @@ target 'TempuraTesting' do
   platform :ios, '9.0'
   # change this before releasing
   pod 'Tempura', :path => '.'
-  # pod 'Tempura', '~> 3.0'
+  # pod 'Tempura', '~> 5.0'
 end
 
 post_install do |installer|
