@@ -89,7 +89,7 @@ demo = target do |target|
     end
 
     unit_tests_for target do |unit_test|
-        unit_test.linked_targets = [target]
+        unit_test.linked_targets = [target, tempuraTesting]
         unit_test.include_files = [
             "DemoTests/**/*.swift",
         ]
