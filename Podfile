@@ -7,8 +7,6 @@ target 'Tempura' do
   platform :ios, '9.0'
   podspec
   
-  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift.git', :branch => 'feature/context-dispatch-return'
-
   target 'TempuraTests' do
     inherit! :complete
     pod 'Quick', '~> 1.3'

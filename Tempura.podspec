@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-  s.dependency 'Katana', '>= 3.0', '< 4'
+  s.dependency 'Katana', '~> 4.0.0-beta'
   s.swift_version = '5.0'
 
   s.ios.source_files = [
