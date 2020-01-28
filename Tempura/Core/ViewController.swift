@@ -226,6 +226,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Override to setup something after init.
   open func setup() {}
   
+  open func dispatch(_ dispatchable: Dispatchable) {
+    self.store.dispatch(dispatchable)
+  }
+  
   /// Shortcut to the dispatch function.
   open func dispatch<T: Dispatchable>(_ dispatchable: T) {
     _ = self.store.dispatch(dispatchable)
