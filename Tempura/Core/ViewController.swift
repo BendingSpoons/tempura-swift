@@ -226,6 +226,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Override to setup something after init.
   open func setup() {}
   
+  /// Shortcut to the non-generic dispatch function.
   open func dispatch(_ dispatchable: Dispatchable) {
     self.store.dispatch(dispatchable)
   }
