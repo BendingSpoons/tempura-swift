@@ -1,4 +1,8 @@
 ## 5.0.0-beta
+* Update to Katana 4.0.1-beta
+* Expose a non-generic dispatch for ViewController 
+
+## 5.0.0-beta
 * Update to Katana 4.0.0-beta
 * Make the ViewController `dispatch` method returns Void
 * Add to the ViewController `__unsafe_dispatch` method that returns a promise
