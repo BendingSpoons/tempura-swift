@@ -96,7 +96,8 @@ public extension ViewTestCase where Self: XCTestCase {
       UITests.asyncSnapshot(view: vcs.container.view,
                             viewToWaitFor: vcs.contained.view,
                             description: description,
-                            isViewReadyClosure: isViewReadyClosure) {
+                            isViewReadyClosure: isViewReadyClosure,
+                            shouldRenderSafeArea: context.renderSafeArea) {
                               // ScrollViews snapshot
                               self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
                                 UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
@@ -149,15 +150,20 @@ extension UITests {
     
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
+
+    /// whether black dimmed rectangles should be rendered showing the safe area insets
+    public var renderSafeArea: Bool
     
     public init(container: Container = .none,
                 hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
                 screenSize: CGSize = UIScreen.main.bounds.size,
-                orientation: UIDeviceOrientation = .portrait) {
+                orientation: UIDeviceOrientation = .portrait,
+                renderSafeArea: Bool = false) {
       self.container = container
       self.hooks = hooks
       self.screenSize = screenSize
       self.orientation = orientation
+      self.renderSafeArea = renderSafeArea
     }
   }
 }

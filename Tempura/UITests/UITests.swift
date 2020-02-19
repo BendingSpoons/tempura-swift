@@ -164,9 +164,6 @@ public enum UITests {
     override func viewDidLoad() {
       super.viewDidLoad()
       
-      self.automaticallyAdjustsScrollViewInsets = false
-      self.edgesForExtendedLayout = []
-      
       if let hook = self.hooks?[.viewDidLoad] {
         hook(self.rootView)
       }
@@ -261,11 +258,11 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure) { snapshot in
+    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
       defer {
         completionClosure()
       }

@@ -52,5 +52,5 @@ public protocol RootInstaller {
   ///      }
   /// ```
   @discardableResult
-  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: Navigator.Completion) -> Bool
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: @escaping Navigator.Completion) -> Bool
 }

@@ -1,3 +1,15 @@
+## 4.3.0
+* Add support for rendering Safe Area Insets in UITests
+
+## 4.2.0
+* Add transition method to the Containment API
+
+## 4.1.3
+* Remove defaults from `UITestCase`
+
+## 4.1.2
+* Make closure in `installRoot` escaping 
+
 ## 4.1.1
 * Added `popToRootViewController` and `popToViewController` to Navigation Instructions
 * Fixed broken UITest filename for a scrollable content's snapshot
