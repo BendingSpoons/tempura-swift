@@ -32,8 +32,7 @@ public protocol ViewTestCase {
   /**
    Add new UI tests to be performed
    
-   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the
-   view model to use to render the view
+   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the view model to use to render the view
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)

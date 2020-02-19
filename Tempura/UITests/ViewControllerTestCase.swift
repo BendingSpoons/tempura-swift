@@ -29,8 +29,7 @@ public protocol ViewControllerTestCase {
   /**
    Add new UI tests to be performed
    
-   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the
-   view model to use to render the view
+   - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String], context: UITests.VCContext<VC>)
