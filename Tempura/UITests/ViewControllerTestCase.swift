@@ -29,11 +29,21 @@ public protocol ViewControllerTestCase {
   /**
    Add new UI tests to be performed
    
-   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the
-   view model to use to render the view
+   - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String], context: UITests.VCContext<VC>)
+  
+  /// Retrieves a dictionary containing the scrollable subviews to test.
+  /// The snapshot will contain the whole scrollView content.
+  ///
+  /// - Parameters:
+  ///   - viewController: The viewController under test.
+  ///           `isViewReady` has already returned `true` at this point.
+  ///   - identifier: the test case identifier.
+  /// - Returns: A dictionary where the value is the ScrollView instance to snapshot and the key is
+  ///            a suffix for the test case identifier.
+  func scrollViewsToTest(in viewController: VC, identifier: String) -> [String: UIScrollView]
   
   /**
    Method used to check whether the view is ready for the snapshot
@@ -101,6 +111,10 @@ public extension ViewControllerTestCase where Self: XCTestCase {
                             description: description,
                             isViewReadyClosure: isViewReadyClosure,
                             shouldRenderSafeArea: context.renderSafeArea) {
+                              // ScrollViews snapshot
+                              self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
+                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
+                              }
                               expectation.fulfill()
       }
       
@@ -128,6 +142,8 @@ public extension ViewControllerTestCase {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
+  
+  func scrollViewsToTest(in view: VC, identifier: String) -> [String: UIScrollView] { return [:] }
 }
 
 // MARK: Sub types
