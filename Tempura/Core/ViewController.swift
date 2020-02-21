@@ -231,11 +231,6 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.store.dispatch(dispatchable)
   }
   
-  /// Shortcut to the dispatch function.
-  open func dispatch<T: Dispatchable>(_ dispatchable: T) {
-    _ = self.store.dispatch(dispatchable)
-  }
-  
   /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
   @discardableResult
   open func __unsafeDispatch<T: Dispatchable>(_ dispatchable: T) -> Promise<Void> {
