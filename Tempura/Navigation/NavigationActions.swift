@@ -31,7 +31,7 @@ public struct Navigate: AnySideEffect {
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
-    return Void()
+    return ()
   }
 }
 
@@ -77,7 +77,7 @@ public struct Show: AnySideEffect {
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
-    return Void()
+    return ()
   }
 }
 
@@ -124,6 +124,6 @@ public struct Hide: AnySideEffect {
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
-    return Void()
+    return ()
   }
 }
