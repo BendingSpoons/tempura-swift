@@ -1,3 +1,7 @@
+## 5.0.2-beta
+* Update to Katana 4.0.2-beta
+* Clean up dispatch signatures
+
 ## 5.0.1-beta
 * Update to Katana 4.0.1-beta
 * Expose a non-generic dispatch for ViewController 

@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.weak_framework = "XCTest"
   s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   #include this before releasing
-  s.dependency 'Tempura', '~> 5.0.0-beta'
+  s.dependency 'Tempura', '~> 5.0.2-beta'
   s.swift_version = '5.0'
 
   s.ios.source_files = [

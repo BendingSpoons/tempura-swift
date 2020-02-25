@@ -228,12 +228,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// Shortcut to the non-generic dispatch function.
   open func dispatch(_ dispatchable: Dispatchable) {
-    self.store.dispatch(dispatchable)
+    self.store.anyDispatch(dispatchable)
   }
   
   /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
   @discardableResult
-  open func __unsafeDispatch<T: Dispatchable>(_ dispatchable: T) -> Promise<Void> {
+  open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
   
