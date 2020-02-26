@@ -10,10 +10,11 @@ import Foundation
 import Katana
 import Hydra
 
-public protocol TempuraSideEffect: AnySideEffect {}
+/// Protocol for all the navigation-related SideEffect exposed by Tempura
+public protocol NavigationSideEffect: AnySideEffect {}
 
 /// Navigation action used to ask the `Navigator` to navigate to a specific `Route`.
-public struct Navigate: TempuraSideEffect {
+public struct Navigate: NavigationSideEffect {
   /// The final `Route` after the navigation is completed
   public let route: Route
   /// Specify if the `Navigation` should be animated
@@ -42,7 +43,7 @@ public struct Navigate: TempuraSideEffect {
 ///
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
-public struct Show: TempuraSideEffect {
+public struct Show: NavigationSideEffect {
   /// The identifiers of the `Routable` to be shown
   public let identifiersToShow: [RouteElementIdentifier]
   /// Specify if the `Show` should be animated
@@ -88,7 +89,7 @@ public struct Show: TempuraSideEffect {
 ///
 /// The `ViewController` that is managing that screen must implement `RoutableWithConfiguration`
 /// or `Routable` in order to be identified with a matching `Routable.routeIdentifier`.
-public struct Hide: TempuraSideEffect {
+public struct Hide: NavigationSideEffect {
   /// The identifier of the `Routable` to be hidden
   public let identifierToHide: RouteElementIdentifier
   /// Specify if the `Hide` should be animated
@@ -133,31 +134,31 @@ public struct Hide: TempuraSideEffect {
 // MARK: - Katana Helpers
 
 extension AnyStore {
-  public func dispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
+  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.anyDispatch(dispatchable).void
   }
 
-  public func awaitDispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) throws {
+  public func awaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
     return try await(self.dispatch(dispatchable))
   }
 }
 
 extension AnySideEffectContext {
-  public func dispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
+  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.anyDispatch(dispatchable).void
   }
 
-  public func awaitDispatch<RSE: TempuraSideEffect>(ramen dispatchable: RSE) throws {
+  public func awaitDispatch<RSE: NavigationSideEffect>(ramen dispatchable: RSE) throws {
     return try await(self.dispatch(dispatchable))
   }
 }
 
 extension ViewController {
-  public func __unsafeDispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
+  public func __unsafeDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
 
-  public func __unsafeAwaitDispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) throws {
+  public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
     return try await(self.store.dispatch(dispatchable))
   }
 }
