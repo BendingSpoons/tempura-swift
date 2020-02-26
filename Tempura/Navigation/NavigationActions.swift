@@ -132,7 +132,7 @@ public struct Hide: TempuraSideEffect {
 
 // MARK: - Katana Helpers
 
-extension PartialStore {
+extension AnyStore {
   public func dispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.anyDispatch(dispatchable).void
   }
@@ -142,7 +142,7 @@ extension PartialStore {
   }
 }
 
-extension SideEffectContext {
+extension AnySideEffectContext {
   public func dispatch<RSE: TempuraSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.anyDispatch(dispatchable).void
   }
