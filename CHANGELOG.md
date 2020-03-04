@@ -1,3 +1,6 @@
+## 5.0.4-beta
+* Update to Katana 4.0.3-beta
+
 ## 5.0.3-beta
 * Add proper dispatch overload for katana
 
