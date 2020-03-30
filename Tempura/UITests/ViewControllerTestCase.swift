@@ -32,7 +32,7 @@ public protocol ViewControllerTestCase {
    - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>)
+  func uiTest(testCases: [String: VC], context: UITests.VCContext<VC>)
   
   /// Retrieves a dictionary containing the scrollable subviews to test.
   /// The snapshot will contain the whole scrollView content.
@@ -51,22 +51,12 @@ public protocol ViewControllerTestCase {
    - parameter identifier: the test case identifier
    */
   func isViewReady(_ view: VC.V, identifier: String) -> Bool
-  
-  /// used to provide the ViewController to test.
-  /// We cannot instantiate it as we cannot require an init in the AnyViewController protocol
-  /// otherwise it will require all of the subclasses to have it specified.
-  var viewController: VC { get }
-  
-  /// configure the VC for the specified `testCase`
-  /// this is typically used to manually inject the ViewModel to all the children VCs.
-  func configure(vc: VC, for testCase: String)
 }
 
 
 public extension ViewControllerTestCase where Self: XCTestCase {
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
+  func uiTest(testCases: [String: VC], context: UITests.VCContext<VC>) {
     let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
-      vc: self.viewController,
       container: context.container,
       testCases: testCases,
       hooks: context.hooks,
@@ -83,7 +73,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
       
       let expectation = XCTestExpectation(description: description)
       XCUIDevice.shared.orientation = context.orientation
-      
+
       let isViewReadyClosure: (UIView) -> Bool = { view in
         var isOrientationCorrect = true
         
@@ -96,13 +86,9 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         } else if context.orientation.isLandscape {
           isOrientationCorrect = !isViewInPortrait
         }
-        
+
         let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
-        
-        if isReady {
-          self.configure(vc: vcs.contained, for: identifier)
-        }
-        
+
         return isReady
       }
       
@@ -138,7 +124,7 @@ public extension ViewControllerTestCase {
     return true
   }
   
-  func uiTest(testCases: [String]) {
+  func uiTest(testCases: [String: VC]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
