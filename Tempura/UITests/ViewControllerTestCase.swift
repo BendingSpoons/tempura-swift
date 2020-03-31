@@ -123,16 +123,13 @@ public extension ViewControllerTestCase where Self: XCTestCase {
             self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
               UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
             }
-            print("DF leaving  \(identifier): \(Date())")
             dispatchGroup.leave()
             expectations[identifier]?.fulfill()
           }
         }
 
         // wait for the test case to be completed before starting the next one
-        print("DF waiting \(identifier): \(Date())")
         dispatchGroup.wait()
-        print("DF done  \(identifier): \(Date())")
       }
     }
     
