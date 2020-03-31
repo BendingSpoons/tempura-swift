@@ -73,62 +73,84 @@ public extension ViewControllerTestCase where Self: XCTestCase {
       size: context.screenSize
     )
     
-    let viewControllers = snapshotConfiguration.renderingViewControllers
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
-    
-    var expectations: [XCTestExpectation] = []
-    
-    for (identifier, vcs) in viewControllers {
+    let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
-      
-      let expectation = XCTestExpectation(description: description)
-      XCUIDevice.shared.orientation = context.orientation
-      
-      let isViewReadyClosure: (UIView) -> Bool = { view in
-        var isOrientationCorrect = true
-        
-        // read again in case some weird code changed it outside the ViewControllerTestCase APIs
-        let isViewInPortrait = view.frame.size.height > view.frame.size.width
-        
-        if context.orientation.isPortrait {
-          isOrientationCorrect = isViewInPortrait
-          
-        } else if context.orientation.isLandscape {
-          isOrientationCorrect = !isViewInPortrait
+      return (identifier, description)
+    })
+    let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
+      return XCTestExpectation(description: description)
+    }
+
+    XCUIDevice.shared.orientation = context.orientation
+
+    DispatchQueue.global().async {
+      for identifier in testCases {
+        let vcs = snapshotConfiguration.renderingViewController(for: identifier)
+        guard let description = descriptions[identifier] else { continue }
+
+        let isViewReadyClosure: (UIView) -> Bool = { view in
+          var isOrientationCorrect = true
+
+          // read again in case some weird code changed it outside the ViewControllerTestCase APIs
+          let isViewInPortrait = view.frame.size.height > view.frame.size.width
+
+          if context.orientation.isPortrait {
+            isOrientationCorrect = isViewInPortrait
+          } else if context.orientation.isLandscape {
+            isOrientationCorrect = !isViewInPortrait
+          }
+
+          let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
+
+          return isReady
         }
-        
-        let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
-        
-        if isReady {
-          self.configure(vc: vcs.contained, for: identifier)
+
+        let configureClosure: (UIViewController) -> Void = { vc in
+          self.typeErasedConfigure(vc, identifier: identifier)
         }
-        
-        return isReady
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        DispatchQueue.main.async {
+          UITests.asyncSnapshot(view: vcs.container.view,
+            viewToWaitFor: (vcs.contained as! UIViewController).view,
+            description: description,
+            configureClosure: configureClosure,
+            isViewReadyClosure: isViewReadyClosure,
+            shouldRenderSafeArea: context.renderSafeArea) {
+            // ScrollViews snapshot
+            self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
+              UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
+            }
+            print("DF leaving  \(identifier): \(Date())")
+            dispatchGroup.leave()
+            expectations[identifier]?.fulfill()
+          }
+        }
+
+        // wait for the test case to be completed before starting the next one
+        print("DF waiting \(identifier): \(Date())")
+        dispatchGroup.wait()
+        print("DF done  \(identifier): \(Date())")
       }
-      
-      UITests.asyncSnapshot(view: vcs.container.view,
-                            viewToWaitFor: (vcs.contained as! UIViewController).view,
-                            description: description,
-                            isViewReadyClosure: isViewReadyClosure,
-                            shouldRenderSafeArea: context.renderSafeArea) {
-                              // ScrollViews snapshot
-                              self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
-                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
-                              }
-                              expectation.fulfill()
-      }
-      
-      expectations.append(expectation)
     }
     
-    self.wait(for: expectations, timeout: 100)
+    self.wait(for: Array(expectations.values), timeout: 100)
   }
-  
+
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? VC.V else {
       return false
     }
     return self.isViewReady(view, identifier: identifier)
+  }
+
+  func typeErasedConfigure(_ vc: UIViewController, identifier: String) -> Void {
+    guard let vc = vc as? VC else {
+      return
+    }
+    self.configure(vc: vc, for: identifier)
   }
 }
 
@@ -137,7 +159,11 @@ public extension ViewControllerTestCase {
   func isViewReady(_ view: VC.V, identifier: String) -> Bool {
     return true
   }
-  
+
+  /// The default implementation does nothing
+  func configure(vc: VC, for testCase: String) {
+  }
+
   func uiTest(testCases: [String]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)

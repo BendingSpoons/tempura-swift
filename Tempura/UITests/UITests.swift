@@ -46,14 +46,11 @@ public enum UITests {
       self.size = size
     }
     
-    public var renderingViewControllers: [String: (container: UIViewController, contained: VC)] {
-      return self.testCases.reduce(into: [String: (container: UIViewController, contained: VC)]()) { dict, identifier in
-        let containedVC = vc()
-        let containerVC = container.container(for: containedVC as! UIViewController)
-        dict[identifier] = (container: containerVC, contained: containedVC)
-      }
+    public func renderingViewController(for identifier: String) -> (container: UIViewController, contained: VC) {
+      let containedVC = vc()
+      let containerVC = container.container(for: containedVC as! UIViewController)
+      return (container: containerVC, contained: containedVC)
     }
-    
   }
   
   public struct ScreenSnapshot<V: ViewControllerModellableView> {
@@ -258,11 +255,17 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(view: UIView,
+                            viewToWaitFor: UIView? = nil,
+                            description: String,
+                            configureClosure: ((UIViewController) -> Void)? = nil,
+                            isViewReadyClosure: @escaping (UIView) -> Bool,
+                            shouldRenderSafeArea: Bool,
+                            completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
+    view.snapshotAsync(viewToWaitFor: viewToWaitFor, configureClosure: configureClosure, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
       defer {
         completionClosure()
       }

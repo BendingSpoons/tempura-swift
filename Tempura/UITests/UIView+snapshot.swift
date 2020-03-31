@@ -34,7 +34,7 @@ extension UIView {
     return snapshot
   }
   
-  func snapshotAsync(viewToWaitFor: UIView? = nil, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
+  func snapshotAsync(viewToWaitFor: UIView? = nil, configureClosure: ((UIViewController) -> Void)?, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -46,6 +46,10 @@ extension UIView {
       window = UIApplication.shared.keyWindow
       window?.addSubview(self)
       removeFromSuperview = true
+    }
+
+    if let vc = viewToWaitFor?.next as? UIViewController {
+      configureClosure?(vc)
     }
     
     self.layoutIfNeeded()
