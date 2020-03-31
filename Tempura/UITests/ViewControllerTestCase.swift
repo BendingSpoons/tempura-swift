@@ -65,14 +65,6 @@ public protocol ViewControllerTestCase {
 
 public extension ViewControllerTestCase where Self: XCTestCase {
   func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
-    let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
-      vc: self.viewController,
-      container: context.container,
-      testCases: testCases,
-      hooks: context.hooks,
-      size: context.screenSize
-    )
-    
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
@@ -86,7 +78,12 @@ public extension ViewControllerTestCase where Self: XCTestCase {
 
     DispatchQueue.global().async {
       for identifier in testCases {
-        let vcs = snapshotConfiguration.renderingViewController(for: identifier)
+        let contained = self.viewController
+        var container: UIViewController?
+        DispatchQueue.main.sync {
+          container = context.container.container(for: contained as! UIViewController)
+        }
+
         guard let description = descriptions[identifier] else { continue }
 
         let isViewReadyClosure: (UIView) -> Bool = { view in
@@ -113,14 +110,15 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.main.async {
-          UITests.asyncSnapshot(view: vcs.container.view,
-            viewToWaitFor: (vcs.contained as! UIViewController).view,
+          UITests.asyncSnapshot(
+            view: container!.view,
+            viewToWaitFor: (contained as! UIViewController).view,
             description: description,
             configureClosure: configureClosure,
             isViewReadyClosure: isViewReadyClosure,
             shouldRenderSafeArea: context.renderSafeArea) {
             // ScrollViews snapshot
-            self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
+            self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
               UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
             }
             dispatchGroup.leave()
