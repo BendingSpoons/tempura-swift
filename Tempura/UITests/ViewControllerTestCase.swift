@@ -32,7 +32,7 @@ public protocol ViewControllerTestCase {
    - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>)
+  func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>)
   
   /// Retrieves a dictionary containing the scrollable subviews to test.
   /// The snapshot will contain the whole scrollView content.
@@ -58,15 +58,15 @@ public protocol ViewControllerTestCase {
   var viewController: VC { get }
   
   /// configure the VC for the specified `testCase`
-  /// this is typically used to manually inject the ViewModel to all the children VCs.
+  /// The ViewModel injection is already handled by the ViewControllerTestCase
   func configure(vc: VC, for testCase: String)
 }
 
 
 public extension ViewControllerTestCase where Self: XCTestCase {
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
+  func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
-    let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in
+    let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
       return (identifier, description)
     })
@@ -77,7 +77,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     XCUIDevice.shared.orientation = context.orientation
 
     DispatchQueue.global().async {
-      for identifier in testCases {
+      for (identifier, viewModel) in testCases {
         let contained = self.viewController
         var container: UIViewController?
         DispatchQueue.main.sync {
@@ -104,6 +104,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         }
 
         let configureClosure: (UIViewController) -> Void = { vc in
+          self.viewController.rootView.model = viewModel
           self.typeErasedConfigure(vc, identifier: identifier)
         }
 
@@ -159,7 +160,7 @@ public extension ViewControllerTestCase {
   func configure(vc: VC, for testCase: String) {
   }
 
-  func uiTest(testCases: [String]) {
+  func uiTest(testCases: [String: VC.V.VM]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }

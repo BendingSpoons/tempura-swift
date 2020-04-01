@@ -37,46 +37,45 @@ class ScreenTests: XCTestCase, ViewTestCase {
   }
   
   func testAddItemScreen() {
-    self.uiTest(testCases: [
-      "add_item_01": firstTestViewModel,
-      "add_item_02": secondTestViewModel,
-      "add_item_03": thirdTestViewModel
-      ])
-    
+    self.uiTest(
+      testCases: [
+        "add_item_01": firstTestViewModel,
+        "add_item_02": secondTestViewModel,
+        "add_item_03": thirdTestViewModel
+      ]
+    )
   }
   
   func testWithHooksAndContainer() {
-    self.uiTest(testCases: [
-      "add_item_04": fourthTestViewModel
+    self.uiTest(
+      testCases: [
+        "add_item_04": fourthTestViewModel
       ],
       context: UITests.Context<AddItemView>(
         container: UITests.Container.tabBarController,
         hooks: [UITests.Hook.viewDidLoad: { view in
           view.viewController?.automaticallyAdjustsScrollViewInsets = true
-        }])
+        }]
       )
+    )
   }
-  
 }
 
 class VCTests: XCTestCase, ViewControllerTestCase {
-  
+
   var viewController: AddItemViewController {
     let store = Store<VC.V.VM.S, EmptySideEffectDependencyContainer>()
     let vc = AddItemViewController(store: store)
     return vc
   }
-  
+
   typealias VC = AddItemViewController
-  
-  func configure(vc: AddItemViewController, for testCase: String) {
-    if testCase == "firstTest" {
-      vc.rootView.model = AddItemViewModel(editingText: "ViewController test")
-    }
+
+  var firstTestVM: AddItemViewModel {
+    return AddItemViewModel(editingText: "ViewController test")
   }
-  
 
   func testVC() {
-    self.uiTest(testCases: ["firstTest"], context: UITests.VCContext<VCTests.VC>())
+    self.uiTest(testCases: ["firstTest": firstTestVM], context: UITests.VCContext<VCTests.VC>())
   }
 }
