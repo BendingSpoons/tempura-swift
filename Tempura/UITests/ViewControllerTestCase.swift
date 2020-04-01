@@ -59,7 +59,7 @@ public protocol ViewControllerTestCase {
   
   /// configure the VC for the specified `testCase`
   /// this is typically used to manually inject the ViewModel to all the children VCs.
-  func configure(vc: VC, for testCase: String, viewModel: VC.V.VM)
+  func configure(vc: VC, for testCase: String, model: VC.V.VM)
 }
 
 
@@ -77,7 +77,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     XCUIDevice.shared.orientation = context.orientation
 
     DispatchQueue.global().async {
-      for (identifier, viewModel) in testCases {
+      for (identifier, model) in testCases {
         let contained = self.viewController
         var container: UIViewController?
         DispatchQueue.main.sync {
@@ -104,7 +104,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         }
 
         let configureClosure: (UIViewController) -> Void = { vc in
-          self.typeErasedConfigure(vc, identifier: identifier, viewModel: viewModel)
+          self.typeErasedConfigure(vc, identifier: identifier, model: model)
         }
 
         let dispatchGroup = DispatchGroup()
@@ -141,15 +141,15 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     return self.isViewReady(view, identifier: identifier)
   }
 
-  func typeErasedConfigure(_ vc: UIViewController, identifier: String, viewModel: ViewModel) -> Void {
+  func typeErasedConfigure(_ vc: UIViewController, identifier: String, model: ViewModel) -> Void {
     guard
       let vc = vc as? VC,
-      let viewModel = viewModel as? VC.V.VM
+      let model = model as? VC.V.VM
     else {
       return
     }
 
-    self.configure(vc: vc, for: identifier, viewModel: viewModel)
+    self.configure(vc: vc, for: identifier, model: model)
   }
 }
 
@@ -160,8 +160,8 @@ public extension ViewControllerTestCase {
   }
 
   /// The default implementation does nothing
-  func configure(vc: VC, for testCase: String, viewModel: VC.V.VM) {
-    vc.rootView.model = viewModel
+  func configure(vc: VC, for testCase: String, model: VC.V.VM) {
+    vc.rootView.model = model
   }
 
   func uiTest(testCases: [String: VC.V.VM]) {
