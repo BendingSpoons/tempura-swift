@@ -58,8 +58,8 @@ public protocol ViewControllerTestCase {
   var viewController: VC { get }
   
   /// configure the VC for the specified `testCase`
-  /// The ViewModel injection is already handled by the ViewControllerTestCase
-  func configure(vc: VC, for testCase: String)
+  /// this is typically used to manually inject the ViewModel to all the children VCs.
+  func configure(vc: VC, for testCase: String, viewModel: VC.V.VM)
 }
 
 
@@ -104,8 +104,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         }
 
         let configureClosure: (UIViewController) -> Void = { vc in
-          self.viewController.rootView.model = viewModel
-          self.typeErasedConfigure(vc, identifier: identifier)
+          self.typeErasedConfigure(vc, identifier: identifier, viewModel: viewModel)
         }
 
         let dispatchGroup = DispatchGroup()
@@ -142,11 +141,15 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     return self.isViewReady(view, identifier: identifier)
   }
 
-  func typeErasedConfigure(_ vc: UIViewController, identifier: String) -> Void {
-    guard let vc = vc as? VC else {
+  func typeErasedConfigure(_ vc: UIViewController, identifier: String, viewModel: ViewModel) -> Void {
+    guard
+      let vc = vc as? VC,
+      let viewModel = viewModel as? VC.V.VM
+    else {
       return
     }
-    self.configure(vc: vc, for: identifier)
+
+    self.configure(vc: vc, for: identifier, viewModel: viewModel)
   }
 }
 
@@ -157,7 +160,8 @@ public extension ViewControllerTestCase {
   }
 
   /// The default implementation does nothing
-  func configure(vc: VC, for testCase: String) {
+  func configure(vc: VC, for testCase: String, viewModel: VC.V.VM) {
+    vc.rootView.model = viewModel
   }
 
   func uiTest(testCases: [String: VC.V.VM]) {
