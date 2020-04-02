@@ -182,10 +182,7 @@ extension UITests {
     
     /// the container in which the main view of the VC will be embedded
     public var container: UITests.Container
-    
-    /// some hooks that can be added to customize the view after its creation
-    public var hooks: [UITests.Hook: UITests.HookClosure<VC.V>]
-    
+
     /// the size of the window in which the view will be rendered
     public var screenSize: CGSize
     
@@ -199,13 +196,11 @@ extension UITests {
     public var keyboardHeight: (String) -> CGFloat
 
     public init(container: Container = .none,
-                hooks: [UITests.Hook: UITests.HookClosure<VC.V>] = [:],
                 screenSize: CGSize = UIScreen.main.bounds.size,
                 orientation: UIDeviceOrientation = .portrait,
                 renderSafeArea: Bool = true,
                 keyboardHeight: @escaping (String) -> CGFloat = { _ in 0 }) {
       self.container = container
-      self.hooks = hooks
       self.screenSize = screenSize
       self.orientation = orientation
       self.renderSafeArea = renderSafeArea
