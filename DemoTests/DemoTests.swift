@@ -30,19 +30,33 @@ class ScreenTests: XCTestCase, ViewTestCase {
   var thirdTestViewModel: AddItemViewModel {
     return AddItemViewModel(editingText: "what about this?")
   }
-  
+
   // Fourth test
   var fourthTestViewModel: AddItemViewModel {
     return AddItemViewModel(editingText: "this is a test with hooks")
   }
-  
+
+  // Fifth test
+  var fifthTestViewModel: AddItemViewModel {
+    return AddItemViewModel(editingText: "this is a test with keyboard")
+  }
+
   func testAddItemScreen() {
     self.uiTest(
       testCases: [
         "add_item_01": firstTestViewModel,
         "add_item_02": secondTestViewModel,
-        "add_item_03": thirdTestViewModel
-      ]
+        "add_item_03": thirdTestViewModel,
+        "add_item_05": thirdTestViewModel
+      ],
+      context: UITests.Context<AddItemView>(
+        keyboardHeight: { testCase in
+          switch testCase {
+          case "add_item_05": return UITests.defaultKeyboardHeight
+          default: return 0
+          }
+        }
+      )
     )
   }
   
@@ -75,7 +89,24 @@ class VCTests: XCTestCase, ViewControllerTestCase {
     return AddItemViewModel(editingText: "ViewController test")
   }
 
+  var secondTestVM: AddItemViewModel {
+    return AddItemViewModel(editingText: "ViewController with keyboard test")
+  }
+
   func testVC() {
-    self.uiTest(testCases: ["firstTest": firstTestVM], context: UITests.VCContext<VCTests.VC>())
+    self.uiTest(
+      testCases: [
+      "firstTest": firstTestVM,
+      "secondTestVM": secondTestVM,
+      ],
+      context: UITests.VCContext<VCTests.VC>(
+        keyboardHeight: { testCase in
+          switch testCase {
+          case "secondTestVM": return UITests.defaultKeyboardHeight
+          default: return 0
+          }
+        }
+      )
+    )
   }
 }

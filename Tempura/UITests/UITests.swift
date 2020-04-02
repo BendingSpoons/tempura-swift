@@ -236,11 +236,18 @@ public enum UITests {
                             configureClosure: ((UIViewController) -> Void)? = nil,
                             isViewReadyClosure: @escaping (UIView) -> Bool,
                             shouldRenderSafeArea: Bool,
+                            keyboardHeight: CGFloat,
                             completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(viewToWaitFor: viewToWaitFor, configureClosure: configureClosure, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
+    view.snapshotAsync(
+      viewToWaitFor: viewToWaitFor,
+      configureClosure: configureClosure,
+      isViewReadyClosure: isViewReadyClosure,
+      shouldRenderSafeArea: shouldRenderSafeArea,
+      keyboardHeight: keyboardHeight
+    ) { snapshot in
       defer {
         completionClosure()
       }
@@ -334,5 +341,23 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
 extension CGSize {
   public var description: String {
     return "\(Int(self.width))x\(Int(self.height))"
+  }
+}
+
+public extension UITests {
+  /// This returns a realistic height of the keyboard, based on the device height.
+  /// This is an heuristic, as there is no way to show a keyboard in the ui tests, but there is the need to simulate one
+  static var defaultKeyboardHeight: CGFloat {
+    switch UIScreen.main.bounds.height {
+    case 0...667:
+      // basically iPhone SE and iPhone 8
+      return 216
+    case 668...736:
+      // basically iPhone 8 Plus
+      return 226
+    default:
+      // all the other devices
+      return 291
+    }
   }
 }

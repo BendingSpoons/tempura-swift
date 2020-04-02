@@ -34,7 +34,14 @@ extension UIView {
     return snapshot
   }
   
-  func snapshotAsync(viewToWaitFor: UIView? = nil, configureClosure: ((UIViewController) -> Void)?, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, _ completionClosure: @escaping (UIImage?) -> Void) {
+  func snapshotAsync(
+    viewToWaitFor: UIView? = nil,
+    configureClosure: ((UIViewController) -> Void)?,
+    isViewReadyClosure: @escaping (UIView) -> Bool,
+    shouldRenderSafeArea: Bool,
+    keyboardHeight: CGFloat,
+    _ completionClosure: @escaping (UIImage?) -> Void
+  ) {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -54,7 +61,12 @@ extension UIView {
     
     self.layoutIfNeeded()
     
-    self.snapshotAsyncImpl(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
+    self.snapshotAsyncImpl(
+      viewToWaitFor: viewToWaitFor,
+      isViewReadyClosure: isViewReadyClosure,
+      shouldRenderSafeArea: shouldRenderSafeArea,
+      keyboardHeight: keyboardHeight
+    ) { snapshot in
       if removeFromSuperview {
         self.removeFromSuperview()
       }
@@ -66,21 +78,28 @@ extension UIView {
   func snapshotAsyncImpl(viewToWaitFor: UIView? = nil,
                          isViewReadyClosure: @escaping (UIView) -> Bool,
                          shouldRenderSafeArea: Bool,
+                         keyboardHeight: CGFloat,
                          _ completionClosure: @escaping (UIImage?) -> Void) {
     
     let viewToWaitFor = viewToWaitFor ?? self
     guard isViewReadyClosure(viewToWaitFor) else {
       DispatchQueue.main.async {
-        self.snapshotAsyncImpl(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea, completionClosure)
+        self.snapshotAsyncImpl(
+          viewToWaitFor: viewToWaitFor,
+          isViewReadyClosure: isViewReadyClosure,
+          shouldRenderSafeArea: shouldRenderSafeArea,
+          keyboardHeight: keyboardHeight,
+          completionClosure
+        )
       }
       
       return
     }
     
-    completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea))
+    completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea, keyboardHeight: keyboardHeight))
   }
   
-  private func takeSnapshot(shouldRenderSafeArea: Bool = false) -> UIImage? {
+  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardHeight: CGFloat = 0) -> UIImage? {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
     self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
 
@@ -104,6 +123,15 @@ extension UIView {
       context.fill(leftRect)
       context.fill(rightRect)
     }
+
+    if keyboardHeight > 0, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
+      let keyboardSize = CGSize(width: self.bounds.width, height: keyboardHeight)
+      let keyboardOrigin = CGPoint(x: 0, y: self.bounds.height - keyboardSize.height)
+      let bottomRect = CGRect(origin: keyboardOrigin, size: keyboardSize)
+      context.setFillColor(UIColor.gray.cgColor)
+      context.fill(bottomRect)
+    }
+
     let snapshot = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     
