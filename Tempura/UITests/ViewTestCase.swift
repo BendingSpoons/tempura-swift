@@ -162,7 +162,7 @@ extension UITests {
                 hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
                 screenSize: CGSize = UIScreen.main.bounds.size,
                 orientation: UIDeviceOrientation = .portrait,
-                renderSafeArea: Bool = false,
+                renderSafeArea: Bool = true,
                 keyboardHeight: @escaping (String) -> CGFloat = { _ in 0 }) {
       self.container = container
       self.hooks = hooks
