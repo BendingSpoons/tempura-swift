@@ -345,7 +345,7 @@ class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
     
   /// execute the UI tests
   func test() {
-    self.uiTest(testCases: ["first_test"], context: context)  
+    self.uiTest(testCases: ["first_test": vm], context: context)  
   }
 }
 ```
