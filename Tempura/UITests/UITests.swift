@@ -345,6 +345,7 @@ extension CGSize {
 }
 
 public extension UITests {
+  /// Whether a box representing the keyboard should be rendered on top of the tested view
   enum KeyboardVisibility {
     /// The keyboard is not visible
     case hidden
