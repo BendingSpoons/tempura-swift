@@ -356,29 +356,33 @@ public extension UITests {
     /// The keyboard is visible with the specified height
     case customHeight(CGFloat)
 
-    func height(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
+    func height(for orientation: UIDeviceOrientation) -> CGFloat {
       switch self {
       case .hidden:
         return 0
       case .customHeight(let height):
         return height
       case .defaultHeight:
-        switch max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) {
-        case 0...667: // up to iPhone 8
-          return orientation.isLandscape ? 171 : 216
-        case 668...736: // 7 Plus, and 8 Plus
-          return orientation.isLandscape ? 162 : 226
-        case 737...812: // X, Xs, 11 Pro
-          return orientation.isLandscape ? 171 : 291
-        case 813...1023: // all the other phones
-          return orientation.isLandscape ? 171 : 301
-        case 1024...1193: // smaller iPads
-          return orientation.isLandscape ? 320 : 408
-        case 1194...1365: // iPads Pro 11"
-          return orientation.isLandscape ? 340 : 428
-        default: // bigger iPads
-          return orientation.isLandscape ? 403 : 498
-        }
+        return Self.defaultHeight(for: orientation)
+      }
+    }
+
+    public static func defaultHeight(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
+      switch max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) {
+      case 0...667: // up to iPhone 8
+        return orientation.isLandscape ? 171 : 216
+      case 668...736: // 7 Plus, and 8 Plus
+        return orientation.isLandscape ? 162 : 226
+      case 737...812: // X, Xs, 11 Pro
+        return orientation.isLandscape ? 171 : 291
+      case 813...1023: // all the other phones
+        return orientation.isLandscape ? 171 : 301
+      case 1024...1193: // smaller iPads
+        return orientation.isLandscape ? 320 : 408
+      case 1194...1365: // iPads Pro 11"
+        return orientation.isLandscape ? 340 : 428
+      default: // bigger iPads
+        return orientation.isLandscape ? 403 : 498
       }
     }
   }
