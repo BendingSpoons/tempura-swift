@@ -222,7 +222,7 @@ class UITests: XCTestCase, ViewTestCase {
 }
 
 ```
-If some important content inside a UIScrollView is not fully visibile, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
+If some important content inside a UIScrollView is not fully visible, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
 This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.
 
 In this example we use `scrollViewsToTest(in view: V, identifier: String)`  to take an extended snapshot of the *mood picker* at the bottom of the screen.
@@ -236,7 +236,7 @@ func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
 
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
-For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
+For instance, here we wait until an hypothetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
 ```swift
 import TempuraTesting
 

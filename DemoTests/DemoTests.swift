@@ -50,10 +50,10 @@ class ScreenTests: XCTestCase, ViewTestCase {
         "add_item_05": thirdTestViewModel
       ],
       context: UITests.Context<AddItemView>(
-        keyboardHeight: { testCase in
+        keyboardVisibility: { testCase in
           switch testCase {
-          case "add_item_05": return UITests.defaultKeyboardHeight()
-          default: return 0
+          case "add_item_05": return .defaultHeight
+          default: return .hidden
           }
         }
       )
@@ -100,10 +100,10 @@ class VCTests: XCTestCase, ViewControllerTestCase {
       "secondTestVM": secondTestVM,
       ],
       context: UITests.VCContext<VCTests.VC>(
-        keyboardHeight: { testCase in
+        keyboardVisibility: { testCase in
           switch testCase {
-          case "secondTestVM": return UITests.defaultKeyboardHeight()
-          default: return 0
+          case "secondTestVM": return .defaultHeight
+          default: return .hidden
           }
         }
       )

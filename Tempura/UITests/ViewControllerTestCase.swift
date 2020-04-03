@@ -118,7 +118,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
             configureClosure: configureClosure,
             isViewReadyClosure: isViewReadyClosure,
             shouldRenderSafeArea: context.renderSafeArea,
-            keyboardHeight: context.keyboardHeight(identifier)
+            keyboardVisibility: context.keyboardVisibility(identifier)
             ) {
             // ScrollViews snapshot
             self.scrollViewsToTest(in: contained!, identifier: identifier).forEach { entry in
@@ -192,19 +192,19 @@ extension UITests {
     /// whether black dimmed rectangles should be rendered showing the safe area insets
     public var renderSafeArea: Bool
 
-    /// the height of the keyboard to be rendered on top of the view, for a given test case
-    public var keyboardHeight: (String) -> CGFloat
+    /// whether gray rectangle representing the keyboard should be rendered on top of the view, for a given test case
+    public var keyboardVisibility: (String) -> KeyboardVisibility
 
     public init(container: Container = .none,
                 screenSize: CGSize = UIScreen.main.bounds.size,
                 orientation: UIDeviceOrientation = .portrait,
                 renderSafeArea: Bool = true,
-                keyboardHeight: @escaping (String) -> CGFloat = { _ in 0 }) {
+                keyboardVisibility: @escaping (String) -> KeyboardVisibility = { _ in .hidden }) {
       self.container = container
       self.screenSize = screenSize
       self.orientation = orientation
       self.renderSafeArea = renderSafeArea
-      self.keyboardHeight = keyboardHeight
+      self.keyboardVisibility = keyboardVisibility
     }
   }
 }

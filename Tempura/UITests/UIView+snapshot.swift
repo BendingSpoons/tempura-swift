@@ -39,7 +39,7 @@ extension UIView {
     configureClosure: ((UIViewController) -> Void)?,
     isViewReadyClosure: @escaping (UIView) -> Bool,
     shouldRenderSafeArea: Bool,
-    keyboardHeight: CGFloat,
+    keyboardVisibility: UITests.KeyboardVisibility,
     _ completionClosure: @escaping (UIImage?) -> Void
   ) {
     let window: UIWindow?
@@ -65,7 +65,7 @@ extension UIView {
       viewToWaitFor: viewToWaitFor,
       isViewReadyClosure: isViewReadyClosure,
       shouldRenderSafeArea: shouldRenderSafeArea,
-      keyboardHeight: keyboardHeight
+      keyboardVisibility: keyboardVisibility
     ) { snapshot in
       if removeFromSuperview {
         self.removeFromSuperview()
@@ -78,7 +78,7 @@ extension UIView {
   func snapshotAsyncImpl(viewToWaitFor: UIView? = nil,
                          isViewReadyClosure: @escaping (UIView) -> Bool,
                          shouldRenderSafeArea: Bool,
-                         keyboardHeight: CGFloat,
+                         keyboardVisibility: UITests.KeyboardVisibility,
                          _ completionClosure: @escaping (UIImage?) -> Void) {
     
     let viewToWaitFor = viewToWaitFor ?? self
@@ -88,7 +88,7 @@ extension UIView {
           viewToWaitFor: viewToWaitFor,
           isViewReadyClosure: isViewReadyClosure,
           shouldRenderSafeArea: shouldRenderSafeArea,
-          keyboardHeight: keyboardHeight,
+          keyboardVisibility: keyboardVisibility,
           completionClosure
         )
       }
@@ -96,13 +96,36 @@ extension UIView {
       return
     }
     
-    completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea, keyboardHeight: keyboardHeight))
+    completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea, keyboardVisibility: keyboardVisibility))
   }
   
-  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardHeight: CGFloat = 0) -> UIImage? {
+  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> UIImage? {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
     self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
 
+    renderSafeAreaIfNeeded(shouldRenderSafeArea: shouldRenderSafeArea)
+
+    renderKeyboardIfNeeded(keyboardVisibility: keyboardVisibility)
+
+    let snapshot = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return snapshot
+  }
+
+  private func renderKeyboardIfNeeded(keyboardVisibility: UITests.KeyboardVisibility) {
+    let orientation: UIDeviceOrientation = self.frame.size.height > self.frame.size.width ? .portrait : .landscapeLeft
+    let keyboardHeight = keyboardVisibility.height(for: orientation)
+    if keyboardHeight > 0, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
+      let keyboardSize = CGSize(width: self.bounds.width, height: keyboardHeight)
+      let keyboardOrigin = CGPoint(x: 0, y: self.bounds.height - keyboardSize.height)
+      let bottomRect = CGRect(origin: keyboardOrigin, size: keyboardSize)
+      context.setFillColor(UIColor.gray.cgColor)
+      context.fill(bottomRect)
+    }
+  }
+
+  private func renderSafeAreaIfNeeded(shouldRenderSafeArea: Bool) {
     if shouldRenderSafeArea, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
       let topRect = CGRect(origin: .zero, size: CGSize(width: self.bounds.width, height: self.universalSafeAreaInsets.top))
 
@@ -123,18 +146,5 @@ extension UIView {
       context.fill(leftRect)
       context.fill(rightRect)
     }
-
-    if keyboardHeight > 0, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
-      let keyboardSize = CGSize(width: self.bounds.width, height: keyboardHeight)
-      let keyboardOrigin = CGPoint(x: 0, y: self.bounds.height - keyboardSize.height)
-      let bottomRect = CGRect(origin: keyboardOrigin, size: keyboardSize)
-      context.setFillColor(UIColor.gray.cgColor)
-      context.fill(bottomRect)
-    }
-
-    let snapshot = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    
-    return snapshot
   }
 }
