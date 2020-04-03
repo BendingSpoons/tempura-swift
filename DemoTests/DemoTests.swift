@@ -5,12 +5,12 @@
 //  Created by Andrea De Angelis on 09/02/2018.
 //
 
-import XCTest
-@testable import Demo
+import Katana
 import Tempura
 import TempuraTesting
-import Katana
+import XCTest
 
+@testable import Demo
 
 class ScreenTests: XCTestCase, ViewTestCase {
 //  
@@ -52,7 +52,7 @@ class ScreenTests: XCTestCase, ViewTestCase {
       context: UITests.Context<AddItemView>(
         keyboardHeight: { testCase in
           switch testCase {
-          case "add_item_05": return UITests.defaultKeyboardHeight
+          case "add_item_05": return UITests.defaultKeyboardHeight()
           default: return 0
           }
         }
@@ -102,7 +102,7 @@ class VCTests: XCTestCase, ViewControllerTestCase {
       context: UITests.VCContext<VCTests.VC>(
         keyboardHeight: { testCase in
           switch testCase {
-          case "secondTestVM": return UITests.defaultKeyboardHeight
+          case "secondTestVM": return UITests.defaultKeyboardHeight()
           default: return 0
           }
         }

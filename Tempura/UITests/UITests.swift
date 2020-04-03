@@ -345,19 +345,24 @@ extension CGSize {
 }
 
 public extension UITests {
-  /// This returns a realistic height of the keyboard, based on the device height.
-  /// This is an heuristic, as there is no way to show a keyboard in the ui tests, but there is the need to simulate one
-  static var defaultKeyboardHeight: CGFloat {
-    switch UIScreen.main.bounds.height {
-    case 0...667:
-      // basically iPhone SE and iPhone 8
-      return 216
-    case 668...736:
-      // basically iPhone 8 Plus
-      return 226
-    default:
-      // all the other devices
-      return 291
+  /// Returns a realistic height of the keyboard, based on the device height.
+  /// These are empirical values, as there is no way to show a keyboard in the UITests or to get its height programmatically
+  static func defaultKeyboardHeight(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
+    switch max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) {
+    case 0...667: // up to iPhone 8
+      return orientation.isLandscape ? 171 : 216
+    case 668...736: // 7 Plus, and 8 Plus
+      return orientation.isLandscape ? 162 : 226
+    case 737...812: // X, Xs, 11 Pro
+      return orientation.isLandscape ? 171 : 291
+    case 813...1023: // all the other phones
+      return orientation.isLandscape ? 171 : 301
+    case 1024...1193: // smaller iPads
+      return orientation.isLandscape ? 320 : 408
+    case 1194...1365: // iPads Pro 11"
+      return orientation.isLandscape ? 340 : 428
+    default: // bigger iPads
+      return orientation.isLandscape ? 403 : 498
     }
   }
 }
