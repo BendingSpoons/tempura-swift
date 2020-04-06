@@ -357,7 +357,7 @@ public extension UITests {
     /// The keyboard is visible with the specified height
     case customHeight(CGFloat)
 
-    func height(for orientation: UIDeviceOrientation) -> CGFloat {
+    public func height(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
       switch self {
       case .hidden:
         return 0
