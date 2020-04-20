@@ -164,6 +164,8 @@ public extension ViewControllerTestCase {
 
   /// The default implementation does nothing
   func configure(vc: VC, for testCase: String, model: VC.V.VM) {
+    // Reset this to nil so that animation depending on changes of the model should be skipped
+    vc.rootView.model = nil
     vc.rootView.model = model
   }
 
