@@ -34,14 +34,12 @@ extension UIView {
     return snapshot
   }
   
-  func snapshotAsync(
-    viewToWaitFor: UIView? = nil,
-    configureClosure: ((UIViewController) -> Void)?,
-    isViewReadyClosure: @escaping (UIView) -> Bool,
-    shouldRenderSafeArea: Bool,
-    keyboardVisibility: UITests.KeyboardVisibility,
-    _ completionClosure: @escaping (UIImage?) -> Void
-  ) {
+  func snapshotAsync(viewToWaitFor: UIView? = nil,
+                     configureClosure: (() -> Void)?,
+                     isViewReadyClosure: @escaping (UIView) -> Bool,
+                     shouldRenderSafeArea: Bool,
+                     keyboardVisibility: UITests.KeyboardVisibility,
+                     _ completionClosure: @escaping (UIImage?) -> Void) {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -55,10 +53,8 @@ extension UIView {
       removeFromSuperview = true
     }
 
-    if let vc = viewToWaitFor?.next as? UIViewController {
-      configureClosure?(vc)
-    }
-    
+    configureClosure?()
+
     self.layoutIfNeeded()
     
     self.snapshotAsyncImpl(
@@ -109,7 +105,7 @@ extension UIView {
 
     let snapshot = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    
+
     return snapshot
   }
 

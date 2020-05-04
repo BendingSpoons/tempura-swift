@@ -24,12 +24,12 @@ import Tempura
  */
 
 public protocol ViewControllerTestCase {
-  associatedtype VC: AnyViewController
+  associatedtype VC: AnyViewController & UIViewController
   
   /**
    Add new UI tests to be performed
    
-   - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
+   - parameter testCases: a dictionary of test cases and the corresponding view models. Each pair of the array will be used as input for the `configure(vc:for:model:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>)
@@ -78,11 +78,11 @@ public extension ViewControllerTestCase where Self: XCTestCase {
 
     DispatchQueue.global().async {
       for (identifier, model) in testCases {
-        var contained: VC?
-        var container: UIViewController?
+        var contained: VC!
+        var container: UIViewController!
         DispatchQueue.main.sync {
           contained = self.viewController
-          container = context.container.container(for: contained as! UIViewController)
+          container = context.container.container(for: contained)
         }
 
         guard let description = descriptions[identifier] else { continue }
@@ -104,24 +104,22 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           return isReady
         }
 
-        let configureClosure: (UIViewController) -> Void = { vc in
-          self.typeErasedConfigure(vc, identifier: identifier, model: model)
-        }
-
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.main.async {
           UITests.asyncSnapshot(
-            view: container!.view,
-            viewToWaitFor: (contained as! UIViewController).view,
+            view: container.view,
+            viewToWaitFor: contained.view,
             description: description,
-            configureClosure: configureClosure,
+            configureClosure: {
+              self.typeErasedConfigure(contained, identifier: identifier, model: model)
+            },
             isViewReadyClosure: isViewReadyClosure,
             shouldRenderSafeArea: context.renderSafeArea,
             keyboardVisibility: context.keyboardVisibility(identifier)
             ) {
             // ScrollViews snapshot
-            self.scrollViewsToTest(in: contained!, identifier: identifier).forEach { entry in
+            self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
               UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
             }
             dispatchGroup.leave()
@@ -162,7 +160,7 @@ public extension ViewControllerTestCase {
     return true
   }
 
-  /// The default implementation does nothing
+  /// The default implementation sets the model of the root view to nil and then to the given model
   func configure(vc: VC, for testCase: String, model: VC.V.VM) {
     // Reset this to nil so that animation depending on changes of the model should be skipped
     vc.rootView.model = nil

@@ -233,7 +233,7 @@ public enum UITests {
   static func asyncSnapshot(view: UIView,
                             viewToWaitFor: UIView? = nil,
                             description: String,
-                            configureClosure: ((UIViewController) -> Void)? = nil,
+                            configureClosure: (() -> Void)? = nil,
                             isViewReadyClosure: @escaping (UIView) -> Bool,
                             shouldRenderSafeArea: Bool,
                             keyboardVisibility: KeyboardVisibility,
