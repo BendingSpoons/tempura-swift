@@ -24,7 +24,7 @@ import Tempura
  */
 
 public protocol ViewControllerTestCase {
-  associatedtype VC: AnyViewController
+  associatedtype VC: AnyViewController & UIViewController
   
   /**
    Add new UI tests to be performed
@@ -82,7 +82,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         var container: UIViewController!
         DispatchQueue.main.sync {
           contained = self.viewController
-          container = context.container.container(for: contained as! UIViewController)
+          container = context.container.container(for: contained)
         }
 
         guard let description = descriptions[identifier] else { continue }
@@ -113,7 +113,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         DispatchQueue.main.async {
           UITests.asyncSnapshot(
             view: container.view,
-            viewToWaitFor: contained.rootView,
+            viewToWaitFor: contained.view,
             description: description,
             configureClosure: configureClosure,
             isViewReadyClosure: isViewReadyClosure,
