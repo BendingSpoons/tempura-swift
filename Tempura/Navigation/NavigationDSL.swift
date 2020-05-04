@@ -86,6 +86,8 @@ public typealias CustomNavigationOptionClosure = (
 ) -> Void
 
 /// Closure used by a `NavigationInstruction` of type `.optionalCustom`.
+/// The return value determines whether the navigation has been handled or not. If not, the routing continues as if the navigation
+/// instruction is not defined
 public typealias OptionalCustomNavigationOptionClosure = (
   _ identifier: RouteElementIdentifier,
   _ from: RouteElementIdentifier,
@@ -151,6 +153,7 @@ public enum NavigationInstruction {
   case custom(CustomNavigationOptionClosure)
 
   /// Define your custom implementation of the navigation.
+  /// If the closure returns false, the routing continues as if the navigation instruction is not defined
   case optionalCustom(OptionalCustomNavigationOptionClosure)
 
   func handle(
