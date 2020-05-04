@@ -256,6 +256,15 @@ class UITests: XCTestCase, ViewTestCase {
 
 The test will pass as soon as the snapshot is taken.
 
+#### Context
+
+You can enable a number of advanced features through the `context` object that you can pass to the `uiTest` method: 
+- the `container` allows you to define a VC as a container of the view during the UITests. Basic `navigationController` and `tabBarController` are already provided, or you can define your own using the `custom` one 
+- the `hooks` allows you to perform actions when some lifecycle events happen. Available hooks are `viewDidLoad`, `viewWillAppear`, `viewDidAppear`, `viewDidLayoutSubviews`, and `navigationControllerHasBeenCreated`
+- the `screenSize` and `orientation` properties allows you to define a custom screen size and orientation to be used during the test
+- the `renderSafeArea` allows you to define whether the safe area should be rendered as semitransparent gray overlay during the test
+- the `keyboardVisibility` allows you to define whether a gray overlay should be rendered as a placeholder for the keyboard
+
 #### Multiple devices
 
 By default, tests are run only in the device you have choose from xcode (or your device, or CI system). We can run the snapshotting in all the devices by using a script like the following one:
