@@ -78,8 +78,8 @@ public extension ViewControllerTestCase where Self: XCTestCase {
 
     DispatchQueue.global().async {
       for (identifier, model) in testCases {
-        var contained: VC?
-        var container: UIViewController?
+        var contained: VC!
+        var container: UIViewController!
         DispatchQueue.main.sync {
           contained = self.viewController
           container = context.container.container(for: contained as! UIViewController)
@@ -112,14 +112,14 @@ public extension ViewControllerTestCase where Self: XCTestCase {
         dispatchGroup.enter()
         DispatchQueue.main.async {
           UITests.asyncSnapshot(
-            view: container!.view,
-            viewToWaitFor: (contained as! UIViewController).view,
+            view: container.view,
+            viewToWaitFor: contained.rootView,
             description: description,
             configureClosure: configureClosure,
             isViewReadyClosure: isViewReadyClosure,
             shouldRenderSafeArea: context.renderSafeArea) {
             // ScrollViews snapshot
-            self.scrollViewsToTest(in: contained!, identifier: identifier).forEach { entry in
+            self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
               UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
             }
             dispatchGroup.leave()
