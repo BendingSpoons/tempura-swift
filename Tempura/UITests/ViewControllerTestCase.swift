@@ -104,10 +104,6 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           return isReady
         }
 
-        let configureClosure: (UIViewController) -> Void = { vc in
-          self.typeErasedConfigure(vc, identifier: identifier, model: model)
-        }
-
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.main.async {
@@ -115,7 +111,9 @@ public extension ViewControllerTestCase where Self: XCTestCase {
             view: container.view,
             viewToWaitFor: contained.view,
             description: description,
-            configureClosure: configureClosure,
+            configureClosure: {
+              self.typeErasedConfigure(contained, identifier: identifier, model: model)
+            },
             isViewReadyClosure: isViewReadyClosure,
             shouldRenderSafeArea: context.renderSafeArea) {
             // ScrollViews snapshot
