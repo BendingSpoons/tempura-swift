@@ -28,7 +28,7 @@ import Tempura
 
 /// Defines a UIViewController that can be tested with a `ViewControllerTestCase`.
 ///
-/// The only requirement is a `ModellableView` as `RootView`.
+/// The only requirement is a `ModellableView` as `rootView`.
 /// Please note that we are not requiring the view to be a `ViewControllerModellableView`
 /// as it's not strictly needed and in this way we can also test a simple `UIViewController`
 /// that is managing a `ModellableView`.
