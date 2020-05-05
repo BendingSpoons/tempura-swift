@@ -343,18 +343,51 @@ class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
   }
   
   /// define the ViewModels
-  let vm = ParentViewModel(title: "A test title")
+  let viewModel = ParentViewModel(title: "A test title")
   let childVM = ChildViewModel(value: 12)
+  
+  /// define the tests we want to perform
+  let tests: [String: ParentViewModel] = [
+    "first_test_vc": viewModel
+  ]
     
   /// configure the ViewController with ViewModels, also for the children VCs
-  func configure(vc: ParentViewController, for testCase: String) {
-    vc.viewModel = vm
+  func configure(vc: ParentViewController, for testCase: String, model: ParentViewModel) {
+    vc.viewModel = model
     vc.childVC.viewModel = childVM
   }
     
   /// execute the UI tests
   func test() {
-    self.uiTest(testCases: ["first_test": vm], context: context)  
+    let context = UITests.VCContext<ParentViewController>(container: .none)
+    self.uiTest(testCases: self.tests, context: context)  
+  }
+}
+```
+
+In case you don't have child ViewControllers to configure, it's even easier as you don't need to supply a `configure(:::)` method:
+
+```swift
+class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
+  /// provide the instance of the ViewController to test
+  var viewController: ParentViewController {
+    let fakeStore = Store<AppState, EmptySideEffectDependencyContainer>()
+    let vc = ParentViewController(store: testStore)
+    return vc
+  }
+  
+  /// define the ViewModel
+  let viewModel = ParentViewModel(title: "A test title")
+  
+  /// define the tests we want to perform
+  let tests: [String: ParentViewModel] = [
+    "first_test_vc": viewModel
+  ]
+    
+  /// execute the UI tests
+  func test() {
+    let context = UITests.VCContext<ParentViewController>(container: .tabbarController)
+    self.uiTest(testCases: self.tests, context: context)  
   }
 }
 ```
