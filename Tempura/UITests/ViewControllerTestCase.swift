@@ -32,17 +32,17 @@ import Tempura
 /// Please note that we are not requiring the view to be a `ViewControllerModellableView`
 /// as it's not strictly needed and in this way we can also test a simple `UIViewController`
 /// that is managing a `ModellableView`.
-public protocol TestableUIViewController: UIViewController {
+public protocol TestableViewController: UIViewController {
   associatedtype V: ModellableView
   
   var rootView: V { get }
 }
 
 
-extension ViewController: TestableUIViewController {}
+extension ViewController: TestableViewController {}
 
 public protocol ViewControllerTestCase {
-  associatedtype VC: TestableUIViewController
+  associatedtype VC: TestableViewController
   
   /**
    Add new UI tests to be performed
