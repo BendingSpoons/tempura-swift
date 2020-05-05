@@ -110,3 +110,33 @@ class VCTests: XCTestCase, ViewControllerTestCase {
     )
   }
 }
+
+class UIVCTests: XCTestCase, UIViewControllerTestCase {
+  typealias VC = UIViewController
+  typealias V = UIView
+
+  var viewController: UIViewController {
+    let vc = UIViewController()
+    return vc
+  }
+  
+  func configure(vc: UIViewController, for testCase: String) {
+    switch testCase {
+    case "firstTest":
+      vc.view.backgroundColor = .red
+    case "secondTest":
+      vc.view.backgroundColor = .yellow
+    default:
+      return
+    }
+  }
+
+  func testUIVC() {
+    self.uiTest(
+      testCases: [
+      "firstTest",
+      "secondTest"
+      ],
+      context: UITests.VCContext<UIViewController>())
+  }
+}

@@ -396,7 +396,6 @@ class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
 
 
 
-
 ## Where to go from here
 
 ### Example application
