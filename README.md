@@ -222,7 +222,7 @@ class UITests: XCTestCase, ViewTestCase {
 }
 
 ```
-If some important content inside a UIScrollView is not fully visibile, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
+If some important content inside a UIScrollView is not fully visible, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
 This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.
 
 In this example we use `scrollViewsToTest(in view: V, identifier: String)`  to take an extended snapshot of the *mood picker* at the bottom of the screen.
@@ -236,7 +236,7 @@ func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
 
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
-For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
+For instance, here we wait until an hypothetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
 ```swift
 import TempuraTesting
 
@@ -255,6 +255,15 @@ class UITests: XCTestCase, ViewTestCase {
 ```
 
 The test will pass as soon as the snapshot is taken.
+
+#### Context
+
+You can enable a number of advanced features through the `context` object that you can pass to the `uiTest` method: 
+- the `container` allows you to define a VC as a container of the view during the UITests. Basic `navigationController` and `tabBarController` are already provided, or you can define your own using the `custom` one 
+- the `hooks` allows you to perform actions when some lifecycle events happen. Available hooks are `viewDidLoad`, `viewWillAppear`, `viewDidAppear`, `viewDidLayoutSubviews`, and `navigationControllerHasBeenCreated`
+- the `screenSize` and `orientation` properties allows you to define a custom screen size and orientation to be used during the test
+- the `renderSafeArea` allows you to define whether the safe area should be rendered as semitransparent gray overlay during the test
+- the `keyboardVisibility` allows you to define whether a gray overlay should be rendered as a placeholder for the keyboard
 
 #### Multiple devices
 
