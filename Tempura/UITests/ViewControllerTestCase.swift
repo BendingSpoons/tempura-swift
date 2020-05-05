@@ -24,15 +24,15 @@ import Tempura
  */
 
 public protocol ViewControllerTestCase {
-  associatedtype VC: AnyViewController
+  associatedtype VC: AnyViewController & UIViewController
   
   /**
    Add new UI tests to be performed
    
-   - parameter testCases: an array of test cases, each element of the array will be used as input for the `configure(vc:for:)` method.
+   - parameter testCases: a dictionary of test cases and the corresponding view models. Each pair of the array will be used as input for the `configure(vc:for:model:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>)
+  func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>)
   
   /// Retrieves a dictionary containing the scrollable subviews to test.
   /// The snapshot will contain the whole scrollView content.
@@ -59,76 +59,96 @@ public protocol ViewControllerTestCase {
   
   /// configure the VC for the specified `testCase`
   /// this is typically used to manually inject the ViewModel to all the children VCs.
-  func configure(vc: VC, for testCase: String)
+  func configure(vc: VC, for testCase: String, model: VC.V.VM)
 }
 
 
 public extension ViewControllerTestCase where Self: XCTestCase {
-  func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
-    let snapshotConfiguration = UITests.VCScreenSnapshot<VC>(
-      vc: self.viewController,
-      container: context.container,
-      testCases: testCases,
-      hooks: context.hooks,
-      size: context.screenSize
-    )
-    
-    let viewControllers = snapshotConfiguration.renderingViewControllers
+  func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
-    
-    var expectations: [XCTestExpectation] = []
-    
-    for (identifier, vcs) in viewControllers {
+    let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
-      
-      let expectation = XCTestExpectation(description: description)
-      XCUIDevice.shared.orientation = context.orientation
-      
-      let isViewReadyClosure: (UIView) -> Bool = { view in
-        var isOrientationCorrect = true
-        
-        // read again in case some weird code changed it outside the ViewControllerTestCase APIs
-        let isViewInPortrait = view.frame.size.height > view.frame.size.width
-        
-        if context.orientation.isPortrait {
-          isOrientationCorrect = isViewInPortrait
-          
-        } else if context.orientation.isLandscape {
-          isOrientationCorrect = !isViewInPortrait
+      return (identifier, description)
+    })
+    let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
+      return XCTestExpectation(description: description)
+    }
+
+    XCUIDevice.shared.orientation = context.orientation
+
+    DispatchQueue.global().async {
+      for (identifier, model) in testCases {
+        var contained: VC!
+        var container: UIViewController!
+        DispatchQueue.main.sync {
+          contained = self.viewController
+          container = context.container.container(for: contained)
         }
-        
-        let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
-        
-        if isReady {
-          self.configure(vc: vcs.contained, for: identifier)
+
+        guard let description = descriptions[identifier] else { continue }
+
+        let isViewReadyClosure: (UIView) -> Bool = { view in
+          var isOrientationCorrect = true
+
+          // read again in case some weird code changed it outside the ViewControllerTestCase APIs
+          let isViewInPortrait = view.frame.size.height > view.frame.size.width
+
+          if context.orientation.isPortrait {
+            isOrientationCorrect = isViewInPortrait
+          } else if context.orientation.isLandscape {
+            isOrientationCorrect = !isViewInPortrait
+          }
+
+          let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
+
+          return isReady
         }
-        
-        return isReady
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        DispatchQueue.main.async {
+          UITests.asyncSnapshot(
+            view: container.view,
+            viewToWaitFor: contained.view,
+            description: description,
+            configureClosure: {
+              self.typeErasedConfigure(contained, identifier: identifier, model: model)
+            },
+            isViewReadyClosure: isViewReadyClosure,
+            shouldRenderSafeArea: context.renderSafeArea) {
+            // ScrollViews snapshot
+            self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
+              UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
+            }
+            dispatchGroup.leave()
+            expectations[identifier]?.fulfill()
+          }
+        }
+
+        // wait for the test case to be completed before starting the next one
+        dispatchGroup.wait()
       }
-      
-      UITests.asyncSnapshot(view: vcs.container.view,
-                            viewToWaitFor: (vcs.contained as! UIViewController).view,
-                            description: description,
-                            isViewReadyClosure: isViewReadyClosure,
-                            shouldRenderSafeArea: context.renderSafeArea) {
-                              // ScrollViews snapshot
-                              self.scrollViewsToTest(in: vcs.contained, identifier: identifier).forEach { entry in
-                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
-                              }
-                              expectation.fulfill()
-      }
-      
-      expectations.append(expectation)
     }
     
-    self.wait(for: expectations, timeout: 100)
+    self.wait(for: Array(expectations.values), timeout: 100)
   }
-  
+
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? VC.V else {
       return false
     }
     return self.isViewReady(view, identifier: identifier)
+  }
+
+  func typeErasedConfigure(_ vc: UIViewController, identifier: String, model: ViewModel) -> Void {
+    guard
+      let vc = vc as? VC,
+      let model = model as? VC.V.VM
+    else {
+      return
+    }
+
+    self.configure(vc: vc, for: identifier, model: model)
   }
 }
 
@@ -137,8 +157,15 @@ public extension ViewControllerTestCase {
   func isViewReady(_ view: VC.V, identifier: String) -> Bool {
     return true
   }
-  
-  func uiTest(testCases: [String]) {
+
+  /// The default implementation sets the model of the root view to nil and then to the given model
+  func configure(vc: VC, for testCase: String, model: VC.V.VM) {
+    // Reset this to nil so that animation depending on changes of the model should be skipped
+    vc.rootView.model = nil
+    vc.rootView.model = model
+  }
+
+  func uiTest(testCases: [String: VC.V.VM]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }

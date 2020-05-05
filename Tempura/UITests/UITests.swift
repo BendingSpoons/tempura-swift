@@ -29,33 +29,6 @@ public enum UITests {
    Sometimes it is required to execute some arbitrary code during the view lifecycle.
    Hooks can be used to customize the behaviour of the mocked view controller that renders the view.
    */
-  
-  
-  public struct VCScreenSnapshot<VC: AnyViewController> {
-    let vc: () -> VC
-    let container: Container
-    let testCases: [String]
-    let hooks: [Hook: HookClosure<VC.V>]
-    let size: CGSize
-    
-    init(vc: @autoclosure @escaping () -> VC, container: Container, testCases: [String], hooks: [Hook: HookClosure<VC.V>], size: CGSize) {
-      self.vc = vc
-      self.container = container
-      self.testCases = testCases
-      self.hooks = hooks
-      self.size = size
-    }
-    
-    public var renderingViewControllers: [String: (container: UIViewController, contained: VC)] {
-      return self.testCases.reduce(into: [String: (container: UIViewController, contained: VC)]()) { dict, identifier in
-        let containedVC = vc()
-        let containerVC = container.container(for: containedVC as! UIViewController)
-        dict[identifier] = (container: containerVC, contained: containedVC)
-      }
-    }
-    
-  }
-  
   public struct ScreenSnapshot<V: ViewControllerModellableView> {
     let viewType: V.Type
     let models: [String: V.VM]
@@ -90,7 +63,6 @@ public enum UITests {
       self.hooks = hooks
     }
   }
-  
   
   /// A Renderer will take a type of View, a ViewModel, a Container and will create the rendering UIViewController
   /// that will be used to render the View.
@@ -258,11 +230,17 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, shouldRenderSafeArea: Bool, completionClosure: @escaping () -> Void) {
+  static func asyncSnapshot(view: UIView,
+                            viewToWaitFor: UIView? = nil,
+                            description: String,
+                            configureClosure: (() -> Void)? = nil,
+                            isViewReadyClosure: @escaping (UIView) -> Bool,
+                            shouldRenderSafeArea: Bool,
+                            completionClosure: @escaping () -> Void) {
     let frame = UIScreen.main.bounds
     view.frame = frame
     
-    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
+    view.snapshotAsync(viewToWaitFor: viewToWaitFor, configureClosure: configureClosure, isViewReadyClosure: isViewReadyClosure, shouldRenderSafeArea: shouldRenderSafeArea) { snapshot in
       defer {
         completionClosure()
       }
