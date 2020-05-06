@@ -65,12 +65,15 @@ public protocol UIViewControllerTestCase {
 
 
 public extension UIViewControllerTestCase where Self: XCTestCase {
+  
   func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
+    
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
       return (identifier, description)
     })
+    
     let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
       return XCTestExpectation(description: description)
     }
@@ -78,12 +81,18 @@ public extension UIViewControllerTestCase where Self: XCTestCase {
     XCUIDevice.shared.orientation = context.orientation
 
     DispatchQueue.global().async {
+      
       for identifier in testCases {
         var contained: VC!
         var container: UIViewController!
+        var view: UIView!
+        var viewToWaitFor: UIView!
+    
         DispatchQueue.main.sync {
           contained = self.viewController
           container = context.container.container(for: contained)
+          view = container.view
+          viewToWaitFor = contained.view
         }
 
         guard let description = descriptions[identifier] else { continue }
@@ -105,31 +114,24 @@ public extension UIViewControllerTestCase where Self: XCTestCase {
           return isReady
         }
 
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        DispatchQueue.main.async {
-          UITests.asyncSnapshot(
-            view: container.view,
-            viewToWaitFor: contained.view,
-            description: description,
-            configureClosure: {
-              self.typeErasedConfigure(contained, identifier: identifier)
-            },
-            isViewReadyClosure: isViewReadyClosure,
-            shouldRenderSafeArea: context.renderSafeArea,
-            keyboardVisibility: context.keyboardVisibility(identifier)
-            ) {
-            // ScrollViews snapshot
-            self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
-              UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
-            }
-            dispatchGroup.leave()
-            expectations[identifier]?.fulfill()
+        UITests.syncSnapshot(view: view,
+                             viewToWaitFor: viewToWaitFor,
+                             description: description,
+                             configureClosure: {
+                              self.typeErasedConfigure(contained, identifier: identifier)
+                             },
+                             isViewReadyClosure: isViewReadyClosure,
+                             shouldRenderSafeArea: context.renderSafeArea,
+                             keyboardVisibility: context.keyboardVisibility(identifier))
+    
+        // ScrollViews snapshot
+        DispatchQueue.main.sync {
+          self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
+            UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)_scrollable_content \(screenSizeDescription)")
           }
         }
 
-        // wait for the test case to be completed before starting the next one
-        dispatchGroup.wait()
+        expectations[identifier]?.fulfill()
       }
     }
     

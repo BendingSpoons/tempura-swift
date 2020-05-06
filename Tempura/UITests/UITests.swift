@@ -230,6 +230,7 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
+  /// Ask for a snapshot of a UIView, when done the `completionClosure` is called.
   static func asyncSnapshot(view: UIView,
                             viewToWaitFor: UIView? = nil,
                             description: String,
@@ -258,6 +259,36 @@ public enum UITests {
       
       self.saveImage(image, description: description)
     }
+  }
+  
+  /// Ask for a snapshot of a UIView and wait for the result.
+  /// This must be called from a global queue, otherwise it will block the main thread.
+  static func syncSnapshot(view: UIView,
+                       viewToWaitFor: UIView? = nil,
+                       description: String,
+                       configureClosure: (() -> Void)? = nil,
+                       isViewReadyClosure: @escaping (UIView) -> Bool,
+                       shouldRenderSafeArea: Bool,
+                       keyboardVisibility: KeyboardVisibility) {
+    
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    
+    DispatchQueue.main.async {
+      
+      UITests.asyncSnapshot(view: view,
+                            viewToWaitFor: viewToWaitFor,
+                            description: description,
+                            configureClosure: configureClosure,
+                            isViewReadyClosure: isViewReadyClosure,
+                            shouldRenderSafeArea: shouldRenderSafeArea,
+                            keyboardVisibility: keyboardVisibility) {
+          
+        dispatchGroup.leave()
+      }
+    }
+    
+    dispatchGroup.wait()
   }
   
   static func snapshotScrollableContent(_ scrollView: UIScrollView, description: String) {
