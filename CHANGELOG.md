@@ -1,3 +1,6 @@
+## master
+* add `optionalCustom` `NavigationInstruction`
+
 ## 4.3.1
 * Make `CustomRouteInspectables` and `RouteInspectable` public
 
