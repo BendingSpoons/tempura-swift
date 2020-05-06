@@ -1,5 +1,10 @@
-## master
-* add `optionalCustom` `NavigationInstruction`
+## Tempura 4.4.0
+* Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.
+
+## TempuraTesting 5.0.0
+*  `ViewControllerTestCase` will now wait for view to be ready after configure
+* `ViewControllerTestCase` will now let you test `UIViewController`s with a `ModellableView` other than `ViewController`s.
+* Introduce `UIViewControllerTestCase` to test `UIViewController`s with `UIView`s.
 
 ## 4.3.1
 * Make `CustomRouteInspectables` and `RouteInspectable` public
