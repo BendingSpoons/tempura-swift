@@ -101,7 +101,7 @@ public extension ViewTestCase where Self: XCTestCase {
                             keyboardVisibility: context.keyboardVisibility(identifier)) {
                               // ScrollViews snapshot
                               self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
-                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_scrollable_content \(screenSizeDescription)")
+                                UITests.snapshotScrollableContent(entry.value, description: "\(identifier)_\(entry.key)_scrollable_content \(screenSizeDescription)")
                               }
                               expectation.fulfill()
       }
