@@ -1,3 +1,6 @@
+## TempuraTesting 5.0.1
+*  Fix issue with `configure(:::)` being called too early for `ViewControllerTestCase`s with a `ViewControllerWithLocalState`. 
+
 ## Tempura 4.4.0
 * Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.
 
