@@ -1,3 +1,6 @@
+## Tempura 4.?
+* Reverse `.popToViewController` NavigationInstruction to find the last `Routable` instead of the first (in case the same `routeIdentifier` is present in the stack)
+
 ## Tempura 4.4.0
 * Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.
 

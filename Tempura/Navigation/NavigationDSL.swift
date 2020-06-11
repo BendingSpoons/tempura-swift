@@ -180,7 +180,7 @@ public enum NavigationInstruction {
       handled = true
 
     case let .popToViewController(destinationIdentifier):
-      guard let destinationViewController = UIApplication.shared.currentViewControllers.first(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier }) else {
+      guard let destinationViewController = UIApplication.shared.currentViewControllers.last(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier }) else {
         fatalError("PopToViewController requested to an unknown destination view controller")
       }
 
