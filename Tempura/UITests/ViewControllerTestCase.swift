@@ -108,6 +108,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           contained = self.viewController
           container = context.container.container(for: contained)
           view = container.view
+          view.frame.size = context.screenSize
           viewToWaitFor = contained.view
         }
 
