@@ -1,3 +1,6 @@
+## TempuraTesting 5.0.2
+*  Fix issue with `screenSize` not set on the View being tested. 
+
 ## TempuraTesting 5.0.1
 *  Fix issue with `configure(:::)` being called too early for `ViewControllerTestCase`s with a `ViewControllerWithLocalState`. 
 
