@@ -239,8 +239,6 @@ public enum UITests {
                             shouldRenderSafeArea: Bool,
                             keyboardVisibility: KeyboardVisibility,
                             completionClosure: @escaping () -> Void) {
-    let frame = UIScreen.main.bounds
-    view.frame = frame
     
     view.snapshotAsync(
       viewToWaitFor: viewToWaitFor,
