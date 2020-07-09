@@ -10,15 +10,15 @@ import Katana
 import Tempura
 
 final class DependenciesContainer: NavigationProvider {
-  var dispatch: Dispatch
+  var dispatch: AnyDispatch
   var getState: GetState
   var navigator: Navigator = Navigator()
   
   required init(
-    dispatch: @escaping SideEffectDependencyContainer.Dispatch,
+    dispatch: @escaping AnyDispatch,
     getState: @escaping GetState
   ) {
-    self.dispatch = { dispatchable in dispatch(dispatchable).void }
+    self.dispatch = dispatch
     self.getState = getState
   }
 }
