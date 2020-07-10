@@ -60,6 +60,7 @@ class ScreenTests: XCTestCase, ViewTestCase {
 }
 
 class VCTests: XCTestCase, ViewControllerTestCase {
+  typealias V = AddItemView
   
   var viewController: AddItemViewController {
     let store = Store<VC.V.VM.S, EmptySideEffectDependencyContainer>()
@@ -77,6 +78,6 @@ class VCTests: XCTestCase, ViewControllerTestCase {
   
 
   func testVC() {
-    self.uiTest(testCases: ["firstTest"], context: UITests.VCContext<VCTests.VC>())
+    self.uiTest(testCases: ["firstTest"], context: UITests.VCContext<AddItemView>())
   }
 }

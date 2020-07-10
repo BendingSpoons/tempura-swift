@@ -1,3 +1,6 @@
+## 5.0.4-beta3
+* Update to Katana 4.0.3-beta3
+
 ## 5.0.4-beta2
 * Update to Katana 4.0.3-beta2
 
