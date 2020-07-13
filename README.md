@@ -104,7 +104,9 @@ class ListViewController: ViewController<ListView> {
 }
 ```
 
-Note that the `dispatch` method of view controllers is a bit different then the one exposed by the Katana store: it accept a simple `Dispatchable` and does not return anything. This is done to avoid implementing logic inside the view controller. If your interaction handler needs to do more than one single thing, you should pack all that logic in a side effect and dispatch that.
+Note that the `dispatch` method of view controllers is a bit different than the one exposed by the Katana store: it accepts a simple `Dispatchable` and does not return anything. This is done to avoid implementing logic inside the view controller. 
+
+If your interaction handler needs to do more than one single thing, you should pack all that logic in a side effect and dispatch that.
 
 For the rare cases when it's needed to have a bit of logic in a view controller (for example when updating an old app without wanting to completely refactor all the logic) you can use the following methods:
 - `open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void>`
