@@ -111,7 +111,7 @@ If your interaction handler needs to do more than one single thing, you should p
 For the rare cases when it's needed to have a bit of logic in a view controller (for example when updating an old app without wanting to completely refactor all the logic) you can use the following methods:
 - `open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void>`
 - `open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturningValue>`
-Note however that usage of this methods is HIGHLY discouraged, and they will be removed in a future version.
+**Note however that usage of this methods is HIGHLY discouraged, and they will be removed in a future version.**
 
 ### Navigation
 
