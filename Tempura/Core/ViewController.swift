@@ -239,7 +239,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect `T`.
   @discardableResult
-  open func __unsafeDispatch<T: SideEffect>(_ dispatchable: T) -> Promise<T.ReturnValue> {
+  open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturningValue> {
     return self.store.dispatch(dispatchable)
   }
   
