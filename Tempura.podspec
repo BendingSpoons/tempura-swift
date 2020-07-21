@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Tempura'
-  s.version          = File.read(".version")
+  s.version          = File.read(".version-tempura")
   s.summary          = 'UI architecture for apps'
 
   s.homepage         = 'https://bendingspoons.com'
