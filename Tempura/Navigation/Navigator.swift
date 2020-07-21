@@ -429,8 +429,7 @@ public class Navigator {
             if !handled { fatalError("installRoot of identifier: '\(to)' is not handled by the rootInstaller") }
           }
         }
-        let waitUntil = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        let result = semaphore.wait(timeout: waitUntil)
+        let result = semaphore.wait(timeout: .now() + .seconds(3))
         
         if case .timedOut = result {
           print("stuck waiting for routing to complete. Ensure that you called the completion handler in each Routable element")
