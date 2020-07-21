@@ -93,9 +93,9 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
       return XCTestExpectation(description: description)
     }
-    
+
     XCUIDevice.shared.orientation = context.orientation
-    
+
     DispatchQueue.global().async {
       
       for (identifier, model) in testCases {
@@ -111,23 +111,23 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           view.frame.size = context.screenSize
           viewToWaitFor = contained.view
         }
-        
+
         guard let description = descriptions[identifier] else { continue }
-        
+
         let isViewReadyClosure: (UIView) -> Bool = { view in
           var isOrientationCorrect = true
-          
+
           // read again in case some weird code changed it outside the ViewControllerTestCase APIs
           let isViewInPortrait = view.frame.size.height > view.frame.size.width
-          
+
           if context.orientation.isPortrait {
             isOrientationCorrect = isViewInPortrait
           } else if context.orientation.isLandscape {
             isOrientationCorrect = !isViewInPortrait
           }
-          
+
           let isReady = isOrientationCorrect && self.typeErasedIsViewReady(view, identifier: identifier)
-          
+
           return isReady
         }
         
@@ -140,7 +140,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
                              isViewReadyClosure: isViewReadyClosure,
                              shouldRenderSafeArea: context.renderSafeArea,
                              keyboardVisibility: context.keyboardVisibility(identifier))
-        
+
         // ScrollViews snapshot
         DispatchQueue.main.sync {
           self.scrollViewsToTest(in: contained, identifier: identifier).forEach { entry in
@@ -154,14 +154,14 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     
     self.wait(for: Array(expectations.values), timeout: 100)
   }
-  
+
   func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? VC.V else {
       return false
     }
     return self.isViewReady(view, identifier: identifier)
   }
-  
+
   func typeErasedConfigure(_ vc: UIViewController, identifier: String, model: ViewModel) -> Void {
     guard
       let vc = vc as? VC,
@@ -169,7 +169,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
       else {
         return
     }
-    
+
     self.configure(vc: vc, for: identifier, model: model)
   }
 }
@@ -179,14 +179,14 @@ public extension ViewControllerTestCase {
   func isViewReady(_ view: VC.V, identifier: String) -> Bool {
     return true
   }
-  
+
   /// The default implementation sets the model of the root view to nil and then to the given model
   func configure(vc: VC, for testCase: String, model: VC.V.VM) {
     // Reset this to nil so that animation depending on changes of the model should be skipped
     vc.rootView.model = nil
     vc.rootView.model = model
   }
-  
+
   func uiTest(testCases: [String: VC.V.VM]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
@@ -202,19 +202,19 @@ extension UITests {
     
     /// the container in which the main view of the VC will be embedded
     public var container: UITests.Container
-    
+
     /// the size of the window in which the view will be rendered
     public var screenSize: CGSize
     
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
-    
+
     /// whether black dimmed rectangles should be rendered showing the safe area insets
     public var renderSafeArea: Bool
-    
+
     /// whether gray rectangle representing the keyboard should be rendered on top of the view, for a given test case
     public var keyboardVisibility: (String) -> KeyboardVisibility
-    
+
     public init(container: Container = .none,
                 screenSize: CGSize = UIScreen.main.bounds.size,
                 orientation: UIDeviceOrientation = .portrait,

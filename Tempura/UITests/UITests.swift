@@ -281,7 +281,6 @@ public enum UITests {
                             isViewReadyClosure: isViewReadyClosure,
                             shouldRenderSafeArea: shouldRenderSafeArea,
                             keyboardVisibility: keyboardVisibility) {
-                              
                               dispatchGroup.leave()
       }
     }
