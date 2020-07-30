@@ -1,27 +1,8 @@
-## 5.0.4-beta3
-* Update to Katana 4.0.3-beta3
-
-## 5.0.4-beta2
-* Update to Katana 4.0.3-beta2
-
-## 5.0.4-beta
-* Update to Katana 4.0.3-beta
-
-## 5.0.3-beta
-* Add proper dispatch overload for katana
-
-## 5.0.2-beta
-* Update to Katana 4.0.2-beta
-* Clean up dispatch signatures
-
-## 5.0.1-beta
-* Update to Katana 4.0.1-beta
-* Expose a non-generic dispatch for ViewController 
-
-## 5.0.0-beta
-* Update to Katana 4.0.0-beta
+## 5.0.4
+* Update to Katana 4
 * Make the ViewController `dispatch` method returns Void
 * Add to the ViewController `__unsafe_dispatch` method that returns a promise
+* Expose a non-generic dispatch for ViewController 
 
 ## 4.3.0
 * Add support for rendering Safe Area Insets in UITests
