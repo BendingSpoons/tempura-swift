@@ -1,19 +1,8 @@
-## TempuraTesting 5.0.2
-*  Fix issue with `screenSize` not set on the View being tested. 
-
-## TempuraTesting 5.0.1
-*  Fix issue with `configure(:::)` being called too early for `ViewControllerTestCase`s with a `ViewControllerWithLocalState`. 
-
-## Tempura 4.4.0
-* Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.
-
-## TempuraTesting 5.0.0
-*  `ViewControllerTestCase` will now wait for view to be ready after configure
-* `ViewControllerTestCase` will now let you test `UIViewController`s with a `ModellableView` other than `ViewController`s.
-* Introduce `UIViewControllerTestCase` to test `UIViewController`s with `UIView`s.
-
-## 4.3.1
-* Make `CustomRouteInspectables` and `RouteInspectable` public
+## 5.0.0
+* Update to Katana 4
+* Make the ViewController `dispatch` method returns Void
+* Add to the ViewController `__unsafe_dispatch` method that returns a promise
+* Expose a non-generic dispatch for ViewController 
 
 ## 4.3.0
 * Add support for rendering Safe Area Insets in UITests

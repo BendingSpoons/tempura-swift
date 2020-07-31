@@ -83,11 +83,13 @@ class ViewControllerSpec: QuickSpec {
         }
       }
       
-      var store: PartialStore<AppState>!
+      var store: Store<AppState, EmptySideEffectDependencyContainer>!
       var testVC: TestViewController!
       
       beforeEach {
         store = Store<AppState, EmptySideEffectDependencyContainer>()
+        expect(store.isReady).toEventually(beTrue())
+        
         testVC = TestViewController(store: store, connected: true)
       }
       
@@ -140,9 +142,8 @@ class ViewControllerSpec: QuickSpec {
         expect(testVC.numberOfTimesWillUpdateIsCalled).to(equal(1))
         expect(testVC.numberOfTimesDidUpdateIsCalled).to(equal(1))
         store.dispatch(Increment())
-        // it will be 3 instead of 2 as Katana is performing a warm up update
-        expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(3))
-        expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(3))
+        expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(2))
+        expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
         expect(testVC.newViewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(2))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
       }
@@ -186,8 +187,7 @@ class ViewControllerSpec: QuickSpec {
         expect(vc.numberOfTimesDidUpdateIsCalled).to(equal(1))
         vc.viewWillDisappear(false)
         store.dispatch(Increment())
-        /// it's 3 and not 2 as Katana is performing a warm up update
-        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(3))
+        expect(vc.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
       }
       
       it("a ViewController with connected == 'true' should have a nil ViewModel when a specific state result in a nil ViewModel") {

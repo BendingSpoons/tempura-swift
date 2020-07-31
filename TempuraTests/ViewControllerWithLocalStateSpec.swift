@@ -98,11 +98,13 @@ class ViewControllerWithLocalStateSpec: QuickSpec {
         }
       }
       
-      var store: PartialStore<AppState>!
+      var store: Store<AppState, EmptySideEffectDependencyContainer>!
       var testVC: TestViewControllerWithLocalState!
       
       beforeEach {
         store = Store<AppState, EmptySideEffectDependencyContainer>()
+        expect(store.isReady).toEventually(beTrue())
+
         testVC = TestViewControllerWithLocalState(store: store)
       }
       

@@ -197,16 +197,16 @@ public enum UITests {
     
     func container(for vc: UIViewController) -> UIViewController {
       switch self {
-        case .none:
-          return vc
-        case .navigationController:
-          return UINavigationController(rootViewController: vc)
-        case .tabBarController:
-          let tc = UITabBarController()
-          tc.viewControllers = [vc]
-          return tc
-        case .custom (let customController):
-          return customController(vc)
+      case .none:
+        return vc
+      case .navigationController:
+        return UINavigationController(rootViewController: vc)
+      case .tabBarController:
+        let tc = UITabBarController()
+        tc.viewControllers = [vc]
+        return tc
+      case .custom (let customController):
+        return customController(vc)
       }
     }
   }
@@ -262,12 +262,12 @@ public enum UITests {
   /// Ask for a snapshot of a UIView and wait for the result.
   /// This must be called from a global queue, otherwise it will block the main thread.
   static func syncSnapshot(view: UIView,
-                       viewToWaitFor: UIView? = nil,
-                       description: String,
-                       configureClosure: (() -> Void)? = nil,
-                       isViewReadyClosure: @escaping (UIView) -> Bool,
-                       shouldRenderSafeArea: Bool,
-                       keyboardVisibility: KeyboardVisibility) {
+                           viewToWaitFor: UIView? = nil,
+                           description: String,
+                           configureClosure: (() -> Void)? = nil,
+                           isViewReadyClosure: @escaping (UIView) -> Bool,
+                           shouldRenderSafeArea: Bool,
+                           keyboardVisibility: KeyboardVisibility) {
     
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
@@ -281,8 +281,7 @@ public enum UITests {
                             isViewReadyClosure: isViewReadyClosure,
                             shouldRenderSafeArea: shouldRenderSafeArea,
                             keyboardVisibility: keyboardVisibility) {
-          
-        dispatchGroup.leave()
+                              dispatchGroup.leave()
       }
     }
     
