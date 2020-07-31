@@ -1,4 +1,4 @@
-## 5.0.4
+## 5.0.0
 * Update to Katana 4
 * Make the ViewController `dispatch` method returns Void
 * Add to the ViewController `__unsafe_dispatch` method that returns a promise
