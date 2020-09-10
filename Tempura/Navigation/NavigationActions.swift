@@ -133,6 +133,7 @@ public struct Hide: NavigationSideEffect {
 
 // MARK: - Katana Helpers
 extension ViewController {
+  @discardableResult
   public func __unsafeDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
