@@ -1,3 +1,8 @@
+## Tempura 5.1.0
+* Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
+* Deprecated `__unsafeAwaitDispatch` from `ViewController` for `NavigationSideEffect`s
+* Added `__unsafeDispatch` for non-returning sideeffects in `ViewController`
+
 ## TempuraTesting 6.0.0
 * Update to Katana 4
 
