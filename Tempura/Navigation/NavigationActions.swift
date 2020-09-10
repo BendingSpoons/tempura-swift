@@ -166,7 +166,6 @@ extension ViewController {
   }
 
   @available(*, deprecated)
-  @discardableResult
   public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
     return try await(self.store.dispatch(dispatchable))
   }
