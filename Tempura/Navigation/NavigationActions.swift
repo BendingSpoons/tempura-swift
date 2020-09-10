@@ -132,9 +132,42 @@ public struct Hide: NavigationSideEffect {
 }
 
 // MARK: - Katana Helpers
+
+extension AnyStore {
+  @available(*, deprecated, message: "Deprecated in favor of Katana's dispatch")
+  @discardableResult
+  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
+    return self.anyDispatch(dispatchable).void
+  }
+
+  @available(*, deprecated)
+  public func awaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
+    return try await(self.dispatch(dispatchable))
+  }
+}
+
+extension AnySideEffectContext {
+  @available(*, deprecated, message: "Deprecated in favor of Katana's dispatch")
+  @discardableResult
+  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
+    return self.anyDispatch(dispatchable).void
+  }
+
+  @available(*, deprecated)
+  public func awaitDispatch<RSE: NavigationSideEffect>(ramen dispatchable: RSE) throws {
+    return try await(self.dispatch(dispatchable))
+  }
+}
+
 extension ViewController {
   @discardableResult
   public func __unsafeDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
+  }
+
+  @available(*, deprecated)
+  @discardableResult
+  public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
+    return try await(self.store.dispatch(dispatchable))
   }
 }
