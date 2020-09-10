@@ -131,34 +131,3 @@ public struct Hide: NavigationSideEffect {
   }
 }
 
-// MARK: - Katana Helpers
-
-extension AnyStore {
-  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.anyDispatch(dispatchable).void
-  }
-
-  public func awaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
-  }
-}
-
-extension AnySideEffectContext {
-  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.anyDispatch(dispatchable).void
-  }
-
-  public func awaitDispatch<RSE: NavigationSideEffect>(ramen dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
-  }
-}
-
-extension ViewController {
-  public func __unsafeDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.store.dispatch(dispatchable)
-  }
-
-  public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.store.dispatch(dispatchable))
-  }
-}
