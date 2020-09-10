@@ -236,6 +236,12 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
+
+  /// Shortcut to the dispatch function. This will return a Promise<Void> when called on a non returning SideEffect `T`.
+  @discardableResult
+  open func __unsafeDispatch<T: SideEffect>(_ dispatchable: T) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
+  }
   
   /// Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect `T`.
   @discardableResult
