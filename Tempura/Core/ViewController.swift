@@ -9,10 +9,21 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> ()
+public typealias CustomInteraction<T> = (T) -> ()
+
+/// Partial Type Erasure for the ViewController
+/// Each `ViewController` is an `AnyViewController`
+public protocol AnyViewController {
+  /// The type of the View managed by the ViewController
+  associatedtype V: ViewControllerModellableView & UIView
+  /// The View managed by the ViewController
+  var rootView: V { get }
+}
 
 /// Manages a screen of your app, it keeps the UI updated and listens for user interactions.
 
@@ -143,7 +154,7 @@ public typealias Interaction = () -> ()
 /// If you don't want this to happen automatically every time the ViewControllet will become invisible,
 /// set `sholdDisconnectWhenInvisible` to `false`
 
-open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController {
+open class ViewController<V: ViewControllerModellableView & UIView>: UIViewController, AnyViewController {
   /// `true` if the ViewController is connected to the store, false otherwise.
   /// A connected ViewController will receive all the updates from the store.
   /// Tempura will set this property to true when the ViewController is about to be displayed on screen,
@@ -160,7 +171,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// The store the ViewController will use to receive state updates.
-  public var store: Store<V.VM.S>
+  public var store: PartialStore<V.VM.S>
   
   /// The state of this ViewController
   public var state: V.VM.S {
@@ -168,19 +179,8 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Closure used to unsubscribe the viewController from state updates.
- var unsubscribe: StoreUnsubscribe?
+  var unsubscribe: StoreUnsubscribe?
   
-  /// Whether the view controller should disconnect itself from the store updates on `viewWillDisappear`.
-  /// Deprecated, use `shouldDisconnectWhenInvisible` instead.
-  @available(*, deprecated: 1.2.0, renamed: "shouldDisconnectWhenInvisible")
-  public var shouldDisconnectOnViewWillDisappear: Bool {
-    get {
-      return self.shouldDisconnectWhenInvisible
-    }
-    set {
-      self.shouldDisconnectWhenInvisible = newValue
-    }
-  }
   /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible.
   public var shouldConnectWhenVisible = true
   
@@ -216,7 +216,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   }
   
   /// Returns a newly initialized ViewController object.
-  public init(store: Store<V.VM.S>, connected: Bool = false) {
+  public init(store: PartialStore<V.VM.S>, connected: Bool = false) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
     self.setup()
@@ -226,15 +226,27 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Override to setup something after init.
   open func setup() {}
   
-  /// Shortcut to the dispatch function.
-  @available(*, deprecated, message: "remove `action` label")
-  open func dispatch(action: Action) {
-    self.store.dispatch(action)
+  /// Shortcut to the non-generic dispatch function.
+  open func dispatch(_ dispatchable: Dispatchable) {
+    self.store.anyDispatch(dispatchable)
   }
   
-  /// Shortcut to the dispatch function.
-  open func dispatch(_ action: Action) {
-    self.store.dispatch(action)
+  /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
+  @discardableResult
+  open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
+  }
+
+  /// Shortcut to the dispatch function. This will return a Promise<Void> when called on a non returning SideEffect `T`.
+  @discardableResult
+  open func __unsafeDispatch<T: SideEffect>(_ dispatchable: T) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
+  }
+  
+  /// Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect `T`.
+  @discardableResult
+  open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturnValue> {
+    return self.store.dispatch(dispatchable)
   }
   
   /// Required init.
@@ -273,7 +285,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
   }
   
-  /// Called every time the store trigger a state update.
+  /// Called every time the store triggers a state update.
   func storeDidChange() {
     mainThread {
      self.update(with: self.state)

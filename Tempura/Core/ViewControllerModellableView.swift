@@ -41,16 +41,16 @@ public protocol AnyViewControllerModellableView {
 public extension ViewControllerModellableView {
   
   /// Shortcut to the navigationBar, if present.
-  public var navigationBar: UINavigationBar? {
+  var navigationBar: UINavigationBar? {
     return viewController?.navigationController?.navigationBar
   }
   
   /// Shortcut to the navigationItem, if present.
-  public var navigationItem: UINavigationItem? {
+  var navigationItem: UINavigationItem? {
     return viewController?.navigationItem
   }
   /// Syntactic sugar to access the `ViewController` that is managing this View.
-  public var viewController: UIViewController? {
+  var viewController: UIViewController? {
     get {
       return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
     }
@@ -69,7 +69,8 @@ public extension ViewControllerModellableView {
 /// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
 /// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
 public extension UIView {
-  public var universalSafeAreaInsets: UIEdgeInsets {
+  /// Implementation of safeAreaInsets in order to be accessible even to older iOS versions.
+  var universalSafeAreaInsets: UIEdgeInsets {
     if #available(iOS 11.0, *) {
       return self.safeAreaInsets
     } else {

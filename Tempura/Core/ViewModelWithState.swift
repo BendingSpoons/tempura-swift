@@ -28,6 +28,7 @@ import Katana
 ///    }
 /// ```
 public protocol ViewModelWithState: ViewModel {
+  /// The type of the State for this ViewModel
   associatedtype S: State
   /// Instantiate a ViewModelWithState given the Katana app state.
   init?(state: S)

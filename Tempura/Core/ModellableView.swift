@@ -105,6 +105,7 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 /// ```
 
 public protocol ModellableView: View {
+  /// The type of the ViewModel associated with the View
   associatedtype VM: ViewModel
   
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
@@ -154,7 +155,7 @@ public extension ModellableView {
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
   /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
-  public var model: VM? {
+  var model: VM? {
     get {
       return self.modelWrapper.model
     }
@@ -166,7 +167,7 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
-  /// Will throw a fatalError. Use `update(oldMdel:)` instead.
+  /// Will throw a fatalError. Use `update(oldModel:)` instead.
   func update() {
     fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
   }

@@ -12,7 +12,7 @@ import DeepDiff
 /// Source protocol defines the methods needed to automatically implement a
 /// UICollectionViewDataSource delegate around a specific type of data `SourceType`
 public protocol Source {
-  associatedtype SourceType: Equatable
+  associatedtype SourceType: DiffAware
   func numberOfSections() -> Int
   func numberOfRows(section: Int) -> Int
   func data(section: Int, row: Int) -> SourceType?
@@ -24,7 +24,7 @@ public protocol Source {
 
 /// SimpleSource is the default implementation of a Source used for a simple
 /// UICollectionView with only one section. This is using [T] as main data structure
-public class SimpleSource<T: Hashable>: Source {
+public class SimpleSource<T: DiffAware>: Source {
   private var items: [T] = []
   
   public init(_ items: [T]) {
@@ -48,13 +48,13 @@ public class SimpleSource<T: Hashable>: Source {
   public func diffUpdate(for collectionView: UICollectionView, old: SimpleSource<T>) {
     //collectionView.animateItemChanges(oldData: old.items, newData: self.items, readyToUpdateDataSource: readyToUpdateDataSource)
     let changes = diff(old: old.items, new: self.items)
-    collectionView.reload(changes: changes) { _ in }
+    collectionView.reload(changes: changes, updateData: {})
   }
 }
 
 /// SimpleSource is the default implementation of a Source used for a generic
 /// UICollectionView with more than one section. This is [[T]] as main data structure
-public class SourceWithSections<T: Equatable>: Source {
+public class SourceWithSections<T: DiffAware>: Source {
   
   private var items: [[T]] = []
   

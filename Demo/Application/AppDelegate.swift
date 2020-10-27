@@ -14,10 +14,10 @@ import Tempura
 class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   var window: UIWindow?
-  var store: Store<AppState>!
+  var store: Store<AppState, DependenciesContainer>!
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    self.store = Store<AppState>(middleware: [], dependencies: DependenciesContainer.self)
+    self.store = Store<AppState, DependenciesContainer>()
     
     self.window = UIWindow(frame: UIScreen.main.bounds)
     
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
     /// this is done by invoking this method (and not in the init of the navigator)
     /// because the navigator is instantiated by the Store.
     /// this in turn will invoke the `installRootMethod` of the rootInstaller (self)
-    let navigator: Navigator! = (self.store!.dependencies as! DependenciesContainer).navigator
+    let navigator: Navigator! = self.store!.dependencies.navigator
     navigator.start(using: self, in: self.window!, at: Screen.list)
     
     return true
@@ -33,12 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RootInstaller {
 
   /// install the root of the app
   /// this method is called by the navigator when needed
-  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
     if identifier == Screen.list.rawValue {
-      let listViewController = ListViewController(store: self.store)
+      let listViewController = ListViewController(store: self.store, localState: ListLocalState())
       self.window?.rootViewController = listViewController
       completion()
+      return true
     }
+    return false
   }
 
   func applicationWillResignActive(_ application: UIApplication) {}

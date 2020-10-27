@@ -1,37 +1,44 @@
 PODS:
-  - DeepDiff (1.2.0)
-  - Katana (2.0.0)
-  - Nimble (7.1.1)
-  - PinLayout (1.7.4)
-  - Quick (1.3.0)
-  - Tempura (2.0.0):
-    - Katana (< 3, >= 2.0)
+  - DeepDiff (2.3.1)
+  - HydraAsync (2.0.3)
+  - Katana (4.0.0):
+    - HydraAsync (~> 2.0)
+  - Nimble (7.3.4)
+  - PinLayout (1.9.2)
+  - Quick (1.3.4)
+  - Tempura (5.0.0):
+    - Katana (< 5, >= 4.0)
 
 DEPENDENCIES:
-  - DeepDiff (~> 1.2)
-  - Katana (< 3, >= 2.0)
-  - Nimble (~> 7.1)
+  - DeepDiff (~> 2.0)
+  - Katana (< 5, >= 4.0)
+  - Nimble (~> 7.3)
   - PinLayout
-  - Quick (~> 1.2)
-  - Tempura (~> 2.0)
+  - Quick (~> 1.3)
+  - Tempura (from `.`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - DeepDiff
+    - HydraAsync
     - Katana
     - Nimble
     - PinLayout
     - Quick
-    - Tempura
+
+EXTERNAL SOURCES:
+  Tempura:
+    :path: "."
 
 SPEC CHECKSUMS:
-  DeepDiff: 0ee83ac6942d441f677c22e981548c6e0937f2b6
-  Katana: f624d693c272dac8e3a20c5049a34d0821f067c9
-  Nimble: 391f07782af4b37914f9bd7b2ffbb952731b8202
-  PinLayout: 7903960df1061eeebd393690286df73e002d9b20
-  Quick: 03278013f71aa05fe9ecabc94fbcc6835f1ee76f
-  Tempura: a1f844053e610e3f172bad9e8ed3d04a2362a2f5
+  DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
+  HydraAsync: e931acbcd0733d157fe50561a98d3140ba4ba2df
+  Katana: 53a75f8807aa91ff52438275f8631fd276f6e60a
+  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
+  PinLayout: 0d96022e46e8b80468d819f182a393b97ca038da
+  Quick: f4f7f063c524394c73ed93ac70983c609805d481
+  Tempura: b64fae32b8654887b94c11e7f7695171e01a60e0
 
-PODFILE CHECKSUM: 22bf2c8c4b223c6884076ccacedc362de68f33d6
+PODFILE CHECKSUM: 732b51025adc686a7d33b38f7edc1d7d27fb9f30
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.9.3

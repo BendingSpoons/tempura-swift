@@ -12,23 +12,15 @@ class ViewControllerSpec: QuickSpec {
         var dataFromAPIRequest: String? = "something"
       }
       
-      struct Increment: Action {
-        func updatedState(currentState: State) -> State {
-          guard var state = currentState as? AppState else {
-            fatalError()
-          }
-          state.counter += 1
-          return state
+      struct Increment: StateUpdater {
+        func updateState(_ currentState: inout AppState) {
+          currentState.counter += 1
         }
       }
       
-      struct ResetDataFromAPI: Action {
-        func updatedState(currentState: State) -> State {
-          guard var state = currentState as? AppState else {
-            fatalError()
-          }
-          state.dataFromAPIRequest = nil
-          return state
+      struct ResetDataFromAPI: StateUpdater {
+        func updateState(_ currentState: inout AppState) {
+          currentState.dataFromAPIRequest = nil
         }
       }
       
@@ -91,11 +83,13 @@ class ViewControllerSpec: QuickSpec {
         }
       }
       
-      var store: Store<AppState>!
+      var store: Store<AppState, EmptySideEffectDependencyContainer>!
       var testVC: TestViewController!
       
       beforeEach {
-        store = Store<AppState>(middleware: [], dependencies: EmptySideEffectDependencyContainer.self)
+        store = Store<AppState, EmptySideEffectDependencyContainer>()
+        expect(store.isReady).toEventually(beTrue())
+        
         testVC = TestViewController(store: store, connected: true)
       }
       
@@ -150,10 +144,8 @@ class ViewControllerSpec: QuickSpec {
         store.dispatch(Increment())
         expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(2))
         expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
-        expect(testVC.viewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
         expect(testVC.newViewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(2))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
-        expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
       it("a ViewController with connected == 'false' should connect as soon as it becomes visible if 'shouldConnectWhenVisible' == true") {

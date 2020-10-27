@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Navigator Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Navigator" class="dashAnchor"></a>
+    <a title="Navigator Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Tempura Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Tempura Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Navigator Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Navigator.html">Navigator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewController.html">ViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewControllerWithLocalState.html">ViewControllerWithLocalState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction.html">NavigationInstruction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NavigationInstruction/ModalDismissBehaviour.html">– ModalDismissBehaviour</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/UIApplication.html">UIApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/AnyViewController.html">AnyViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalState.html">LocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LocalStateableViewModel.html">LocalStateableViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ModellableView.html">ModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RootInstaller.html">RootInstaller</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Routable.html">Routable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura9ViewModelP">ViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Hide.html">Hide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/HideLegacy.html">HideLegacy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Navigate.html">Navigate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Show.html">Show</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ShowLegacy.html">ShowLegacy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura29CustomNavigationOptionClosurea">CustomNavigationOptionClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura17RoutingCompletiona">RoutingCompletion</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Navigator</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Navigator</span></code></pre>
+
+                </div>
+              </div>
+            <p>Main class that is handling the navigation in a Tempura app.</p>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>When it comes to creating a complex app, the way you handle the navigation between
+different screens is an important factor on the final result.</p>
+
+<p>We believe that relying on the native iOS navigation system, even in a Redux-like
+environment like Katana, is the right choice for our stack, because:</p>
+
+<ul>
+<li><p>there is no navigation code to write and maintain just to mimic the way
+native navigation works</p></li>
+<li><p>native navigation gestures will come for free and will stay up to date
+with new iOS releases</p></li>
+<li><p>the app will feel more <q>native</q></p></li>
+</ul>
+
+<p>For these reasons we found a way to reconcile the redux-like world of Katana
+with the imperative world of the iOS navigation.</p>
+<h2 id='the-routable-protocol' class='heading'>The Routable protocol</h2>
+
+<p>If a Screen (read ViewController) takes an active part on the navigation
+(i.e. needs to present another screen) it must conform to the <code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> protocol.</p>
+<pre class="highlight swift"><code>   <span class="kd">protocol</span> <span class="kt">RoutableWithConfiguration</span><span class="p">:</span> <span class="kt">Routable</span> <span class="p">{</span>
+
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+
+     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+<pre class="highlight swift"><code>   <span class="kd">typealias</span> <span class="kt">RouteElementIdentifier</span> <span class="o">=</span> <span class="kt">String</span>
+</code></pre>
+
+<p>Each <code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> can be asked by the Navigator navigation to
+perform a specific navigation task (like present another ViewController)
+based on the navigation action (<code><a href="../Structs/Show.html">Show</a></code>, <code><a href="../Structs/Hide.html">Hide</a></code>) you dispatch.</p>
+<h2 id='the-route' class='heading'>The route</h2>
+
+<p>A <code><a href="../Typealiases.html#/s:7Tempura5Routea">Route</a></code> is an array that represents a navigation path to a specific screen.</p>
+<pre class="highlight swift"><code>   <span class="kd">typealias</span> <span class="kt">Route</span> <span class="o">=</span> <span class="p">[</span><span class="kt">RouteElementIdentifier</span><span class="p">]</span>
+</code></pre>
+<h2 id='how-the-navigation-works' class='heading'>How the navigation works</h2>
+
+<p>Suppose we have a current <code><a href="../Typealiases.html#/s:7Tempura5Routea">Route</a></code> like <a href="being" title="screenB"><q>screenA</q>, <q>screenB</q></a>
+the topmost ViewController/RoutableWithConfiguration in the visible hierarchy.</p>
+
+<p>Tempura will expose two main navigation actions:</p>
+<h3 id='show' class='heading'>Show</h3>
+<pre class="highlight swift"><code>   <span class="kt">Show</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre>
+
+<p>When this action is dispatched, the <code>Navigator</code> will ask <q>screenB</q> (the topmost
+<code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> to handle that action, looking at its
+<code>navigationConfiguration</code>).</p>
+
+<p>In order to allow <q>screenB</q> to present <q>screenC</q>, we need to add a <code><a href="../Structs/NavigationRequest.html">NavigationRequest</a></code>
+inside the <code>navigationConfiguration</code> of <q>screenB</q> that will match the <code>Show(&quot;screenC&quot;)</code> action
+with a <code>.show(&quot;screenC&quot;)</code> <code><a href="../Structs/NavigationRequest.html">NavigationRequest</a></code>.</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ScreenB</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
+
+     <span class="c1">// needed by the `Routable` protocol</span>
+     <span class="c1">// to identify this ViewController in the hierarchy</span>
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"screenB"</span>
+     <span class="p">}</span>
+
+     <span class="c1">// the `NavigationRequest`s that this ViewController is handling</span>
+     <span class="c1">// with the `NavigationInstruction` to execute</span>
+     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">[</span>
+         <span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">):</span> <span class="o">.</span><span class="nf">presentModally</span><span class="p">({</span> <span class="p">[</span><span class="k">unowned</span> <span class="k">self</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
+           <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">ScreenC</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+           <span class="k">return</span> <span class="n">vc</span>
+         <span class="p">})</span>
+       <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+
+<p>Inside the <code>.presentModally</code> NavigationInstruction, we create and return the ViewController
+that is implementing the <q>screenC</q>.
+This will be used by the <code>Navigator</code> to call the appropriate UIKit navigation action (
+a <code>UIViewController.present(:animated:completion:)</code> in this case).</p>
+
+<p>If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
+<q>screenB</q>, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+in this case <q>screenA</q>. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
+<h3 id='hide' class='heading'>Hide</h3>
+
+<p>Same will happen when a <code><a href="../Structs/Hide.html">Hide</a></code> function is dispatched.</p>
+<pre class="highlight swift"><code>   <span class="kt">Hide</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre>
+
+<p>Looking at the current <code><a href="../Typealiases.html#/s:7Tempura5Routea">Route</a></code> [<q>screenA</q>, <q>screenB</q>, <q>screenC</q>], the Navigator will ask the
+topmost RoutableWithConfiguration (<q>screenC</q> in this case) to match for a
+<code>.hide(&quot;screenC&quot;)</code> <code><a href="../Structs/NavigationRequest.html">NavigationRequest</a></code>.</p>
+
+<p>Again, if we want <q>screenC</q> to be responsible for dismissing itself, we just need to implement
+the matching <code><a href="../Structs/NavigationRequest.html">NavigationRequest</a></code> in the <code>navigationConfiguration</code>:</p>
+<pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ScreenC</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
+
+     <span class="c1">// needed by the `Routable` protocol</span>
+     <span class="c1">// to identify this ViewController in the hierarchy</span>
+     <span class="k">var</span> <span class="nv">routeIdentifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="s">"screenC"</span>
+     <span class="p">}</span>
+
+     <span class="c1">// the `NavigationRequest`s that this ViewController is handling</span>
+     <span class="c1">// with the `NavigationInstruction` to execute</span>
+     <span class="k">var</span> <span class="nv">navigationConfiguration</span><span class="p">:</span> <span class="p">[</span><span class="kt">NavigationRequest</span><span class="p">:</span> <span class="kt">NavigationInstruction</span><span class="p">]</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">[</span>
+         <span class="o">.</span><span class="nf">hide</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">):</span> <span class="o">.</span><span class="nf">dismissModally</span><span class="p">(</span><span class="nv">behaviour</span><span class="p">:</span> <span class="o">.</span><span class="n">hard</span><span class="p">)</span>
+       <span class="p">]</span>
+   <span class="p">}</span>
+</code></pre>
+
+<p>If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
+<q>screenC</q>, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+in this case <q>screenB</q>. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
+<h2 id='initializing-the-navigation' class='heading'>Initializing the navigation</h2>
+
+<p>In order to use the navigation system you need to start the Navigator
+(typically in your AppDelegate) using the <code>start(using:in:at:)</code> method.
+In this method you need to specify a <code><a href="../Protocols/RootInstaller.html">RootInstaller</a></code>
+and a starting screen.
+The RootInstaller (typically your AppDelegate) will be responsible to handle the installation
+of the screen you specified before.</p>
+
+<p>Doing so, the Navigator will call the <code>RooInstaller.installRoot(identifier:context:completion:)</code>
+method that will handle the setup of the screen to be shown.</p>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span><span class="p">,</span> <span class="kt">RootInstaller</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+       <span class="o">...</span>
+       <span class="c1">// setup the root of the navigation</span>
+       <span class="c1">// this is done by invoking this method (and not in the init of the navigator)</span>
+       <span class="c1">// because the navigator is instantiated by the Store.</span>
+       <span class="c1">// this in turn will invoke the `installRootMethod` of the rootInstaller (self)</span>
+       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
+       <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+
+     <span class="c1">// install the root of the app</span>
+     <span class="c1">// this method is called by the navigator when needed</span>
+     <span class="c1">// you must call the `completion` callback when the navigation has been completed</span>
+     <span class="kd">func</span> <span class="nf">installRoot</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="p">{</span>
+       <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">ScreenAViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">vc</span>
+       <span class="nf">completion</span><span class="p">()</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura9NavigatorC10Completiona"></a>
+                    <a name="//apple_ref/swift/Alias/Completion" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura9NavigatorC10Completiona">Completion</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Completion closure typealias, needed by the navigator to know when a navigation has been handled.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Completion</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L175">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura9NavigatorCACycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura9NavigatorCACycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes and return a Navigator.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L182">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura9NavigatorC5start5using2in2atyAA13RootInstaller_p_So8UIWindowCSStF"></a>
+                    <a name="//apple_ref/swift/Method/start(using:in:at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura9NavigatorC5start5using2in2atyAA13RootInstaller_p_So8UIWindowCSStF">start(using:in:at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start the navigator.</p>
+
+<p>In order to use the navigation system, you need to start the navigator
+specifying a <code><a href="../Protocols/RootInstaller.html">RootInstaller</a></code> and the first screen you want to install.</p>
+<pre class="highlight swift"><code>   <span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span><span class="p">,</span> <span class="kt">RootInstaller</span> <span class="p">{</span>
+
+     <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+       <span class="o">...</span>
+       <span class="c1">// setup the root of the navigation</span>
+       <span class="c1">// this is done by invoking this method (and not in the init of the navigator)</span>
+       <span class="c1">// because the navigator is instantiated by the Store.</span>
+       <span class="c1">// this in turn will invoke the `installRootMethod` of the rootInstaller (self)</span>
+       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
+       <span class="k">return</span> <span class="kc">true</span>
+     <span class="p">}</span>
+
+     <span class="c1">// install the root of the app</span>
+     <span class="c1">// this method is called by the navigator when needed</span>
+     <span class="c1">// you must call the `completion` callback when the navigation has been completed</span>
+     <span class="kd">func</span> <span class="nf">installRoot</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">RouteElementIdentifier</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="p">{</span>
+       <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="kt">ScreenAViewController</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+       <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">vc</span>
+       <span class="nf">completion</span><span class="p">()</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">using</span> <span class="nv">rootInstaller</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RootInstaller.html">RootInstaller</a></span><span class="p">,</span>
+                  <span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">,</span>
+                  <span class="n">at</span> <span class="nv">rootElementIdentifier</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L209-L215">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura9NavigatorC5start5using2in2atyAA13RootInstaller_p_So8UIWindowCxtSYRzSS8RawValueRtzlF"></a>
+                    <a name="//apple_ref/swift/Method/start(using:in:at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura9NavigatorC5start5using2in2atyAA13RootInstaller_p_So8UIWindowCxtSYRzSS8RawValueRtzlF">start(using:in:at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Generic version of the same method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">start</span><span class="o">&lt;</span><span class="kt">K</span><span class="p">:</span> <span class="kt">RawRepresentable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">using</span> <span class="nv">rootInstaller</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RootInstaller.html">RootInstaller</a></span><span class="p">,</span>
+                                       <span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">,</span>
+                                       <span class="n">at</span> <span class="nv">rootElementIdentifier</span><span class="p">:</span> <span class="kt">K</span><span class="p">)</span> <span class="k">where</span> <span class="kt">K</span><span class="o">.</span><span class="kt">RawValue</span> <span class="o">==</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L217-L221">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -8,57 +8,57 @@
 import Katana
 
 // Add a todo item
-struct AddItem: AppAction {
+struct AddItem: StateUpdater {
   var text: String
   
-  func updatedState(currentState: inout AppState) {
+  func updateState(_ currentState: inout AppState) {
     let newItem = Todo(text: self.text)
     currentState.items.insert(newItem, at: 0)
   }
 }
 
 // Edit an existing todo item
-struct EditItem: AppAction {
+struct EditItem: StateUpdater {
   var id: String
   var text: String
   
-  func updatedState(currentState: inout AppState) {
-    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+  func updateState(_ currentState: inout AppState) {
+    guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items[index].text = self.text
   }
 }
 
 // Delete a todo item
-struct DeleteItem: AppAction {
+struct DeleteItem: StateUpdater {
   var id: String
   
-  func updatedState(currentState: inout AppState) {
-    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+  func updateState(_ currentState: inout AppState) {
+    guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items.remove(at: index)
   }
 }
 
 // Delete all the archived items
-struct DeleteArchivedItems: AppAction {
+struct DeleteArchivedItems: StateUpdater {
   
-  func updatedState(currentState: inout AppState) {
+  func updateState(_ currentState: inout AppState) {
     currentState.items = currentState.items.filter { !$0.archived }
   }
 }
 
 // Toggle the completed state of a todo item
-struct ToggleItem: AppAction {
+struct ToggleItem: StateUpdater {
   var itemID: String
   
-  func updatedState(currentState: inout AppState) {
-    let position = currentState.items.index { $0.id == itemID }
+  func updateState(_ currentState: inout AppState) {
+    let position = currentState.items.firstIndex { $0.id == itemID }
     guard let index = position else { return }
     currentState.items[index].completed = !currentState.items[index].completed
   }
 }
 
 // Toggle 'archived' <-> 'todo (not completed)'
-struct ToggleArchiveItems: AppAction {
+struct ToggleArchiveItems: StateUpdater {
   var ids: [String]
   var archived: Bool
   
@@ -67,9 +67,9 @@ struct ToggleArchiveItems: AppAction {
     self.archived = archived
   }
   
-  func updatedState(currentState: inout AppState) {
+  func updateState(_ currentState: inout AppState) {
     let positions = ids.compactMap { [currentState] id -> Int? in
-      currentState.items.index { $0.id == id }
+      currentState.items.firstIndex { $0.id == id }
     }
     positions.forEach {
       currentState.items[$0].archived = archived

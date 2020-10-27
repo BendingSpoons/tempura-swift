@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Katana
+import Hydra
 
 /// Main class that is handling the navigation in a Tempura app.
 ///
@@ -162,10 +163,11 @@ import Katana
 ///      // install the root of the app
 ///      // this method is called by the navigator when needed
 ///      // you must call the `completion` callback when the navigation has been completed
-///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
 ///        let vc = ScreenAViewController(store: self.store)
 ///        self.window.rootViewController = vc
 ///        completion()
+///        return true
 ///      }
 ///    }
 
@@ -199,10 +201,11 @@ public class Navigator {
   ///      // install the root of the app
   ///      // this method is called by the navigator when needed
   ///      // you must call the `completion` callback when the navigation has been completed
-  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) {
+  ///      func installRoot(identifier: RouteElementIdentifier, context: Any?, completion: () -> ()) -> Bool {
   ///        let vc = ScreenAViewController(store: self.store)
   ///        self.window.rootViewController = vc
   ///        completion()
+  ///        return true
   ///      }
   ///    }
   public func start(using rootInstaller: RootInstaller,
@@ -225,35 +228,53 @@ public class Navigator {
     })
   }
   
-  func changeRoute(newRoute: Route, animated: Bool, context: Any?) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
-  }
-  
-  func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let oldRoute = oldRoutables.map { $0.routeIdentifier }
-    let newRoute: Route = oldRoute + elementsToShow
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
-  }
-  
-  func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool) {
-    let oldRoutables = UIApplication.shared.currentRoutables
-    let oldRoute = oldRoutables.map { $0.routeIdentifier }
-    
-    guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
-      return
+  func changeRoute(newRoute: Route, animated: Bool, context: Any?) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
     }
-    
-    let newRoute = Array(oldRoute[0..<start])
-    
-    let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
-    
-    self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context)
+    return promise
+  }
+  
+  @discardableResult
+  func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let oldRoute = oldRoutables.map { $0.routeIdentifier }
+      let newRoute: Route = oldRoute + elementsToShow
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
+    }
+    return promise
+  }
+  
+  @discardableResult
+  func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool = false) -> Promise<Void> {
+    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+      let oldRoutables = UIApplication.shared.currentRoutables
+      let oldRoute = oldRoutables.map { $0.routeIdentifier }
+      
+      guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
+        resolve(())
+        return
+      }
+      
+      let newRoute = Array(oldRoute[0..<start])
+      
+      let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
+      
+      self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
+        resolve(())
+      }
+    }
+    return promise
   }
   
   /// extract rounting changes to go from `old` to `new`.
@@ -318,7 +339,7 @@ public class Navigator {
   }
   
   // execute all the `changes` one at a time, asking to the routables on the hierarchy
-  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil) {
+  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil, completion: (() -> ())? = nil) {
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
@@ -333,7 +354,7 @@ public class Navigator {
             
             let routables = UIApplication.shared.currentRoutables
             
-            guard let indexToHide = routables.index(where: {
+            guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }
             
@@ -378,6 +399,14 @@ public class Navigator {
             }
             
             if !handled {
+              handled = self.rootInstaller.installRoot(identifier: toShow,
+                                                       context: context,
+                                                       completion: {
+                                                        semaphore.signal()
+              })
+            }
+            
+            if !handled {
               semaphore.signal()
               fatalError("presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
             }
@@ -394,17 +423,18 @@ public class Navigator {
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
-            self.rootInstaller.installRoot(identifier: to, context: context) {
+            let handled = self.rootInstaller.installRoot(identifier: to, context: context) {
               semaphore.signal()
             }
+            if !handled { fatalError("installRoot of identifier: '\(to)' is not handled by the rootInstaller") }
           }
         }
-        let waitUntil = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        let result = semaphore.wait(timeout: waitUntil)
+        let result = semaphore.wait(timeout: .now() + .seconds(3))
         
         if case .timedOut = result {
           print("stuck waiting for routing to complete. Ensure that you called the completion handler in each Routable element")
         }
+        completion?()
       }
     }
   }
@@ -451,7 +481,7 @@ public extension UIApplication {
     }
   }
   /// The indentifiers of the routables in the visible hierarchy.
-  public var currentRoutableIdentifiers: [RouteElementIdentifier] {
+  var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.compactMap {
       return $0.routeIdentifier
     }
@@ -497,18 +527,20 @@ extension UIApplication {
 }
 
 /// Defines a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack.
-protocol CustomRouteInspectables: class {
+public protocol CustomRouteInspectables: class {
+  /// Next view controllers to  be inspected by the router
   var nextRouteControllers: [UIViewController] { get }
 }
 
-protocol RouteInspectable: class {
+public protocol RouteInspectable: class {
+  /// Next view controller to  be inspected by the router
   var nextRouteController: UIViewController? { get }
 }
 
 /// Conformance of the UINavigationController to the RouteInspectable protocol.
 /// In a UINavigationController the next visible controller is the `topViewController`.
 extension UINavigationController: CustomRouteInspectables {
- var nextRouteControllers: [UIViewController] {
+  public var nextRouteControllers: [UIViewController] {
   var controllers: [UIViewController] = self.viewControllers
    if let presentedVC = self.presentedViewController {
      controllers.append(presentedVC)
@@ -520,7 +552,7 @@ extension UINavigationController: CustomRouteInspectables {
 /// Conformance of the UITabBarController to the RouteInspectable protocol.
 /// In a UITabBarController the next visible controller is the `selectedViewController`.
 extension UITabBarController: CustomRouteInspectables {
-  var nextRouteControllers: [UIViewController] {
+  public var nextRouteControllers: [UIViewController] {
     var controllers: [UIViewController] = []
     
     if let selectedVC = self.selectedViewController {
@@ -539,7 +571,7 @@ extension UITabBarController: CustomRouteInspectables {
 /// In a UIViewController the next visible controller is the `presentedViewController` if != nil
 /// otherwise there is no next UIViewController in the visible stack.
 extension UIViewController: RouteInspectable {
-  var nextRouteController: UIViewController? {
+  public var nextRouteController: UIViewController? {
     return self.presentedViewController
   }
 }

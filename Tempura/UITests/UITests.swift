@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import Katana
 import Tempura
 import XCTest
 
 public enum UITests {
   
   /**
-   A snapshot is a struct that contains all the informations to create a view-homogenous set of snapshosts.
+   A snapshot is a struct that contains all the informations to create a view-homogenous set of snapshots.
    
    The idea is that you can provide different configurations for the same view.
    Each configuration is basically a view model.
@@ -62,7 +63,6 @@ public enum UITests {
       self.hooks = hooks
     }
   }
-  
   
   /// A Renderer will take a type of View, a ViewModel, a Container and will create the rendering UIViewController
   /// that will be used to render the View.
@@ -136,9 +136,6 @@ public enum UITests {
     override func viewDidLoad() {
       super.viewDidLoad()
       
-      self.automaticallyAdjustsScrollViewInsets = false
-      self.edgesForExtendedLayout = []
-      
       if let hook = self.hooks?[.viewDidLoad] {
         hook(self.rootView)
       }
@@ -197,6 +194,21 @@ public enum UITests {
     case tabBarController
     /// provide a custom UIViewController as a container
     case custom((UIViewController) -> (UIViewController))
+    
+    func container(for vc: UIViewController) -> UIViewController {
+      switch self {
+      case .none:
+        return vc
+      case .navigationController:
+        return UINavigationController(rootViewController: vc)
+      case .tabBarController:
+        let tc = UITabBarController()
+        tc.viewControllers = [vc]
+        return tc
+      case .custom (let customController):
+        return customController(vc)
+      }
+    }
   }
   
   /// Create a snapshot image of the view and pass the test
@@ -218,11 +230,23 @@ public enum UITests {
     self.saveImage(image, description: description)
   }
   
-  static func asyncSnapshot(view: UIView, viewToWaitFor: UIView? = nil, description: String, isViewReadyClosure: @escaping (UIView) -> Bool, completionClosure: @escaping () -> Void) {
-    let frame = UIScreen.main.bounds
-    view.frame = frame
+  /// Ask for a snapshot of a UIView, when done the `completionClosure` is called.
+  static func asyncSnapshot(view: UIView,
+                            viewToWaitFor: UIView? = nil,
+                            description: String,
+                            configureClosure: (() -> Void)? = nil,
+                            isViewReadyClosure: @escaping (UIView) -> Bool,
+                            shouldRenderSafeArea: Bool,
+                            keyboardVisibility: KeyboardVisibility,
+                            completionClosure: @escaping () -> Void) {
     
-    view.snapshotAsync(viewToWaitFor: viewToWaitFor, isViewReadyClosure: isViewReadyClosure) { snapshot in
+    view.snapshotAsync(
+      viewToWaitFor: viewToWaitFor,
+      configureClosure: configureClosure,
+      isViewReadyClosure: isViewReadyClosure,
+      shouldRenderSafeArea: shouldRenderSafeArea,
+      keyboardVisibility: keyboardVisibility
+    ) { snapshot in
       defer {
         completionClosure()
       }
@@ -233,6 +257,35 @@ public enum UITests {
       
       self.saveImage(image, description: description)
     }
+  }
+  
+  /// Ask for a snapshot of a UIView and wait for the result.
+  /// This must be called from a global queue, otherwise it will block the main thread.
+  static func syncSnapshot(view: UIView,
+                           viewToWaitFor: UIView? = nil,
+                           description: String,
+                           configureClosure: (() -> Void)? = nil,
+                           isViewReadyClosure: @escaping (UIView) -> Bool,
+                           shouldRenderSafeArea: Bool,
+                           keyboardVisibility: KeyboardVisibility) {
+    
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    
+    DispatchQueue.main.async {
+      
+      UITests.asyncSnapshot(view: view,
+                            viewToWaitFor: viewToWaitFor,
+                            description: description,
+                            configureClosure: configureClosure,
+                            isViewReadyClosure: isViewReadyClosure,
+                            shouldRenderSafeArea: shouldRenderSafeArea,
+                            keyboardVisibility: keyboardVisibility) {
+                              dispatchGroup.leave()
+      }
+    }
+    
+    dispatchGroup.wait()
   }
   
   static func snapshotScrollableContent(_ scrollView: UIScrollView, description: String) {
@@ -253,8 +306,8 @@ public enum UITests {
   private static func saveImage(_ image: UIImage, description: String) {
     guard var dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
     
-    if let languageCode = Locale.current.languageCode {
-      dirPath = dirPath.appending("/\(languageCode)/")
+    if let collatorIdentifier = Locale.current.collatorIdentifier {
+      dirPath = dirPath.appending("/\(collatorIdentifier)/")
     }
     let screenSize = UIScreen.main.bounds.size
     let screenSizeDescription: String = "\(min(screenSize.width, screenSize.height))x\(max(screenSize.width, screenSize.height))"
@@ -283,7 +336,7 @@ public enum UITests {
 /// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
 /// After the screenshot is completed, the test will pass.
 /// This function can only be used in a XCTest environment.
-@available(*, deprecated: 1.9, message: "Use UITestCase API instead")
+@available(*, deprecated, message: "Use UITestCase API instead")
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with model: V.VM,
                                                            identifier: String,
@@ -298,7 +351,7 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
 /// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
 /// After the screenshot is completed, the test will pass.
 /// This function can only be used in a XCTest environment.
-@available(*, deprecated: 1.9, message: "Use UITestCase API instead")
+@available(*, deprecated, message: "Use UITestCase API instead")
 public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
                                                            with models: [String: V.VM],
                                                            container: UITests.Container = .none,
@@ -316,5 +369,50 @@ public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
 extension CGSize {
   public var description: String {
     return "\(Int(self.width))x\(Int(self.height))"
+  }
+}
+
+public extension UITests {
+  /// Whether a box representing the keyboard should be rendered on top of the tested view
+  enum KeyboardVisibility {
+    /// The keyboard is not visible
+    case hidden
+
+    /// The keyboard is visible with a realistic height of the keyboard, based on the device height.
+    /// These are empirical values, as there is no way to show a keyboard in the UITests or to get its height programmatically
+    case defaultHeight
+
+    /// The keyboard is visible with the specified height
+    case customHeight(CGFloat)
+
+    public func height(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
+      switch self {
+      case .hidden:
+        return 0
+      case .customHeight(let height):
+        return height
+      case .defaultHeight:
+        return Self.defaultHeight(for: orientation)
+      }
+    }
+
+    public static func defaultHeight(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
+      switch max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) {
+      case 0...667: // up to iPhone 8
+        return orientation.isLandscape ? 171 : 216
+      case 668...736: // 7 Plus, and 8 Plus
+        return orientation.isLandscape ? 162 : 226
+      case 737...812: // X, Xs, 11 Pro
+        return orientation.isLandscape ? 171 : 291
+      case 813...1023: // all the other phones
+        return orientation.isLandscape ? 171 : 301
+      case 1024...1193: // smaller iPads
+        return orientation.isLandscape ? 320 : 408
+      case 1194...1365: // iPads Pro 11"
+        return orientation.isLandscape ? 340 : 428
+      default: // bigger iPads
+        return orientation.isLandscape ? 403 : 498
+      }
+    }
   }
 }

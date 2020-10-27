@@ -1,5 +1,73 @@
-## unrelease
+## unreleased
 * Add CustomDebugStringConvertible extension to navigation actions
+
+## Tempura 5.1.0
+* Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
+* Deprecated `__unsafeAwaitDispatch` from `ViewController` for `NavigationSideEffect`s
+* Added `__unsafeDispatch` for non-returning sideeffects in `ViewController`
+
+## TempuraTesting 6.0.0
+* Update to Katana 4
+
+## Tempura 5.0.0
+* Update to Katana 4
+* Make the ViewController `dispatch` method returns Void
+* Add to the ViewController `__unsafe_dispatch` method that returns a promise
+* Expose a non-generic dispatch for ViewController 
+
+## TempuraTesting 5.0.2
+*  Fix issue with `screenSize` not set on the View being tested. 
+
+## TempuraTesting 5.0.1
+*  Fix issue with `configure(:::)` being called too early for `ViewControllerTestCase`s with a `ViewControllerWithLocalState`. 
+
+## Tempura 4.4.0
+* Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.
+
+## TempuraTesting 5.0.0
+*  `ViewControllerTestCase` will now wait for view to be ready after configure
+* `ViewControllerTestCase` will now let you test `UIViewController`s with a `ModellableView` other than `ViewController`s.
+* Introduce `UIViewControllerTestCase` to test `UIViewController`s with `UIView`s.
+
+## 4.3.1
+* Make `CustomRouteInspectables` and `RouteInspectable` public
+
+## 4.3.0
+* Add support for rendering Safe Area Insets in UITests
+
+## 4.2.0
+* Add transition method to the Containment API
+
+## 4.1.3
+* Remove defaults from `UITestCase`
+
+## 4.1.2
+* Make closure in `installRoot` escaping 
+
+## 4.1.1
+* Added `popToRootViewController` and `popToViewController` to Navigation Instructions
+* Fixed broken UITest filename for a scrollable content's snapshot
+
+## 4.0.1
+* Fixed unresolving promise if calling `hide` on a view that is not in the `currentRoutables`
+* `ViewControllerWithLocalState.init(store:connected:)` is now private
+
+## 4.0.0
+* Add support for Swift 5.0
+* Remove `init()` requirement for `LocalState` protocol
+* Force `ViewControllerWithLocalState` to specify a `LocalState` in the `init(...)`
+* `RootInstaller`'s `installRoot(identifier:context:completion)` now returns a `Bool` value
+* If there are no Routables handing a `Show()` with a specific identifier, the `Navigator` will ask the `RootInstaller` before raising a fatalError().
+
+## 3.0.1
+* Fix UITests by using the `collatorIdentifier` instead of the `languageCode`
+
+## 3.0.0
+* Use Katana 3.0
+* Add support for UITests with ViewController containment
+
+## 2.1.0
+* Add support for ViewController containment
 
 ## 2.0.0
 * Add support for Swift 4.2
