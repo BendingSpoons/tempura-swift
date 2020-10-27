@@ -431,9 +431,9 @@ Tempura is available through [CocoaPods](https://cocoapods.org).
 
 ### Requirements
 
-- iOS 9+
-- Xcode 9.0+
-- Swift 4.0+
+- iOS 11+
+- Xcode 11.0+
+- Swift 5.0+
 
 ### CocoaPods
 
@@ -448,7 +448,7 @@ To integrate Tempura in your Xcode project using CocoaPods you need to create a 
 ```ruby
 use_frameworks!
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
+platform :ios, '11.0'
 
 target 'MyApp' do
   pod 'Tempura'
