@@ -1,3 +1,11 @@
+## TempuraTesting 7.0.0
+* Update to Tempura 6
+* bumped minDeploymentTarget from `9.0` to `11.0`
+
+## Tempura 6.0.0
+* Update to Katana 5
+* bumped minDeploymentTarget from `9.0` to `11.0`
+
 ## Tempura 5.1.0
 * Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
 * Deprecated `__unsafeAwaitDispatch` from `ViewController` for `NavigationSideEffect`s
