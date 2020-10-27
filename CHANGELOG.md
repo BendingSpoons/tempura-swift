@@ -1,5 +1,6 @@
 ## unreleased
 * Add CustomDebugStringConvertible extension to navigation actions
+* Reverse `.popToViewController` NavigationInstruction to find the last `Routable` instead of the first (in case the same `routeIdentifier` is present in the stack)
 
 ## Tempura 5.1.0
 * Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
