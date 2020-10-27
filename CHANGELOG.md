@@ -1,3 +1,6 @@
+## unreleased
+* Add CustomDebugStringConvertible extension to navigation actions
+
 ## Tempura 5.1.0
 * Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
 * Deprecated `__unsafeAwaitDispatch` from `ViewController` for `NavigationSideEffect`s
