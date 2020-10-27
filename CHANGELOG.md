@@ -1,4 +1,10 @@
-## unreleased
+## TempuraTesting 7.0.0
+* Update to Tempura 6
+* [BREAKING] bumped minDeploymentTarget from `9.0` to `11.0`
+
+## Tempura 6.0.0
+* Update to Katana 5
+* [BREAKING] bumped minDeploymentTarget from `9.0` to `11.0`
 * Add CustomDebugStringConvertible extension to navigation actions
 * Reverse `.popToViewController` NavigationInstruction to find the last `Routable` instead of the first (in case the same `routeIdentifier` is present in the stack)
 

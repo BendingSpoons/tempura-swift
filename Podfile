@@ -4,7 +4,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Tempura' do
-  platform :ios, '9.0'
+  platform :ios, '11.0'
   podspec
   
   target 'TempuraTests' do
@@ -27,10 +27,8 @@ target 'Tempura' do
 end
 
 target 'TempuraTesting' do
-  platform :ios, '9.0'
-  # change this before releasing
-  pod 'Tempura', :path => '.'
-  # pod 'Tempura', '~> 5.0'
+  platform :ios, '11.0'
+  pod 'Tempura', '~> 6.0'
 end
 
 post_install do |installer|

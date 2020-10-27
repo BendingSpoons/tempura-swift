@@ -4,7 +4,7 @@ project.name = "Tempura"
 tempura = target do |target|
     target.name = "Tempura"
     target.platform = :ios
-    target.deployment_target = 9.0
+    target.deployment_target = 11.0
     target.language = :swift
     target.type = :framework
     target.include_files = [
@@ -45,7 +45,7 @@ end
 tempuraTesting = target do |target|
     target.name = "TempuraTesting"
     target.platform = :ios
-    target.deployment_target = 9.0
+    target.deployment_target = 11.0
     target.language = :swift
     target.type = :framework
     target.include_files = [
@@ -71,7 +71,7 @@ end
 demo = target do |target|
     target.name = "Demo"
     target.platform = :ios
-    target.deployment_target = 10.0
+    target.deployment_target = 11.0
     target.language = :swift
     target.type = :application
     target.linked_targets = [tempura]
