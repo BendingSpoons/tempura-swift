@@ -38,6 +38,15 @@ public struct Navigate: NavigationSideEffect {
   }
 }
 
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Navigate: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let routeToDescribe = self.route.joined(separator: ".")
+    return String(reflecting: type(of: self))
+      + "." + routeToDescribe
+  }
+}
+
 /// Navigation action used to ask the `Navigator` to show a specific screen
 /// identified by the `identifierToShow`.
 ///
@@ -81,6 +90,21 @@ public struct Show: NavigationSideEffect {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
     return ()
+  }
+}
+
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Show: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let actionDebugDescription = String(reflecting: type(of: self))
+    switch self.identifiersToShow.count {
+    case 1:
+      // most common usecase
+      return actionDebugDescription + "." + self.identifiersToShow.first!
+    default:
+      let identifiersToDescribe = self.identifiersToShow.joined(separator: ", ")
+      return actionDebugDescription + " [" + identifiersToDescribe  + "]"
+    }
   }
 }
 
@@ -168,5 +192,13 @@ extension ViewController {
   @available(*, deprecated)
   public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
     return try await(self.store.dispatch(dispatchable))
+  }
+}
+
+/// Implementation of the `CustomDebugStringConvertible` protocol
+extension Hide: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    let actionDebugDescription = String(reflecting: type(of: self))
+    return actionDebugDescription + "." + self.identifierToHide
   }
 }
