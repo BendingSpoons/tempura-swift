@@ -38,6 +38,7 @@ public extension UIViewController {
     // but we mark it as `toBeDismissed`
     if let presentedViewController = self.presentedViewController, !presentedViewController.toBeDismissed {
       self.toBeDismissed = true
+      completion?()
     } else {
       // this viewController can be dismissed now, let's check if the parent is marked as `toBeDismissed`
       // in that case invoke `tempuraDismiss` on that

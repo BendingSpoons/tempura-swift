@@ -108,6 +108,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           contained = self.viewController
           container = context.container.container(for: contained)
           view = container.view
+          view.frame.size = context.screenSize
           viewToWaitFor = contained.view
         }
 
@@ -135,7 +136,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
                              description: description,
                              configureClosure: {
                               self.typeErasedConfigure(contained, identifier: identifier, model: model)
-                             },
+        },
                              isViewReadyClosure: isViewReadyClosure,
                              shouldRenderSafeArea: context.renderSafeArea,
                              keyboardVisibility: context.keyboardVisibility(identifier))
@@ -165,8 +166,8 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     guard
       let vc = vc as? VC,
       let model = model as? VC.V.VM
-    else {
-      return
+      else {
+        return
     }
 
     self.configure(vc: vc, for: identifier, model: model)

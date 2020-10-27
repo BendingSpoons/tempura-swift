@@ -6,21 +6,21 @@ use_frameworks!
 target 'Tempura' do
   platform :ios, '9.0'
   podspec
-
+  
   target 'TempuraTests' do
-    inherit! :search_paths
+    inherit! :complete
     pod 'Quick', '~> 1.3'
     pod 'Nimble', '~> 7.3'
-    pod 'Katana', '~> 3.0'
   end
 
   target 'Demo' do
+    inherit! :complete
     pod 'PinLayout'
     pod 'DeepDiff', '~> 2.0'
   end
 
   target 'DemoTests' do
-    inherit! :search_paths
+    inherit! :complete
     pod 'Quick', '~> 1.3'
     pod 'Nimble', '~> 7.3'
   end
@@ -30,7 +30,7 @@ target 'TempuraTesting' do
   platform :ios, '9.0'
   # change this before releasing
   pod 'Tempura', :path => '.'
-  # pod 'Tempura', '~> 3.0'
+  # pod 'Tempura', '~> 5.0'
 end
 
 post_install do |installer|

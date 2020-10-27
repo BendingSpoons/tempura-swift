@@ -226,15 +226,26 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   /// Override to setup something after init.
   open func setup() {}
   
-  /// Shortcut to the dispatch function.
-  @available(*, deprecated, message: "remove `action` label")
-  open func dispatch(action: Action) {
-    self.store.dispatch(action)
+  /// Shortcut to the non-generic dispatch function.
+  open func dispatch(_ dispatchable: Dispatchable) {
+    self.store.anyDispatch(dispatchable)
   }
   
-  /// Shortcut to the dispatch function.
+  /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
   @discardableResult
-  open func dispatch(_ dispatchable: Dispatchable) -> Promise<Void> {
+  open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
+  }
+
+  /// Shortcut to the dispatch function. This will return a Promise<Void> when called on a non returning SideEffect `T`.
+  @discardableResult
+  open func __unsafeDispatch<T: SideEffect>(_ dispatchable: T) -> Promise<Void> {
+    return self.store.dispatch(dispatchable)
+  }
+  
+  /// Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect `T`.
+  @discardableResult
+  open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturnValue> {
     return self.store.dispatch(dispatchable)
   }
   

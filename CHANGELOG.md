@@ -1,5 +1,26 @@
-## Tempura 4.?
+## unreleased
+* Add CustomDebugStringConvertible extension to navigation actions
 * Reverse `.popToViewController` NavigationInstruction to find the last `Routable` instead of the first (in case the same `routeIdentifier` is present in the stack)
+
+## Tempura 5.1.0
+* Deprecated all dispatch helpers to `AnyStore` and `AnySideEffectContext` for `NavigationSideEffect`s
+* Deprecated `__unsafeAwaitDispatch` from `ViewController` for `NavigationSideEffect`s
+* Added `__unsafeDispatch` for non-returning sideeffects in `ViewController`
+
+## TempuraTesting 6.0.0
+* Update to Katana 4
+
+## Tempura 5.0.0
+* Update to Katana 4
+* Make the ViewController `dispatch` method returns Void
+* Add to the ViewController `__unsafe_dispatch` method that returns a promise
+* Expose a non-generic dispatch for ViewController 
+
+## TempuraTesting 5.0.2
+*  Fix issue with `screenSize` not set on the View being tested. 
+
+## TempuraTesting 5.0.1
+*  Fix issue with `configure(:::)` being called too early for `ViewControllerTestCase`s with a `ViewControllerWithLocalState`. 
 
 ## Tempura 4.4.0
 * Add `optionalCustom` to `NavigationInstruction`. With `optionalCustom` you can specify to handle a navigation instruction only if some conditions are matched.

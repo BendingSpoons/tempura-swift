@@ -23,7 +23,7 @@ struct EditItem: StateUpdater {
   var text: String
   
   func updateState(_ currentState: inout AppState) {
-    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+    guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items[index].text = self.text
   }
 }
@@ -33,7 +33,7 @@ struct DeleteItem: StateUpdater {
   var id: String
   
   func updateState(_ currentState: inout AppState) {
-    guard let index = currentState.items.index(where: { $0.id == self.id }) else { return }
+    guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items.remove(at: index)
   }
 }
@@ -51,7 +51,7 @@ struct ToggleItem: StateUpdater {
   var itemID: String
   
   func updateState(_ currentState: inout AppState) {
-    let position = currentState.items.index { $0.id == itemID }
+    let position = currentState.items.firstIndex { $0.id == itemID }
     guard let index = position else { return }
     currentState.items[index].completed = !currentState.items[index].completed
   }
@@ -69,7 +69,7 @@ struct ToggleArchiveItems: StateUpdater {
   
   func updateState(_ currentState: inout AppState) {
     let positions = ids.compactMap { [currentState] id -> Int? in
-      currentState.items.index { $0.id == id }
+      currentState.items.firstIndex { $0.id == id }
     }
     positions.forEach {
       currentState.items[$0].archived = archived

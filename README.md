@@ -45,7 +45,7 @@ struct AppState: State {
 }
 ```
 
-You can only manipulate state through [State Updater](https://github.com/BendingSpoons/katana-swift/blob/master/docs/3.0.0/Protocols/StateUpdater.html)s. 
+You can only manipulate state through [State Updater](https://bendingspoons.github.io/katana-swift/latest/Protocols/StateUpdater.html)s. 
 
 ```swift
 struct CompleteItem: StateUpdater {
@@ -57,7 +57,7 @@ struct CompleteItem: StateUpdater {
 }
 ```
 
-The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](http://tempura.bendingspoons.com/Protocols/ViewModelWithState.html).
+The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](https://bendingspoons.github.io/tempura-swift/latest/Protocols/ViewModelWithState.html).
 
 ```swift
 struct ListViewModel: ViewModelWithState {
@@ -69,7 +69,7 @@ struct ListViewModel: ViewModelWithState {
 }
 ```
 
-The UI of each screen of your app is composed in a [ViewControllerModellableView](http://tempura.bendingspoons.com/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
+The UI of each screen of your app is composed in a [ViewControllerModellableView](https://bendingspoons.github.io/tempura-swift/latest/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
 
 ```swift
 class ListView: UIView, ViewControllerModellableView {
@@ -91,7 +91,7 @@ class ListView: UIView, ViewControllerModellableView {
 }
 ```
 
-Each screen of your app is managed by a [ViewController](http://tempura.bendingspoons.com/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
+Each screen of your app is managed by a [ViewController](https://bendingspoons.github.io/tempura-swift/latest/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
 
 ```swift
 class ListViewController: ViewController<ListView> {
@@ -104,9 +104,18 @@ class ListViewController: ViewController<ListView> {
 }
 ```
 
+Note that the `dispatch` method of view controllers is a bit different than the one exposed by the Katana store: it accepts a simple `Dispatchable` and does not return anything. This is done to avoid implementing logic inside the view controller. 
+
+If your interaction handler needs to do more than one single thing, you should pack all that logic in a side effect and dispatch that.
+
+For the rare cases when it's needed to have a bit of logic in a view controller (for example when updating an old app without wanting to completely refactor all the logic) you can use the following methods:
+- `open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void>`
+- `open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturningValue>`
+**Note however that usage of this methods is HIGHLY discouraged, and they will be removed in a future version.**
+
 ### Navigation
 
-Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](http://tempura.bendingspoons.com/Protocols/RoutableWithConfiguration.html) protocol.
+Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](https://bendingspoons.github.io/tempura-swift/latest/Protocols/RoutableWithConfiguration.html) protocol.
 
 ```swift
 extension ListViewController: RoutableWithConfiguration {
@@ -129,7 +138,7 @@ You can then trigger the presentation using one of the navigation actions from t
 self.dispatch(Show("add item screen"))
 ```
 
-Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
+Learn more about the navigation [here](https://bendingspoons.github.io/tempura-swift/latest/Classes/Navigator.html)
 
 ### ViewController containment
 
@@ -404,7 +413,7 @@ This repository contains a demo of a todo list application done with Tempura. Af
 
 ### Check out the documentation
 
-[Documentation](http://tempura.bendingspoons.com)
+[Documentation](https://bendingspoons.github.io/tempura-swift)
 
 ## Swift Version
 Certain versions of Tempura only support certain versions of Swift. Depending on wich version of Swift your project is using, you should use specific versions of Tempura.

@@ -53,9 +53,9 @@ extension UIView {
       removeFromSuperview = true
     }
 
-    configureClosure?()
-
     self.layoutIfNeeded()
+    
+    configureClosure?()
     
     self.snapshotAsyncImpl(
       viewToWaitFor: viewToWaitFor,

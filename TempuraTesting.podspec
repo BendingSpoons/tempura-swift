@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
   s.name             = 'TempuraTesting'
-  s.version          = File.read(".version")
+  s.version          = File.read(".version-tempura-testing")
   s.summary          = 'UI Tests architecture for apps'
 
   s.homepage         = 'https://bendingspoons.com'
   s.license          = { :type => 'No License', :text => "Copyright 2018 BendingSpoons" }
   s.author           = { 'Bending Spoons' => 'team@bendingspoons.com' }
-  s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => 'tempura-testing-v' + s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   s.weak_framework = "XCTest"
   s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   #include this before releasing
-  s.dependency 'Tempura', '>= 4.0', '< 5.0'
+  s.dependency 'Tempura', '>= 5.0', '< 6'
   s.swift_version = '5.0'
 
   s.ios.source_files = [
@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
     'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
     'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks"',
     'ENABLE_BITCODE' => 'NO',
+    'ENABLE_TESTING_SEARCH_PATHS' => 'YES',
   }
   
 end
