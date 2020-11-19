@@ -32,19 +32,30 @@ import Foundation
 /// ```
 ///
 public struct NavigationRequest: Hashable {
-  
   fileprivate enum NavigationKind: Int {
     case show, hide
   }
+
   /// Represents a NavigationRequest to match a `Show` action dispatched.
   public static func show<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .show)
   }
+
+  /// Represents a NavigationRequest to match a `Show` action dispatched.
+  public static func show(_ source: RouteElementIdentifier) -> NavigationRequest {
+    return NavigationRequest(source: source, kind: .show)
+  }
+
   /// Represents a NavigationRequest to match a `Hide` action dispatched.
   public static func hide<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .hide)
   }
-  
+
+  /// Represents a NavigationRequest to match a `Hide` action dispatched.
+  public static func hide(_ source: RouteElementIdentifier) -> NavigationRequest {
+    return NavigationRequest(source: source, kind: .hide)
+  }
+
   private let source: String
   private let kind: NavigationKind
   
