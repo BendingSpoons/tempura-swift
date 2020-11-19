@@ -1,3 +1,8 @@
+# Changelog
+
+## Tempura 6.1.0
+* Add NavigationWitness [#99](https://github.com/BendingSpoons/tempura-swift/pull/99)
+
 ## TempuraTesting 7.0.0
 * Update to Tempura 6
 * [BREAKING] bumped minDeploymentTarget from `9.0` to `11.0`
