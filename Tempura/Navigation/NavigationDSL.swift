@@ -87,6 +87,18 @@ public struct NavigationRequest: Hashable {
   }
 }
 
+extension NavigationRequest: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    switch self.kind {
+      case .show:
+        return "Show: \(self.source)"
+        
+      case .hide:
+        return "Hide: \(self.source)"
+    }
+  }
+}
+
 /// Closure used by a `NavigationInstruction` of type `.custom`.
 public typealias CustomNavigationOptionClosure = (
   _ identifier: RouteElementIdentifier,
