@@ -107,14 +107,24 @@ extension NavigationWitness {
 
 extension NavigationWitness {
   /// The mock NavigationWitness
-  public static func mock(appendTo navigations: Wrapped<[NavigationRequest]>) -> Self {
+  public static func mock(
+    appendTo navigations: Wrapped<[NavigationRequest]> = .init(initialValue: []),
+    showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Void] = [:],
+    hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Void] = [:]
+  ) -> Self {
     return .init(
-      show: { identifiersToShow, _, _ in
+      show: { identifiersToShow, animated, context in
         navigations.value.append(contentsOf: identifiersToShow.map { .show($0) })
+        
+        identifiersToShow.forEach { showHandlers[$0]?(animated, context) }
+        
         return Promise(resolved: ())
       },
-      hide: { identifierToHide, _, _, _ in
+      hide: { identifierToHide, animated, context, atomic in
         navigations.value.append(.hide(identifierToHide))
+        
+        hideHandlers[identifierToHide]?(animated, context, atomic)
+                
         return Promise(resolved: ())
       }
     )
