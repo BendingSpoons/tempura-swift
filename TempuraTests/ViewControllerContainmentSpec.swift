@@ -6,10 +6,10 @@
 //
 
 @testable import Tempura
-import UIKit
 import Katana
 import Quick
 import Nimble
+import Hydra
 
 class ViewControllerContainmentSpec: QuickSpec {
   override func spec() {
@@ -104,15 +104,16 @@ class ViewControllerContainmentSpec: QuickSpec {
       
       class ChildViewController: TestViewController<ChildView> {}
       
-      var store: PartialStore<AppState>!
+      var store: Store<AppState, EmptySideEffectDependencyContainer>!
       var mainVC: MainViewController!
       var childVC: ChildViewController!
       
       beforeEach {
         store = Store<AppState, EmptySideEffectDependencyContainer>()
+        expect(store.isReady).toEventually(beTrue())
+                
         mainVC = MainViewController(store: store, connected: true)
       }
-      
       
       it("will call update on the Child VC when the state is changed") {
         childVC = ChildViewController(store: store, connected: true)

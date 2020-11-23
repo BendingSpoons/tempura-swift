@@ -167,7 +167,7 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
-  /// Will throw a fatalError. Use `update(oldMdel:)` instead.
+  /// Will throw a fatalError. Use `update(oldModel:)` instead.
   func update() {
     fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
   }

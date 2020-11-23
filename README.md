@@ -45,7 +45,7 @@ struct AppState: State {
 }
 ```
 
-You can only manipulate state through [State Updater](https://github.com/BendingSpoons/katana-swift/blob/master/docs/3.0.0/Protocols/StateUpdater.html)s. 
+You can only manipulate state through [State Updater](https://bendingspoons.github.io/katana-swift/latest/Protocols/StateUpdater.html)s. 
 
 ```swift
 struct CompleteItem: StateUpdater {
@@ -57,7 +57,7 @@ struct CompleteItem: StateUpdater {
 }
 ```
 
-The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](http://tempura.bendingspoons.com/Protocols/ViewModelWithState.html).
+The part of the state needed to render the UI of a screen is selected by a [ViewModelWithState](https://bendingspoons.github.io/tempura-swift/latest/Protocols/ViewModelWithState.html).
 
 ```swift
 struct ListViewModel: ViewModelWithState {
@@ -69,7 +69,7 @@ struct ListViewModel: ViewModelWithState {
 }
 ```
 
-The UI of each screen of your app is composed in a [ViewControllerModellableView](http://tempura.bendingspoons.com/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
+The UI of each screen of your app is composed in a [ViewControllerModellableView](https://bendingspoons.github.io/tempura-swift/latest/Protocols/ViewControllerModellableView.html). It exposes callbacks (we call them interactions) to signal that a user action occurred. It renders itself based on the ViewModelWithState.
 
 ```swift
 class ListView: UIView, ViewControllerModellableView {
@@ -91,7 +91,7 @@ class ListView: UIView, ViewControllerModellableView {
 }
 ```
 
-Each screen of your app is managed by a [ViewController](http://tempura.bendingspoons.com/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
+Each screen of your app is managed by a [ViewController](https://bendingspoons.github.io/tempura-swift/latest/Classes/ViewController.html). Out of the box it will automatically listen for state updates and keep the UI in sync. The only other responsibility of a ViewController is to listen for interactions from the UI and dispatch actions to change the state.
 
 ```swift
 class ListViewController: ViewController<ListView> {
@@ -104,9 +104,18 @@ class ListViewController: ViewController<ListView> {
 }
 ```
 
+Note that the `dispatch` method of view controllers is a bit different than the one exposed by the Katana store: it accepts a simple `Dispatchable` and does not return anything. This is done to avoid implementing logic inside the view controller. 
+
+If your interaction handler needs to do more than one single thing, you should pack all that logic in a side effect and dispatch that.
+
+For the rare cases when it's needed to have a bit of logic in a view controller (for example when updating an old app without wanting to completely refactor all the logic) you can use the following methods:
+- `open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void>`
+- `open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturningValue>`
+**Note however that usage of this methods is HIGHLY discouraged, and they will be removed in a future version.**
+
 ### Navigation
 
-Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](http://tempura.bendingspoons.com/Protocols/RoutableWithConfiguration.html) protocol.
+Real apps are made by more than one screen. If a screen needs to present another screen, its ViewController must conform to the [RoutableWithConfiguration](https://bendingspoons.github.io/tempura-swift/latest/Protocols/RoutableWithConfiguration.html) protocol.
 
 ```swift
 extension ListViewController: RoutableWithConfiguration {
@@ -129,7 +138,7 @@ You can then trigger the presentation using one of the navigation actions from t
 self.dispatch(Show("add item screen"))
 ```
 
-Learn more about the navigation [here](http://tempura.bendingspoons.com/Classes/Navigator.html)
+Learn more about the navigation [here](https://bendingspoons.github.io/tempura-swift/latest/Classes/Navigator.html)
 
 ### ViewController containment
 
@@ -168,14 +177,6 @@ Tempura has a UI testing system that can be used to take screenshots of your vie
 
 #### Usage
 
-##### Swift Package Manager
- There are two ways to integrate TempuraTesting in your project using Swift Package Manager:
- - Adding it to your `Package.swift`
- - Adding it directly from Xcode under `File` -> `Swift Packages` -> `Add Package dependency..`
-
- In both cases you only need to provide this URL: `git@github.com:BendingSpoons/tempura-swift.git` and assign `TempuraTesting` to your UITests Target
-
-##### CocoaPods
 You need to include the `TempuraTesting` pod in the test target of your app:
 
 ```ruby
@@ -230,7 +231,7 @@ class UITests: XCTestCase, ViewTestCase {
 }
 
 ```
-If some important content inside a UIScrollView is not fully visibile, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
+If some important content inside a UIScrollView is not fully visible, you can leverage the `scrollViewsToTest(in view: V, identifier: String)` method.
 This will produce an additional snapshot rendering the full content of each returned UIScrollView instance.
 
 In this example we use `scrollViewsToTest(in view: V, identifier: String)`  to take an extended snapshot of the *mood picker* at the bottom of the screen.
@@ -244,7 +245,7 @@ func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
 
 
 In case you have to wait for asynchronous operations before rendering the UI and take the screenshot, you can leverage the `isViewReady(view:identifier:)` method.
-For instance, here we wait until an hypotetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
+For instance, here we wait until an hypothetical view that shows an image from a remote URL is ready. When the image is shown (that is, the state is `loaded`, then the snapshot is taken)
 ```swift
 import TempuraTesting
 
@@ -263,6 +264,15 @@ class UITests: XCTestCase, ViewTestCase {
 ```
 
 The test will pass as soon as the snapshot is taken.
+
+#### Context
+
+You can enable a number of advanced features through the `context` object that you can pass to the `uiTest` method: 
+- the `container` allows you to define a VC as a container of the view during the UITests. Basic `navigationController` and `tabBarController` are already provided, or you can define your own using the `custom` one 
+- the `hooks` allows you to perform actions when some lifecycle events happen. Available hooks are `viewDidLoad`, `viewWillAppear`, `viewDidAppear`, `viewDidLayoutSubviews`, and `navigationControllerHasBeenCreated`
+- the `screenSize` and `orientation` properties allows you to define a custom screen size and orientation to be used during the test
+- the `renderSafeArea` allows you to define whether the safe area should be rendered as semitransparent gray overlay during the test
+- the `keyboardVisibility` allows you to define whether a gray overlay should be rendered as a placeholder for the keyboard
 
 #### Multiple devices
 
@@ -342,22 +352,54 @@ class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
   }
   
   /// define the ViewModels
-  let vm = ParentViewModel(title: "A test title")
+  let viewModel = ParentViewModel(title: "A test title")
   let childVM = ChildViewModel(value: 12)
+  
+  /// define the tests we want to perform
+  let tests: [String: ParentViewModel] = [
+    "first_test_vc": viewModel
+  ]
     
   /// configure the ViewController with ViewModels, also for the children VCs
-  func configure(vc: ParentViewController, for testCase: String) {
-    vc.viewModel = vm
+  func configure(vc: ParentViewController, for testCase: String, model: ParentViewModel) {
+    vc.viewModel = model
     vc.childVC.viewModel = childVM
   }
     
   /// execute the UI tests
   func test() {
-    self.uiTest(testCases: ["first_test"], context: context)  
+    let context = UITests.VCContext<ParentViewController>(container: .none)
+    self.uiTest(testCases: self.tests, context: context)  
   }
 }
 ```
 
+In case you don't have child ViewControllers to configure, it's even easier as you don't need to supply a `configure(:::)` method:
+
+```swift
+class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
+  /// provide the instance of the ViewController to test
+  var viewController: ParentViewController {
+    let fakeStore = Store<AppState, EmptySideEffectDependencyContainer>()
+    let vc = ParentViewController(store: testStore)
+    return vc
+  }
+  
+  /// define the ViewModel
+  let viewModel = ParentViewModel(title: "A test title")
+  
+  /// define the tests we want to perform
+  let tests: [String: ParentViewModel] = [
+    "first_test_vc": viewModel
+  ]
+    
+  /// execute the UI tests
+  func test() {
+    let context = UITests.VCContext<ParentViewController>(container: .tabbarController)
+    self.uiTest(testCases: self.tests, context: context)  
+  }
+}
+```
 
 
 
@@ -371,7 +413,7 @@ This repository contains a demo of a todo list application done with Tempura. Af
 
 ### Check out the documentation
 
-[Documentation](http://tempura.bendingspoons.com)
+[Documentation](https://bendingspoons.github.io/tempura-swift)
 
 ## Swift Version
 Certain versions of Tempura only support certain versions of Swift. Depending on wich version of Swift your project is using, you should use specific versions of Tempura.
@@ -384,24 +426,17 @@ Use this table in order to check which version of Tempura you need.
 | Swift 4 | Tempura 1.12 |
 
 ## Installation
-Tempura is available through [CocoaPods](https://cocoapods.org/) and [Swift Package Manager](https://swift.org/package-manager/)
+
+Tempura is available through [CocoaPods](https://cocoapods.org).
 
 ### Requirements
 
-- iOS 9+
-- Xcode 9.0+
-- Swift 4.0+
-
-### Swift Package Manager
- [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
-
- There are two ways to integrate Tempura in your project using Swift Package Manager:
- - Adding it to your `Package.swift`
- - Adding it directly from Xcode under `File` -> `Swift Packages` -> `Add Package dependency..`
-
- In both cases you only need to provide this URL: `git@github.com:BendingSpoons/tempura-swift.git` and assign `Tempura` to your Target
+- iOS 11+
+- Xcode 11.0+
+- Swift 5.0+
 
 ### CocoaPods
+
 [CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects. You can install it with the following command:
 
 ```shell
@@ -413,7 +448,7 @@ To integrate Tempura in your Xcode project using CocoaPods you need to create a 
 ```ruby
 use_frameworks!
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
+platform :ios, '11.0'
 
 target 'MyApp' do
   pod 'Tempura'

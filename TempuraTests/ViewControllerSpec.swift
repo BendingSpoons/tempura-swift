@@ -1,5 +1,4 @@
 @testable import Tempura
-import UIKit
 import Katana
 import Quick
 import Nimble
@@ -84,11 +83,13 @@ class ViewControllerSpec: QuickSpec {
         }
       }
       
-      var store: PartialStore<AppState>!
+      var store: Store<AppState, EmptySideEffectDependencyContainer>!
       var testVC: TestViewController!
       
       beforeEach {
         store = Store<AppState, EmptySideEffectDependencyContainer>()
+        expect(store.isReady).toEventually(beTrue())
+        
         testVC = TestViewController(store: store, connected: true)
       }
       
@@ -143,10 +144,8 @@ class ViewControllerSpec: QuickSpec {
         store.dispatch(Increment())
         expect(testVC.numberOfTimesWillUpdateIsCalled).toEventually(equal(2))
         expect(testVC.numberOfTimesDidUpdateIsCalled).toEventually(equal(2))
-        expect(testVC.viewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
         expect(testVC.newViewModelWhenWillUpdateHasBeenCalled?.counter).toNotEventually(equal(2))
         expect(testVC.viewModelWhenDidUpdateHasBeenCalled?.counter).toEventually(equal(1))
-        expect(testVC.oldViewModelWhenDidUpdateHasBeenCalled?.counter).toNotEventually(equal(1))
       }
       
       it("a ViewController with connected == 'false' should connect as soon as it becomes visible if 'shouldConnectWhenVisible' == true") {
