@@ -90,7 +90,7 @@ public struct NavigationWitness {
 // MARK: - Live
 
 extension NavigationWitness {
-  /// The live NavigationWitness
+  /// The live NavigationWitness.
   public static func live(dispatch: @escaping AnyDispatch) -> Self {
     return .init(
       show: { identifiersToShow, animated, context in
@@ -106,8 +106,8 @@ extension NavigationWitness {
 // MARK: - Mock
 
 extension NavigationWitness {
-  /// The mock NavigationWitness
-  public static func mock(
+  /// The mocked NavigationWitness.
+  public static func mocked(
     appendTo navigations: Wrapped<[NavigationRequest]> = .init(initialValue: []),
     showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Void] = [:],
     hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Void] = [:]
@@ -134,7 +134,7 @@ extension NavigationWitness {
 // MARK: - Unimplemented
 
 extension NavigationWitness {
-  /// The unimplemented NavigationWitness
+  /// The unimplemented NavigationWitness.
   public static func unimplemented(
     show: @escaping ([RouteElementIdentifier], Bool, Any?) -> Promise<Void> = { _, _, _ in fatalError() },
     hide: @escaping (RouteElementIdentifier, Bool, Any?, Bool) -> Promise<Void> = { _, _, _, _ in fatalError() }

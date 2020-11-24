@@ -69,7 +69,7 @@ class NavigationWitnessTests: XCTestCase {
 
   func testMockShow_appendsTheNavigationRequest() {
     let accumulator = Wrapped<[NavigationRequest]>(initialValue: [])
-    let navigationWitness: NavigationWitness = .mock(appendTo: accumulator)
+    let navigationWitness: NavigationWitness = .mocked(appendTo: accumulator)
     _ = navigationWitness.show("first", animated: false, context: nil)
     XCTAssertEqual(accumulator.value, [.show("first")])
     _ = navigationWitness.show("second", animated: true, context: 5)
@@ -78,7 +78,7 @@ class NavigationWitnessTests: XCTestCase {
 
   func testMockHide_appendsTheNavigationRequest() {
     let accumulator = Wrapped<[NavigationRequest]>(initialValue: [])
-    let navigationWitness: NavigationWitness = .mock(appendTo: accumulator)
+    let navigationWitness: NavigationWitness = .mocked(appendTo: accumulator)
     _ = navigationWitness.show("first", animated: false, context: nil)
     XCTAssertEqual(accumulator.value, [.show("first")])
     _ = navigationWitness.show("second", animated: true, context: 5)
