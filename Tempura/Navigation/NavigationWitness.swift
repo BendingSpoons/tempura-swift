@@ -109,23 +109,47 @@ extension NavigationWitness {
   /// The mocked NavigationWitness.
   public static func mocked(
     appendTo navigations: Wrapped<[NavigationRequest]> = .init(initialValue: []),
-    showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Void] = [:],
-    hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Void] = [:]
+    showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Promise<Void>] = [:],
+    hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Promise<Void>] = [:]
   ) -> Self {
     return .init(
       show: { identifiersToShow, animated, context in
         navigations.value.append(contentsOf: identifiersToShow.map { .show($0) })
-        
-        identifiersToShow.forEach { showHandlers[$0]?(animated, context) }
-        
-        return Promise(resolved: ())
+        return all(identifiersToShow.compactMap { showHandlers[$0]?(animated, context) }).void
       },
       hide: { identifierToHide, animated, context, atomic in
         navigations.value.append(.hide(identifierToHide))
-        
-        hideHandlers[identifierToHide]?(animated, context, atomic)
-                
-        return Promise(resolved: ())
+        return hideHandlers[identifierToHide]?(animated, context, atomic) ?? Promise(resolved: ())
+      }
+    )
+  }
+}
+
+// MARK: - Spy
+
+/// A navigation witness that expends the live one, adding the functionalities of the mocked one.
+extension NavigationWitness {
+  public static func spy(
+    dispatch: @escaping AnyDispatch,
+    appendTo navigations: Wrapped<[NavigationRequest]> = .init(initialValue: []),
+    showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Promise<Void>] = [:],
+    hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Promise<Void>] = [:]
+  ) -> Self {
+    let live: NavigationWitness = .live(dispatch: dispatch)
+    let mocked: NavigationWitness = .mocked(appendTo: navigations, showHandlers: showHandlers, hideHandlers: hideHandlers)
+
+    return .unimplemented(
+      show: { identifiersToShow, animated, context in
+        return live.show(identifiersToShow, animated: animated, context: context)
+          .then {
+            mocked.show(identifiersToShow, animated: animated, context: context)
+          }
+      },
+      hide: { identifierToHide, animated, context, atomic in
+        return live.hide(identifierToHide, animated: animated, context: context, atomic: atomic)
+          .then {
+            mocked.hide(identifierToHide, animated: animated, context: context, atomic: atomic)
+          }
       }
     )
   }
