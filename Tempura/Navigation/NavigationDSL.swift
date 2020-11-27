@@ -73,6 +73,7 @@ public struct NavigationRequest: Hashable {
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
     return self.source == identifier && kind == self.kind
   }
+
   /// Implementation of the equality between two NavigationRequest.
   public static func == (l: NavigationRequest, r: NavigationRequest) -> Bool {
     if l.kind != r.kind {
@@ -91,10 +92,9 @@ extension NavigationRequest: CustomDebugStringConvertible {
   public var debugDescription: String {
     switch self.kind {
       case .show:
-        return "Show: \(self.source)"
-        
+        return "Show(\(self.source))"
       case .hide:
-        return "Hide: \(self.source)"
+        return "Hide(\(self.source))"
     }
   }
 }
