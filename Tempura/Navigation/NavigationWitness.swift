@@ -68,10 +68,11 @@ public struct NavigationWitness {
   public func hide<I>(
     _ identifierToHide: I,
     animated: Bool = false,
-    context: Any? = nil
+    context: Any? = nil,
+    atomic: Bool = false
   ) -> Promise<Void>
     where I: RawRepresentable, I.RawValue == RouteElementIdentifier {
-    return self.hide(identifierToHide.rawValue, animated, context, false)
+    return self.hide(identifierToHide.rawValue, animated, context, atomic)
   }
 
   /// @see Tempura.Hide
