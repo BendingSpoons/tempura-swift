@@ -104,9 +104,9 @@ extension NavigationWitness {
   }
 }
 
-#if DEBUG
-  // MARK: - Mock
+// MARK: - Mock
 
+#if DEBUG
   extension NavigationWitness {
     /// The mocked NavigationWitness.
     public static func mocked(
@@ -126,53 +126,6 @@ extension NavigationWitness {
       )
     }
   }
-
-  // MARK: - Spy
-
-  /// A navigation witness that expends the live one, adding the functionalities of the mocked one.
-  extension NavigationWitness {
-    public static func spy(
-      dispatch: @escaping AnyDispatch,
-      appendTo navigations: NavigationRequests = [],
-      showHandlers: [RouteElementIdentifier: (Bool, Any?) -> Promise<Void>] = [:],
-      hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Promise<Void>] = [:]
-    ) -> Self {
-      let live: NavigationWitness = .live(dispatch: dispatch)
-      let mocked: NavigationWitness = .mocked(appendTo: navigations, showHandlers: showHandlers, hideHandlers: hideHandlers)
-
-      return .unimplemented(
-        show: { identifiersToShow, animated, context in
-          return live.show(identifiersToShow, animated: animated, context: context)
-            .then {
-              mocked.show(identifiersToShow, animated: animated, context: context)
-            }
-        },
-        hide: { identifierToHide, animated, context, atomic in
-          return live.hide(identifierToHide, animated: animated, context: context, atomic: atomic)
-            .then {
-              mocked.hide(identifierToHide, animated: animated, context: context, atomic: atomic)
-            }
-        }
-      )
-    }
-  }
-
-  // MARK: - Unimplemented
-
-  extension NavigationWitness {
-    /// The unimplemented NavigationWitness.
-    public static func unimplemented(
-      show: @escaping ([RouteElementIdentifier], Bool, Any?) -> Promise<Void> = { _, _, _ in fatalError() },
-      hide: @escaping (RouteElementIdentifier, Bool, Any?, Bool) -> Promise<Void> = { _, _, _, _ in fatalError() }
-    ) -> Self {
-      return .init(
-        show: show,
-        hide: hide
-      )
-    }
-  }
-
-  // MARK: - NavigationRequests
 
   /// Wraps any object into a reference-type object
   public class NavigationRequests: Equatable, ExpressibleByArrayLiteral, CustomDebugStringConvertible {
@@ -200,6 +153,23 @@ extension NavigationWitness {
 
     public var debugDescription: String {
       return self.requests.debugDescription
+    }
+  }
+#endif
+
+// MARK: - Unimplemented
+
+#if DEBUG
+  extension NavigationWitness {
+    /// The unimplemented NavigationWitness.
+    public static func unimplemented(
+      show: @escaping ([RouteElementIdentifier], Bool, Any?) -> Promise<Void> = { _, _, _ in fatalError() },
+      hide: @escaping (RouteElementIdentifier, Bool, Any?, Bool) -> Promise<Void> = { _, _, _, _ in fatalError() }
+    ) -> Self {
+      return .init(
+        show: show,
+        hide: hide
+      )
     }
   }
 #endif
