@@ -66,7 +66,7 @@ extension ViewController {
 
 /// A View used to do ViewController containment
 /// This is the View that will contain the View of the managed ViewController
-public class ContainerView: UIView {
+open class ContainerView: UIView {
   
   /// See `UIView.layoutSubviews()`
   public override func layoutSubviews() {
