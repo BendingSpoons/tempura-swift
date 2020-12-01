@@ -24,10 +24,10 @@ open class ViewModelProvider<VM: ViewModelWithState>: ObservableObject {
   public let objectWillChange = ObservableObjectPublisher()
 
   /// Last `oldModel` received.
-  private(set) var oldModel: VM?
+  public private(set) var oldModel: VM?
   
   /// Last `model` received.
-  private(set) var model: VM?
+  public private(set) var model: VM?
 
   /// Initialize a `ViewModelProvider` by setting the provided `model` and `oldModel`.
   public init(model: VM? = nil, oldModel: VM? = nil) {
