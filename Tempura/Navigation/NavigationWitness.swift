@@ -13,25 +13,22 @@ import Katana
 
 /// Tempura navigation protocol witness.
 public struct NavigationWitness {
-  private let show: ([RouteElementIdentifier], Bool, Any?) -> Promise<Void>
-  private let hide: (RouteElementIdentifier, Bool, Any?, Bool) -> Promise<Void>
-
   /// @see Tempura.Show
   public func show(
     _ identifiersToShow: [RouteElementIdentifier],
     animated: Bool = false,
     context: Any? = nil
   ) -> Promise<Void> {
-    return self.show(identifiersToShow, animated, context)
+    return self._show(identifiersToShow, animated, context)
   }
 
   /// @see Tempura.Show
   public func show(
-    _ identifiersToShow: RouteElementIdentifier,
+    _ identifierToShow: RouteElementIdentifier,
     animated: Bool = false,
     context: Any? = nil
   ) -> Promise<Void> {
-    return self.show([identifiersToShow], animated, context)
+    return self._show([identifierToShow], animated, context)
   }
 
   /// @see Tempura.Show
@@ -41,7 +38,7 @@ public struct NavigationWitness {
     context: Any? = nil
   ) -> Promise<Void>
     where I: RawRepresentable, I.RawValue == RouteElementIdentifier {
-    return self.show(identifiersToShow.map { $0.rawValue }, animated, context)
+    return self._show(identifiersToShow.map { $0.rawValue }, animated, context)
   }
 
   /// @see Tempura.Show
@@ -51,7 +48,7 @@ public struct NavigationWitness {
     context: Any? = nil
   ) -> Promise<Void>
     where I: RawRepresentable, I.RawValue == RouteElementIdentifier {
-    return self.show([identifiersToShow.rawValue], animated, context)
+    return self._show([identifiersToShow.rawValue], animated, context)
   }
 
   /// @see Tempura.Hide
@@ -61,7 +58,7 @@ public struct NavigationWitness {
     context: Any? = nil,
     atomic: Bool = false
   ) -> Promise<Void> {
-    return self.hide(identifierToHide, animated, context, atomic)
+    return self._hide(identifierToHide, animated, context, atomic)
   }
 
   /// @see Tempura.Hide
@@ -72,7 +69,7 @@ public struct NavigationWitness {
     atomic: Bool = false
   ) -> Promise<Void>
     where I: RawRepresentable, I.RawValue == RouteElementIdentifier {
-    return self.hide(identifierToHide.rawValue, animated, context, atomic)
+    return self._hide(identifierToHide.rawValue, animated, context, atomic)
   }
 
   /// @see Tempura.Hide
@@ -81,11 +78,15 @@ public struct NavigationWitness {
     context: Any? = nil,
     atomic: Bool = false
   ) -> Promise<Void> {
-    guard let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last else {
-      fatalError("No routable identifiers found")
-    }
-    return self.hide(identifierToHide, animated, context, atomic)
+    return self._hide(nil, animated, context, atomic)
   }
+
+  // MARK: Internal closures
+
+  // swiftlint:disable identifier_name
+  var _show: ([RouteElementIdentifier], Bool, Any?) -> Promise<Void>
+  var _hide: (RouteElementIdentifier?, Bool, Any?, Bool) -> Promise<Void>
+  // swiftlint:enable identifier_name
 }
 
 // MARK: - Live
@@ -94,11 +95,15 @@ extension NavigationWitness {
   /// The live NavigationWitness.
   public static func live(dispatch: @escaping AnyDispatch) -> Self {
     return .init(
-      show: { identifiersToShow, animated, context in
+      _show: { identifiersToShow, animated, context in
         dispatch(Show(identifiersToShow, animated: animated, context: context)).void
       },
-      hide: { identifierToHide, animated, context, atomic in
-        dispatch(Hide(identifierToHide, animated: animated, context: context, atomic: atomic)).void
+      _hide: { identifierToHide, animated, context, atomic in
+        if let identifierToHide = identifierToHide {
+          return dispatch(Hide(identifierToHide, animated: animated, context: context, atomic: atomic)).void
+        } else {
+          return dispatch(Hide(animated: animated, context: context, atomic: atomic)).void
+        }
       }
     )
   }
@@ -115,13 +120,14 @@ extension NavigationWitness {
       hideHandlers: [RouteElementIdentifier: (Bool, Any?, Bool) -> Promise<Void>] = [:]
     ) -> Self {
       return .init(
-        show: { identifiersToShow, animated, context in
+        _show: { identifiersToShow, animated, context in
           navigations.append(contentsOf: identifiersToShow.map { .show($0) })
           return all(identifiersToShow.compactMap { showHandlers[$0]?(animated, context) }).void
         },
-        hide: { identifierToHide, animated, context, atomic in
-          navigations.append(.hide(identifierToHide))
-          return hideHandlers[identifierToHide]?(animated, context, atomic) ?? Promise(resolved: ())
+        _hide: { identifierToHide, animated, context, atomic in
+          let identifier = identifierToHide ?? "nil"
+          navigations.append(.hide(identifier))
+          return hideHandlers[identifier]?(animated, context, atomic) ?? Promise(resolved: ())
         }
       )
     }
@@ -164,11 +170,11 @@ extension NavigationWitness {
     /// The unimplemented NavigationWitness.
     public static func unimplemented(
       show: @escaping ([RouteElementIdentifier], Bool, Any?) -> Promise<Void> = { _, _, _ in fatalError() },
-      hide: @escaping (RouteElementIdentifier, Bool, Any?, Bool) -> Promise<Void> = { _, _, _, _ in fatalError() }
+      hide: @escaping (RouteElementIdentifier?, Bool, Any?, Bool) -> Promise<Void> = { _, _, _, _ in fatalError() }
     ) -> Self {
       return .init(
-        show: show,
-        hide: hide
+        _show: show,
+        _hide: hide
       )
     }
   }
