@@ -1,6 +1,6 @@
 # Changelog
 
-## Tempura 6.1.0-beta.1
+## Tempura 6.1.0
 * Add NavigationWitness [#99](https://github.com/BendingSpoons/tempura-swift/pull/99)
 
 ## TempuraTesting 7.0.0
