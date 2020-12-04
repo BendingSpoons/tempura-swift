@@ -133,7 +133,7 @@ extension NavigationWitness {
     }
   }
 
-  /// Wraps any object into a reference-type object
+  /// Wraps an array of NavigationRequest into a reference-type object
   public class NavigationRequests: Equatable, ExpressibleByArrayLiteral, CustomDebugStringConvertible {
     public internal(set) var requests: [NavigationRequest]
 
