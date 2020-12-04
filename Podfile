@@ -1,4 +1,4 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 
 inhibit_all_warnings!
 use_frameworks!
@@ -28,7 +28,7 @@ end
 
 target 'TempuraTesting' do
   platform :ios, '11.0'
-  pod 'Tempura', '~> 6.0'
+  podspec :path => "TempuraTesting.podspec"
 end
 
 post_install do |installer|

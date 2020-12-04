@@ -178,7 +178,7 @@ public class Navigator {
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller!
   private var window: UIWindow!
-  
+
   /// Initializes and return a Navigator.
   public init() {}
   /// Start the navigator.
@@ -353,7 +353,7 @@ public class Navigator {
           DispatchQueue.main.async {
             
             let routables = UIApplication.shared.currentRoutables
-            
+
             guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }
