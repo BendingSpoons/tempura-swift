@@ -81,7 +81,8 @@ public protocol ViewControllerTestCase {
 
 public extension ViewControllerTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
-    
+    UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys))
+
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
