@@ -38,7 +38,6 @@ public protocol TestableViewController: UIViewController {
   var rootView: V { get }
 }
 
-
 extension ViewController: TestableViewController {}
 
 public protocol ViewControllerTestCase {
@@ -79,7 +78,6 @@ public protocol ViewControllerTestCase {
   /// this is typically used to manually inject the ViewModel to all the children VCs.
   func configure(vc: VC, for testCase: String, model: VC.V.VM)
 }
-
 
 public extension ViewControllerTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {

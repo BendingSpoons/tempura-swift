@@ -55,7 +55,6 @@ public protocol ViewTestCase {
   func isViewReady(_ view: V, identifier: String) -> Bool
 }
 
-
 public extension ViewTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
