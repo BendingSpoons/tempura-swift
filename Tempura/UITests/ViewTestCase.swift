@@ -55,9 +55,10 @@ public protocol ViewTestCase {
   func isViewReady(_ view: V, identifier: String) -> Bool
 }
 
-
 public extension ViewTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
+    UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
+
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
       type: V.self,
       container: context.container,
