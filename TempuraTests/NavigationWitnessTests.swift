@@ -68,25 +68,25 @@ class NavigationWitnessTests: XCTestCase {
   }
 
   func testMockShow_appendsTheNavigationRequest() {
-    let accumulator = Wrapped<[NavigationRequest]>(initialValue: [])
-    let navigationWitness: NavigationWitness = .mocked(appendTo: accumulator)
+    let navigationRequests = NavigationRequests()
+    let navigationWitness: NavigationWitness = .mocked(appendTo: navigationRequests)
     _ = navigationWitness.show("first", animated: false, context: nil)
-    XCTAssertEqual(accumulator.value, [.show("first")])
+    XCTAssertEqual(navigationRequests, [.show("first")])
     _ = navigationWitness.show("second", animated: true, context: 5)
-    XCTAssertEqual(accumulator.value, [.show("first"), .show("second")])
+    XCTAssertEqual(navigationRequests, [.show("first"), .show("second")])
   }
 
   func testMockHide_appendsTheNavigationRequest() {
-    let accumulator = Wrapped<[NavigationRequest]>(initialValue: [])
-    let navigationWitness: NavigationWitness = .mocked(appendTo: accumulator)
+    let navigationRequests = NavigationRequests()
+    let navigationWitness: NavigationWitness = .mocked(appendTo: navigationRequests)
     _ = navigationWitness.show("first", animated: false, context: nil)
-    XCTAssertEqual(accumulator.value, [.show("first")])
+    XCTAssertEqual(navigationRequests, [.show("first")])
     _ = navigationWitness.show("second", animated: true, context: 5)
-    XCTAssertEqual(accumulator.value, [.show("first"), .show("second")])
+    XCTAssertEqual(navigationRequests, [.show("first"), .show("second")])
     _ = navigationWitness.hide("second", animated: true, context: 5)
-    XCTAssertEqual(accumulator.value, [.show("first"), .show("second"), .hide("second")])
+    XCTAssertEqual(navigationRequests, [.show("first"), .show("second"), .hide("second")])
     _ = navigationWitness.hide("first", animated: false, context: nil)
-    XCTAssertEqual(accumulator.value, [.show("first"), .show("second"), .hide("second"), .hide("first")])
+    XCTAssertEqual(navigationRequests, [.show("first"), .show("second"), .hide("second"), .hide("first")])
   }
 }
 
