@@ -287,8 +287,9 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   
   /// Called every time the store triggers a state update.
   func storeDidChange() {
-    mainThread {
-     self.update(with: self.state)
+    mainThread { [weak self] in
+      guard let self = self else { return }
+      self.update(with: self.state)
     }
   }
   
