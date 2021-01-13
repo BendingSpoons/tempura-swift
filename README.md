@@ -75,7 +75,6 @@ The UI of each screen of your app is composed in a [ViewControllerModellableView
 class ListView: UIView, ViewControllerModellableView {
   // subviews
   var todoButton: UIButton = UIButton(type: .custom)
-  var todoButton: UIButton = UIButton(type: .custom)
   var list: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>
 
   // interactions
