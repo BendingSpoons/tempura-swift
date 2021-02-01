@@ -156,7 +156,7 @@ import Hydra
 ///        // this is done by invoking this method (and not in the init of the navigator)
 ///        // because the navigator is instantiated by the Store.
 ///        // this in turn will invoke the `installRootMethod` of the rootInstaller (self)
-///        navigator.start(using: self, in self.window, at: "screenA")
+///        navigator.start(using: self, in: self.window, at: "screenA")
 ///        return true
 ///      }
 ///
