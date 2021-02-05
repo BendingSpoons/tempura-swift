@@ -38,7 +38,6 @@ public protocol TestableViewController: UIViewController {
   var rootView: V { get }
 }
 
-
 extension ViewController: TestableViewController {}
 
 public protocol ViewControllerTestCase {
@@ -80,10 +79,10 @@ public protocol ViewControllerTestCase {
   func configure(vc: VC, for testCase: String, model: VC.V.VM)
 }
 
-
 public extension ViewControllerTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
-    
+    UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
+
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"

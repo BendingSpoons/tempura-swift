@@ -156,7 +156,7 @@ import Hydra
 ///        // this is done by invoking this method (and not in the init of the navigator)
 ///        // because the navigator is instantiated by the Store.
 ///        // this in turn will invoke the `installRootMethod` of the rootInstaller (self)
-///        navigator.start(using: self, in self.window, at: "screenA")
+///        navigator.start(using: self, in: self.window, at: "screenA")
 ///        return true
 ///      }
 ///
@@ -178,7 +178,7 @@ public class Navigator {
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller!
   private var window: UIWindow!
-  
+
   /// Initializes and return a Navigator.
   public init() {}
   /// Start the navigator.
@@ -353,7 +353,7 @@ public class Navigator {
           DispatchQueue.main.async {
             
             let routables = UIApplication.shared.currentRoutables
-            
+
             guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }

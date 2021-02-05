@@ -75,7 +75,6 @@ The UI of each screen of your app is composed in a [ViewControllerModellableView
 class ListView: UIView, ViewControllerModellableView {
   // subviews
   var todoButton: UIButton = UIButton(type: .custom)
-  var todoButton: UIButton = UIButton(type: .custom)
   var list: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>
 
   // interactions
@@ -409,7 +408,7 @@ class ParentViewControllerUITest: XCTestCase, ViewControllerTestCase {
 
 ### Example application
 
-This repository contains a demo of a todo list application done with Tempura. After a `pod install`, open the project and run the `Demo` target.
+This repository contains a demo of a todo list application done with Tempura. To generate an Xcode project file you can use [Xcake](https://github.com/igor-makarov/xcake). Run `xcake make`, followed by a `pod install`, open the project and run the `Demo` target. When doing so, check the `Demo` scheme to make sure `Demo.app` is set as executable.
 
 ### Check out the documentation
 

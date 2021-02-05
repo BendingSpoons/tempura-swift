@@ -32,19 +32,30 @@ import UIKit
 /// ```
 ///
 public struct NavigationRequest: Hashable {
-  
   fileprivate enum NavigationKind: Int {
     case show, hide
   }
+
   /// Represents a NavigationRequest to match a `Show` action dispatched.
   public static func show<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .show)
   }
+
+  /// Represents a NavigationRequest to match a `Show` action dispatched.
+  public static func show(_ source: RouteElementIdentifier) -> NavigationRequest {
+    return NavigationRequest(source: source, kind: .show)
+  }
+
   /// Represents a NavigationRequest to match a `Hide` action dispatched.
   public static func hide<T: RawRepresentable>(_ source: T) -> NavigationRequest where T.RawValue == RouteElementIdentifier {
     return NavigationRequest(source: source.rawValue, kind: .hide)
   }
-  
+
+  /// Represents a NavigationRequest to match a `Hide` action dispatched.
+  public static func hide(_ source: RouteElementIdentifier) -> NavigationRequest {
+    return NavigationRequest(source: source, kind: .hide)
+  }
+
   private let source: String
   private let kind: NavigationKind
   
@@ -62,6 +73,7 @@ public struct NavigationRequest: Hashable {
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
     return self.source == identifier && kind == self.kind
   }
+
   /// Implementation of the equality between two NavigationRequest.
   public static func == (l: NavigationRequest, r: NavigationRequest) -> Bool {
     if l.kind != r.kind {
@@ -73,6 +85,17 @@ public struct NavigationRequest: Hashable {
     }
     
     return true
+  }
+}
+
+extension NavigationRequest: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    switch self.kind {
+      case .show:
+        return "Show(\(self.source))"
+      case .hide:
+        return "Hide(\(self.source))"
+    }
   }
 }
 

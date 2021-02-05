@@ -126,20 +126,26 @@ public struct Hide: NavigationSideEffect {
   /// If we use `atomic = true`, only the request to hide B will be generated.
   public let atomic: Bool
   
-  /// Initializes and return a Hide action.
+  /// Initializes and returns a Hide action.
   public init(_ identifierToHide: RouteElementIdentifier, animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
     self.identifierToHide = identifierToHide
     self.animated = animated
     self.context = context
     self.atomic = atomic
   }
-  
-  /// Initializes and return a Hide action.
+
+  /// Initializes and returns a Hide action.
   public init<K>(_ identifierToHide: K, animated: Bool = false, context: Any? = nil)
     where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
-      self.init(identifierToHide.rawValue, animated: animated, context: context)
+    self.init(identifierToHide.rawValue, animated: animated, context: context)
   }
-  
+
+  /// Initializes and returns a Hide action.
+  public init<K>(_ identifierToHide: K, animated: Bool = false, context: Any? = nil, atomic: Bool = false)
+    where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
+    self.init(identifierToHide.rawValue, animated: animated, context: context, atomic: atomic)
+  }
+
   /// Initializes and return a Hide action.
   public init(animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
     let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last!

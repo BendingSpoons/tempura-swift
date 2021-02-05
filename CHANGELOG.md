@@ -1,7 +1,16 @@
+# Changelog
+
 ## Next
 * Added Package.swift to enable Swift Package Manager Compatibility
 * Moved `TempuraTesting` related sources to an outer folder
 * Updated Cakefile and Podfile for TempuraTesting
+
+## Tempura 6.2.0
+* Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
+* Fix possible exception when a state update is triggered while a view controller is being dismissed [#104](https://github.com/BendingSpoons/tempura-swift/pull/104)
+
+## Tempura 6.1.0
+* Add NavigationWitness [#99](https://github.com/BendingSpoons/tempura-swift/pull/99)
 
 ## TempuraTesting 7.0.0
 * Update to Tempura 6
