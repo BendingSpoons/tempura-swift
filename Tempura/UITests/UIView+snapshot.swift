@@ -96,20 +96,35 @@ extension UIView {
   }
   
   private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> UIImage? {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
-    self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+    let imageRenderer = UIGraphicsImageRenderer(bounds: .init(origin: .zero, size: self.bounds.size))
+    let snapshot = imageRenderer.image { context in
+      let cgContext = context.cgContext
+      // Disable antialiasing to improve reproducibility of curved lines
+      cgContext.setAllowsAntialiasing(false)
+      cgContext.setShouldAntialias(false)
+      // Disable flatness to create more precise curves
+      cgContext.setFlatness(0)
+      // Use absolute colorimetrics to have reproducible results despite the device used
+      cgContext.setRenderingIntent(.absoluteColorimetric)
+      // Disable font quantization, smoothing and positioning to avoid rounding and improve reproducibility
+      cgContext.setShouldSubpixelPositionFonts(false)
+      cgContext.setShouldSubpixelQuantizeFonts(false)
+      cgContext.setAllowsFontSubpixelPositioning(false)
+      cgContext.setAllowsFontSubpixelQuantization(false)
+      cgContext.setAllowsFontSmoothing(false)
+      cgContext.setShouldSmoothFonts(false)
 
-    renderSafeAreaIfNeeded(shouldRenderSafeArea: shouldRenderSafeArea)
+      self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
 
-    renderKeyboardIfNeeded(keyboardVisibility: keyboardVisibility)
+      renderSafeAreaIfNeeded(shouldRenderSafeArea: shouldRenderSafeArea, context: cgContext)
 
-    let snapshot = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
+      renderKeyboardIfNeeded(keyboardVisibility: keyboardVisibility, context: cgContext)
 
+    }
     return snapshot
   }
 
-  private func renderKeyboardIfNeeded(keyboardVisibility: UITests.KeyboardVisibility) {
+  private func renderKeyboardIfNeeded(keyboardVisibility: UITests.KeyboardVisibility, context: CGContext) {
     let orientation: UIDeviceOrientation = self.frame.size.height > self.frame.size.width ? .portrait : .landscapeLeft
     let keyboardHeight = keyboardVisibility.height(for: orientation)
     if keyboardHeight > 0, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
@@ -121,7 +136,7 @@ extension UIView {
     }
   }
 
-  private func renderSafeAreaIfNeeded(shouldRenderSafeArea: Bool) {
+  private func renderSafeAreaIfNeeded(shouldRenderSafeArea: Bool, context: CGContext) {
     if shouldRenderSafeArea, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
       let topRect = CGRect(origin: .zero, size: CGSize(width: self.bounds.width, height: self.universalSafeAreaInsets.top))
 
