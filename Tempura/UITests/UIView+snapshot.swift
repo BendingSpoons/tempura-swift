@@ -9,7 +9,7 @@ import UIKit
 
 /// Create a snapshot image of self
 extension UIView {
-  func snapshot() -> UIImage? {
+  func snapshot() -> Data? {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -39,7 +39,7 @@ extension UIView {
                      isViewReadyClosure: @escaping (UIView) -> Bool,
                      shouldRenderSafeArea: Bool,
                      keyboardVisibility: UITests.KeyboardVisibility,
-                     _ completionClosure: @escaping (UIImage?) -> Void) {
+                     _ completionClosure: @escaping (Data?) -> Void) {
     let window: UIWindow?
     var removeFromSuperview: Bool = false
     
@@ -75,7 +75,7 @@ extension UIView {
                          isViewReadyClosure: @escaping (UIView) -> Bool,
                          shouldRenderSafeArea: Bool,
                          keyboardVisibility: UITests.KeyboardVisibility,
-                         _ completionClosure: @escaping (UIImage?) -> Void) {
+                         _ completionClosure: @escaping (Data?) -> Void) {
     
     let viewToWaitFor = viewToWaitFor ?? self
     guard isViewReadyClosure(viewToWaitFor) else {
@@ -95,9 +95,9 @@ extension UIView {
     completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea, keyboardVisibility: keyboardVisibility))
   }
   
-  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> UIImage? {
+  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> Data? {
     let imageRenderer = UIGraphicsImageRenderer(bounds: .init(origin: .zero, size: self.bounds.size))
-    let snapshot = imageRenderer.image { context in
+    let snapshot = imageRenderer.pngData { context in
       let cgContext = context.cgContext
       // Disable antialiasing to improve reproducibility of curved lines
       cgContext.setAllowsAntialiasing(false)
