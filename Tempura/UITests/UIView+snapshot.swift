@@ -114,7 +114,7 @@ extension UIView {
       cgContext.setAllowsFontSmoothing(false)
       cgContext.setShouldSmoothFonts(false)
 
-      self.drawHierarchy(in: self.bounds, afterScreenUpdates: false)
+      self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
 
       renderSafeAreaIfNeeded(shouldRenderSafeArea: shouldRenderSafeArea, context: cgContext)
 
