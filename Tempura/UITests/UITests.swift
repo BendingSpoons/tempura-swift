@@ -324,7 +324,7 @@ public enum UITests {
     }
 
     let scaleFactor = Int(UIScreen.main.scale)
-    let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
+    let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.jpg")
     guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }
     guard let _ = try? data.write(to: fileURL) else { return }
   }
