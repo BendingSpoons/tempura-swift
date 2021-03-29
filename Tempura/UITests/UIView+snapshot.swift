@@ -97,7 +97,7 @@ extension UIView {
   
   private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> Data? {
     let imageRenderer = UIGraphicsImageRenderer(bounds: .init(origin: .zero, size: self.bounds.size))
-    let snapshot = imageRenderer.pngData { context in
+    let snapshot = imageRenderer.jpegData(withCompressionQuality: 0.75) { context in
       let cgContext = context.cgContext
       // Disable antialiasing to improve reproducibility of curved lines
       cgContext.setAllowsAntialiasing(false)
