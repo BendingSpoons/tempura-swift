@@ -19,10 +19,8 @@ Pod::Spec.new do |s|
 
   s.frameworks = "XCTest"
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
     'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks"',
     'ENABLE_BITCODE' => 'NO',
-    'ENABLE_TESTING_SEARCH_PATHS' => 'YES',
   }
   
 end
