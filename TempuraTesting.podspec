@@ -14,10 +14,9 @@ Pod::Spec.new do |s|
 
   s.frameworks = "XCTest"
   s.pod_target_xcconfig = {
-    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks"',
-    'ENABLE_BITCODE' => 'NO',
+    'ENABLE_BITCODE' => 'NO'
   }
-  
+
   s.ios.source_files = [
     'Tempura/UITests/**/*.swift',
   ]  
