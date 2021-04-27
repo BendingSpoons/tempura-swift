@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => 'tempura-testing-v' + s.version.to_s }
 
   s.ios.deployment_target = '11.0'
-  s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   s.dependency 'Tempura', '>= 6.0', '< 7'
   s.swift_version = '5.0'
 
