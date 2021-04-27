@@ -13,9 +13,6 @@ Pod::Spec.new do |s|
   s.dependency 'Tempura', '>= 6.0', '< 7'
   s.swift_version = '5.0'
 
-  s.ios.source_files = [
-    'Tempura/UITests/**/*.swift',
-  ]
 
   s.frameworks = "XCTest"
   s.pod_target_xcconfig = {
@@ -23,4 +20,7 @@ Pod::Spec.new do |s|
     'ENABLE_BITCODE' => 'NO',
   }
   
+  s.ios.source_files = [
+    'Tempura/UITests/**/*.swift',
+  ]  
 end
