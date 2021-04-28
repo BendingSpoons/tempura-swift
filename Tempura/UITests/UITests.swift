@@ -303,7 +303,7 @@ public enum UITests {
     self.saveImage(snapshot, description: description)
   }
   
-  private static func saveImage(_ image: UIImage, description: String) {
+  private static func saveImage(_ data: Data, description: String) {
     guard var dirPath = Bundle.main.infoDictionary?["UI_TEST_DIR"] as? String else { fatalError("UI_TEST_DIR not defined in your info.plist") }
     
     if let collatorIdentifier = Locale.current.collatorIdentifier {
@@ -322,12 +322,11 @@ public enum UITests {
     if recording {
       dirURL.appendPathComponent("/reference")
     }
-    
-    guard let pngData = image.pngData() else { return }
+
     let scaleFactor = Int(UIScreen.main.scale)
-    let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.png")
+    let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.jpg")
     guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }
-    guard let _ = try? pngData.write(to: fileURL) else { return }
+    guard let _ = try? data.write(to: fileURL) else { return }
   }
 }
 

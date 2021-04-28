@@ -55,12 +55,15 @@ public extension ViewTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
+    // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
+    XCUIDevice.shared.orientation = context.orientation
+
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
       type: V.self,
       container: context.container,
       models: testCases,
       hooks: context.hooks,
-      size: context.screenSize
+      size: context.screenSize ?? UIScreen.main.bounds.size
     )
     
     let viewControllers = snapshotConfiguration.renderingViewControllers
@@ -72,7 +75,6 @@ public extension ViewTestCase where Self: XCTestCase {
       let description = "\(identifier) \(screenSizeDescription)"
       
       let expectation = XCTestExpectation(description: description)
-      XCUIDevice.shared.orientation = context.orientation
       
       let isViewReadyClosure: (UIView) -> Bool = { view in
         var isOrientationCorrect = true
@@ -144,8 +146,8 @@ extension UITests {
     public var hooks: [UITests.Hook: UITests.HookClosure<V>]
     
     /// the size of the window in which the view will be rendered
-    public var screenSize: CGSize
-    
+    public var screenSize: CGSize?
+
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
 
@@ -157,7 +159,7 @@ extension UITests {
 
     public init(container: Container = .none,
                 hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
-                screenSize: CGSize = UIScreen.main.bounds.size,
+                screenSize: CGSize? = nil,
                 orientation: UIDeviceOrientation = .portrait,
                 renderSafeArea: Bool = true,
                 keyboardVisibility: @escaping (String) -> KeyboardVisibility = { _ in .hidden }) {
