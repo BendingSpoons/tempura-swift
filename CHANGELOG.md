@@ -1,8 +1,9 @@
 # Changelog
 
 ## unreleased
-* Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 * Deprecate `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
+* Migrate from Xcake to Tuist [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
+* Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 
 ## Tempura 6.2.0
 * Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
