@@ -3,7 +3,12 @@
 ## Tempura unreleased
 
 - Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+
+## TempuraTesting unreleased
+
 - Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
+- [BREAKING] Use correct screen size on orientation change. This is a breaking change that makes screenSize of Context and VCContext optional. [#110](https://github.com/BendingSpoons/tempura-swift/pull/110)
+- Replace `UIGraphicsBeginImageContextWithOptions` with `UIGraphicsImageRenderer`. [#108](https://github.com/BendingSpoons/tempura-swift/pull/108)
 
 ## Tempura 6.2.0
 

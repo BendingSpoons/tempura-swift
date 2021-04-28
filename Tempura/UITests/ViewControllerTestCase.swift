@@ -83,6 +83,9 @@ public extension ViewControllerTestCase where Self: XCTestCase {
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
+    // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
+    XCUIDevice.shared.orientation = context.orientation
+
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
       let description = "\(identifier) \(screenSizeDescription)"
@@ -92,8 +95,6 @@ public extension ViewControllerTestCase where Self: XCTestCase {
     let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
       return XCTestExpectation(description: description)
     }
-
-    XCUIDevice.shared.orientation = context.orientation
 
     DispatchQueue.global().async {
       
@@ -107,7 +108,7 @@ public extension ViewControllerTestCase where Self: XCTestCase {
           contained = self.viewController
           container = context.container.container(for: contained)
           view = container.view
-          view.frame.size = context.screenSize
+          view.frame.size = context.screenSize ?? UIScreen.main.bounds.size
           viewToWaitFor = contained.view
         }
 
@@ -203,8 +204,8 @@ extension UITests {
     public var container: UITests.Container
 
     /// the size of the window in which the view will be rendered
-    public var screenSize: CGSize
-    
+    public var screenSize: CGSize?
+
     /// the orientation of the view
     public var orientation: UIDeviceOrientation
 
@@ -215,7 +216,7 @@ extension UITests {
     public var keyboardVisibility: (String) -> KeyboardVisibility
 
     public init(container: Container = .none,
-                screenSize: CGSize = UIScreen.main.bounds.size,
+                screenSize: CGSize? = nil,
                 orientation: UIDeviceOrientation = .portrait,
                 renderSafeArea: Bool = true,
                 keyboardVisibility: @escaping (String) -> KeyboardVisibility = { _ in .hidden }) {
