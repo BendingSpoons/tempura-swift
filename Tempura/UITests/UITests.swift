@@ -331,41 +331,6 @@ public enum UITests {
   }
 }
 
-/// Test a ViewControllerModellableView embedded in a Container with a specific ViewModel.
-/// The test will produce a screenshot of the view.
-/// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
-/// After the screenshot is completed, the test will pass.
-/// This function can only be used in a XCTest environment.
-@available(*, deprecated, message: "Use UITestCase API instead")
-public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
-                                                           with model: V.VM,
-                                                           identifier: String,
-                                                           container: UITests.Container = .none,
-                                                           hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
-                                                           size: CGSize = UIScreen.main.bounds.size) {
-  test(viewType, with: [identifier: model], container: container, hooks: hooks, size: size)
-}
-
-/// Test a ViewControllerModellableView embedded in a Container with a specific set of ViewModels.
-/// The test will produce a set of screenshots of the view, one for each ViewModel specified.
-/// The screenshots will be located in the directory specified inside the plist with the `UI_TEST_DIR` key.
-/// After the screenshot is completed, the test will pass.
-/// This function can only be used in a XCTest environment.
-@available(*, deprecated, message: "Use UITestCase API instead")
-public func test<V: ViewControllerModellableView & UIView>(_ viewType: V.Type,
-                                                           with models: [String: V.VM],
-                                                           container: UITests.Container = .none,
-                                                           hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],
-                                                           size: CGSize = UIScreen.main.bounds.size) {
-  let snapshotConfiguration = UITests.ScreenSnapshot<V>(type: viewType, container: container, models: models, hooks: hooks, size: size)
-  let viewControllers = snapshotConfiguration.renderingViewControllers
-  let screenSizeDescription: String = "\(UIScreen.main.bounds.size.description)"
-  for (identifier, vcs) in viewControllers {
-    let description = "\(identifier) \(screenSizeDescription)"
-    UITests.verifyView(view: vcs.container.view, description: description)
-  }
-}
-
 extension CGSize {
   public var description: String {
     return "\(Int(self.width))x\(Int(self.height))"
