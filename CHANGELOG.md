@@ -2,6 +2,7 @@
 
 ## unreleased
 * Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
+* Migrate from Xcake to Tuist [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 
 ## Tempura 6.2.0
 * Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
