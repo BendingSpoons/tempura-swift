@@ -67,6 +67,9 @@ public protocol UIViewControllerTestCase {
 public extension UIViewControllerTestCase where Self: XCTestCase {
   
   func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
+
+    // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
+    XCUIDevice.shared.orientation = context.orientation
     
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in
@@ -77,8 +80,6 @@ public extension UIViewControllerTestCase where Self: XCTestCase {
     let expectations: [String: XCTestExpectation] = descriptions.mapValues { identifier in
       return XCTestExpectation(description: description)
     }
-
-    XCUIDevice.shared.orientation = context.orientation
 
     DispatchQueue.global().async {
       
@@ -92,7 +93,7 @@ public extension UIViewControllerTestCase where Self: XCTestCase {
           contained = self.viewController
           container = context.container.container(for: contained)
           view = container.view
-          view.frame.size = context.screenSize
+          view.frame.size = context.screenSize ?? UIScreen.main.bounds.size
           viewToWaitFor = contained.view
         }
 
