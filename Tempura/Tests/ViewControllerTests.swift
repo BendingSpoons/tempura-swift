@@ -6,6 +6,7 @@
 //
 
 import Katana
+import UIKit
 import XCTest
 @testable import Tempura
 

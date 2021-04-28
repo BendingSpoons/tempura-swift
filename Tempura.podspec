@@ -13,10 +13,7 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.ios.source_files = [
-    'Tempura/Core/**/*.swift',
-    'Tempura/Navigation/**/*.swift',
-    'Tempura/SupportingFiles/**/*.swift',
-    'Tempura/Utilities/**/*.swift',
+    'Tempura/Sources/**/*.swift',
   ]
 
 end

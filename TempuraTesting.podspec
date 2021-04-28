@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
   }
 
   s.ios.source_files = [
-    'Tempura/UITests/**/*.swift',
+    'TempuraTesting/Sources/**/*.swift',
   ]  
 end

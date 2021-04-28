@@ -7,6 +7,7 @@
 
 import Katana
 import XCTest
+import UIKit
 @testable import Tempura
 
 class ViewControllerContainmentTests: XCTestCase {

@@ -5,7 +5,7 @@
 //  Created by Mauro Bolis on 12/12/2017.
 //
 
-import Foundation
+import UIKit
 
 /// Used by a `RoutableWithConfiguration` inside its `RoutableWithConfiguration.navigationConfiguration`
 /// to describe the kind of navigation action (`Show`, `Hide`) to handle.
