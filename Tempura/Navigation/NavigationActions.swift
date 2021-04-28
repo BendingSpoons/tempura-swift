@@ -33,7 +33,7 @@ public struct Navigate: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
+    try Hydra.await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
     return ()
   }
 }
@@ -88,7 +88,7 @@ public struct Show: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
+    try Hydra.await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
     return ()
   }
 }
@@ -156,7 +156,7 @@ public struct Hide: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
+    try Hydra.await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
     return ()
   }
 }
@@ -172,7 +172,7 @@ extension AnyStore {
 
   @available(*, deprecated)
   public func awaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
+    return try Hydra.await(self.dispatch(dispatchable))
   }
 }
 
@@ -185,7 +185,7 @@ extension AnySideEffectContext {
 
   @available(*, deprecated)
   public func awaitDispatch<RSE: NavigationSideEffect>(ramen dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
+    return try Hydra.await(self.dispatch(dispatchable))
   }
 }
 
@@ -197,7 +197,7 @@ extension ViewController {
 
   @available(*, deprecated)
   public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.store.dispatch(dispatchable))
+    return try Hydra.await(self.store.dispatch(dispatchable))
   }
 }
 
