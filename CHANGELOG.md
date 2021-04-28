@@ -1,5 +1,9 @@
 # Changelog
 
+## unreleased
+
+- Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+
 ## Tempura 6.2.0
 
 - Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
