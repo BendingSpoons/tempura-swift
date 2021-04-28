@@ -1,8 +1,9 @@
 # Changelog
 
-## unreleased
+## Tempura unreleased
 
 - Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+- Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 
 ## Tempura 6.2.0
 
