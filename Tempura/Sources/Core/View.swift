@@ -165,7 +165,7 @@ import Foundation
 /// }
 /// ```
 
-public protocol View: class {
+public protocol View: AnyObject {
   /// The setup phase should execute only once when the `View` is created,
   /// here you tipically want to create and add all the children views as subviews.
   func setup()

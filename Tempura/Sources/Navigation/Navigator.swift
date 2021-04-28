@@ -527,12 +527,12 @@ extension UIApplication {
 }
 
 /// Defines a way to inspect a UIViewController asking for the next visible UIViewController in the visible stack.
-public protocol CustomRouteInspectables: class {
+public protocol CustomRouteInspectables: AnyObject {
   /// Next view controllers to  be inspected by the router
   var nextRouteControllers: [UIViewController] { get }
 }
 
-public protocol RouteInspectable: class {
+public protocol RouteInspectable: AnyObject {
   /// Next view controller to  be inspected by the router
   var nextRouteController: UIViewController? { get }
 }

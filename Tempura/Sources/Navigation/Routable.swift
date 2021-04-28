@@ -64,7 +64,7 @@ public typealias RoutingCompletion = () -> ()
 ///      }
 ///    }
 /// ```
-public protocol Routable: class {
+public protocol Routable: AnyObject {
   /// The identifier associated to this Routable.
   /// ```swift
   ///    extension TodoListViewController: Routable {
