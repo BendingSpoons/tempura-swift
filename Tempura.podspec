@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.swift_version = '5.0'
 
-  s.dependency 'Hydra', '>= 2.0.6', '< 3'
+  s.dependency 'HydraAsync', '>= 2.0.6', '< 3'
   s.dependency 'Katana', '>= 5.0', '< 6'
 
   s.ios.source_files = [
