@@ -14,6 +14,6 @@ extension XCTestCase {
     let expectation = self.expectation(description: "Promise completed")
     promise.then(in: .main) { _ in expectation.fulfill() }
 
-    self.wait(for: [expectation], timeout: .greatestFiniteMagnitude)
+    self.wait(for: [expectation], timeout: 10)
   }
 }
