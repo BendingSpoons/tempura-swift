@@ -1,5 +1,8 @@
 # Changelog
 
+## unreleased
+* Replace `UIGraphicsBeginImageContextWithOptions` with `UIGraphicsImageRenderer`. [#108](https://github.com/BendingSpoons/tempura-swift/pull/108)
+
 ## Tempura 6.2.0
 * Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
 * Fix possible exception when a state update is triggered while a view controller is being dismissed [#104](https://github.com/BendingSpoons/tempura-swift/pull/104)
