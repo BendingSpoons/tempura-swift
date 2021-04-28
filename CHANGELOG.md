@@ -1,5 +1,9 @@
 # Changelog
 
+## unreleased
+
+- Add support for Katana 6. [#112](https://github.com/BendingSpoons/tempura-swift/pull/112)
+
 ## Tempura 6.2.0
 
 - Add validation of UITests keys uniqueness [#103](https://github.com/BendingSpoons/tempura-swift/pull/103)
