@@ -1,8 +1,15 @@
 # Changelog
 
-## unreleased
+## TempuraTesting unreleased
 
-- Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+- Removed deprecated global `test` functions. The `ViewTestCase` API should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+
+## Tempura unreleased
+
+- Removed `UITestCase` typealias. `ViewTestCase` should be used instead. No other changes should be necessary. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- Removed deprecated `dispatch` and `unsafeDispatch` for `NavigationSideEffect` on `AnyStore` and `AnySideEffectContext`. Katana's normal dispatch accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- Removed `__unsafeDispatch` and `__unsafeAwaitDispatch` for `NavigationSideEffect` on `ViewController`. The base methods accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- Added Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
 
 ## Tempura 6.2.0
 
