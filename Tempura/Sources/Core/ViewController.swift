@@ -282,22 +282,22 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     guard self.unsubscribe == nil else { return }
 
     // subscribe
-    let unsubscribe = self.store.addListener { [unowned self] in
-      self.storeDidChange()
+    let unsubscribe = self.store.addListener { [unowned self] _, newState in
+      self.storeDidChange(newState: newState)
     }
     // save the unsubscribe closure
     self.unsubscribe = unsubscribe
 
     if !silent {
-      self.storeDidChange()
+      self.storeDidChange(newState: self.state)
     }
   }
 
   /// Called every time the store triggers a state update.
-  func storeDidChange() {
+  func storeDidChange(newState: V.VM.S) {
     mainThread { [weak self] in
       guard let self = self else { return }
-      self.update(with: self.state)
+      self.update(with: newState)
     }
   }
 
