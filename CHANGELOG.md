@@ -5,6 +5,7 @@
 - Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 - [BREAKING] Remove deprecated global `test` functions. The `ViewTestCase` API should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
 - [BREAKING] Remove `UITestCase` typealias. `ViewTestCase` should be used instead. No other changes should be necessary. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- [BREAKING] Bump to Katana 6. [#112](https://github.com/BendingSpoons/tempura-swift/pull/112)
 - Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 - [BREAKING] Use correct screen size on orientation change. This is a breaking change that makes screenSize of Context and VCContext optional. [#110](https://github.com/BendingSpoons/tempura-swift/pull/110)
 - Replace `UIGraphicsBeginImageContextWithOptions` with `UIGraphicsImageRenderer`. [#108](https://github.com/BendingSpoons/tempura-swift/pull/108)

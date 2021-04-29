@@ -62,7 +62,7 @@ class AddItemView: UIView, ViewControllerModellableView {
       .left().marginLeft(20)
       .right().marginRight(20)
       .height(200)
-      .top(self.universalSafeAreaInsets.top + 120)
+      .top(self.safeAreaInsets.top + 120)
     self.deleteButton.sizeToFit()
     self.deleteButton.pin
       .bottom(to: self.backgroundView.edge.bottom).marginBottom(10)

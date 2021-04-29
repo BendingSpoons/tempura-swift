@@ -138,17 +138,17 @@ extension UIView {
 
   private func renderSafeAreaIfNeeded(shouldRenderSafeArea: Bool, context: CGContext) {
     if shouldRenderSafeArea, UIScreen.main.bounds == self.bounds, let context = UIGraphicsGetCurrentContext() {
-      let topRect = CGRect(origin: .zero, size: CGSize(width: self.bounds.width, height: self.universalSafeAreaInsets.top))
+      let topRect = CGRect(origin: .zero, size: CGSize(width: self.bounds.width, height: self.safeAreaInsets.top))
 
-      let bottomSize = CGSize(width: self.bounds.width, height: self.universalSafeAreaInsets.bottom)
+      let bottomSize = CGSize(width: self.bounds.width, height: self.safeAreaInsets.bottom)
       let bottomOrigin = CGPoint(x: 0, y: self.bounds.height - bottomSize.height)
       let bottomRect = CGRect(origin: bottomOrigin, size: bottomSize)
 
-      let leftSize = CGSize(width: self.universalSafeAreaInsets.left, height: self.bounds.height)
+      let leftSize = CGSize(width: self.safeAreaInsets.left, height: self.bounds.height)
       let leftOrigin = CGPoint(x: self.bounds.width - leftSize.width, y: 0)
       let leftRect = CGRect(origin: leftOrigin, size: leftSize)
 
-      let rightRect = CGRect(origin: .zero, size: CGSize(width: self.universalSafeAreaInsets.right, height: self.bounds.height))
+      let rightRect = CGRect(origin: .zero, size: CGSize(width: self.safeAreaInsets.right, height: self.bounds.height))
 
       context.setFillColor(UIColor.black.withAlphaComponent(0.6).cgColor)
 
