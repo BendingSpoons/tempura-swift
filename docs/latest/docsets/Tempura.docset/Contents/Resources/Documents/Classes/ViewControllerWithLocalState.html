@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/ViewControllerWithLocalState" class="dashAnchor"></a>
     <a title="ViewControllerWithLocalState Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="../index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -33,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Navigator.html">Navigator</a>
@@ -66,7 +77,7 @@
                 <a href="../Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/UIView.html">UIView</a>
+                <a href="../Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
@@ -83,6 +94,9 @@
                 <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -92,6 +106,9 @@
                 <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -99,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
@@ -127,10 +147,10 @@
                 <a href="../Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="../Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Show.html">Show</a>
@@ -148,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -168,7 +191,9 @@
             <h1>ViewControllerWithLocalState</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="../Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
+                  
+                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="../Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span>
+  <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
 
                 </div>
               </div>
@@ -274,6 +299,9 @@ for more details.</p>
    <span class="p">}</span>
 </code></pre>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L127-L198">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -298,12 +326,12 @@ for more details.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="o">.</span><span class="kt">LS</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">localState</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="o">.</span><span class="kt">LS</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L130-L135">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L130-L135">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -334,7 +362,7 @@ when the local state changes and we are disconnected from the global state.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L139">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -344,7 +372,7 @@ when the local state changes and we are disconnected from the global state.</p>
                     <code>
                     <a name="/s:7Tempura28ViewControllerWithLocalStateC5store05localF09connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_AK_2LSQZSbtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(store:localState:connected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC5store05localF09connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_AK_2LSQZSbtcfc">init(store:localState:connected:)</a>
+                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC5store05localF09connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_AK_2LSQZSbtcfc">init(store:<wbr>localState:<wbr>connected:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -364,37 +392,7 @@ when the local state changes and we are disconnected from the global state.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L141-L148">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura28ViewControllerWithLocalStateC5store9connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_Sbtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(store:connected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC5store9connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_Sbtcfc">init(store:connected:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns a newly initialized ViewControllerWithLocalState object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">store</span><span class="p">:</span> <span class="kt">PartialStore</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="o">.</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">connected</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L151-L153">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L141-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -404,7 +402,7 @@ when the local state changes and we are disconnected from the global state.</p>
                     <code>
                     <a name="/s:7Tempura28ViewControllerWithLocalStateC5coderACyxGSgSo7NSCoderC_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC5coderACyxGSgSo7NSCoderC_tcfc">init(coder:)</a>
+                    <a class="token" href="#/s:7Tempura28ViewControllerWithLocalStateC5coderACyxGSgSo7NSCoderC_tcfc">init(coder:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -419,12 +417,12 @@ when the local state changes and we are disconnected from the global state.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">_</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L156-L158">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L156-L158">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -454,7 +452,7 @@ when the local state changes and we are disconnected from the global state.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L161">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -479,12 +477,12 @@ when the local state changes and we are disconnected from the global state.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">willUnsubscribe</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">willUnsubscribe</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L164-L166">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L164-L166">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -495,7 +493,7 @@ when the local state changes and we are disconnected from the global state.</p>
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

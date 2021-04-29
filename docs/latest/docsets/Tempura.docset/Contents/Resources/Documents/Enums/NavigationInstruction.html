@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Enum/NavigationInstruction" class="dashAnchor"></a>
     <a title="NavigationInstruction Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="../index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -33,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Navigator.html">Navigator</a>
@@ -66,7 +77,7 @@
                 <a href="../Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/UIView.html">UIView</a>
+                <a href="../Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
@@ -83,6 +94,9 @@
                 <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -92,6 +106,9 @@
                 <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -99,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
@@ -127,10 +147,10 @@
                 <a href="../Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="../Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Show.html">Show</a>
@@ -148,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -168,6 +191,7 @@
             <h1>NavigationInstruction</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">NavigationInstruction</span></code></pre>
 
                 </div>
@@ -194,6 +218,9 @@ to describe the kind of navigation to perform when handling a <code><a href="../
    <span class="p">}</span>
 </code></pre>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L148-L369">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -228,21 +255,17 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L118-L123">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L154-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:7Tempura21NavigationInstructionO4pushyACSo16UIViewControllerCypSgccACmF"></a>
                     <a name="//apple_ref/swift/Element/push(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura21NavigationInstructionO4pushyACSo16UIViewControllerCypSgccACmF">push(_:)</a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO4pushyACSo16UIViewControllerCypSgccACmF">push(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -262,15 +285,11 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L125">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L162">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -296,21 +315,77 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L127">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura21NavigationInstructionO23popToRootViewControlleryA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/popToRootViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO23popToRootViewControlleryA2CmF">popToRootViewController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pops up to the root ViewController using `UINavigationcontroller.popToRootViewController(animated:)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">popToRootViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L167">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura21NavigationInstructionO19popToViewControlleryACSS_tcACmF"></a>
+                    <a name="//apple_ref/swift/Element/popToViewController(identifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO19popToViewControlleryACSS_tcACmF">popToViewController(identifier:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pops up to a ViewController using `UINavigationcontroller.popToViewController(:animated:)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">popToViewController</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Tempura22RouteElementIdentifiera">RouteElementIdentifier</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L170">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:7Tempura21NavigationInstructionO14presentModallyyACSo16UIViewControllerCypSgccACmF"></a>
                     <a name="//apple_ref/swift/Element/presentModally(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura21NavigationInstructionO14presentModallyyACSo16UIViewControllerCypSgccACmF">presentModally(_:)</a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO14presentModallyyACSo16UIViewControllerCypSgccACmF">presentModally(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -330,21 +405,17 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L130">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:7Tempura21NavigationInstructionO14dismissModallyyA2C21ModalDismissBehaviourO_tcACmF"></a>
                     <a name="//apple_ref/swift/Element/dismissModally(behaviour:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura21NavigationInstructionO14dismissModallyyA2C21ModalDismissBehaviourO_tcACmF">dismissModally(behaviour:)</a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO14dismissModallyyA2C21ModalDismissBehaviourO_tcACmF">dismissModally(behaviour:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -364,21 +435,17 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L132">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L176">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:7Tempura21NavigationInstructionO6customyACySS_SSSbypSgyyctccACmF"></a>
                     <a name="//apple_ref/swift/Element/custom(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura21NavigationInstructionO6customyACySS_SSSbypSgyyctccACmF">custom(_:)</a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO6customyACySS_SSSbypSgyyctccACmF">custom(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -398,7 +465,38 @@ to describe the kind of navigation to perform when handling a <code><a href="../
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationDSL.swift#L135">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L179">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura21NavigationInstructionO14optionalCustomyACSbSS_SSSbypSgyyctccACmF"></a>
+                    <a name="//apple_ref/swift/Element/optionalCustom(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura21NavigationInstructionO14optionalCustomyACSbSS_SSSbypSgyyctccACmF">optionalCustom(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Define your custom implementation of the navigation.
+If the closure returns false, the routing continues as if the navigation instruction is not defined</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">optionalCustom</span><span class="p">(</span><span class="kt"><a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationDSL.swift#L183">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -409,7 +507,7 @@ to describe the kind of navigation to perform when handling a <code><a href="../
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Struct/Show" class="dashAnchor"></a>
     <a title="Show Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="../index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -33,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Navigator.html">Navigator</a>
@@ -66,7 +77,7 @@
                 <a href="../Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/UIView.html">UIView</a>
+                <a href="../Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
@@ -83,6 +94,9 @@
                 <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -92,6 +106,9 @@
                 <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -99,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
@@ -127,10 +147,10 @@
                 <a href="../Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="../Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Show.html">Show</a>
@@ -148,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -168,7 +191,9 @@
             <h1>Show</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Show</span><span class="p">:</span> <span class="kt">AnySideEffect</span></code></pre>
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Show</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a></span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Show</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                 </div>
               </div>
@@ -178,6 +203,9 @@ identified by the <code>identifierToShow</code>.</p>
 <p>The <code><a href="../Classes/ViewController.html">ViewController</a></code> that is managing that screen must implement <code><a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code>
 or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be identified with a matching <code><a href="../Protocols/Routable.html#/s:7Tempura8RoutableP15routeIdentifierSSvp">Routable.routeIdentifier</a></code>.</p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L56-L96">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -207,7 +235,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L71">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -237,7 +265,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L73">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -267,7 +295,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L75">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -277,7 +305,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                     <code>
                     <a name="/s:7Tempura4ShowV_8animated7contextACSaySSG_SbypSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(_:animated:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSaySSG_SbypSgtcfc">init(_:animated:context:)</a>
+                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSaySSG_SbypSgtcfc">init(_:<wbr>animated:<wbr>context:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -297,7 +325,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L78-L82">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L65-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -307,7 +335,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                     <code>
                     <a name="/s:7Tempura4ShowV_8animated7contextACSS_SbypSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(_:animated:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSS_SbypSgtcfc">init(_:animated:context:)</a>
+                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSS_SbypSgtcfc">init(_:<wbr>animated:<wbr>context:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -327,7 +355,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L85-L87">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L72-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -337,7 +365,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                     <code>
                     <a name="/s:7Tempura4ShowV_8animated7contextACSayxG_SbypSgtcSYRzSS8RawValueRtzlufc"></a>
                     <a name="//apple_ref/swift/Method/init(_:animated:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSayxG_SbypSgtcSYRzSS8RawValueRtzlufc">init(_:animated:context:)</a>
+                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACSayxG_SbypSgtcSYRzSS8RawValueRtzlufc">init(_:<wbr>animated:<wbr>context:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -358,7 +386,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L90-L93">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L77-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -368,7 +396,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                     <code>
                     <a name="/s:7Tempura4ShowV_8animated7contextACx_SbypSgtcSYRzSS8RawValueRtzlufc"></a>
                     <a name="//apple_ref/swift/Method/init(_:animated:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACx_SbypSgtcSYRzSS8RawValueRtzlufc">init(_:animated:context:)</a>
+                    <a class="token" href="#/s:7Tempura4ShowV_8animated7contextACx_SbypSgtcSYRzSS8RawValueRtzlufc">init(_:<wbr>animated:<wbr>context:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -389,7 +417,7 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L96-L99">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L83-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -397,9 +425,9 @@ or <code><a href="../Protocols/Routable.html">Routable</a></code> in order to be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura4ShowV10sideEffectyy6Katana07AnySideD7Context_pKF"></a>
-                    <a name="//apple_ref/swift/Method/sideEffect(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura4ShowV10sideEffectyy6Katana07AnySideD7Context_pKF">sideEffect(_:)</a>
+                    <a name="/s:7Tempura4ShowV13anySideEffectyyp6Katana03AnydE7Context_pKF"></a>
+                    <a name="//apple_ref/swift/Method/anySideEffect(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura4ShowV13anySideEffectyyp6Katana03AnydE7Context_pKF">anySideEffect(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -415,12 +443,41 @@ to know what a <code>SideEffect</code> is.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sideEffect</span><span class="p">(</span><span class="n">_</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">AnySideEffectContext</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">anySideEffect</span><span class="p">(</span><span class="n">_</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">AnySideEffectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Any</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/NavigationActions.swift#L103-L106">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L90-L95">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/debugDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp">debugDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationActions.swift#L100-L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -431,7 +488,7 @@ to know what a <code>SideEffect</code> is.</p>
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

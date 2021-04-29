@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/View" class="dashAnchor"></a>
     <a title="View Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="../index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -33,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Navigator.html">Navigator</a>
@@ -66,7 +77,7 @@
                 <a href="../Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/UIView.html">UIView</a>
+                <a href="../Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
@@ -83,6 +94,9 @@
                 <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -92,6 +106,9 @@
                 <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -99,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
@@ -127,10 +147,10 @@
                 <a href="../Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="../Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Show.html">Show</a>
@@ -148,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -168,7 +191,8 @@
             <h1>View</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">View</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">View</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
               </div>
@@ -223,7 +247,8 @@ Please note that this protocol is just used in order to enforce the same lifecyc
 
 <p>The interface that the View is exposing is composed by <strong>properties</strong> and <strong>interactions</strong>.
 The <code>properties</code> are the internal state of the element that can be manipulated from the outside,
-<code>interactions</code> are callbacks used to listen from outside of the view to changes occurred inside the element itself (like user interacting with the element changing its value).
+<code>interactions</code> are callbacks used to listen from outside of the view to changes occurred inside the element itself (like user
+interacting with the element changing its value).
 The lifecycle of a View contains four different phases:</p>
 <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">View</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span>
@@ -236,7 +261,8 @@ The lifecycle of a View contains four different phases:</p>
 <p>This protocol is not doing anything for us, it&rsquo;s just a way to enforce the SSUL phases.</p>
 <h2 id='setup' class='heading'>Setup</h2>
 
-<p>The setup phase should execute only once when the <code>View</code> is created, here you tipically want to create and add all the children views as subviews</p>
+<p>The setup phase should execute only once when the <code>View</code> is created, here you tipically want to create and add all the
+children views as subviews</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">headerView</span><span class="p">)</span>
   <span class="k">self</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">contentView</span><span class="p">)</span>
@@ -248,7 +274,7 @@ The lifecycle of a View contains four different phases:</p>
 <p>The style phase should execute only once when the <code>View</code> is created,
 right after the setup phase.
 Here you configure all the style related properties that will not change over time.
-For all the style attributes that change depending on the <q>state</q> of the view,
+For all the style attributes that change depending on the &ldquo;state&rdquo; of the view,
 look at the <code><a href="../Protocols/View.html#/s:7Tempura4ViewP6updateyyF">View.update()</a></code> phase.</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">style</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">self</span><span class="o">.</span><span class="n">headerView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">white</span>
@@ -257,7 +283,7 @@ look at the <code><a href="../Protocols/View.html#/s:7Tempura4ViewP6updateyyF">V
 </code></pre>
 <h2 id='update' class='heading'>Update</h2>
 
-<p>The update phase should execute every time the <q>state</q> of the View is changed.
+<p>The update phase should execute every time the &ldquo;state&rdquo; of the View is changed.
 Here you update the View in order to reflect its new state.</p>
 <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">headerImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="p">{</span>
   <span class="k">didSet</span> <span class="p">{</span>
@@ -312,6 +338,9 @@ the <code>setup()</code> and <code>style()</code> methods inside the init.</p>
 <span class="p">}</span>
 </code></pre>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/View.swift#L170-L187">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -342,7 +371,7 @@ here you tipically want to create and add all the children views as subviews.</p
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/View.swift#L171">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/View.swift#L173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -363,7 +392,7 @@ here you tipically want to create and add all the children views as subviews.</p
                         <p>The style phase should execute only once when the <code>View</code> is created,
 right after the setup phase.
 Here you configure all the style related properties that will not change over time.
-For all the style attributes that change depending on the <q>state</q> of the view,
+For all the style attributes that change depending on the &ldquo;state&rdquo; of the view,
 look at the <code><a href="../Protocols/View.html#/s:7Tempura4ViewP6updateyyF">View.update()</a></code> phase.</p>
 
                       </div>
@@ -376,7 +405,7 @@ look at the <code><a href="../Protocols/View.html#/s:7Tempura4ViewP6updateyyF">V
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/View.swift#L177">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/View.swift#L179">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -394,7 +423,7 @@ look at the <code><a href="../Protocols/View.html#/s:7Tempura4ViewP6updateyyF">V
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The update phase should execute every time the <q>state</q> of the View is changed.
+                        <p>The update phase should execute every time the &ldquo;state&rdquo; of the View is changed.
 Here you update the View in order to reflect its new state.</p>
 
                       </div>
@@ -407,7 +436,7 @@ Here you update the View in order to reflect its new state.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/View.swift#L180">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/View.swift#L182">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -439,7 +468,7 @@ using the usual <code>setNeedsLayout()</code> and <code>layoutIfNeeded()</code> 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/View.swift#L184">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/View.swift#L186">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -450,7 +479,7 @@ using the usual <code>setNeedsLayout()</code> and <code>layoutIfNeeded()</code> 
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
