@@ -9,14 +9,14 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
-  s.dependency 'Katana', '>= 5.0', '< 7'
+
   s.swift_version = '5.0'
 
+  s.dependency 'HydraAsync', '>= 2.0.6', '< 3'
+  # s.dependency 'Katana', '>= 6.0', '< 7' # TODO: Restore me
+
   s.ios.source_files = [
-    'Tempura/Core/**/*.swift',
-    'Tempura/Navigation/**/*.swift',
-    'Tempura/SupportingFiles/**/*.swift',
-    'Tempura/Utilities/**/*.swift',
+    'Tempura/Sources/**/*.swift',
   ]
 
 end
