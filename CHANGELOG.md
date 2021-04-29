@@ -1,7 +1,5 @@
 # Changelog
 
-## unreleased
-
 ## TempuraTesting unreleased
 
 - Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
