@@ -6,23 +6,26 @@ use_frameworks!
 target 'Tempura' do
   platform :ios, '11.0'
   podspec
-  
+
   target 'TempuraTests' do
     inherit! :complete
   end
-
-  target 'Demo' do
-    inherit! :complete
-    pod 'PinLayout'
-    pod 'DeepDiff', '~> 2.3'
-  end
-
-  target 'DemoTests' do
-    inherit! :complete
-  end
-end
+end  
 
 target 'TempuraTesting' do
   platform :ios, '11.0'
-  podspec :path => "TempuraTesting.podspec"
+  podspec
+end
+   
+target 'Demo' do
+  platform :ios, '11.0'
+
+  pod 'Katana', '>= 5.0', '< 6'
+  
+  pod 'DeepDiff', '= 2.3.1'
+  pod 'PinLayout', '= 1.9.2'
+
+  target 'DemoUITests' do
+    inherit! :complete
+  end
 end

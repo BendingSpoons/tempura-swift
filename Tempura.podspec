@@ -15,10 +15,7 @@ Pod::Spec.new do |s|
   s.dependency 'Katana', '>= 5.0', '< 6'
 
   s.ios.source_files = [
-    'Tempura/Core/**/*.swift',
-    'Tempura/Navigation/**/*.swift',
-    'Tempura/SupportingFiles/**/*.swift',
-    'Tempura/Utilities/**/*.swift',
+    'Tempura/Sources/**/*.swift',
   ]
 
 end

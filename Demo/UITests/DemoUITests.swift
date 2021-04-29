@@ -1,9 +1,10 @@
 //
 //  DemoTests.swift
-//  DemoTests
+//  Katana
 //
-//  Created by Andrea De Angelis on 09/02/2018.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Katana
 import Tempura
@@ -13,19 +14,19 @@ import XCTest
 @testable import Demo
 
 class ScreenTests: XCTestCase, ViewTestCase {
-//  
+//
   typealias V = AddItemView
-  
+
   // First test
   var firstTestViewModel: AddItemViewModel {
     return AddItemViewModel(editingText: "this is a test")
   }
-  
+
   // Second test
   var secondTestViewModel: AddItemViewModel {
     return AddItemViewModel(editingText: "this is another test")
   }
-  
+
   // Third test
   var thirdTestViewModel: AddItemViewModel {
     return AddItemViewModel(editingText: "what about this?")
@@ -44,10 +45,10 @@ class ScreenTests: XCTestCase, ViewTestCase {
   func testAddItemScreen() {
     self.uiTest(
       testCases: [
-        "add_item_01": firstTestViewModel,
-        "add_item_02": secondTestViewModel,
-        "add_item_03": thirdTestViewModel,
-        "add_item_05": thirdTestViewModel
+        "add_item_01": self.firstTestViewModel,
+        "add_item_02": self.secondTestViewModel,
+        "add_item_03": self.thirdTestViewModel,
+        "add_item_05": self.thirdTestViewModel,
       ],
       context: UITests.Context<AddItemView>(
         keyboardVisibility: { testCase in
@@ -59,11 +60,11 @@ class ScreenTests: XCTestCase, ViewTestCase {
       )
     )
   }
-  
+
   func testWithHooksAndContainer() {
     self.uiTest(
       testCases: [
-        "add_item_04": fourthTestViewModel
+        "add_item_04": self.fourthTestViewModel,
       ],
       context: UITests.Context<AddItemView>(
         container: UITests.Container.tabBarController,
@@ -76,7 +77,6 @@ class ScreenTests: XCTestCase, ViewTestCase {
 }
 
 class VCTests: XCTestCase, ViewControllerTestCase {
-
   var viewController: AddItemViewController {
     let store = Store<VC.V.VM.S, EmptySideEffectDependencyContainer>()
     let vc = AddItemViewController(store: store)
@@ -96,8 +96,8 @@ class VCTests: XCTestCase, ViewControllerTestCase {
   func testVC() {
     self.uiTest(
       testCases: [
-      "firstTest": firstTestVM,
-      "secondTestVM": secondTestVM,
+        "firstTest": self.firstTestVM,
+        "secondTestVM": self.secondTestVM,
       ],
       context: UITests.VCContext<VCTests.VC>(
         keyboardVisibility: { testCase in
@@ -119,7 +119,7 @@ class UIVCTests: XCTestCase, UIViewControllerTestCase {
     let vc = UIViewController()
     return vc
   }
-  
+
   func configure(vc: UIViewController, for testCase: String) {
     switch testCase {
     case "firstTest":
@@ -134,9 +134,10 @@ class UIVCTests: XCTestCase, UIViewControllerTestCase {
   func testUIVC() {
     self.uiTest(
       testCases: [
-      "firstTest",
-      "secondTest"
+        "firstTest",
+        "secondTest",
       ],
-      context: UITests.VCContext<UIViewController>())
+      context: UITests.VCContext<UIViewController>()
+    )
   }
 }

@@ -10,9 +10,12 @@
 
 ## Tempura unreleased
 
+- Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 - Remove deprecated `dispatch` and `unsafeDispatch` for `NavigationSideEffect` on `AnyStore` and `AnySideEffectContext`. Katana's normal dispatch accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
 - Remove `__unsafeDispatch` and `__unsafeAwaitDispatch` for `NavigationSideEffect` on `ViewController`. The base methods accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
 - Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+- Migrate from Xcake to Tuist [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
+
 
 ## Tempura 6.2.0
 

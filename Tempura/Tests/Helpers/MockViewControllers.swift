@@ -5,8 +5,8 @@
 //  Created by LorDisturbia on 28/04/21.
 //
 
-import Foundation
 import Tempura
+import UIKit
 
 class SpyViewController<V: UIView & ViewControllerModellableView>: ViewController<V> {
   var numberOfTimesWillUpdateIsCalled: Int = 0
