@@ -1,38 +1,29 @@
 PODS:
   - DeepDiff (2.3.1)
   - HydraAsync (2.0.6)
-  - Katana (5.1.1):
+  - Katana (6.0.0):
     - HydraAsync (< 3, >= 2.0.6)
   - PinLayout (1.9.2)
 
 DEPENDENCIES:
   - DeepDiff (= 2.3.1)
   - HydraAsync (< 3, >= 2.0.6)
-  - Katana (from `https://github.com/BendingSpoons/katana-swift`, branch `release/6.0.0`)
+  - Katana (< 7, >= 6.0)
   - PinLayout (= 1.9.2)
 
 SPEC REPOS:
   trunk:
     - DeepDiff
     - HydraAsync
+    - Katana
     - PinLayout
-
-EXTERNAL SOURCES:
-  Katana:
-    :branch: release/6.0.0
-    :git: https://github.com/BendingSpoons/katana-swift
-
-CHECKOUT OPTIONS:
-  Katana:
-    :commit: 353e8228480c96bfc36ca92100ae1f00562c3532
-    :git: https://github.com/BendingSpoons/katana-swift
 
 SPEC CHECKSUMS:
   DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
   HydraAsync: 8d589bd725b0224f899afafc9a396327405f8063
-  Katana: 51e244baa0ba8d034ef302711d02ed268e25df86
+  Katana: f4d129494831b369463ffbaa3e75f0aad1f72db3
   PinLayout: 0d96022e46e8b80468d819f182a393b97ca038da
 
-PODFILE CHECKSUM: 40c14ac7727ec4294a41655d4ddb190da6509ddf
+PODFILE CHECKSUM: 9b575ff53a5a9beb6b14cb2247acc8403df23928
 
 COCOAPODS: 1.10.1
