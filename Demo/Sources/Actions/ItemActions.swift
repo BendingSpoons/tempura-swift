@@ -10,7 +10,7 @@ import Katana
 // Add a todo item
 struct AddItem: StateUpdater {
   var text: String
-  
+
   func updateState(_ currentState: inout AppState) {
     let newItem = Todo(text: self.text)
     currentState.items.insert(newItem, at: 0)
@@ -21,7 +21,7 @@ struct AddItem: StateUpdater {
 struct EditItem: StateUpdater {
   var id: String
   var text: String
-  
+
   func updateState(_ currentState: inout AppState) {
     guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items[index].text = self.text
@@ -31,7 +31,7 @@ struct EditItem: StateUpdater {
 // Delete a todo item
 struct DeleteItem: StateUpdater {
   var id: String
-  
+
   func updateState(_ currentState: inout AppState) {
     guard let index = currentState.items.firstIndex(where: { $0.id == self.id }) else { return }
     currentState.items.remove(at: index)
@@ -40,7 +40,6 @@ struct DeleteItem: StateUpdater {
 
 // Delete all the archived items
 struct DeleteArchivedItems: StateUpdater {
-  
   func updateState(_ currentState: inout AppState) {
     currentState.items = currentState.items.filter { !$0.archived }
   }
@@ -49,7 +48,7 @@ struct DeleteArchivedItems: StateUpdater {
 // Toggle the completed state of a todo item
 struct ToggleItem: StateUpdater {
   var itemID: String
-  
+
   func updateState(_ currentState: inout AppState) {
     let position = currentState.items.firstIndex { $0.id == itemID }
     guard let index = position else { return }
@@ -61,14 +60,14 @@ struct ToggleItem: StateUpdater {
 struct ToggleArchiveItems: StateUpdater {
   var ids: [String]
   var archived: Bool
-  
+
   init(ids: [String], archived: Bool = true) {
     self.ids = ids
     self.archived = archived
   }
-  
+
   func updateState(_ currentState: inout AppState) {
-    let positions = ids.compactMap { [currentState] id -> Int? in
+    let positions = self.ids.compactMap { [currentState] id -> Int? in
       currentState.items.firstIndex { $0.id == id }
     }
     positions.forEach {

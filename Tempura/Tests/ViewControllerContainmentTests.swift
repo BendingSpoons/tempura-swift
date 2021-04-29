@@ -6,8 +6,8 @@
 //
 
 import Katana
-import XCTest
 import UIKit
+import XCTest
 @testable import Tempura
 
 class ViewControllerContainmentTests: XCTestCase {
@@ -126,9 +126,9 @@ class ViewControllerContainmentTests: XCTestCase {
 
 // MARK: - Helpers
 
-fileprivate extension ViewControllerContainmentTests {
-  class MainView: TestView {
-    var container: ContainerView = ContainerView()
+extension ViewControllerContainmentTests {
+  fileprivate class MainView: TestView {
+    var container = ContainerView()
 
     override func setup() {
       super.setup()
@@ -141,9 +141,9 @@ fileprivate extension ViewControllerContainmentTests {
     }
   }
 
-  class ChildView: TestView {}
+  fileprivate class ChildView: TestView {}
 
-  class MainViewController: SpyViewController<MainView> {}
+  fileprivate class MainViewController: SpyViewController<MainView> {}
 
-  class ChildViewController: SpyViewController<ChildView> {}
+  fileprivate class ChildViewController: SpyViewController<ChildView> {}
 }

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
+private var modelWrapperKey = "modellableview_model_wrapper_key"
 
 /// Mixin protocol for UIView subclasses based on the same SSUL lifecycle of `View`. Conforming to `ModellableView`, a UIView will get a `model: ViewModel` property
 /// and the `update(oldModel: ViewModel?)` will be automatically called each time the model property will change.
@@ -107,13 +107,13 @@ fileprivate var modelWrapperKey = "modellableview_model_wrapper_key"
 public protocol ModellableView: View {
   /// The type of the ViewModel associated with the View
   associatedtype VM: ViewModel
-  
+
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
   /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
   var model: VM? { get set }
-  
+
   /// Called when the ViewModel is changed. Update the View using `self.model`.
   func update(oldModel: VM?)
 }
@@ -121,15 +121,14 @@ public protocol ModellableView: View {
 /// implementation detail, wrapper of the model to work with the associatedObject mechanism.
 private final class ModelWrapper<VM: ViewModel> {
   var model: VM?
-  
+
   init(model: VM?) {
     self.model = model
   }
 }
 
 /// model update logic implementation.
-public extension ModellableView {
-  
+extension ModellableView {
   private var modelWrapper: ModelWrapper<VM> {
     get {
       if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ModelWrapper<VM> {
@@ -138,9 +137,8 @@ public extension ModellableView {
       let newWrapper = ModelWrapper<VM>(model: nil)
       self.modelWrapper = newWrapper
       return newWrapper
-
     }
-    
+
     set {
       objc_setAssociatedObject(
         self,
@@ -150,16 +148,16 @@ public extension ModellableView {
       )
     }
   }
-  
+
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
   /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
-  var model: VM? {
+  public var model: VM? {
     get {
       return self.modelWrapper.model
     }
-    
+
     set {
       let oldValue = self.model
       self.modelWrapper.model = newValue
@@ -167,8 +165,9 @@ public extension ModellableView {
       self.update(oldModel: oldValue)
     }
   }
+
   /// Will throw a fatalError. Use `update(oldModel:)` instead.
-  func update() {
-    fatalError("You should not use \(#function) in a ModellableView. Change the model instead" )
+  public func update() {
+    fatalError("You should not use \(#function) in a ModellableView. Change the model instead")
   }
 }

@@ -37,4 +37,3 @@ struct ResetDataFromAPI: StateUpdater {
     currentState.dataFromAPIRequest = nil
   }
 }
-

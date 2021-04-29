@@ -9,11 +9,10 @@
 import Foundation
 import UIKit
 
-fileprivate var viewControllerKey = "modellableview_view_controller_key"
+private var viewControllerKey = "modellableview_view_controller_key"
 
 /// Extends the `ModellableView` protocol to add
 /// some convenience variables that refers to the ViewController that owns the View.
-
 
 /// A special case of `ModellableView` representing the UIView that the `ViewController` is managing.
 /// It's intended to be used only as the main View of a `ViewController`.
@@ -27,9 +26,7 @@ fileprivate var viewControllerKey = "modellableview_view_controller_key"
 /// The `ViewController` that is managing this View is responsible to call `ModellableView.setup()` and
 /// `ModellableView.style()` during the setup phase of the ViewController so you don't need to do that.
 
-public protocol ViewControllerModellableView: ModellableView, AnyViewControllerModellableView where VM: ViewModelWithState {
-  
-}
+public protocol ViewControllerModellableView: ModellableView, AnyViewControllerModellableView where VM: ViewModelWithState {}
 
 /// type erasure for ViewControllerModellableView in order to access to the viewController property
 /// without specifying the VM
@@ -38,23 +35,23 @@ public protocol AnyViewControllerModellableView {
   var viewController: UIViewController? { get set }
 }
 
-public extension ViewControllerModellableView {
-  
+extension ViewControllerModellableView {
   /// Shortcut to the navigationBar, if present.
-  var navigationBar: UINavigationBar? {
-    return viewController?.navigationController?.navigationBar
+  public var navigationBar: UINavigationBar? {
+    return self.viewController?.navigationController?.navigationBar
   }
-  
+
   /// Shortcut to the navigationItem, if present.
-  var navigationItem: UINavigationItem? {
-    return viewController?.navigationItem
+  public var navigationItem: UINavigationItem? {
+    return self.viewController?.navigationItem
   }
+
   /// Syntactic sugar to access the `ViewController` that is managing this View.
-  var viewController: UIViewController? {
+  public var viewController: UIViewController? {
     get {
       return objc_getAssociatedObject(self, &viewControllerKey) as? UIViewController
     }
-    
+
     set {
       objc_setAssociatedObject(
         self,

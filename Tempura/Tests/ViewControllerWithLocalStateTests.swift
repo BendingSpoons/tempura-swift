@@ -68,7 +68,6 @@ class ViewControllerWithLocalStateTests: XCTestCase {
   }
 }
 
-
 // MARK: - Helpers
 
 extension ViewControllerWithLocalStateTests {
@@ -77,7 +76,7 @@ extension ViewControllerWithLocalStateTests {
   }
 
   struct TestViewModelWithLocalState: ViewModelWithLocalState {
-    var counter: Int? = nil
+    var counter: Int?
     var localCounter: Int = 0
 
     init(state: MockAppState?, localState: TestLocalState) {
@@ -139,9 +138,8 @@ extension ViewControllerWithLocalStateTests {
       super.init(store: store, localState: localState, connected: connected)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
   }
 }
-

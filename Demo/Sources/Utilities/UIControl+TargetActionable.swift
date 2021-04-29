@@ -8,18 +8,18 @@
 import UIKit
 
 class Trampoline: NSObject {
-  @objc func action(sender: UIControl) {}
+  @objc func action(sender _: UIControl) {}
 }
 
 class ActionTrampoline<T>: Trampoline {
-  var act: (T) -> ()
-  
-  init(action: @escaping (T) -> ()) {
+  var act: (T) -> Void
+
+  init(action: @escaping (T) -> Void) {
     self.act = action
   }
-  
+
   override func action(sender: UIControl) {
-    act(sender as! T)
+    self.act(sender as! T)
   }
 }
 
@@ -31,11 +31,10 @@ extension UIControl.Event {
 
 public protocol TargetActionable {}
 
-fileprivate var actionTrampolinesKey = "targetactionable_action_trampolines_key"
+private var actionTrampolinesKey = "targetactionable_action_trampolines_key"
 
-public extension TargetActionable where Self: UIControl {
-  
-  mutating func on(_ event: UIControl.Event, _ action: @escaping (Self) -> ()) {
+extension TargetActionable where Self: UIControl {
+  public mutating func on(_ event: UIControl.Event, _ action: @escaping (Self) -> Void) {
     if let oldTrampoline = self.actionTrampolines?[event.number] as? Trampoline {
       self.removeTarget(oldTrampoline, action: #selector(oldTrampoline.action), for: event)
     }
@@ -46,7 +45,7 @@ public extension TargetActionable where Self: UIControl {
     self.addTarget(trampoline, action: #selector(trampoline.action), for: event)
     self.actionTrampolines?[event.number] = trampoline
   }
-  
+
   private var actionTrampolines: NSMutableDictionary? {
     get {
       if let actionTrampolines = objc_getAssociatedObject(self, &actionTrampolinesKey) as? NSMutableDictionary {
@@ -54,7 +53,7 @@ public extension TargetActionable where Self: UIControl {
       }
       return nil
     }
-    
+
     set {
       if let newValue = newValue {
         objc_setAssociatedObject(
@@ -66,18 +65,17 @@ public extension TargetActionable where Self: UIControl {
       }
     }
   }
-  
 }
 
 private let tapHandlerKey = UnsafeMutablePointer<Int8>.allocate(capacity: 1)
 
-public extension TargetActionable where Self: UIBarButtonItem {
-  func onTap(_ action: @escaping (Self) -> ()) {
+extension TargetActionable where Self: UIBarButtonItem {
+  public func onTap(_ action: @escaping (Self) -> Void) {
     let trampoline = ActionTrampoline(action: action)
-    
+
     self.target = trampoline
     self.action = #selector(trampoline.action)
-    
+
     // just needed to retain the trampoline to keep it alive
     objc_setAssociatedObject(self, tapHandlerKey, trampoline, .OBJC_ASSOCIATION_RETAIN)
   }

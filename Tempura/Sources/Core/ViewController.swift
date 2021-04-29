@@ -7,14 +7,14 @@
 //
 
 import Foundation
-import UIKit
-import Katana
 import Hydra
+import Katana
+import UIKit
 
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
-public typealias Interaction = () -> ()
-public typealias CustomInteraction<T> = (T) -> ()
+public typealias Interaction = () -> Void
+public typealias CustomInteraction<T> = (T) -> Void
 
 /// Partial Type Erasure for the ViewController
 /// Each `ViewController` is an `AnyViewController`
@@ -169,24 +169,24 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.updateConnect(to: newValue)
     }
   }
-  
+
   /// The store the ViewController will use to receive state updates.
   public var store: PartialStore<V.VM.S>
-  
+
   /// The state of this ViewController
   public var state: V.VM.S {
     return self.store.state
   }
-  
+
   /// Closure used to unsubscribe the viewController from state updates.
   var unsubscribe: StoreUnsubscribe?
-  
+
   /// When `true`, the ViewController will be set to `connected` = `true` as soon as it becomes visible.
   public var shouldConnectWhenVisible = true
-  
+
   /// When `true` the ViewController will be set to `connected` = `false` as soon as it becomes invisible.
   public var shouldDisconnectWhenInvisible = true
-  
+
   /// The latest ViewModel received by this ViewController from the state.
   public var viewModel: V.VM? {
     willSet {
@@ -200,21 +200,21 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.didUpdate(old: oldValue)
     }
   }
-  
+
   /// Use the rootView to access the main view managed by this viewController.
   open var rootView: V {
     return self.view as! V
   }
-  
+
   /// Used internally to load the specific main view managed by this view controller.
-  open override func loadView() {
+  override open func loadView() {
     let v = V(frame: .zero)
     v.viewController = self
     v.setup()
     v.style()
     self.view = v
   }
-  
+
   /// Returns a newly initialized ViewController object.
   public init(store: PartialStore<V.VM.S>, connected: Bool = false) {
     self.store = store
@@ -222,15 +222,15 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.setup()
     self.connected = connected
   }
-  
+
   /// Override to setup something after init.
   open func setup() {}
-  
+
   /// Shortcut to the non-generic dispatch function.
   open func dispatch(_ dispatchable: Dispatchable) {
     self.store.anyDispatch(dispatchable)
   }
-  
+
   /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
   @discardableResult
   open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
@@ -242,18 +242,18 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   open func __unsafeDispatch<T: SideEffect>(_ dispatchable: T) -> Promise<Void> {
     return self.store.dispatch(dispatchable)
   }
-  
+
   /// Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect `T`.
   @discardableResult
   open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturnValue> {
     return self.store.dispatch(dispatchable)
   }
-  
+
   /// Required init.
-  public required init?(coder aDecoder: NSCoder) {
+  public required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   /// Subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change.
   /// Specify `silent` = `true` if you don't want to trigger a state update after connecting to the store.
   func updateConnect(to connected: Bool, silent: Bool = false) {
@@ -267,24 +267,24 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       }
     }
   }
-  
+
   /// Subscribe to state updates from the store.
   func subscribe(silent: Bool = false) {
     // check if we are already subscribed
     guard self.unsubscribe == nil else { return }
-    
+
     // subscribe
     let unsubscribe = self.store.addListener { [unowned self] in
       self.storeDidChange()
     }
     // save the unsubscribe closure
     self.unsubscribe = unsubscribe
-    
+
     if !silent {
       self.storeDidChange()
     }
   }
-  
+
   /// Called every time the store triggers a state update.
   func storeDidChange() {
     mainThread { [weak self] in
@@ -292,43 +292,42 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       self.update(with: self.state)
     }
   }
-  
-  
+
   /// Handle the state update, create a new updated viewModel and feed the view with that.
   func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
     self.viewModel = V.VM(state: state)
   }
-  
+
   /// The ViewController is about to be displayed.
-  open override func viewWillAppear(_ animated: Bool) {
+  override open func viewWillAppear(_ animated: Bool) {
     self.warmUp()
     super.viewWillAppear(animated)
   }
-  
- /// WarmUp phase, check if we should connect to the state.
- func warmUp() {
+
+  /// WarmUp phase, check if we should connect to the state.
+  func warmUp() {
     if self.shouldConnectWhenVisible {
       self.connected = true
     }
   }
-  
+
   /// TearDown phase, check if we should disconnect from the state.
   func tearDown() {
     if self.shouldDisconnectWhenInvisible {
       self.connected = false
     }
   }
-  
+
   /// The ViewController is about to be removed from the view hierarchy.
-  open override func viewWillDisappear(_ animated: Bool) {
+  override open func viewWillDisappear(_ animated: Bool) {
     self.tearDown()
     super.viewWillDisappear(animated)
   }
-  
+
   /// Called after the controller's view is loaded into memory.
-  open override func viewDidLoad() {
+  override open func viewDidLoad() {
     super.viewDidLoad()
     if let vm = self.viewModel {
       self.rootView.model = vm
@@ -336,19 +335,19 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     }
     self.setupInteraction()
   }
-  
+
   /// Called just before the update, override point for subclasses.
-  open func willUpdate(new: V.VM?) {}
-  
+  open func willUpdate(new _: V.VM?) {}
+
   /// Called right after the update, override point for subclasses.
-  open func didUpdate(old: V.VM?) {}
-  
+  open func didUpdate(old _: V.VM?) {}
+
   /// Asks to setup the interaction with the managed view, override point for subclasses.
   open func setupInteraction() {}
-  
+
   /// Called just before the unsubscribe, override point for subclasses.
   open func willUnsubscribe() {}
-  
+
   // not needed?
   deinit {
     self.unsubscribe?()

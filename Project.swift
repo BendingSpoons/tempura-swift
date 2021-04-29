@@ -9,7 +9,8 @@ import ProjectDescription
 
 let iOSTargetVersion = "11.0"
 
-// MARK: - Tempura 
+// MARK: - Tempura
+
 let tempuraMainTarget = Target(
   name: "Tempura",
   platform: .iOS,
@@ -19,7 +20,7 @@ let tempuraMainTarget = Target(
   infoPlist: .default,
   sources: ["Tempura/Sources/**"],
   dependencies: [
-    .cocoapods(path: ".")
+    .cocoapods(path: "."),
   ]
 )
 
@@ -32,11 +33,12 @@ let tempuraTestsTarget = Target(
   infoPlist: .default,
   sources: ["Tempura/Tests/**"],
   dependencies: [
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ]
 )
 
 // MARK: - TempuraTesting
+
 let tempuraTestingTarget = Target(
   name: "TempuraTesting",
   platform: .iOS,
@@ -47,15 +49,16 @@ let tempuraTestingTarget = Target(
   sources: ["TempuraTesting/Sources/**"],
   dependencies: [
     .cocoapods(path: "."),
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ],
   settings: Settings(base: [
     "ENABLE_TESTING_SEARCH_PATHS": "YES",
-    "OTHER_LDFLAGS": "$(inherited)"
+    "OTHER_LDFLAGS": "$(inherited)",
   ])
 )
 
 // MARK: - Demo
+
 let demoTarget = Target(
   name: "Demo",
   platform: .iOS,
@@ -63,12 +66,12 @@ let demoTarget = Target(
   bundleId: "com.bendingspoonsapps.Tempura.Demo",
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .extendingDefault(with: [
-    "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots"
+    "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots",
   ]),
   sources: ["Demo/Sources/**"],
   dependencies: [
     .cocoapods(path: "."),
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ]
 )
 
@@ -83,11 +86,12 @@ let demoUITestTarget = Target(
   dependencies: [
     .cocoapods(path: "."),
     .target(name: demoTarget.name),
-    .target(name: tempuraTestingTarget.name)
+    .target(name: tempuraTestingTarget.name),
   ]
 )
 
 // MARK: - Project Definition
+
 let project = Project(
   name: "Tempura",
   organizationName: "BendingSpoons",
@@ -96,7 +100,7 @@ let project = Project(
     tempuraTestsTarget,
     tempuraTestingTarget,
     demoTarget,
-    demoUITestTarget
+    demoUITestTarget,
   ],
   schemes: [
     .init(

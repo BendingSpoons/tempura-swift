@@ -8,25 +8,24 @@
 import UIKit
 
 final class ArchiveFlowLayout: UICollectionViewFlowLayout {
-  
   var insertingIndexes: [IndexPath] = []
   var removingIndexes: [IndexPath] = []
-  
+
   override init() {
     super.init()
     self.setup()
   }
-  
+
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     self.setup()
   }
-  
+
   private func setup() {
     self.minimumLineSpacing = 0
     self.minimumInteritemSpacing = 0
   }
-  
+
   override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
     super.prepare(forCollectionViewUpdates: updateItems)
     updateItems.forEach {
@@ -41,29 +40,33 @@ final class ArchiveFlowLayout: UICollectionViewFlowLayout {
       }
     }
   }
-  
+
   override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     guard let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath) else { return nil }
     guard self.insertingIndexes.contains(itemIndexPath) else { return attributes }
-    let frame = CGRect(x: attributes.frame.minX + attributes.frame.width,
-                       y: attributes.frame.minY,
-                       width: attributes.frame.width,
-                       height: attributes.frame.height)
+    let frame = CGRect(
+      x: attributes.frame.minX + attributes.frame.width,
+      y: attributes.frame.minY,
+      width: attributes.frame.width,
+      height: attributes.frame.height
+    )
     attributes.frame = frame
     return attributes
   }
-  
+
   override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     guard let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath) else { return nil }
     guard self.removingIndexes.contains(itemIndexPath) else { return attributes }
-    let frame = CGRect(x: attributes.frame.minX - attributes.frame.width,
-                       y: attributes.frame.minY,
-                       width: attributes.frame.width,
-                       height: attributes.frame.height)
+    let frame = CGRect(
+      x: attributes.frame.minX - attributes.frame.width,
+      y: attributes.frame.minY,
+      width: attributes.frame.width,
+      height: attributes.frame.height
+    )
     attributes.frame = frame
     return attributes
   }
-  
+
   override func finalizeCollectionViewUpdates() {
     super.finalizeCollectionViewUpdates()
     self.insertingIndexes = []

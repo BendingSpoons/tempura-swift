@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import Katana
+import UIKit
 
 /// Special case of a `ViewController` that contains a `LocalState`.
 
@@ -124,8 +124,8 @@ import Katana
 ///    }
 /// ```
 
-open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView>: ViewController<V> where V.VM: ViewModelWithLocalState {
-  
+open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView>: ViewController<V>
+  where V.VM: ViewModelWithLocalState {
   /// The `LocalState` of this ViewController.
   public var localState: V.VM.LS {
     didSet {
@@ -133,11 +133,11 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
       self.didUpdateLocalState()
     }
   }
-  
+
   /// This is the last value for global state we observed, we are saving this to be able to update the `ViewModelWithLocalState`
   /// when the local state changes and we are disconnected from the global state.
   public var lastKnownState: V.VM.S?
-  
+
   public init(store: PartialStore<V.VM.S>, localState: V.VM.LS, connected: Bool = false) {
     self.localState = localState
     super.init(store: store, connected: connected)
@@ -146,25 +146,25 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
       self.localStateDidChange()
     }
   }
-  
+
   /// Returns a newly initialized ViewControllerWithLocalState object.
-  private override init(store: PartialStore<V.VM.S>, connected: Bool = false) {
+  override private init(store _: PartialStore<V.VM.S>, connected _: Bool = false) {
     fatalError("you should use `init(store:localState:)` instead.")
   }
-  
+
   /// Required init.
-  public required init?(coder aDecoder: NSCoder) {
+  public required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented.")
   }
-    
+
   /// Called after the local state is updated, override point for subclasses.
   open func didUpdateLocalState() {}
 
   /// Called just before the unsubscribe, override point for subclasses.
-  open override func willUnsubscribe() {
+  override open func willUnsubscribe() {
     self.lastKnownState = self.state
   }
-  
+
   /// WarmUp phase, check if we should connect to the state.
   override func warmUp() {
     // we are using silent = true because we don't want to trigger two updates
@@ -175,21 +175,21 @@ open class ViewControllerWithLocalState<V: ViewControllerModellableView & UIView
     }
     self.localStateDidChange()
   }
- 
+
   /// Handle the state update, create a new updated viewModel and feed the view with that.
   override func update(with state: V.VM.S) {
     // update the view model using the new state available
     // note that the updated method should take into account the local state that should remain untouched
-     self.viewModel = V.VM(state: state, localState: self.localState)
- }
-  
+    self.viewModel = V.VM(state: state, localState: self.localState)
+  }
+
   /// This method is called every time the local state changes.
   private func localStateDidChange() {
     mainThread {
       self.updateLocalState(with: self.localState)
     }
   }
-  
+
   /// Handle the local state update.
   private func updateLocalState(with localState: V.VM.LS) {
     let state = self.connected ? self.state : self.lastKnownState

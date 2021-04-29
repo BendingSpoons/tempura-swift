@@ -7,7 +7,7 @@
 
 import Foundation
 
-func mainThread(_ block: () -> ()) {
+func mainThread(_ block: () -> Void) {
   if !Thread.isMainThread {
     DispatchQueue.main.sync {
       block()

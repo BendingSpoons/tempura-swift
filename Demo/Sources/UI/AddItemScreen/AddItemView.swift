@@ -5,23 +5,25 @@
 //  Created by Andrea De Angelis on 19/02/2018.
 //
 
-import UIKit
 import Tempura
+import UIKit
 
 class AddItemView: UIView, ViewControllerModellableView {
-  
   // MARK: - Subviews
-  var backgroundView: UIView = UIView()
-  var cancelButton: UIButton = UIButton(type: .custom)
-  var textField: TextView = TextView()
-  var deleteButton: UIButton = UIButton(type: .custom)
-  
+
+  var backgroundView = UIView()
+  var cancelButton = UIButton(type: .custom)
+  var textField = TextView()
+  var deleteButton = UIButton(type: .custom)
+
   // MARK: - Interactions
+
   var didTapCancel: Interaction?
-  var didTapEnter: ((String) -> ())?
+  var didTapEnter: ((String) -> Void)?
   var didTapDelete: Interaction?
-  
+
   // MARK: - Setup
+
   func setup() {
     self.cancelButton.on(.touchUpInside) { [unowned self] _ in
       self.didTapCancel?()
@@ -37,8 +39,9 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.addSubview(self.textField)
     self.addSubview(self.deleteButton)
   }
-  
+
   // MARK: Style
+
   func style() {
     self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     self.styleCancelButton()
@@ -46,16 +49,18 @@ class AddItemView: UIView, ViewControllerModellableView {
     self.styleTextField()
     self.styleDeleteButton()
   }
-  
+
   // MARK: - Update
-  func update(oldModel: AddItemViewModel?) {
+
+  func update(oldModel _: AddItemViewModel?) {
     guard let model = self.model else { return }
-    
+
     self.textField.text = model.editingText
     self.deleteButton.alpha = model.isEditingAlreadyExistingItem ? 1.0 : 0.0
   }
-  
+
   // MARK: - Layout
+
   override func layoutSubviews() {
     self.cancelButton.pin.left().right().top().bottom()
     self.backgroundView.pin
@@ -76,18 +81,22 @@ class AddItemView: UIView, ViewControllerModellableView {
 }
 
 // MARK: - Styling
+
 extension AddItemView {
   func styleCancelButton() {
     self.cancelButton.backgroundColor = .clear
   }
+
   func styleBackgroundView() {
     self.backgroundView.backgroundColor = .white
     self.backgroundView.layer.cornerRadius = 20
   }
+
   func styleTextField() {
     self.textField.backgroundColor = .white
     self.textField.font = UIFont.systemFont(ofSize: 17)
   }
+
   func styleDeleteButton() {
     self.deleteButton.backgroundColor = .white
     self.deleteButton.setTitle("Delete this item", for: .normal)
@@ -100,17 +109,18 @@ extension AddItemView {
 }
 
 // MARK: - View Model
+
 struct AddItemViewModel: ViewModelWithLocalState {
   var editingText: String?
-  
+
   var isEditingAlreadyExistingItem: Bool {
     return self.editingText != nil
   }
-  
+
   init(editingText: String) {
     self.editingText = editingText
   }
-  
+
   init?(state: AppState?, localState: AddItemLocalState) {
     guard let state = state else { return nil }
     if let itemID = localState.itemID {

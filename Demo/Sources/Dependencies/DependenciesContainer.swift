@@ -12,8 +12,8 @@ import Tempura
 final class DependenciesContainer: NavigationProvider {
   var dispatch: AnyDispatch
   var getState: GetState
-  var navigator: Navigator = Navigator()
-  
+  var navigator = Navigator()
+
   required init(
     dispatch: @escaping AnyDispatch,
     getState: @escaping GetState

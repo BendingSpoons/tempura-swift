@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import Katana
 import Hydra
+import Katana
 
 /// Protocol for all the navigation-related SideEffect exposed by Tempura
 public protocol NavigationSideEffect: AnySideEffect {}
@@ -21,18 +21,19 @@ public struct Navigate: NavigationSideEffect {
   public let animated: Bool
   /// The context of this `Navigation`
   public let context: Any?
-  
+
   /// Initializes and return a Navigate action.
   public init(to route: Route, animated: Bool = false, context: Any? = nil) {
     self.route = route
     self.animated = animated
     self.context = context
   }
-  
+
   /// The side effect of the action, look into [Katana](https://github.com/BendingSpoons/katana-swift)
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
-    guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    guard let dependencies = context.anyDependencies as? NavigationProvider
+    else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try Hydra.await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
     return ()
   }
@@ -59,35 +60,36 @@ public struct Show: NavigationSideEffect {
   public let animated: Bool
   /// The context of the `Show`
   public let context: Any?
-  
+
   /// Initializes and return a Show action.
   public init(_ identifiersToShow: [RouteElementIdentifier], animated: Bool = false, context: Any? = nil) {
     self.identifiersToShow = identifiersToShow
     self.animated = animated
     self.context = context
   }
-  
+
   /// Initializes and returns a Show action.
   public init(_ identifierToShow: RouteElementIdentifier, animated: Bool = false, context: Any? = nil) {
     self.init([identifierToShow], animated: animated, context: context)
   }
-  
+
   /// Initializes and returns a Show action.
   public init<K>(_ identifiersToShow: [K], animated: Bool = false, context: Any? = nil)
     where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
-      self.init(identifiersToShow.map { $0.rawValue }, animated: animated, context: context)
+    self.init(identifiersToShow.map { $0.rawValue }, animated: animated, context: context)
   }
-  
+
   /// Initializes and returns a Show action.
   public init<K>(_ identifierToShow: K, animated: Bool = false, context: Any? = nil)
     where K: RawRepresentable, K.RawValue == RouteElementIdentifier {
-      self.init(identifierToShow.rawValue, animated: animated, context: context)
+    self.init(identifierToShow.rawValue, animated: animated, context: context)
   }
-  
+
   /// The side effect of the action, look into [Katana](https://github.com/BendingSpoons/katana-swift)
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
-    guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    guard let dependencies = context.anyDependencies as? NavigationProvider
+    else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
     try Hydra.await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
     return ()
   }
@@ -103,7 +105,7 @@ extension Show: CustomDebugStringConvertible {
       return actionDebugDescription + "." + self.identifiersToShow.first!
     default:
       let identifiersToDescribe = self.identifiersToShow.joined(separator: ", ")
-      return actionDebugDescription + " [" + identifiersToDescribe  + "]"
+      return actionDebugDescription + " [" + identifiersToDescribe + "]"
     }
   }
 }
@@ -125,7 +127,7 @@ public struct Hide: NavigationSideEffect {
   /// the request to hide D, then the request to hide C and finally the request to hide B.
   /// If we use `atomic = true`, only the request to hide B will be generated.
   public let atomic: Bool
-  
+
   /// Initializes and returns a Hide action.
   public init(_ identifierToHide: RouteElementIdentifier, animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
     self.identifierToHide = identifierToHide
@@ -151,12 +153,17 @@ public struct Hide: NavigationSideEffect {
     let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last!
     self.init(identifierToHide, animated: animated, context: context, atomic: atomic)
   }
-  
+
   /// The side effect of the action, look into [Katana](https://github.com/BendingSpoons/katana-swift)
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
-    guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try Hydra.await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
+    guard let dependencies = context.anyDependencies as? NavigationProvider
+    else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
+    try Hydra
+      .await(
+        dependencies.navigator
+          .hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic)
+      )
     return ()
   }
 }

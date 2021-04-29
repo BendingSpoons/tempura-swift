@@ -89,4 +89,3 @@ class NavigationWitnessTests: XCTestCase {
     XCTAssertEqual(navigationRequests, [.show("first"), .show("second"), .hide("second"), .hide("first")])
   }
 }
-

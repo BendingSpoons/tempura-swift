@@ -5,17 +5,17 @@
 //  Created by Andrea De Angelis on 15/02/2018.
 //
 
-import UIKit
 import Tempura
+import UIKit
 
 class ListViewController: ViewControllerWithLocalState<ListView> {
   var childViewController: ChildViewController!
-  
+
   override func setup() {
     self.childViewController = ChildViewController(store: self.store)
     self.add(self.childViewController, in: self.rootView.childViewContainer)
   }
-  
+
   // listen for interactions from the view
   // dispatch actions or change the local state in response to user actions
   override func setupInteraction() {
@@ -51,6 +51,7 @@ class ListViewController: ViewControllerWithLocalState<ListView> {
 }
 
 // MARK: - Local State
+
 struct ListLocalState: LocalState {
   var selectedSection: ListView.Section = .todo
 }

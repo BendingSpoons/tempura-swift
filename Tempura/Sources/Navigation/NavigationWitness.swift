@@ -141,7 +141,7 @@ extension NavigationWitness {
       self.requests = initialValue
     }
 
-    required public init(arrayLiteral elements: NavigationRequest...) {
+    public required init(arrayLiteral elements: NavigationRequest...) {
       self.requests = elements
     }
 
