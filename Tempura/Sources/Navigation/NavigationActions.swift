@@ -33,7 +33,7 @@ public struct Navigate: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
+    try Hydra.await(dependencies.navigator.changeRoute(newRoute: self.route, animated: self.animated, context: self.context))
     return ()
   }
 }
@@ -88,7 +88,7 @@ public struct Show: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
+    try Hydra.await(dependencies.navigator.show(self.identifiersToShow, animated: self.animated, context: self.context))
     return ()
   }
 }
@@ -156,48 +156,8 @@ public struct Hide: NavigationSideEffect {
   /// to know what a `SideEffect` is.
   public func anySideEffect(_ context: AnySideEffectContext) throws -> Any {
     guard let dependencies = context.anyDependencies as? NavigationProvider else { fatalError("DependenciesContainer must conform to `NavigationProvider`") }
-    try await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
+    try Hydra.await(dependencies.navigator.hide(self.identifierToHide, animated: self.animated, context: self.context, atomic: self.atomic))
     return ()
-  }
-}
-
-// MARK: - Katana Helpers
-
-extension AnyStore {
-  @available(*, deprecated, message: "Deprecated in favor of Katana's dispatch")
-  @discardableResult
-  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.anyDispatch(dispatchable).void
-  }
-
-  @available(*, deprecated)
-  public func awaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
-  }
-}
-
-extension AnySideEffectContext {
-  @available(*, deprecated, message: "Deprecated in favor of Katana's dispatch")
-  @discardableResult
-  public func dispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.anyDispatch(dispatchable).void
-  }
-
-  @available(*, deprecated)
-  public func awaitDispatch<RSE: NavigationSideEffect>(ramen dispatchable: RSE) throws {
-    return try await(self.dispatch(dispatchable))
-  }
-}
-
-extension ViewController {
-  @discardableResult
-  public func __unsafeDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) -> Promise<Void> {
-    return self.store.dispatch(dispatchable)
-  }
-
-  @available(*, deprecated)
-  public func __unsafeAwaitDispatch<RSE: NavigationSideEffect>(_ dispatchable: RSE) throws {
-    return try await(self.store.dispatch(dispatchable))
   }
 }
 
