@@ -20,19 +20,19 @@ open class CollectionView<Cell: UICollectionViewCell, S: Source>: UICollectionVi
   UICollectionViewDelegateFlowLayout where Cell: ConfigurableCell & SizeableCell, Cell.VM == S.SourceType {
   public typealias ItemSelectionHandler = (IndexPath) -> Void
 
-  public var customDataSource: DataSource<S, Cell>!
+  public var customDataSource: DataSource<S, Cell>! // swiftlint:disable:this implicitly_unwrapped_optional
 
   open var source: S? {
+    get {
+      return self.customDataSource.source
+    }
+
     set {
       // we are not updating the `customDataSource` right away in order to support `performBatchUpdates`
       // given that right before the update the system will call the `numberOfItemsInSection` method of the delegate
       // and we need to specify the oldSource count for that to work
       self.oldSource = self.customDataSource.source
       self.update(from: self.oldSource, new: newValue)
-    }
-
-    get {
-      return self.customDataSource.source
     }
   }
 

@@ -19,7 +19,8 @@ import MobileCoreServices
  Custom URLProtocol that can be used to load local resources instead of remote ones during UITests.
  This behaviour has several advantages:
  - make UITests independent from server status, network connection and related topics
- - make so that there are no delays in the loading of the resource, which prevents us from adding mechanisms to wait for the resources before taking the screenshots (and therefore make UITests faster)
+ - make so that there are no delays in the loading of the resource, which prevents us from adding mechanisms to wait for the
+   resources before taking the screenshots (and therefore make UITests faster)
 
  The class will try to find a matching file in one of the bundles. Given a url, files will be matched in the following order:
  - search a file that has the url as a name (e.g., http://example.com/image.png)
@@ -62,6 +63,7 @@ public final class LocalFileURLProtocol: URLProtocol, NSURLConnectionDataDelegat
       return
     }
 
+    // swiftlint:disable:next force_unwrapping
     let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)!
 
     client.urlProtocol(self, didReceive: response, cacheStoragePolicy: .allowed)
@@ -100,6 +102,7 @@ extension String {
     let url = NSURL(fileURLWithPath: self)
     let pathExtension = url.pathExtension
 
+    // swiftlint:disable:next force_unwrapping
     if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension! as NSString, nil)?
       .takeRetainedValue() {
       if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {

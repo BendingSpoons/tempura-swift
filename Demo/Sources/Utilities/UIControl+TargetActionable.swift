@@ -20,21 +20,23 @@ class ActionTrampoline<T>: Trampoline {
   }
 
   override func action(sender: UIControl) {
-    self.act(sender as! T)
+    self.act(sender as! T) // swiftlint:disable:this force_cast
   }
 }
 
 extension UIControl.Event {
   var number: NSNumber {
-    return NSNumber(integerLiteral: Int(self.rawValue))
+    return NSNumber(value: Int(self.rawValue))
   }
 }
 
+/// A target on which actions can be registered.
 public protocol TargetActionable {}
 
 private var actionTrampolinesKey = "targetactionable_action_trampolines_key"
 
 extension TargetActionable where Self: UIControl {
+  /// Registers an action for the given event.
   public mutating func on(_ event: UIControl.Event, _ action: @escaping (Self) -> Void) {
     if let oldTrampoline = self.actionTrampolines?[event.number] as? Trampoline {
       self.removeTarget(oldTrampoline, action: #selector(oldTrampoline.action), for: event)
@@ -71,6 +73,7 @@ extension TargetActionable where Self: UIControl {
 private let tapHandlerKey = UnsafeMutablePointer<Int8>.allocate(capacity: 1)
 
 extension TargetActionable where Self: UIBarButtonItem {
+  /// Registers an action for the onTap event.
   public func onTap(_ action: @escaping (Self) -> Void) {
     let trampoline = ActionTrampoline(action: action)
 

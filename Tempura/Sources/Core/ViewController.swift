@@ -14,6 +14,9 @@ import UIKit
 /// Typealias for simple interaction callback.
 /// For more complex interactions (that contains parameters) define your own closure.
 public typealias Interaction = () -> Void
+
+/// Typealias for simple interaction callback with a single parameter.
+/// For more complex interactions (that contains multiple parameters) define your own closure.
 public typealias CustomInteraction<T> = (T) -> Void
 
 /// Partial Type Erasure for the ViewController
@@ -31,7 +34,8 @@ public protocol AnyViewController {
 /// In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
 /// pixels on the screen and to keep them updated when the state changes.
 /// These are ViewController, `ViewModelWithState` and `ViewControllerModellableView`.
-/// The ViewController is a subclass of `UIViewController` that is responsible to manage the set of views that are shown in each screen of your UI.
+/// The ViewController is a subclass of `UIViewController` that is responsible to manage the set of views that are shown in each
+/// screen of your UI.
 
 /// ```swift
 ///    struct CounterState: State {
@@ -203,7 +207,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
 
   /// Use the rootView to access the main view managed by this viewController.
   open var rootView: V {
-    return self.view as! V
+    return self.view as! V // swiftlint:disable:this force_cast
   }
 
   /// Used internally to load the specific main view managed by this view controller.
@@ -231,6 +235,8 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     self.store.anyDispatch(dispatchable)
   }
 
+  // swiftlint:disable identifier_name
+
   /// Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.
   @discardableResult
   open func __unsafeDispatch<T: StateUpdater>(_ dispatchable: T) -> Promise<Void> {
@@ -248,6 +254,8 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
   open func __unsafeDispatch<T: ReturningSideEffect>(_ dispatchable: T) -> Promise<T.ReturnValue> {
     return self.store.dispatch(dispatchable)
   }
+
+  // swiftlint:enable identifier_name
 
   /// Required init.
   public required init?(coder _: NSCoder) {

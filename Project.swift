@@ -10,6 +10,21 @@ import ProjectDescription
 
 let iOSTargetVersion = "11.0"
 
+// MARK: - Actions
+
+let actions: [TargetAction] = [
+  .pre(
+    tool: "swiftlint",
+    arguments: ["--lenient"],
+    name: "SwiftLint"
+  ),
+  .pre(
+    tool: "swiftformat",
+    arguments: ["."],
+    name: "SwiftFormat"
+  ),
+]
+
 // MARK: - Tempura
 
 let tempuraMainTarget = Target(
@@ -20,6 +35,7 @@ let tempuraMainTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Tempura/Sources/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
   ]
@@ -33,6 +49,7 @@ let tempuraTestsTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Tempura/Tests/**"],
+  actions: actions,
   dependencies: [
     .target(name: tempuraMainTarget.name),
   ]
@@ -48,6 +65,7 @@ let tempuraTestingTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["TempuraTesting/Sources/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
     .target(name: tempuraMainTarget.name),
@@ -70,6 +88,7 @@ let demoTarget = Target(
     "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots",
   ]),
   sources: ["Demo/Sources/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
     .target(name: tempuraMainTarget.name),
@@ -84,6 +103,7 @@ let demoUITestTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Demo/UITests/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
     .target(name: demoTarget.name),

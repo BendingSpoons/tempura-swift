@@ -65,18 +65,24 @@ class AddItemView: UIView, ViewControllerModellableView {
   override func layoutSubviews() {
     self.cancelButton.pin.left().right().top().bottom()
     self.backgroundView.pin
-      .left().marginLeft(20)
-      .right().marginRight(20)
+      .left()
+      .marginLeft(20)
+      .right()
+      .marginRight(20)
       .height(200)
-      .top(self.universalSafeAreaInsets.top + 120)
+      .top(self.safeAreaInsets.top + 120)
     self.deleteButton.sizeToFit()
     self.deleteButton.pin
-      .bottom(to: self.backgroundView.edge.bottom).marginBottom(10)
+      .bottom(to: self.backgroundView.edge.bottom)
+      .marginBottom(10)
       .hCenter(-10)
     self.textField.pin
-      .left(to: self.backgroundView.edge.left).marginLeft(20)
-      .right(to: self.backgroundView.edge.right).marginRight(20)
-      .top(to: self.backgroundView.edge.top).marginTop(30)
+      .left(to: self.backgroundView.edge.left)
+      .marginLeft(20)
+      .right(to: self.backgroundView.edge.right)
+      .marginRight(20)
+      .top(to: self.backgroundView.edge.top)
+      .marginTop(30)
       .bottom(to: self.deleteButton.edge.top)
   }
 }

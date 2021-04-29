@@ -10,7 +10,7 @@ import Tempura
 import UIKit
 
 class ListViewController: ViewControllerWithLocalState<ListView> {
-  var childViewController: ChildViewController!
+  var childViewController: ChildViewController! // swiftlint:disable:this implicitly_unwrapped_optional
 
   override func setup() {
     self.childViewController = ChildViewController(store: self.store)

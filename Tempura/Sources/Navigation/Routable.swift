@@ -146,6 +146,7 @@ public protocol Routable: AnyObject {
 }
 
 extension Routable {
+  /// Change a route element
   public func change(
     from: RouteElementIdentifier,
     to: RouteElementIdentifier,
@@ -154,10 +155,12 @@ extension Routable {
     completion _: @escaping RoutingCompletion
   ) {
     fatalError(
+      // swiftlint:disable:next line_length
       "This Routable element cannot change the navigation from \"\(from)\" to \"\(to)\", the implementation of \(#function) is missing"
     )
   }
 
+  /// Show a route element
   public func show(
     identifier _: RouteElementIdentifier,
     from _: RouteElementIdentifier,
@@ -168,6 +171,7 @@ extension Routable {
     return false
   }
 
+  /// Hide a route element
   public func hide(
     identifier _: RouteElementIdentifier,
     from _: RouteElementIdentifier,

@@ -176,8 +176,8 @@ public class Navigator {
   public typealias Completion = () -> Void
 
   private let routingQueue = DispatchQueue(label: "routing queue")
-  private var rootInstaller: RootInstaller!
-  private var window: UIWindow!
+  private var rootInstaller: RootInstaller! // swiftlint:disable:this implicitly_unwrapped_optional
+  private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
 
   /// Initializes and return a Navigator.
   public init() {}
@@ -295,6 +295,7 @@ public class Navigator {
 
     // if there is no route in common, ask the UIApplication to handle that
     if commonRouteIndex < 0 {
+      // swiftlint:disable:next force_unwrapping
       let change = RouteChange.rootChange(from: old.first!.routeIdentifier, to: new.first!)
       return [change]
     }
@@ -311,7 +312,7 @@ public class Navigator {
         return [change]
       }
 
-      let indexesToRemove = ((commonRouteIndex + 1) ..< old.count).reversed()
+      let indexesToRemove = (commonRouteIndex + 1 ..< old.count).reversed()
 
       for hideIndex in indexesToRemove {
         let elementToHide = old[hideIndex]
@@ -324,7 +325,7 @@ public class Navigator {
     // NEW: A -> B -> C
     // show all the elements in the new route that were not in the old route
     else if commonRouteIndex == old.count - 1 {
-      let indexesToAdd = (commonRouteIndex + 1) ..< new.count
+      let indexesToAdd = commonRouteIndex + 1 ..< new.count
 
       for showIndex in indexesToAdd {
         let elementToShow = new[showIndex]
@@ -386,6 +387,7 @@ public class Navigator {
             if !handled {
               semaphore.signal()
               fatalError(
+                // swiftlint:disable:next line_length
                 "dismissal of the '\(toHide)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())"
               )
             }
@@ -396,7 +398,7 @@ public class Navigator {
             let routables = UIApplication.shared.currentRoutables
             let askTo = routables.reversed()
 
-            let from = routables.last!.routeIdentifier
+            let from = routables.last!.routeIdentifier // swiftlint:disable:this force_unwrapping
 
             var handled = false
             for routable in askTo where !handled {
@@ -424,6 +426,7 @@ public class Navigator {
             if !handled {
               semaphore.signal()
               fatalError(
+                // swiftlint:disable:next line_length
                 "presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)"
               )
             }

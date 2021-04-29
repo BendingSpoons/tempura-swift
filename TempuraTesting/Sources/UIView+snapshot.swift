@@ -12,7 +12,7 @@ import UIKit
 extension UIView {
   func snapshot() -> Data? {
     let window: UIWindow?
-    var removeFromSuperview: Bool = false
+    var removeFromSuperview = false
 
     if let w = self as? UIWindow {
       window = w
@@ -44,7 +44,7 @@ extension UIView {
     _ completionClosure: @escaping (Data?) -> Void
   ) {
     let window: UIWindow?
-    var removeFromSuperview: Bool = false
+    var removeFromSuperview = false
 
     if let w = self as? UIWindow {
       window = w

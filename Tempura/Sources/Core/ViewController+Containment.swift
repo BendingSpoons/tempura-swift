@@ -56,7 +56,7 @@ extension ViewController {
 
   /// Remove self as child ViewController of parent
   public func remove() {
-    guard let _ = self.parent else { return }
+    guard self.parent != nil else { return }
     self.willMove(toParent: nil)
     self.removeFromParent()
     self.rootView.removeFromSuperview()

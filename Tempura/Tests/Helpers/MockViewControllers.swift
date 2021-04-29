@@ -34,7 +34,7 @@ struct TestViewModel: ViewModelWithState {
   var counter: Int = 0
 
   init?(state: MockAppState) {
-    guard let _ = state.dataFromAPIRequest else { return nil }
+    guard state.dataFromAPIRequest != nil else { return nil }
     self.counter = state.counter
   }
 

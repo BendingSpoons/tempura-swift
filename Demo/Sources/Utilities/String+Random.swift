@@ -13,11 +13,10 @@ extension String {
     length: Int,
     allowedChars: String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   ) -> String {
-    let allowedCharsCount = UInt32(allowedChars.count)
     var randomString = ""
 
     for _ in 0 ..< length {
-      let randomNum = Int(arc4random_uniform(allowedCharsCount))
+      let randomNum = Int.random(in: 0 ..< allowedChars.count)
       let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
       let newCharacter = allowedChars[randomIndex]
       randomString += String(newCharacter)

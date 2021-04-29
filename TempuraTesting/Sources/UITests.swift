@@ -11,6 +11,7 @@ import Katana
 import Tempura
 import XCTest
 
+/// UITests helpers
 public enum UITests {
   /**
    A snapshot is a struct that contains all the informations to create a view-homogenous set of snapshots.
@@ -49,6 +50,12 @@ public enum UITests {
       return "\(self.viewType)"
     }
 
+    /// Default initializer
+    /// - parameter type: the type of the view
+    /// - parameter container: the UITests container
+    /// - parameter models: the test names and their models
+    /// - parameter hooks: the hooks to be registered
+    /// - parameter size: the screen size
     public init(
       type: V.Type,
       container: Container,
@@ -117,19 +124,19 @@ public enum UITests {
 
   /// A UIViewController that allows hooks to be registered
   class HookableViewController<V: ViewControllerModellableView>: UIViewController {
-    var hooks: [Hook: HookClosure<V>]?
+    var hooks: [Hook: HookClosure<V>]? // swiftlint:disable:this discouraged_optional_collection
 
     override func loadView() {
-      self.view = (V.self as! UIView.Type).init()
+      self.view = (V.self as! UIView.Type).init() // swiftlint:disable:this force_cast
 
-      (self.view as! V).viewController = self
+      (self.view as! V).viewController = self // swiftlint:disable:this force_cast
 
       self.rootView.setup()
       self.rootView.style()
     }
 
     var rootView: V {
-      return self.view as! V
+      return self.view as! V // swiftlint:disable:this force_cast
     }
 
     override func viewDidLoad() {
@@ -192,7 +199,7 @@ public enum UITests {
     /// UITabBarController
     case tabBarController
     /// provide a custom UIViewController as a container
-    case custom((UIViewController) -> (UIViewController))
+    case custom((UIViewController) -> UIViewController)
 
     func container(for vc: UIViewController) -> UIViewController {
       switch self {
@@ -322,7 +329,7 @@ public enum UITests {
     let fileManager = FileManager.default
 
     var dirURL = URL(fileURLWithPath: dirPath)
-    let recording: Bool = (Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool) == true
+    let recording: Bool = Bundle.main.infoDictionary?["UI_TEST_RECORDING"] as? Bool == true
 
     if recording {
       dirURL.appendPathComponent("/reference")
@@ -330,12 +337,13 @@ public enum UITests {
 
     let scaleFactor = Int(UIScreen.main.scale)
     let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.jpg")
-    guard let _ = try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) else { return }
-    guard let _ = try? data.write(to: fileURL) else { return }
+    guard try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) != nil else { return }
+    guard try? data.write(to: fileURL) != nil else { return }
   }
 }
 
 extension CGSize {
+  /// The human readable CGSize description
   public var description: String {
     return "\(Int(self.width))x\(Int(self.height))"
   }
@@ -354,6 +362,7 @@ extension UITests {
     /// The keyboard is visible with the specified height
     case customHeight(CGFloat)
 
+    /// The visible height of the keyboard
     public func height(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
       switch self {
       case .hidden:
@@ -365,6 +374,7 @@ extension UITests {
       }
     }
 
+    /// The estimated default keyboard height for the device
     public static func defaultHeight(for orientation: UIDeviceOrientation = .portrait) -> CGFloat {
       switch max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) {
       case 0 ... 667: // up to iPhone 8

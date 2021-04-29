@@ -11,7 +11,8 @@ import UIKit
 private var toBeDismissedKey = "view_controller_to_be_dismissed"
 
 extension UIViewController {
-  /// Presents a UIViewController (B) modally from self, even if self is already presenting another ViewController (A). In that case, A will be asked to present B.
+  /// Presents a UIViewController (B) modally from self, even if self is already presenting another ViewController (A). In that
+  /// case, A will be asked to present B.
   ///
   /// Created to overcome the limitations of the UIKit:  `UIViewController.present(:animated:completion)`.
   public func recursivePresent(_ viewController: UIViewController, animated: Bool = false, completion: (() -> Void)?) {
@@ -57,7 +58,7 @@ extension UIViewController {
     }
 
     set {
-      let value = NSNumber(booleanLiteral: newValue)
+      let value = NSNumber(value: newValue)
       objc_setAssociatedObject(
         self,
         &toBeDismissedKey,

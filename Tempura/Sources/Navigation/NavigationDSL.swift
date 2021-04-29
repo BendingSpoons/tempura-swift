@@ -268,6 +268,7 @@ public enum NavigationInstruction {
     }
 
     fatalError(
+      // swiftlint:disable:next line_length
       "Push requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
     )
   }
@@ -290,6 +291,7 @@ public enum NavigationInstruction {
     }
 
     fatalError(
+      // swiftlint:disable:next line_length
       "PopToRootViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
     )
   }
@@ -313,6 +315,7 @@ public enum NavigationInstruction {
     }
 
     fatalError(
+      // swiftlint:disable:next line_length
       "PopToViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
     )
   }
@@ -335,6 +338,7 @@ public enum NavigationInstruction {
     }
 
     fatalError(
+      // swiftlint:disable:next line_length
       "Pop requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
     )
   }

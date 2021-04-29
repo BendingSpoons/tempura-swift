@@ -41,13 +41,16 @@ public protocol TestableViewController: UIViewController {
 
 extension ViewController: TestableViewController {}
 
+/// A test case for a TestableViewController
 public protocol ViewControllerTestCase {
+  /// The view controller to be tested
   associatedtype VC: TestableViewController
 
   /**
    Add new UI tests to be performed
 
-   - parameter testCases: a dictionary of test cases and the corresponding view models. Each pair of the array will be used as input for the `configure(vc:for:model:)` method.
+   - parameter testCases: a dictionary of test cases and the corresponding view models. Each pair of the array will be used as
+     input for the `configure(vc:for:model:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>)
@@ -81,6 +84,7 @@ public protocol ViewControllerTestCase {
 }
 
 extension ViewControllerTestCase where Self: XCTestCase {
+  /// Runs the given test cases in the given context
   public func uiTest(testCases: [String: VC.V.VM], context: UITests.VCContext<VC>) {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
@@ -99,10 +103,10 @@ extension ViewControllerTestCase where Self: XCTestCase {
 
     DispatchQueue.global().async {
       for (identifier, model) in testCases {
-        var contained: VC!
-        var container: UIViewController!
-        var view: UIView!
-        var viewToWaitFor: UIView!
+        var contained: VC! // swiftlint:disable:this implicitly_unwrapped_optional
+        var container: UIViewController! // swiftlint:disable:this implicitly_unwrapped_optional
+        var view: UIView! // swiftlint:disable:this implicitly_unwrapped_optional
+        var viewToWaitFor: UIView! // swiftlint:disable:this implicitly_unwrapped_optional
 
         DispatchQueue.main.sync {
           contained = self.viewController
@@ -160,6 +164,7 @@ extension ViewControllerTestCase where Self: XCTestCase {
     self.wait(for: Array(expectations.values), timeout: 100)
   }
 
+  /// Type erased isViewReady method
   public func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? VC.V else {
       return false
@@ -167,6 +172,7 @@ extension ViewControllerTestCase where Self: XCTestCase {
     return self.isViewReady(view, identifier: identifier)
   }
 
+  /// Type erased configure method
   public func typeErasedConfigure(_ vc: UIViewController, identifier: String, model: ViewModel) {
     guard let vc = vc as? VC,
           let model = model as? VC.V.VM
@@ -191,11 +197,13 @@ extension ViewControllerTestCase {
     vc.rootView.model = model
   }
 
+  /// The default implementation uses the standard context
   public func uiTest(testCases: [String: VC.V.VM]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
 
+  /// The default implementation returns an empty dictionary
   public func scrollViewsToTest(in _: VC, identifier _: String) -> [String: UIScrollView] { return [:] }
 }
 
@@ -219,6 +227,7 @@ extension UITests {
     /// whether gray rectangle representing the keyboard should be rendered on top of the view, for a given test case
     public var keyboardVisibility: (String) -> KeyboardVisibility
 
+    /// Default initializer
     public init(
       container: Container = .none,
       screenSize: CGSize? = nil,

@@ -102,7 +102,7 @@ extension Show: CustomDebugStringConvertible {
     switch self.identifiersToShow.count {
     case 1:
       // most common usecase
-      return actionDebugDescription + "." + self.identifiersToShow.first!
+      return actionDebugDescription + "." + self.identifiersToShow.first! // swiftlint:disable:this force_unwrapping
     default:
       let identifiersToDescribe = self.identifiersToShow.joined(separator: ", ")
       return actionDebugDescription + " [" + identifiersToDescribe + "]"
@@ -123,8 +123,8 @@ public struct Hide: NavigationSideEffect {
   /// The context of the `Hide`
   public let context: Any?
   /// Specify if the Hide should generate one single navigation request.
-  /// For instance, if we have a Route like `A/B/C/D` and we ask to hide `B`, with `atomic = false`, three different Hide commands will be generated:
-  /// the request to hide D, then the request to hide C and finally the request to hide B.
+  /// For instance, if we have a Route like `A/B/C/D` and we ask to hide `B`, with `atomic = false`, three different Hide commands
+  /// will be generated: the request to hide D, then the request to hide C and finally the request to hide B.
   /// If we use `atomic = true`, only the request to hide B will be generated.
   public let atomic: Bool
 
@@ -150,7 +150,7 @@ public struct Hide: NavigationSideEffect {
 
   /// Initializes and return a Hide action.
   public init(animated: Bool = false, context: Any? = nil, atomic: Bool = false) {
-    let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last!
+    let identifierToHide = UIApplication.shared.currentRoutableIdentifiers.last! // swiftlint:disable:this force_unwrapping
     self.init(identifierToHide, animated: animated, context: context, atomic: atomic)
   }
 

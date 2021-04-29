@@ -23,15 +23,16 @@ import XCTest
 
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
-
 public protocol UIViewControllerTestCase {
+  /// The view controller type
   associatedtype VC: UIViewController
+  /// The view type
   associatedtype V: UIView
 
   /**
    Add new UI tests to be performed
 
-   - parameter testCases: an array of test cases. Each item of the array will be used as input for the `configure(vc:for:)` method.
+   - parameter testCases: an array of test cases. Each item of will be used as input for the `configure(vc:for:)` method.
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String], context: UITests.VCContext<VC>)
@@ -64,6 +65,7 @@ public protocol UIViewControllerTestCase {
 }
 
 extension UIViewControllerTestCase where Self: XCTestCase {
+  /// Runs the given test cases in the given context
   public func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
     // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
     XCUIDevice.shared.orientation = context.orientation
@@ -80,10 +82,10 @@ extension UIViewControllerTestCase where Self: XCTestCase {
 
     DispatchQueue.global().async {
       for identifier in testCases {
-        var contained: VC!
-        var container: UIViewController!
-        var view: UIView!
-        var viewToWaitFor: UIView!
+        var contained: VC! // swiftlint:disable:this implicitly_unwrapped_optional
+        var container: UIViewController! // swiftlint:disable:this implicitly_unwrapped_optional
+        var view: UIView! // swiftlint:disable:this implicitly_unwrapped_optional
+        var viewToWaitFor: UIView! // swiftlint:disable:this implicitly_unwrapped_optional
 
         DispatchQueue.main.sync {
           contained = self.viewController
@@ -141,6 +143,7 @@ extension UIViewControllerTestCase where Self: XCTestCase {
     self.wait(for: Array(expectations.values), timeout: 100)
   }
 
+  /// Type erased isViewReady method
   public func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? V else {
       return false
@@ -148,6 +151,7 @@ extension UIViewControllerTestCase where Self: XCTestCase {
     return self.isViewReady(view, identifier: identifier)
   }
 
+  /// Type erased configure method
   public func typeErasedConfigure(_ vc: UIViewController, identifier: String) {
     guard let vc = vc as? VC else {
       return
@@ -166,10 +170,12 @@ extension UIViewControllerTestCase {
   /// The default implementation is empty
   public func configure(vc _: VC, for _: String) {}
 
+  /// The default implementation uses the standard context
   public func uiTest(testCases: [String]) {
     let standardContext = UITests.VCContext<VC>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
 
+  /// The default implementation returns an empty dictionary
   public func scrollViewsToTest(in _: VC, identifier _: String) -> [String: UIScrollView] { return [:] }
 }

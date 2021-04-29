@@ -11,7 +11,8 @@ import UIKit
 
 private var modelWrapperKey = "modellableview_model_wrapper_key"
 
-/// Mixin protocol for UIView subclasses based on the same SSUL lifecycle of `View`. Conforming to `ModellableView`, a UIView will get a `model: ViewModel` property
+/// Mixin protocol for UIView subclasses based on the same SSUL lifecycle of `View`. Conforming to `ModellableView`, a UIView
+/// will get a `model: ViewModel` property
 /// and the `update(oldModel: ViewModel?)` will be automatically called each time the model property will change.
 /// If your UIView is simple and you don't want to use a ViewModel, refer to the `View` protocol instead.
 
@@ -19,7 +20,8 @@ private var modelWrapperKey = "modellableview_model_wrapper_key"
 /// The `View` protocol is good enough for small reusable UI elements that can be manipulated through **properties**.
 /// There are a couple of drawbacks to this approach:
 /// - it's not easy to test UI elements
-/// - in the `View.update()` phase we don't know the actual property that is changed, meaning that we cannot reason in terms of differences from the old values
+/// - in the `View.update()` phase we don't know the actual property that is changed, meaning that we cannot reason in terms of
+///   differences from the old values
 /// - changing two or more properties at the same time will trigger two or more updates.
 ///
 /// To solve all of these issues we introduce the concept of `ViewModel`.
@@ -111,7 +113,8 @@ public protocol ModellableView: View {
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
-  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
+  /// and we are adding the var exploiting a feature of the Objective-C runtime called
+  /// [Associated Objects](http://nshipster.com/associated-objects/).
   var model: VM? { get set }
 
   /// Called when the ViewModel is changed. Update the View using `self.model`.
@@ -152,7 +155,8 @@ extension ModellableView {
   /// The ViewModel of the View. Once changed, the `update(oldModel: VM?)` will be called.
   /// The model variable is automatically created for you once you conform to the ModellableView protocol.
   /// Swift is inferring the Type through the `oldModel` parameter of the `update(oldModel: ViewModel?)` method
-  /// and we are adding the var exploiting a feature of the Objective-C runtime called [Associated Objects](http://nshipster.com/associated-objects/).
+  /// and we are adding the var exploiting a feature of the Objective-C runtime called
+  /// [Associated Objects](http://nshipster.com/associated-objects/).
   public var model: VM? {
     get {
       return self.modelWrapper.model

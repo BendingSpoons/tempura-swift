@@ -17,7 +17,9 @@ class ListView: UIView, ViewControllerModellableView {
   var archiveButton = UIButton(type: .custom)
   var actionButton = UIButton(type: .custom)
   var scrollView = UIScrollView()
+  // swiftlint:disable:next implicitly_unwrapped_optional
   var todoListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
+  // swiftlint:disable:next implicitly_unwrapped_optional
   var archiveListView: CollectionView<TodoCell, SimpleSource<TodoCellViewModel>>!
   var sendToArchiveButton = UIButton(type: .custom)
   // the view of the child view controller
@@ -166,7 +168,7 @@ class ListView: UIView, ViewControllerModellableView {
   override func layoutSubviews() {
     // we are using PinLayout here but you can use the layout system you want
     self.todoButton.sizeToFit()
-    self.todoButton.pin.left(30).top(self.universalSafeAreaInsets.top + 70)
+    self.todoButton.pin.left(30).top(self.safeAreaInsets.top + 70)
     self.archiveButton.pin.size(36).right(32).vCenter(to: self.todoButton.edge.vCenter)
     self.actionButton.pin.left().right().below(of: self.todoButton).marginTop(24).height(50)
     self.scrollView.pin.below(of: self.actionButton).left().right().bottom()
@@ -175,7 +177,7 @@ class ListView: UIView, ViewControllerModellableView {
     self.archiveListView.frame = self.todoListView.frame.offsetBy(dx: self.scrollView.bounds.width, dy: 0)
     guard let model = self.model else { return }
     if model.containsArchivableItems, model.selectedSection == .todo {
-      self.sendToArchiveButton.pin.hCenter().bottom(self.universalSafeAreaInsets.bottom + 85).height(6%).width(60%)
+      self.sendToArchiveButton.pin.hCenter().bottom(self.safeAreaInsets.bottom + 85).height(6%).width(60%)
       let bottomInset = self.frame.height - self.sendToArchiveButton.frame.minY
       self.todoListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
     } else {

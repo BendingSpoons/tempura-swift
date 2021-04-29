@@ -126,9 +126,9 @@ extension TodoCell {
 // MARK: View Model
 
 struct TodoCellViewModel: ViewModel {
-  var todoText: String = ""
-  var completed: Bool = false
-  var archived: Bool = false
+  var todoText = ""
+  var completed = false
+  var archived = false
   var identifier: String
 
   static func == (l: TodoCellViewModel, r: TodoCellViewModel) -> Bool {

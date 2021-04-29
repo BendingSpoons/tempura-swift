@@ -39,7 +39,7 @@ class ViewControllerWithLocalStateTests: XCTestCase {
     XCTAssertEqual(testVC.rootView.model?.localCounter, 11)
   }
 
-  func testViewControllerWithLocalState_whenLocalStateChanges_whenViewControllerDisconnected_viewModelIsPartiallyUpdated() throws {
+  func testViewControllerWithLocalState_whenLocalStateChangesAndViewControllerDisconnected_viewModelIsPartiallyUpdated() throws {
     let store = Store<MockAppState, EmptySideEffectDependencyContainer>.mock()
     let testVC = TestViewControllerWithLocalState(store: store, connected: true)
     testVC.viewWillAppear(true)

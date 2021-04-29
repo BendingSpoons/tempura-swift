@@ -24,12 +24,14 @@ import XCTest
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
 public protocol ViewTestCase {
+  /// The view under test
   associatedtype V: UIView & ViewControllerModellableView
 
   /**
    Add new UI tests to be performed
 
-   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the view model to use to render the view
+   - parameter testCases: a dictionary of test cases, where the key is the identifier and the value the view model to use to
+     render the view
    - parameter context: a context used to pass information and control how the view should be rendered
    */
   func uiTest(testCases: [String: V.VM], context: UITests.Context<V>)
@@ -41,7 +43,8 @@ public protocol ViewTestCase {
   ///   - view: The `viewControllerModellableView` under test.
   ///           `isViewReady` has already returned `true` at this point.
   ///   - identifier: the test case identifier.
-  /// - Returns: A dictionary where the value is the ScrollView instance to snapshot and the key is a suffix for the test case identifier.
+  /// - Returns: A dictionary where the value is the ScrollView instance to snapshot and the key is a suffix for the test case
+  ///   identifier.
   func scrollViewsToTest(in view: V, identifier: String) -> [String: UIScrollView]
 
   /**
@@ -53,6 +56,7 @@ public protocol ViewTestCase {
 }
 
 extension ViewTestCase where Self: XCTestCase {
+  /// Runs the given test cases in the given context
   public func uiTest(testCases: [String: V.VM], context: UITests.Context<V>) {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
@@ -85,7 +89,6 @@ extension ViewTestCase where Self: XCTestCase {
 
         if context.orientation.isPortrait {
           isOrientationCorrect = isViewInPortrait
-
         } else if context.orientation.isLandscape {
           isOrientationCorrect = !isViewInPortrait
         }
@@ -102,6 +105,7 @@ extension ViewTestCase where Self: XCTestCase {
         keyboardVisibility: context.keyboardVisibility(identifier)
       ) {
         // ScrollViews snapshot
+        // swiftlint:disable:next force_cast
         self.scrollViewsToTest(in: vcs.contained.view as! V, identifier: identifier).forEach { entry in
           UITests.snapshotScrollableContent(
             entry.value,
@@ -117,6 +121,7 @@ extension ViewTestCase where Self: XCTestCase {
     self.wait(for: expectations, timeout: 100)
   }
 
+  /// Type erased isViewReady methods
   public func typeErasedIsViewReady(_ view: UIView, identifier: String) -> Bool {
     guard let view = view as? V else {
       return false
@@ -131,11 +136,13 @@ extension ViewTestCase {
     return true
   }
 
+  /// The default implementation uses the standard context
   public func uiTest(testCases: [String: V.VM]) {
     let standardContext = UITests.Context<V>()
     self.uiTest(testCases: testCases, context: standardContext)
   }
 
+  /// The default implementation returns an empty dictionary
   public func scrollViewsToTest(in _: V, identifier _: String) -> [String: UIScrollView] { return [:] }
 }
 
@@ -162,6 +169,7 @@ extension UITests {
     /// whether gray rectangle representing the keyboard should be rendered on top of the view, for a given test case
     public var keyboardVisibility: (String) -> KeyboardVisibility
 
+    /// Default initializer
     public init(
       container: Container = .none,
       hooks: [UITests.Hook: UITests.HookClosure<V>] = [:],

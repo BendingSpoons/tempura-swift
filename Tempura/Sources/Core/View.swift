@@ -59,7 +59,8 @@ import Foundation
 /// ```
 /// The interface that the View is exposing is composed by **properties** and **interactions**.
 /// The `properties` are the internal state of the element that can be manipulated from the outside,
-/// `interactions` are callbacks used to listen from outside of the view to changes occurred inside the element itself (like user interacting with the element changing its value).
+/// `interactions` are callbacks used to listen from outside of the view to changes occurred inside the element itself (like user
+/// interacting with the element changing its value).
 
 /// The lifecycle of a View contains four different phases:
 /// ```swift
@@ -73,7 +74,8 @@ import Foundation
 /// This protocol is not doing anything for us, it's just a way to enforce the SSUL phases.
 
 /// ## Setup
-/// The setup phase should execute only once when the `View` is created, here you tipically want to create and add all the children views as subviews
+/// The setup phase should execute only once when the `View` is created, here you tipically want to create and add all the
+/// children views as subviews
 
 /// ```swift
 /// func setup() {

@@ -51,5 +51,5 @@ class AddItemViewController: ViewControllerWithLocalState<AddItemView> {
 
 struct AddItemLocalState: LocalState {
   /// if we are editing an existing item, this will contain the ID of that item
-  var itemID: String? = nil
+  var itemID: String?
 }

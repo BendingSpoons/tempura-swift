@@ -13,9 +13,16 @@ import UIKit
 /// Source protocol defines the methods needed to automatically implement a
 /// UICollectionViewDataSource delegate around a specific type of data `SourceType`
 public protocol Source {
+  /// The type of the Source
   associatedtype SourceType: DiffAware
+
+  /// The number of sections of the Source
   func numberOfSections() -> Int
+
+  /// The number of rows of the Source
   func numberOfRows(section: Int) -> Int
+
+  /// The number of the Source for the given section and row
   func data(section: Int, row: Int) -> SourceType?
 
   /// perform the diff update of the collectionView transitioning from old to self
@@ -47,7 +54,6 @@ public class SimpleSource<T: DiffAware>: Source {
   }
 
   public func diffUpdate(for collectionView: UICollectionView, old: SimpleSource<T>) {
-    // collectionView.animateItemChanges(oldData: old.items, newData: self.items, readyToUpdateDataSource: readyToUpdateDataSource)
     let changes = diff(old: old.items, new: self.items)
     collectionView.reload(changes: changes, updateData: {})
   }

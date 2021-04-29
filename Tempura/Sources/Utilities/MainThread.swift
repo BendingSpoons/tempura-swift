@@ -18,8 +18,8 @@ func mainThread(_ block: () -> Void) {
   }
 }
 
-func mainThread<T>(_ block: () -> (T)) -> T {
-  var result: T!
+func mainThread<T>(_ block: () -> T) -> T {
+  var result: T! // swiftlint:disable:this implicitly_unwrapped_optional
   mainThread {
     result = block()
   }
