@@ -2,9 +2,9 @@
 //  NavigationWitnessTests.swift
 //  Tempura
 //
-//  Created by Daniele Formichelli on 18/11/20.
-//  Copyright © 2020 Bending Spoons. All rights reserved.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Hydra
 import Tempura

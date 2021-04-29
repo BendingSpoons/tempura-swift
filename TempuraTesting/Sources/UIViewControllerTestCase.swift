@@ -1,9 +1,10 @@
 //
 //  UIViewControllerTestCase.swift
-//  TempuraTesting
+//  Tempura
 //
-//  Created by Andrea De Angelis on 05/05/2020.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import Tempura

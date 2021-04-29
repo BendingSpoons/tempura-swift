@@ -1,9 +1,10 @@
 //
 //  DataSource.swift
-//  TempuraElements
+//  Tempura
 //
-//  Created by Andrea De Angelis on 10/01/2018.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import UIKit

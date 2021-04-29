@@ -2,8 +2,9 @@
 //  LocalState.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 31/07/2017.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 /// The LocalState of a `ViewControllerWithLocalState`.
 ///

@@ -1,10 +1,10 @@
 //
-//  ModalViewController.swift
+//  NavigationUtilities.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 25/08/2017.
-//
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import UIKit
 

@@ -1,6 +1,6 @@
 //
-//  DemoTests.swift
-//  Katana
+//  DemoUITests.swift
+//  Tempura
 //
 //  Copyright © 2021 Bending Spoons.
 //  Distributed under the MIT License.

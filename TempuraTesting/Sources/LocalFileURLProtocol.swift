@@ -1,4 +1,12 @@
 //
+//  LocalFileURLProtocol.swift
+//  Tempura
+//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
+
+//
 //  LocalResourceURLProtocol.swift
 //  TempuraTesting
 //
