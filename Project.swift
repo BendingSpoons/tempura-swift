@@ -62,7 +62,9 @@ let demoTarget = Target(
   product: .app,
   bundleId: "com.bendingspoonsapps.Tempura.Demo",
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
-  infoPlist: .default,
+  infoPlist: .extendingDefault(with: [
+    "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots"
+  ]),
   sources: ["Demo/Sources/**"],
   dependencies: [
     .cocoapods(path: "."),
