@@ -10,7 +10,7 @@
 
 ## Tempura unreleased
 
-- Deprecate `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
+- Remove `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
 - Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 - Remove deprecated `dispatch` and `unsafeDispatch` for `NavigationSideEffect` on `AnyStore` and `AnySideEffectContext`. Katana's normal dispatch accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
 - Remove `__unsafeDispatch` and `__unsafeAwaitDispatch` for `NavigationSideEffect` on `ViewController`. The base methods accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
