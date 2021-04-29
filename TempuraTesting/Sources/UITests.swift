@@ -337,8 +337,13 @@ public enum UITests {
 
     let scaleFactor = Int(UIScreen.main.scale)
     let fileURL = dirURL.appendingPathComponent("\(description)@\(scaleFactor)x.jpg")
-    guard try? fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil) != nil else { return }
-    guard try? data.write(to: fileURL) != nil else { return }
+
+    do {
+      try fileManager.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
+      try data.write(to: fileURL)
+    } catch {
+      fatalError("Failed to create screenshot at \(fileURL)")
+    }
   }
 }
 
