@@ -65,13 +65,3 @@ public extension ViewControllerModellableView {
     }
   }
 }
-
-/// Implementation of iOS 11 safeAreaInsets accessible even to older iOS versions.
-/// see also https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area
-public extension UIView {
-  /// Implementation of safeAreaInsets in order to be accessible even to older iOS versions.
-  @available(*, deprecated, message: "Use `self.safeAreaInsets` instead")
-  var universalSafeAreaInsets: UIEdgeInsets {
-    return self.safeAreaInsets
-  }
-}
