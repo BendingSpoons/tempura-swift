@@ -1,9 +1,10 @@
 //
 //  XCTestCase+Promise.swift
-//  TempuraTests
+//  Tempura
 //
-//  Created by LorDisturbia on 28/04/21.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import Hydra

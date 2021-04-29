@@ -1,15 +1,15 @@
 //
-//  Router.swift
-//  WeightLoss
+//  Navigator.swift
+//  Tempura
 //
-//  Created by Andrea De Angelis on 30/06/2017.
-//  Copyright © 2017 Bending Spoons. All rights reserved.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
-import UIKit
-import Katana
 import Hydra
+import Katana
+import UIKit
 
 /// Main class that is handling the navigation in a Tempura app.
 ///
@@ -173,11 +173,11 @@ import Hydra
 
 public class Navigator {
   /// Completion closure typealias, needed by the navigator to know when a navigation has been handled.
-  public typealias Completion = () -> ()
-  
+  public typealias Completion = () -> Void
+
   private let routingQueue = DispatchQueue(label: "routing queue")
-  private var rootInstaller: RootInstaller!
-  private var window: UIWindow!
+  private var rootInstaller: RootInstaller! // swiftlint:disable:this implicitly_unwrapped_optional
+  private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
 
   /// Initializes and return a Navigator.
   public init() {}
@@ -208,92 +208,98 @@ public class Navigator {
   ///        return true
   ///      }
   ///    }
-  public func start(using rootInstaller: RootInstaller,
-                    in window: UIWindow,
-                    at rootElementIdentifier: RouteElementIdentifier) {
+  public func start(
+    using rootInstaller: RootInstaller,
+    in window: UIWindow,
+    at rootElementIdentifier: RouteElementIdentifier
+  ) {
     self.rootInstaller = rootInstaller
     self.window = window
     self.install(identifier: rootElementIdentifier, context: nil)
   }
+
   /// Generic version of the same method.
-  public func start<K: RawRepresentable>(using rootInstaller: RootInstaller,
-                                         in window: UIWindow,
-                                         at rootElementIdentifier: K) where K.RawValue == RouteElementIdentifier {
+  public func start<K: RawRepresentable>(
+    using rootInstaller: RootInstaller,
+    in window: UIWindow,
+    at rootElementIdentifier: K
+  ) where K.RawValue == RouteElementIdentifier {
     self.start(using: rootInstaller, in: window, at: rootElementIdentifier.rawValue)
   }
-  
+
   private func install(identifier: RouteElementIdentifier, context: Any?) {
     self.rootInstaller?.installRoot(identifier: identifier, context: context, completion: {
       self.window?.makeKeyAndVisible()
     })
   }
-  
+
   func changeRoute(newRoute: Route, animated: Bool, context: Any?) -> Promise<Void> {
-    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+    let promise = Promise<Void>(in: .background) { resolve, _, _ in
       let oldRoutables = UIApplication.shared.currentRoutables
       let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-      
+
       self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
         resolve(())
       }
     }
     return promise
   }
-  
+
   @discardableResult
   func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) -> Promise<Void> {
-    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+    let promise = Promise<Void>(in: .background) { resolve, _, _ in
       let oldRoutables = UIApplication.shared.currentRoutables
       let oldRoute = oldRoutables.map { $0.routeIdentifier }
       let newRoute: Route = oldRoute + elementsToShow
       let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
-      
+
       self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
         resolve(())
       }
     }
     return promise
   }
-  
+
   @discardableResult
   func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool = false) -> Promise<Void> {
-    let promise = Promise<Void>(in: .background) { resolve, reject, _ in
+    let promise = Promise<Void>(in: .background) { resolve, _, _ in
       let oldRoutables = UIApplication.shared.currentRoutables
       let oldRoute = oldRoutables.map { $0.routeIdentifier }
-      
+
       guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
         resolve(())
         return
       }
-      
-      let newRoute = Array(oldRoute[0..<start])
-      
+
+      let newRoute = Array(oldRoute[0 ..< start])
+
       let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute, atomic: atomic)
-      
+
       self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
         resolve(())
       }
     }
     return promise
   }
-  
+
   /// extract rounting changes to go from `old` to `new`.
   private static func routingChanges(from old: [Routable], new: Route, atomic: Bool = false) -> [RouteChange] {
     var routeChanges: [RouteChange] = []
-    
-    //find the common route between two routes
+
+    // find the common route between two routes
     let commonRouteIndex = Navigator.commonRouteIndexBetween(old: old, new: new)
     // if the common route is including all the old and the new Route there is nothing to do
-    if commonRouteIndex == old.count - 1 && commonRouteIndex == new.count - 1 {
+    if commonRouteIndex == old.count - 1, commonRouteIndex == new.count - 1 {
       return []
     }
-    
+
     // if there is no route in common, ask the UIApplication to handle that
     if commonRouteIndex < 0 {
+      // swiftlint:disable:next force_unwrapping
       let change = RouteChange.rootChange(from: old.first!.routeIdentifier, to: new.first!)
       return [change]
     }
-    
+
     // case 1 we need to HIDE elements because we are in a situation like this:
     // OLD: A -> B -> C
     // NEW: A
@@ -305,41 +311,45 @@ public class Navigator {
         let change = RouteChange.hide(routable: elementToHide)
         return [change]
       }
-      
-      let indexesToRemove = ((commonRouteIndex + 1)..<old.count).reversed()
-      
+
+      let indexesToRemove = (commonRouteIndex + 1 ..< old.count).reversed()
+
       for hideIndex in indexesToRemove {
         let elementToHide = old[hideIndex]
         let change = RouteChange.hide(routable: elementToHide)
         routeChanges.append(change)
       }
     }
-      // case 2 we need to SHOW elements because we are in a situation like this:
-      // OLD: A
-      // NEW: A -> B -> C
-      // show all the elements in the new route that were not in the old route
+    // case 2 we need to SHOW elements because we are in a situation like this:
+    // OLD: A
+    // NEW: A -> B -> C
+    // show all the elements in the new route that were not in the old route
     else if commonRouteIndex == old.count - 1 {
-      let indexesToAdd = (commonRouteIndex + 1)..<new.count
-      
+      let indexesToAdd = commonRouteIndex + 1 ..< new.count
+
       for showIndex in indexesToAdd {
         let elementToShow = new[showIndex]
         let change = RouteChange.show(elementToShow: elementToShow)
         routeChanges.append(change)
       }
     }
-      // case 3 we need to CHANGE elements because we are in a situation like this:
-      // OLD: A -> B -> C
-      // NEW: A -> D -> E
-      // change B with D
+    // case 3 we need to CHANGE elements because we are in a situation like this:
+    // OLD: A -> B -> C
+    // NEW: A -> D -> E
+    // change B with D
     else {
-      let change = RouteChange.change(routable: old[commonRouteIndex], from: old[commonRouteIndex + 1].routeIdentifier, to: new[commonRouteIndex + 1])
+      let change = RouteChange.change(
+        routable: old[commonRouteIndex],
+        from: old[commonRouteIndex + 1].routeIdentifier,
+        to: new[commonRouteIndex + 1]
+      )
       routeChanges.append(change)
     }
     return routeChanges
   }
-  
+
   // execute all the `changes` one at a time, asking to the routables on the hierarchy
-  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil, completion: (() -> ())? = nil) {
+  private func routeDidChange(changes: [RouteChange], isAnimated: Bool, context: Any? = nil, completion: (() -> Void)? = nil) {
     changes.forEach { routeChange in
       let semaphore = DispatchSemaphore(value: 0)
       // Dispatch all route changes onto this dedicated queue. This will ensure that
@@ -349,77 +359,89 @@ public class Navigator {
       // indicating that the navigation action has completed
       self.routingQueue.async {
         switch routeChange {
-        case .hide( let toHide):
+        case .hide(let toHide):
           DispatchQueue.main.async {
-            
             let routables = UIApplication.shared.currentRoutables
 
             guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
             }) else { semaphore.signal(); return }
-            
-            let askTo = Array(routables[0...indexToHide].reversed())
+
+            let askTo = Array(routables[0 ... indexToHide].reversed())
             let from = routables[indexToHide - 1].routeIdentifier
-            
+
             var handled = false
             for routable in askTo where !handled {
               guard !handled else { break }
-              handled = routable.hide(identifier: toHide.routeIdentifier,
-                                                from: from,
-                                                animated: isAnimated,
-                                                context: context,
-                                                completion: {
-                                                  semaphore.signal()
-              })
+              handled = routable.hide(
+                identifier: toHide.routeIdentifier,
+                from: from,
+                animated: isAnimated,
+                context: context,
+                completion: {
+                  semaphore.signal()
+                }
+              )
             }
-            
+
             if !handled {
               semaphore.signal()
-              fatalError("dismissal of the '\(toHide)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())")
+              fatalError(
+                // swiftlint:disable:next line_length
+                "dismissal of the '\(toHide)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute.reversed())"
+              )
             }
           }
-          
+
         case .show(let toShow):
           DispatchQueue.main.async {
-            
             let routables = UIApplication.shared.currentRoutables
             let askTo = routables.reversed()
 
-            let from = routables.last!.routeIdentifier
-            
+            let from = routables.last!.routeIdentifier // swiftlint:disable:this force_unwrapping
+
             var handled = false
             for routable in askTo where !handled {
-              handled = routable.show(identifier: toShow,
-                                                from: from,
-                                                animated: isAnimated,
-                                                context: context,
-                                                completion: {
-                                                  semaphore.signal()
-              })
+              handled = routable.show(
+                identifier: toShow,
+                from: from,
+                animated: isAnimated,
+                context: context,
+                completion: {
+                  semaphore.signal()
+                }
+              )
             }
-            
+
             if !handled {
-              handled = self.rootInstaller.installRoot(identifier: toShow,
-                                                       context: context,
-                                                       completion: {
-                                                        semaphore.signal()
-              })
+              handled = self.rootInstaller.installRoot(
+                identifier: toShow,
+                context: context,
+                completion: {
+                  semaphore.signal()
+                }
+              )
             }
-            
+
             if !handled {
               semaphore.signal()
-              fatalError("presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)")
+              fatalError(
+                // swiftlint:disable:next line_length
+                "presentation of the '\(toShow)' is not handled by any of the Routables in the current Route: \(UIApplication.shared.currentRoute)"
+              )
             }
           }
         case .change(let currentRoutable, let from, let to):
           DispatchQueue.main.async {
-            let _ = currentRoutable.change(from: from,
-                                           to: to,
-                                           animated: isAnimated,
-                                           context: context,
-                                           completion: {
-              semaphore.signal()
-            })
+            _ = currentRoutable.change(
+              from: from,
+              to: to,
+              animated: isAnimated,
+              context: context,
+              completion: {
+                semaphore.signal()
+              }
+            )
           }
         case .rootChange(_, let to):
           DispatchQueue.main.async {
@@ -430,7 +452,7 @@ public class Navigator {
           }
         }
         let result = semaphore.wait(timeout: .now() + .seconds(3))
-        
+
         if case .timedOut = result {
           print("stuck waiting for routing to complete. Ensure that you called the completion handler in each Routable element")
         }
@@ -438,27 +460,27 @@ public class Navigator {
       }
     }
   }
-  
+
   private static func commonRouteIndexBetween(old: [Routable], new: Route) -> Int {
     var commonRouteIndex: Int = -1
     var checkingCommonRouteIndex: Int = 0
-    while checkingCommonRouteIndex < old.count && checkingCommonRouteIndex < new.count &&
-      new[checkingCommonRouteIndex] == old[checkingCommonRouteIndex].routeIdentifier {
-        commonRouteIndex = checkingCommonRouteIndex
-        checkingCommonRouteIndex += 1
+    while checkingCommonRouteIndex < old.count, checkingCommonRouteIndex < new.count,
+          new[checkingCommonRouteIndex] == old[checkingCommonRouteIndex].routeIdentifier {
+      commonRouteIndex = checkingCommonRouteIndex
+      checkingCommonRouteIndex += 1
     }
     return commonRouteIndex
   }
-  
+
   enum RouteChange {
     // note that show cannot contain the ask array (like hide) because it needs to be computed at the momento
     // of the execution because in case of multiple show, the new routables are not in the window yet
     case show(elementToShow: RouteElementIdentifier)
-    
+
     case hide(routable: Routable)
-    
+
     case change(routable: Routable, from: RouteElementIdentifier, to: RouteElementIdentifier)
-    
+
     case rootChange(from: RouteElementIdentifier, to: RouteElementIdentifier)
   }
 }
@@ -473,15 +495,16 @@ extension UIApplication {
   }
 }
 
-public extension UIApplication {
+extension UIApplication {
   /// The routables in the visible hierarchy.
-  var currentRoutables: [Routable] {
+  public var currentRoutables: [Routable] {
     return self.currentViewControllers.compactMap {
       return $0 as? Routable
     }
   }
+
   /// The indentifiers of the routables in the visible hierarchy.
-  var currentRoutableIdentifiers: [RouteElementIdentifier] {
+  public var currentRoutableIdentifiers: [RouteElementIdentifier] {
     return self.currentRoutables.compactMap {
       return $0.routeIdentifier
     }
@@ -494,7 +517,6 @@ extension UIApplication {
   /// If you introduce a custom UIViewController like for instance a `SideMenuViewController`
   /// you need it to conform to the RouteInspectable protocol.
   var currentViewControllers: [UIViewController] {
-    
     let findViewControllers: () -> [UIViewController] = {
       guard let bottomViewController = UIApplication.shared.keyWindow?.rootViewController else { return [] }
       var controllers: [UIViewController] = []
@@ -513,7 +535,7 @@ extension UIApplication {
       }
       return controllers
     }
-    
+
     if !Thread.isMainThread {
       var vcs: [UIViewController] = []
       DispatchQueue.main.sync {
@@ -541,11 +563,11 @@ public protocol RouteInspectable: AnyObject {
 /// In a UINavigationController the next visible controller is the `topViewController`.
 extension UINavigationController: CustomRouteInspectables {
   public var nextRouteControllers: [UIViewController] {
-  var controllers: [UIViewController] = self.viewControllers
-   if let presentedVC = self.presentedViewController {
-     controllers.append(presentedVC)
-   }
-   return controllers
+    var controllers: [UIViewController] = self.viewControllers
+    if let presentedVC = self.presentedViewController {
+      controllers.append(presentedVC)
+    }
+    return controllers
   }
 }
 
@@ -554,11 +576,11 @@ extension UINavigationController: CustomRouteInspectables {
 extension UITabBarController: CustomRouteInspectables {
   public var nextRouteControllers: [UIViewController] {
     var controllers: [UIViewController] = []
-    
+
     if let selectedVC = self.selectedViewController {
       controllers.append(selectedVC)
     }
-    
+
     if let presentedVC = self.presentedViewController {
       controllers.append(presentedVC)
     }

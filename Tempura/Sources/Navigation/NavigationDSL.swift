@@ -2,8 +2,9 @@
 //  NavigationDSL.swift
 //  Tempura
 //
-//  Created by Mauro Bolis on 12/12/2017.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import UIKit
 
@@ -33,7 +34,8 @@ import UIKit
 ///
 public struct NavigationRequest: Hashable {
   fileprivate enum NavigationKind: Int {
-    case show, hide
+    case show
+    case hide
   }
 
   /// Represents a NavigationRequest to match a `Show` action dispatched.
@@ -58,18 +60,18 @@ public struct NavigationRequest: Hashable {
 
   private let source: String
   private let kind: NavigationKind
-  
+
   private init(source: String, kind: NavigationKind) {
     self.source = source
     self.kind = kind
   }
-  
+
   // Conformance to Hashable
   public func hash(into hasher: inout Hasher) {
     hasher.combine(self.source)
     hasher.combine(self.kind)
   }
-  
+
   fileprivate func canHandle(_ identifier: String, kind: NavigationKind) -> Bool {
     return self.source == identifier && kind == self.kind
   }
@@ -79,11 +81,11 @@ public struct NavigationRequest: Hashable {
     if l.kind != r.kind {
       return false
     }
-    
+
     if l.source != r.source {
       return false
     }
-    
+
     return true
   }
 }
@@ -91,10 +93,10 @@ public struct NavigationRequest: Hashable {
 extension NavigationRequest: CustomDebugStringConvertible {
   public var debugDescription: String {
     switch self.kind {
-      case .show:
-        return "Show(\(self.source))"
-      case .hide:
-        return "Hide(\(self.source))"
+    case .show:
+      return "Show(\(self.source))"
+    case .hide:
+      return "Hide(\(self.source))"
     }
   }
 }
@@ -155,14 +157,15 @@ public enum NavigationInstruction {
     /// While removing the targeted modal, remove also all the modals that it is presenting.
     case hard
   }
+
   /// Push the ViewController using `UINavigationController.pushViewController(:animated:)`.
   case push((_ context: Any?) -> UIViewController)
   /// Pop the ViewController using `UINavigationController.popViewController(animated:)`.
   case pop
-  
+
   /// Pops up to the root ViewController using `UINavigationcontroller.popToRootViewController(animated:)
   case popToRootViewController
-  
+
   /// Pops up to a ViewController using `UINavigationcontroller.popToViewController(:animated:)
   case popToViewController(identifier: RouteElementIdentifier)
 
@@ -185,11 +188,11 @@ public enum NavigationInstruction {
     from: RouteElementIdentifier,
     animated: Bool,
     context: Any?,
-    completion: @escaping RoutingCompletion) -> Bool {
-    
+    completion: @escaping RoutingCompletion
+  ) -> Bool {
     let handled: Bool
     switch self {
-    case let .push(vcClosure):
+    case .push(let vcClosure):
       let vc = vcClosure(context)
       self.handlePush(sourceViewController: sourceViewController, childVC: vc, animated: animated, completion: completion)
       handled = true
@@ -202,135 +205,163 @@ public enum NavigationInstruction {
       self.handlePopToRootViewController(sourceViewController: sourceViewController, animated: animated, completion: completion)
       handled = true
 
-    case let .popToViewController(destinationIdentifier):
-      guard let destinationViewController = UIApplication.shared.currentViewControllers.last(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier }) else {
+    case .popToViewController(let destinationIdentifier):
+      guard let destinationViewController = UIApplication.shared.currentViewControllers
+        .last(where: { ($0 as? Routable)?.routeIdentifier == destinationIdentifier }) else {
         fatalError("PopToViewController requested to an unknown destination view controller")
       }
 
-      self.handlePopToViewController(sourceViewController: sourceViewController, destinationViewController: destinationViewController, animated: animated, completion: completion)
+      self.handlePopToViewController(
+        sourceViewController: sourceViewController,
+        destinationViewController: destinationViewController,
+        animated: animated,
+        completion: completion
+      )
       handled = true
 
-    case let .presentModally(vcClosure):
+    case .presentModally(let vcClosure):
       let vc = vcClosure(context)
-      self.handlePresentModally(sourceViewController: sourceViewController, childVC: vc, animated: animated, completion: completion)
+      self.handlePresentModally(
+        sourceViewController: sourceViewController,
+        childVC: vc,
+        animated: animated,
+        completion: completion
+      )
       handled = true
 
-    case let .dismissModally(behaviour):
-      self.handleDismissModally(sourceViewController: sourceViewController, animated: animated, behaviour: behaviour, completion: completion)
+    case .dismissModally(let behaviour):
+      self.handleDismissModally(
+        sourceViewController: sourceViewController,
+        animated: animated,
+        behaviour: behaviour,
+        completion: completion
+      )
       handled = true
 
-    case let .custom(closure):
+    case .custom(let closure):
       closure(identifier, from, animated, context, completion)
       handled = true
 
-    case let .optionalCustom(closure):
+    case .optionalCustom(let closure):
       handled = closure(identifier, from, animated, context, completion)
     }
 
     return handled
   }
-  
+
   private func handlePush(
     sourceViewController: UIViewController,
     childVC: UIViewController,
     animated: Bool,
-    completion: @escaping RoutingCompletion) {
-    
+    completion: @escaping RoutingCompletion
+  ) {
     if let navVC = sourceViewController as? UINavigationController {
       navVC.pushViewController(childVC, animated: animated)
       completion()
       return
     }
-    
+
     if let navVC = sourceViewController.navigationController {
       navVC.pushViewController(childVC, animated: animated)
       completion()
       return
     }
-    
-    fatalError("Push requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+
+    fatalError(
+      // swiftlint:disable:next line_length
+      "Push requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
+    )
   }
-  
+
   private func handlePopToRootViewController(
     sourceViewController: UIViewController,
     animated: Bool,
-    completion: @escaping RoutingCompletion) {
-    
+    completion: @escaping RoutingCompletion
+  ) {
     if let navVC = sourceViewController as? UINavigationController {
       navVC.popToRootViewController(animated: animated)
       completion()
       return
     }
-    
+
     if let navVC = sourceViewController.navigationController {
       navVC.popToRootViewController(animated: animated)
       completion()
       return
     }
-    
-    fatalError("PopToRootViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+
+    fatalError(
+      // swiftlint:disable:next line_length
+      "PopToRootViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
+    )
   }
-  
+
   private func handlePopToViewController(
     sourceViewController: UIViewController,
     destinationViewController: UIViewController,
     animated: Bool,
-    completion: @escaping RoutingCompletion) {
-    
+    completion: @escaping RoutingCompletion
+  ) {
     if let navVC = sourceViewController as? UINavigationController {
       navVC.popToViewController(destinationViewController, animated: animated)
       completion()
       return
     }
-    
+
     if let navVC = sourceViewController.navigationController {
       navVC.popToViewController(destinationViewController, animated: animated)
       completion()
       return
     }
-    
-    fatalError("PopToViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+
+    fatalError(
+      // swiftlint:disable:next line_length
+      "PopToViewController requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
+    )
   }
-  
+
   private func handlePop(
     sourceViewController: UIViewController,
     animated: Bool,
-    completion: @escaping RoutingCompletion) {
-    
+    completion: @escaping RoutingCompletion
+  ) {
     if let navVC = sourceViewController as? UINavigationController {
       navVC.popViewController(animated: animated)
       completion()
       return
     }
-    
+
     if let navVC = sourceViewController.navigationController {
       navVC.popViewController(animated: animated)
       completion()
       return
     }
-    
-    fatalError("Pop requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack")
+
+    fatalError(
+      // swiftlint:disable:next line_length
+      "Pop requested on a source view controller that is neither a UINavigationController instance nor part of a UINavigationController's stack"
+    )
   }
-  
+
   private func handlePresentModally(
-      sourceViewController: UIViewController,
-      childVC: UIViewController,
-      animated: Bool,
-      completion: @escaping RoutingCompletion) {
-    
+    sourceViewController: UIViewController,
+    childVC: UIViewController,
+    animated: Bool,
+    completion: @escaping RoutingCompletion
+  ) {
     sourceViewController.recursivePresent(childVC, animated: animated, completion: completion)
   }
-  
+
   private func handleDismissModally(
     sourceViewController: UIViewController,
     animated: Bool,
     behaviour: NavigationInstruction.ModalDismissBehaviour,
-    completion: @escaping RoutingCompletion) {
-    
+    completion: @escaping RoutingCompletion
+  ) {
     switch behaviour {
     case .soft:
       sourceViewController.softDismiss(animated: animated, completion: completion)
-    
+
     case .hard:
       sourceViewController.dismiss(animated: animated, completion: completion)
     }
@@ -383,23 +414,21 @@ public protocol RoutableWithConfiguration: Routable {
   var navigationConfiguration: [NavigationRequest: NavigationInstruction] { get }
 }
 
-public extension RoutableWithConfiguration where Self: UIViewController {
-  
+extension RoutableWithConfiguration where Self: UIViewController {
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
   /// implementing automatically looking at the `navigationConfiguration`.
-  func show(
+  public func show(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
     animated: Bool,
     context: Any?,
-    completion: @escaping RoutingCompletion) -> Bool {
-    
-    
+    completion: @escaping RoutingCompletion
+  ) -> Bool {
     for (source, instruction) in self.navigationConfiguration {
       guard source.canHandle(identifier, kind: .show) else {
         continue
       }
-      
+
       let handled = instruction.handle(
         sourceViewController: self,
         identifier: identifier,
@@ -413,24 +442,24 @@ public extension RoutableWithConfiguration where Self: UIViewController {
         return true
       }
     }
-   
+
     return false
   }
-  
+
   /// Method of the `Routable` protocol that the `RoutableWithConfiguration` is
   /// implementing automatically looking at the `navigationConfiguration`.
-  func hide(
+  public func hide(
     identifier: RouteElementIdentifier,
     from: RouteElementIdentifier,
     animated: Bool,
     context: Any?,
-    completion: @escaping RoutingCompletion) -> Bool {
-    
+    completion: @escaping RoutingCompletion
+  ) -> Bool {
     for (source, option) in self.navigationConfiguration {
       guard source.canHandle(identifier, kind: .hide) else {
         continue
       }
-      
+
       let handled = option.handle(
         sourceViewController: self,
         identifier: identifier,
@@ -444,7 +473,7 @@ public extension RoutableWithConfiguration where Self: UIViewController {
         return true
       }
     }
-    
+
     return false
   }
 }

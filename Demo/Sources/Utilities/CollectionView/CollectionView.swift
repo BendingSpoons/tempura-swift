@@ -1,9 +1,10 @@
 //
 //  CollectionView.swift
-//  TempuraElements
+//  Tempura
 //
-//  Created by Andrea De Angelis on 10/01/2018.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import UIKit
@@ -16,13 +17,16 @@ import UIKit
 /// (using 'performBatchUpdates()' on the changes)
 
 open class CollectionView<Cell: UICollectionViewCell, S: Source>: UICollectionView,
-UICollectionViewDelegateFlowLayout  where Cell: ConfigurableCell & SizeableCell, Cell.VM == S.SourceType {
-  
-  public typealias ItemSelectionHandler = (IndexPath) -> ()
-  
-  public var customDataSource: DataSource<S, Cell>!
-  
+  UICollectionViewDelegateFlowLayout where Cell: ConfigurableCell & SizeableCell, Cell.VM == S.SourceType {
+  public typealias ItemSelectionHandler = (IndexPath) -> Void
+
+  public var customDataSource: DataSource<S, Cell>! // swiftlint:disable:this implicitly_unwrapped_optional
+
   open var source: S? {
+    get {
+      return self.customDataSource.source
+    }
+
     set {
       // we are not updating the `customDataSource` right away in order to support `performBatchUpdates`
       // given that right before the update the system will call the `numberOfItemsInSection` method of the delegate
@@ -30,17 +34,13 @@ UICollectionViewDelegateFlowLayout  where Cell: ConfigurableCell & SizeableCell,
       self.oldSource = self.customDataSource.source
       self.update(from: self.oldSource, new: newValue)
     }
-    
-    get {
-      return self.customDataSource.source
-    }
   }
-  
+
   // old source used in the diff updates
   private var oldSource: S?
-  
+
   open var useDiffs: Bool
-  
+
   public init(frame: CGRect, layout: UICollectionViewLayout, source: S? = nil, useDiffs: Bool = false) {
     self.useDiffs = useDiffs
     super.init(frame: frame, collectionViewLayout: layout)
@@ -49,40 +49,42 @@ UICollectionViewDelegateFlowLayout  where Cell: ConfigurableCell & SizeableCell,
     self.delegate = self
     self.source = source
   }
-  
-  public required init?(coder aDecoder: NSCoder) {
+
+  public required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   private func update(from old: S?, new: S?) {
     guard let old = old, self.useDiffs else {
       self.customDataSource.source = new
       self.reloadData()
       return
     }
-    
+
     self.customDataSource.source = new
     // we are using `performBatchUpdates` here, we will update the customDataSource only inside the callback
     // because we still need the old dataSource in the first stage od the `performBatchUpdates`
     new?.diffUpdate(for: self, old: old)
   }
-  
+
   // MARK: - Interactions
+
   open var didTapItem: ItemSelectionHandler?
-  open var configureInteractions: ((Cell, IndexPath) -> ())? {
+  open var configureInteractions: ((Cell, IndexPath) -> Void)? {
     didSet {
       self.customDataSource.configureInteractions = self.configureInteractions
     }
   }
-  open var didTapEdit: ((String) -> ())?
-  
-  
+
+  open var didTapEdit: ((String) -> Void)?
+
   // MARK: - UICollectionViewDelegate
-  open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+  open func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     self.didTapItem?(indexPath)
   }
-  
-  open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+  open func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let vm = source?.data(section: indexPath.section, row: indexPath.row) else { return .zero }
     return Cell.size(for: vm)
   }

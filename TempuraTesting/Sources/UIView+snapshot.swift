@@ -2,8 +2,9 @@
 //  UIView+snapshot.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 19/04/2018.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import UIKit
 
@@ -11,38 +12,8 @@ import UIKit
 extension UIView {
   func snapshot() -> Data? {
     let window: UIWindow?
-    var removeFromSuperview: Bool = false
-    
-    if let w = self as? UIWindow {
-      window = w
-    } else if let w = self.window {
-      window = w
-    } else {
-      window = UIApplication.shared.keyWindow
-      window?.addSubview(self)
-      removeFromSuperview = true
-    }
-    
-    self.layoutIfNeeded()
-    
-    let snapshot = self.takeSnapshot()
-    
-    if removeFromSuperview {
-      self.removeFromSuperview()
-    }
-    
-    return snapshot
-  }
-  
-  func snapshotAsync(viewToWaitFor: UIView? = nil,
-                     configureClosure: (() -> Void)?,
-                     isViewReadyClosure: @escaping (UIView) -> Bool,
-                     shouldRenderSafeArea: Bool,
-                     keyboardVisibility: UITests.KeyboardVisibility,
-                     _ completionClosure: @escaping (Data?) -> Void) {
-    let window: UIWindow?
-    var removeFromSuperview: Bool = false
-    
+    var removeFromSuperview = false
+
     if let w = self as? UIWindow {
       window = w
     } else if let w = self.window {
@@ -54,9 +25,41 @@ extension UIView {
     }
 
     self.layoutIfNeeded()
-    
+
+    let snapshot = self.takeSnapshot()
+
+    if removeFromSuperview {
+      self.removeFromSuperview()
+    }
+
+    return snapshot
+  }
+
+  func snapshotAsync(
+    viewToWaitFor: UIView? = nil,
+    configureClosure: (() -> Void)?,
+    isViewReadyClosure: @escaping (UIView) -> Bool,
+    shouldRenderSafeArea: Bool,
+    keyboardVisibility: UITests.KeyboardVisibility,
+    _ completionClosure: @escaping (Data?) -> Void
+  ) {
+    let window: UIWindow?
+    var removeFromSuperview = false
+
+    if let w = self as? UIWindow {
+      window = w
+    } else if let w = self.window {
+      window = w
+    } else {
+      window = UIApplication.shared.keyWindow
+      window?.addSubview(self)
+      removeFromSuperview = true
+    }
+
+    self.layoutIfNeeded()
+
     configureClosure?()
-    
+
     self.snapshotAsyncImpl(
       viewToWaitFor: viewToWaitFor,
       isViewReadyClosure: isViewReadyClosure,
@@ -66,17 +69,18 @@ extension UIView {
       if removeFromSuperview {
         self.removeFromSuperview()
       }
-      
+
       completionClosure(snapshot)
     }
   }
-  
-  func snapshotAsyncImpl(viewToWaitFor: UIView? = nil,
-                         isViewReadyClosure: @escaping (UIView) -> Bool,
-                         shouldRenderSafeArea: Bool,
-                         keyboardVisibility: UITests.KeyboardVisibility,
-                         _ completionClosure: @escaping (Data?) -> Void) {
-    
+
+  func snapshotAsyncImpl(
+    viewToWaitFor: UIView? = nil,
+    isViewReadyClosure: @escaping (UIView) -> Bool,
+    shouldRenderSafeArea: Bool,
+    keyboardVisibility: UITests.KeyboardVisibility,
+    _ completionClosure: @escaping (Data?) -> Void
+  ) {
     let viewToWaitFor = viewToWaitFor ?? self
     guard isViewReadyClosure(viewToWaitFor) else {
       DispatchQueue.main.async {
@@ -88,14 +92,17 @@ extension UIView {
           completionClosure
         )
       }
-      
+
       return
     }
-    
+
     completionClosure(self.takeSnapshot(shouldRenderSafeArea: shouldRenderSafeArea, keyboardVisibility: keyboardVisibility))
   }
-  
-  private func takeSnapshot(shouldRenderSafeArea: Bool = false, keyboardVisibility: UITests.KeyboardVisibility = .hidden) -> Data? {
+
+  private func takeSnapshot(
+    shouldRenderSafeArea: Bool = false,
+    keyboardVisibility: UITests.KeyboardVisibility = .hidden
+  ) -> Data? {
     let imageRenderer = UIGraphicsImageRenderer(bounds: .init(origin: .zero, size: self.bounds.size))
     let snapshot = imageRenderer.jpegData(withCompressionQuality: 0.75) { context in
       let cgContext = context.cgContext
@@ -119,7 +126,6 @@ extension UIView {
       renderSafeAreaIfNeeded(shouldRenderSafeArea: shouldRenderSafeArea, context: cgContext)
 
       renderKeyboardIfNeeded(keyboardVisibility: keyboardVisibility, context: cgContext)
-
     }
     return snapshot
   }

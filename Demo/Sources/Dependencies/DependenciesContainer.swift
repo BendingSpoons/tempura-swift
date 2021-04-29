@@ -2,9 +2,9 @@
 //  DependenciesContainer.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 24/07/2017.
-//
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Katana
 import Tempura
@@ -12,8 +12,8 @@ import Tempura
 final class DependenciesContainer: NavigationProvider {
   var dispatch: AnyDispatch
   var getState: GetState
-  var navigator: Navigator = Navigator()
-  
+  var navigator = Navigator()
+
   required init(
     dispatch: @escaping AnyDispatch,
     getState: @escaping GetState

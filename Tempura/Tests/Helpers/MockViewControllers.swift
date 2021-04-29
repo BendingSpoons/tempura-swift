@@ -1,9 +1,10 @@
 //
 //  MockViewControllers.swift
-//  TempuraTests
+//  Tempura
 //
-//  Created by LorDisturbia on 28/04/21.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Tempura
 import UIKit
@@ -33,7 +34,7 @@ struct TestViewModel: ViewModelWithState {
   var counter: Int = 0
 
   init?(state: MockAppState) {
-    guard let _ = state.dataFromAPIRequest else { return nil }
+    guard state.dataFromAPIRequest != nil else { return nil }
     self.counter = state.counter
   }
 

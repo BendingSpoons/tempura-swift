@@ -1,6 +1,6 @@
 //
-//  DemoTests.swift
-//  Katana
+//  DemoUITests.swift
+//  Tempura
 //
 //  Copyright © 2021 Bending Spoons.
 //  Distributed under the MIT License.
@@ -14,7 +14,6 @@ import XCTest
 @testable import Demo
 
 class ScreenTests: XCTestCase, ViewTestCase {
-//
   typealias V = AddItemView
 
   // First test
@@ -68,9 +67,11 @@ class ScreenTests: XCTestCase, ViewTestCase {
       ],
       context: UITests.Context<AddItemView>(
         container: UITests.Container.tabBarController,
-        hooks: [UITests.Hook.viewDidLoad: { view in
-          view.viewController?.automaticallyAdjustsScrollViewInsets = true
-        }]
+        hooks: [
+          UITests.Hook.viewDidLoad: { view in
+            view.viewController?.automaticallyAdjustsScrollViewInsets = true
+          },
+        ]
       )
     )
   }

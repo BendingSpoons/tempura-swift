@@ -5,11 +5,28 @@
 //  Copyright © 2021 Bending Spoons.
 //  Distributed under the MIT License.
 //  See the LICENSE file for more information.
+
 import ProjectDescription
 
 let iOSTargetVersion = "11.0"
 
-// MARK: - Tempura 
+// MARK: - Actions
+
+let actions: [TargetAction] = [
+  .pre(
+    tool: "swiftlint",
+    arguments: ["--lenient"],
+    name: "SwiftLint"
+  ),
+  .pre(
+    tool: "swiftformat",
+    arguments: ["."],
+    name: "SwiftFormat"
+  ),
+]
+
+// MARK: - Tempura
+
 let tempuraMainTarget = Target(
   name: "Tempura",
   platform: .iOS,
@@ -18,8 +35,9 @@ let tempuraMainTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Tempura/Sources/**"],
+  actions: actions,
   dependencies: [
-    .cocoapods(path: ".")
+    .cocoapods(path: "."),
   ]
 )
 
@@ -31,12 +49,14 @@ let tempuraTestsTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Tempura/Tests/**"],
+  actions: actions,
   dependencies: [
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ]
 )
 
 // MARK: - TempuraTesting
+
 let tempuraTestingTarget = Target(
   name: "TempuraTesting",
   platform: .iOS,
@@ -45,17 +65,19 @@ let tempuraTestingTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["TempuraTesting/Sources/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ],
   settings: Settings(base: [
     "ENABLE_TESTING_SEARCH_PATHS": "YES",
-    "OTHER_LDFLAGS": "$(inherited)"
+    "OTHER_LDFLAGS": "$(inherited)",
   ])
 )
 
 // MARK: - Demo
+
 let demoTarget = Target(
   name: "Demo",
   platform: .iOS,
@@ -63,12 +85,13 @@ let demoTarget = Target(
   bundleId: "com.bendingspoonsapps.Tempura.Demo",
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .extendingDefault(with: [
-    "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots"
+    "UI_TEST_DIR": "$(SOURCE_ROOT)/Demo/UITests/Screenshots",
   ]),
   sources: ["Demo/Sources/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
-    .target(name: tempuraMainTarget.name)
+    .target(name: tempuraMainTarget.name),
   ]
 )
 
@@ -80,14 +103,16 @@ let demoUITestTarget = Target(
   deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.iphone, .ipad]),
   infoPlist: .default,
   sources: ["Demo/UITests/**"],
+  actions: actions,
   dependencies: [
     .cocoapods(path: "."),
     .target(name: demoTarget.name),
-    .target(name: tempuraTestingTarget.name)
+    .target(name: tempuraTestingTarget.name),
   ]
 )
 
 // MARK: - Project Definition
+
 let project = Project(
   name: "Tempura",
   organizationName: "BendingSpoons",
@@ -96,7 +121,7 @@ let project = Project(
     tempuraTestsTarget,
     tempuraTestingTarget,
     demoTarget,
-    demoUITestTarget
+    demoUITestTarget,
   ],
   schemes: [
     .init(

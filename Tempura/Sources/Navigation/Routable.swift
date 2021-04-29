@@ -1,10 +1,10 @@
 //
 //  Routable.swift
-//  WeightLoss
+//  Tempura
 //
-//  Created by Andrea De Angelis on 30/06/2017.
-//  Copyright © 2017 Bending Spoons. All rights reserved.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import UIKit
@@ -14,7 +14,7 @@ public typealias RouteElementIdentifier = String
 /// A path to identify a specific navigation state.
 public typealias Route = [RouteElementIdentifier]
 /// Closure called when a navigation action is completed.
-public typealias RoutingCompletion = () -> ()
+public typealias RoutingCompletion = () -> Void
 
 /// A Routable is a `ViewController` that takes active part to the execution of a navigation action.
 /// This is intended to be used in the few cases the `RoutableWithConfiguration` is not enough.
@@ -75,12 +75,12 @@ public protocol Routable: AnyObject {
   ///    }
   /// ```
   var routeIdentifier: RouteElementIdentifier { get }
-  
+
   /// When a `Show` action is dispatched, the `Navigator` can ask this Routable
   /// to show another Routable identified by `identifier` calling this method.
   /// You must call the completion callback as soon as the navigation is completed.
   /// Return `true` if this Routable is handling the action, `false` otherwise.
-  
+
   /// ```swift
   ///    extension TodoListViewController: Routable {
   ///
@@ -96,16 +96,18 @@ public protocol Routable: AnyObject {
   ///      }
   ///    }
   /// ```
-  func show(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool
-  
+  func show(
+    identifier: RouteElementIdentifier,
+    from: RouteElementIdentifier,
+    animated: Bool,
+    context: Any?,
+    completion: @escaping RoutingCompletion
+  ) -> Bool
+
   /// When a `Hide` action is dispatched, the `Navigator` can ask this Routable
   /// to hide itself or another Routable identified by `identifier` calling this method.
   /// Return `true` if this Routable is handling the action, `false` otherwise.
-  
+
   /// ```swift
   ///    extension TodoListViewController: Routable {
   ///
@@ -123,45 +125,60 @@ public protocol Routable: AnyObject {
   ///      }
   ///    }
   /// ```
-  func hide(identifier: RouteElementIdentifier,
-            from: RouteElementIdentifier,
-            animated: Bool,
-            context: Any?,
-            completion: @escaping RoutingCompletion) -> Bool
-  
+  func hide(
+    identifier: RouteElementIdentifier,
+    from: RouteElementIdentifier,
+    animated: Bool,
+    context: Any?,
+    completion: @escaping RoutingCompletion
+  ) -> Bool
+
   /// When a `Navigate` action is dispatched, the `Navigator` can ask this Routable
   /// to hide/show itself or another Routable identified by `identifier` calling this method.
   /// Return `true` if this Routable is handling the action, `false` otherwise.
-  func change(from: RouteElementIdentifier,
-                          to: RouteElementIdentifier,
-                          animated: Bool,
-                          context: Any?,
-                          completion: @escaping RoutingCompletion)
+  func change(
+    from: RouteElementIdentifier,
+    to: RouteElementIdentifier,
+    animated: Bool,
+    context: Any?,
+    completion: @escaping RoutingCompletion
+  )
 }
 
-public extension Routable {
-  
-  func change(from: RouteElementIdentifier,
-                          to: RouteElementIdentifier,
-                          animated: Bool,
-                          context: Any?,
-                          completion: @escaping RoutingCompletion) {
-    fatalError("This Routable element cannot change the navigation from \"\(from)\" to \"\(to)\", the implementation of \(#function) is missing")
+extension Routable {
+  /// Change a route element
+  public func change(
+    from: RouteElementIdentifier,
+    to: RouteElementIdentifier,
+    animated _: Bool,
+    context _: Any?,
+    completion _: @escaping RoutingCompletion
+  ) {
+    fatalError(
+      // swiftlint:disable:next line_length
+      "This Routable element cannot change the navigation from \"\(from)\" to \"\(to)\", the implementation of \(#function) is missing"
+    )
   }
-  
-  func show(identifier: RouteElementIdentifier,
-                             from: RouteElementIdentifier,
-                             animated: Bool,
-                             context: Any?,
-                             completion: @escaping RoutingCompletion) -> Bool {
+
+  /// Show a route element
+  public func show(
+    identifier _: RouteElementIdentifier,
+    from _: RouteElementIdentifier,
+    animated _: Bool,
+    context _: Any?,
+    completion _: @escaping RoutingCompletion
+  ) -> Bool {
     return false
   }
-  
-  func hide(identifier: RouteElementIdentifier,
-                             from: RouteElementIdentifier,
-                             animated: Bool,
-                             context: Any?,
-                             completion: @escaping RoutingCompletion) -> Bool {
+
+  /// Hide a route element
+  public func hide(
+    identifier _: RouteElementIdentifier,
+    from _: RouteElementIdentifier,
+    animated _: Bool,
+    context _: Any?,
+    completion _: @escaping RoutingCompletion
+  ) -> Bool {
     return false
   }
 }

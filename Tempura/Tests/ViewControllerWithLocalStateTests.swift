@@ -1,9 +1,10 @@
 //
 //  ViewControllerWithLocalStateTests.swift
-//  TempuraTests
+//  Tempura
 //
-//  Created by LorDisturbia on 28/04/21.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Katana
 import XCTest
@@ -38,7 +39,7 @@ class ViewControllerWithLocalStateTests: XCTestCase {
     XCTAssertEqual(testVC.rootView.model?.localCounter, 11)
   }
 
-  func testViewControllerWithLocalState_whenLocalStateChanges_whenViewControllerDisconnected_viewModelIsPartiallyUpdated() throws {
+  func testViewControllerWithLocalState_whenLocalStateChangesAndViewControllerDisconnected_viewModelIsPartiallyUpdated() throws {
     let store = Store<MockAppState, EmptySideEffectDependencyContainer>.mock()
     let testVC = TestViewControllerWithLocalState(store: store, connected: true)
     testVC.viewWillAppear(true)
@@ -68,7 +69,6 @@ class ViewControllerWithLocalStateTests: XCTestCase {
   }
 }
 
-
 // MARK: - Helpers
 
 extension ViewControllerWithLocalStateTests {
@@ -77,7 +77,7 @@ extension ViewControllerWithLocalStateTests {
   }
 
   struct TestViewModelWithLocalState: ViewModelWithLocalState {
-    var counter: Int? = nil
+    var counter: Int?
     var localCounter: Int = 0
 
     init(state: MockAppState?, localState: TestLocalState) {
@@ -139,9 +139,8 @@ extension ViewControllerWithLocalStateTests {
       super.init(store: store, localState: localState, connected: connected)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
   }
 }
-

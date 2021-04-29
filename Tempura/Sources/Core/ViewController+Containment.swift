@@ -2,8 +2,9 @@
 //  ViewController+Containment.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 25/10/2018.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import UIKit
 
@@ -26,11 +27,10 @@ extension ViewController {
     in view: ContainerView,
     duration: Double = 0.3,
     options: UIView.AnimationOptions = [.transitionCrossDissolve],
-    completion: (() -> ())? = nil
+    completion: (() -> Void)? = nil
   ) {
-    guard
-      let lastView = view.subviews.last,
-      let lastViewVC = (lastView as? AnyViewControllerModellableView)?.viewController
+    guard let lastView = view.subviews.last,
+          let lastViewVC = (lastView as? AnyViewControllerModellableView)?.viewController
     else {
       return
     }
@@ -56,7 +56,7 @@ extension ViewController {
 
   /// Remove self as child ViewController of parent
   public func remove() {
-    guard let _ = self.parent else { return }
+    guard self.parent != nil else { return }
     self.willMove(toParent: nil)
     self.removeFromParent()
     self.rootView.removeFromSuperview()
@@ -68,9 +68,8 @@ extension ViewController {
 /// A View used to do ViewController containment
 /// This is the View that will contain the View of the managed ViewController
 public class ContainerView: UIView {
-  
   /// See `UIView.layoutSubviews()`
-  public override func layoutSubviews() {
+  override public func layoutSubviews() {
     super.layoutSubviews()
     self.subviews.forEach {
       $0.frame = self.bounds

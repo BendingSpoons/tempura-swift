@@ -2,9 +2,9 @@
 //  NavigationWitness.swift
 //  Tempura
 //
-//  Created by Daniele Formichelli on 18/11/20.
-//  Copyright © 2020 Bending Spoons. All rights reserved.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Hydra
 import Katana
@@ -141,7 +141,7 @@ extension NavigationWitness {
       self.requests = initialValue
     }
 
-    required public init(arrayLiteral elements: NavigationRequest...) {
+    public required init(arrayLiteral elements: NavigationRequest...) {
       self.requests = elements
     }
 

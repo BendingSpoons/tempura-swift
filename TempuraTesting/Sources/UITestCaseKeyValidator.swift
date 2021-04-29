@@ -1,9 +1,10 @@
 //
 //  UITestCaseKeyValidator.swift
-//  TempuraTesting
+//  Tempura
 //
-//  Created by Rouven Strauss on 07/01/2021.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 

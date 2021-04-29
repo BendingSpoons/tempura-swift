@@ -2,9 +2,9 @@
 //  ViewModelWithLocalState.swift
 //  Tempura
 //
-//  Created by Andrea De Angelis on 31/07/2017.
-//
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import Katana
@@ -40,17 +40,17 @@ import Katana
 
 public protocol ViewModelWithLocalState: ViewModelWithState {
   /// The type of the LocalState for this ViewModel
-  //associatedtype S: State
+  // associatedtype S: State
   associatedtype SS where S == SS
   associatedtype LS: LocalState
-  
+
   /// Instantiate a ViewModelWithLocalState given the Katana app state and the `LocalState`.
   init?(state: SS?, localState: LS)
 }
 
-public extension ViewModelWithLocalState {
+extension ViewModelWithLocalState {
   /// Do not use this, use the `ViewModelWithLocalState.init(state:localState:)` instead.
-  init?(state: SS) {
+  public init?(state _: SS) {
     fatalError("use `init(state: S, localState: LS)` instead")
   }
 }
