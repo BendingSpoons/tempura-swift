@@ -5,10 +5,6 @@ use_frameworks!
 
 target 'Tempura' do
   platform :ios, '11.0'
-
-  # TODO: Remove me
-  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift', :branch => 'release/6.0.0'
-
   podspec
 
   target 'TempuraTests' do
@@ -24,8 +20,7 @@ end
 target 'Demo' do
   platform :ios, '11.0'
 
-  # TODO: fix me
-  pod 'Katana', :git => 'https://github.com/BendingSpoons/katana-swift', :branch => 'release/6.0.0'
+  pod 'Katana', '>= 6.0', '< 7'
   
   pod 'DeepDiff', '= 2.3.1'
   pod 'PinLayout', '= 1.9.2'

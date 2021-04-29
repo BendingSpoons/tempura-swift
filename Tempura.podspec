@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.dependency 'HydraAsync', '>= 2.0.6', '< 3'
-  # s.dependency 'Katana', '>= 6.0', '< 7' # TODO: Restore me
+  s.dependency 'Katana', '>= 6.0', '< 7'
 
   s.ios.source_files = [
     'Tempura/Sources/**/*.swift',
