@@ -22,10 +22,6 @@ import Tempura
  
  Note that this is a protocol as Xcode fails to recognize methods of XCTestCase's subclasses that are written in Swift.
  */
-
-@available(*, deprecated, message: "`UITestCase` has been renamed to `ViewTestCase`")
-typealias UITestCase = ViewTestCase
-
 public protocol ViewTestCase {
   associatedtype V: UIView & ViewControllerModellableView
 
