@@ -8,13 +8,22 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
+    <a name="//apple_ref/swift/Section/Classes" class="dashAnchor"></a>
     <a title="Classes  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -32,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Navigator.html">Navigator</a>
@@ -65,7 +77,7 @@
                 <a href="Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/UIView.html">UIView</a>
+                <a href="Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/UIViewController.html">UIViewController</a>
@@ -82,6 +94,9 @@
                 <a href="Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -91,6 +106,9 @@
                 <a href="Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -98,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/View.html">View</a>
@@ -126,10 +147,10 @@
                 <a href="Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/Show.html">Show</a>
@@ -147,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -190,7 +214,8 @@
 <p>In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
 pixels on the screen and to keep them updated when the state changes.
 These are ViewController, <code><a href="Protocols/ViewModelWithState.html">ViewModelWithState</a></code> and <code><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code>.
-The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each screen of your UI.</p>
+The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each
+screen of your UI.</p>
 <pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
      <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
    <span class="p">}</span>
@@ -306,20 +331,48 @@ set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt"><a href="Protocols/AnyViewController.html">AnyViewController</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt"><a href="Protocols/AnyViewController.html">AnyViewController</a></span> <span class="k">where</span> <span class="kt">V</span> <span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">V</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L157-L344">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L161-L363">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@Tempura@objc(cs)ContainerView"></a>
+                    <a name="//apple_ref/swift/Class/ContainerView" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@Tempura@objc(cs)ContainerView">ContainerView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A View used to do ViewController containment
+This is the View that will contain the View of the managed ViewController</p>
+
+                        <a href="Classes/ContainerView.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ContainerView</span> <span class="p">:</span> <span class="kt">UIView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController+Containment.swift#L70-L78">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -441,12 +494,13 @@ for more details.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewControllerWithLocalState</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Classes/ViewController.html">ViewController</a></span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span>
+  <span class="k">where</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">:</span> <span class="kt"><a href="Protocols/ViewModelWithLocalState.html">ViewModelWithLocalState</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewControllerWithLocalState.swift#L127-L198">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewControllerWithLocalState.swift#L127-L198">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -454,13 +508,22 @@ for more details.</p>
               </ul>
             </div>
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Mock"></a>
+                <a name="//apple_ref/swift/Section/Mock" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Mock"></a>
+                  <h3 class="section-name"><p>Mock</p>
+</h3>
+                </div>
+              </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@Tempura@objc(cs)ContainerView"></a>
-                    <a name="//apple_ref/swift/Class/ContainerView" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@Tempura@objc(cs)ContainerView">ContainerView</a>
+                    <a name="/s:7Tempura18NavigationRequestsC"></a>
+                    <a name="//apple_ref/swift/Class/NavigationRequests" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura18NavigationRequestsC">NavigationRequests</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -468,29 +531,24 @@ for more details.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A View used to do ViewController containment
-This is the View that will contain the View of the managed ViewController</p>
+                        <p>Wraps an array of NavigationRequest into a reference-type object</p>
 
-                        <a href="Classes/ContainerView.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/NavigationRequests.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ContainerView</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">NavigationRequests</span> <span class="p">:</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">ExpressibleByArrayLiteral</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController+Containment.swift#L33-L42">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/NavigationWitness.swift#L137-L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -518,7 +576,7 @@ environment like Katana, is the right choice for our stack, because:</p>
 native navigation works</p></li>
 <li><p>native navigation gestures will come for free and will stay up to date
 with new iOS releases</p></li>
-<li><p>the app will feel more <q>native</q></p></li>
+<li><p>the app will feel more &ldquo;native&rdquo;</p></li>
 </ul>
 
 <p>For these reasons we found a way to reconcile the redux-like world of Katana
@@ -547,7 +605,7 @@ based on the navigation action (<code><a href="Structs/Show.html">Show</a></code
 </code></pre>
 <h2 id='how-the-navigation-works' class='heading'>How the navigation works</h2>
 
-<p>Suppose we have a current <code><a href="Typealiases.html#/s:7Tempura5Routea">Route</a></code> like <a href="being" title="screenB"><q>screenA</q>, <q>screenB</q></a>
+<p>Suppose we have a current <code><a href="Typealiases.html#/s:7Tempura5Routea">Route</a></code> like <a href="being" title="screenB">&ldquo;screenA&rdquo;, &ldquo;screenB&rdquo;</a>
 the topmost ViewController/RoutableWithConfiguration in the visible hierarchy.</p>
 
 <p>Tempura will expose two main navigation actions:</p>
@@ -555,12 +613,12 @@ the topmost ViewController/RoutableWithConfiguration in the visible hierarchy.</
 <pre class="highlight swift"><code>   <span class="kt">Show</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
 </code></pre>
 
-<p>When this action is dispatched, the <code>Navigator</code> will ask <q>screenB</q> (the topmost
+<p>When this action is dispatched, the <code>Navigator</code> will ask &ldquo;screenB&rdquo; (the topmost
 <code><a href="Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a></code> to handle that action, looking at its
 <code>navigationConfiguration</code>).</p>
 
-<p>In order to allow <q>screenB</q> to present <q>screenC</q>, we need to add a <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>
-inside the <code>navigationConfiguration</code> of <q>screenB</q> that will match the <code>Show(&quot;screenC&quot;)</code> action
+<p>In order to allow &ldquo;screenB&rdquo; to present &ldquo;screenC&rdquo;, we need to add a <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>
+inside the <code>navigationConfiguration</code> of &ldquo;screenB&rdquo; that will match the <code>Show(&quot;screenC&quot;)</code> action
 with a <code>.show(&quot;screenC&quot;)</code> <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>.</p>
 <pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ScreenB</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
 
@@ -583,24 +641,24 @@ with a <code>.show(&quot;screenC&quot;)</code> <code><a href="Structs/Navigation
 </code></pre>
 
 <p>Inside the <code>.presentModally</code> NavigationInstruction, we create and return the ViewController
-that is implementing the <q>screenC</q>.
+that is implementing the &ldquo;screenC&rdquo;.
 This will be used by the <code>Navigator</code> to call the appropriate UIKit navigation action (
 a <code>UIViewController.present(:animated:completion:)</code> in this case).</p>
 
 <p>If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
-<q>screenB</q>, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
-in this case <q>screenA</q>. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
+&ldquo;screenB&rdquo;, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+in this case &ldquo;screenA&rdquo;. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
 <h3 id='hide' class='heading'>Hide</h3>
 
 <p>Same will happen when a <code><a href="Structs/Hide.html">Hide</a></code> function is dispatched.</p>
 <pre class="highlight swift"><code>   <span class="kt">Hide</span><span class="p">(</span><span class="s">"screenC"</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
 </code></pre>
 
-<p>Looking at the current <code><a href="Typealiases.html#/s:7Tempura5Routea">Route</a></code> [<q>screenA</q>, <q>screenB</q>, <q>screenC</q>], the Navigator will ask the
-topmost RoutableWithConfiguration (<q>screenC</q> in this case) to match for a
+<p>Looking at the current <code><a href="Typealiases.html#/s:7Tempura5Routea">Route</a></code> [&ldquo;screenA&rdquo;, &ldquo;screenB&rdquo;, &ldquo;screenC&rdquo;], the Navigator will ask the
+topmost RoutableWithConfiguration (&ldquo;screenC&rdquo; in this case) to match for a
 <code>.hide(&quot;screenC&quot;)</code> <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code>.</p>
 
-<p>Again, if we want <q>screenC</q> to be responsible for dismissing itself, we just need to implement
+<p>Again, if we want &ldquo;screenC&rdquo; to be responsible for dismissing itself, we just need to implement
 the matching <code><a href="Structs/NavigationRequest.html">NavigationRequest</a></code> in the <code>navigationConfiguration</code>:</p>
 <pre class="highlight swift"><code>   <span class="kd">extension</span> <span class="kt">ScreenC</span><span class="p">:</span> <span class="kt">RoutableWithConfiguration</span> <span class="p">{</span>
 
@@ -620,8 +678,8 @@ the matching <code><a href="Structs/NavigationRequest.html">NavigationRequest</a
 </code></pre>
 
 <p>If the Navigator will not find a matching NavigationRequest in the navigationConfiguration of
-<q>screenC</q>, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
-in this case <q>screenB</q>. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
+&ldquo;screenC&rdquo;, it will ask to the next RoutableWithConfiguration in the visible hierarchy,
+in this case &ldquo;screenB&rdquo;. If nobody is matching that NavigationRequest, a fatalError is thrown.</p>
 <h2 id='initializing-the-navigation' class='heading'>Initializing the navigation</h2>
 
 <p>In order to use the navigation system you need to start the Navigator
@@ -641,7 +699,7 @@ method that will handle the setup of the screen to be shown.</p>
        <span class="c1">// this is done by invoking this method (and not in the init of the navigator)</span>
        <span class="c1">// because the navigator is instantiated by the Store.</span>
        <span class="c1">// this in turn will invoke the `installRootMethod` of the rootInstaller (self)</span>
-       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
+       <span class="n">navigator</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="s">"screenA"</span><span class="p">)</span>
        <span class="k">return</span> <span class="kc">true</span>
      <span class="p">}</span>
 
@@ -668,7 +726,7 @@ method that will handle the setup of the screen to be shown.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Navigation/Navigator.swift#L174-L464">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Navigation/Navigator.swift#L174-L486">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -679,7 +737,7 @@ method that will handle the setup of the screen to be shown.</p>
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

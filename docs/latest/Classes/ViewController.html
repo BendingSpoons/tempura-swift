@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/ViewController" class="dashAnchor"></a>
     <a title="ViewController Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Tempura Docs</a> (96% documented)</p>
+        <p><a href="../index.html">Tempura 6.2.0 Docs</a> (96% documented)</p>
         <p class="header-right"><a href="https://github.com/BendingSpoons/tempura-lib-swift"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -33,6 +41,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ContainerView.html">ContainerView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NavigationRequests.html">NavigationRequests</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Navigator.html">Navigator</a>
@@ -66,7 +77,7 @@
                 <a href="../Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/UIView.html">UIView</a>
+                <a href="../Extensions/UITabBarController.html">UITabBarController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/UIViewController.html">UIViewController</a>
@@ -83,6 +94,9 @@
                 <a href="../Protocols/AnyViewControllerModellableView.html">AnyViewControllerModellableView</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CustomRouteInspectables.html">CustomRouteInspectables</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols.html#/s:7Tempura10LocalStateP">LocalState</a>
               </li>
               <li class="nav-group-task">
@@ -92,6 +106,9 @@
                 <a href="../Protocols/NavigationProvider.html">NavigationProvider</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:7Tempura20NavigationSideEffectP">NavigationSideEffect</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RootInstaller.html">RootInstaller</a>
               </li>
               <li class="nav-group-task">
@@ -99,6 +116,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/RoutableWithConfiguration.html">RoutableWithConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RouteInspectable.html">RouteInspectable</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
@@ -127,10 +147,10 @@
                 <a href="../Structs/Navigate.html">Navigate</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigateLegacy.html">NavigateLegacy</a>
+                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/NavigationRequest.html">NavigationRequest</a>
+                <a href="../Structs/NavigationWitness.html">NavigationWitness</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Show.html">Show</a>
@@ -148,6 +168,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura11Interactiona">Interaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Tempura37OptionalCustomNavigationOptionClosurea">OptionalCustomNavigationOptionClosure</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:7Tempura5Routea">Route</a>
@@ -168,7 +191,8 @@
             <h1>ViewController</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span> <span class="o">&amp;</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt"><a href="../Protocols/AnyViewController.html">AnyViewController</a></span></code></pre>
+                  
+                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt"><a href="../Protocols/AnyViewController.html">AnyViewController</a></span> <span class="k">where</span> <span class="kt">V</span> <span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">V</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span></code></pre>
 
                 </div>
               </div>
@@ -178,7 +202,8 @@
 <p>In Tempura, a Screen is composed by three different elements that interoperate in order to get the actual
 pixels on the screen and to keep them updated when the state changes.
 These are ViewController, <code><a href="../Protocols/ViewModelWithState.html">ViewModelWithState</a></code> and <code><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></code>.
-The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each screen of your UI.</p>
+The ViewController is a subclass of <code>UIViewController</code> that is responsible to manage the set of views that are shown in each
+screen of your UI.</p>
 <pre class="highlight swift"><code>   <span class="kd">struct</span> <span class="kt">CounterState</span><span class="p">:</span> <span class="kt">State</span> <span class="p">{</span>
      <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
    <span class="p">}</span>
@@ -288,6 +313,9 @@ ViewController from the state updates.
 If you don&rsquo;t want this to happen automatically every time the ViewControllet will become invisible,
 set <code>sholdDisconnectWhenInvisible</code> to <code>false</code></p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L161-L363">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -317,12 +345,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">var</span> <span class="nv">connected</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">var</span> <span class="nv">connected</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L164-L171">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L168-L175">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -352,7 +380,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L174">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -377,12 +405,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="o">.</span><span class="kt">S</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="o">.</span><span class="kt">S</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L177-L179">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L181-L183">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -407,12 +435,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">shouldConnectWhenVisible</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">shouldConnectWhenVisible</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L185">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L189">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -437,12 +465,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">shouldDisconnectWhenInvisible</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">shouldDisconnectWhenInvisible</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L188">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L192">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -467,12 +495,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">viewModel</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">viewModel</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L191-L202">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L195-L206">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -497,12 +525,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">var</span> <span class="nv">rootView</span><span class="p">:</span> <span class="kt">V</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">var</span> <span class="nv">rootView</span><span class="p">:</span> <span class="kt">V</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L205-L207">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L209-L211">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -527,12 +555,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">loadView</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">loadView</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L210-L216">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L214-L220">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -542,7 +570,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC5store9connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_Sbtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(store:connected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC5store9connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_Sbtcfc">init(store:connected:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5store9connectedACyxG6Katana12PartialStoreCy2VM_1SQZG_Sbtcfc">init(store:<wbr>connected:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -562,7 +590,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L219-L224">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L223-L228">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -592,7 +620,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L227">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -600,39 +628,9 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Tempura14ViewControllerC8dispatch6actiony6Katana6Action_p_tF"></a>
-                    <a name="//apple_ref/swift/Method/dispatch(action:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatch6actiony6Katana6Action_p_tF">dispatch(action:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Shortcut to the dispatch function.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">dispatch</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L231-L233">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura14ViewControllerC8dispatchy5Hydra7PromiseCyytG6Katana12Dispatchable_pF"></a>
+                    <a name="/s:7Tempura14ViewControllerC8dispatchyy6Katana12Dispatchable_pF"></a>
                     <a name="//apple_ref/swift/Method/dispatch(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatchy5Hydra7PromiseCyytG6Katana12Dispatchable_pF">dispatch(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC8dispatchyy6Katana12Dispatchable_pF">dispatch(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -640,19 +638,112 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Shortcut to the dispatch function.</p>
+                        <p>Shortcut to the non-generic dispatch function.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">dispatch</span><span class="p">(</span><span class="n">_</span> <span class="nv">dispatchable</span><span class="p">:</span> <span class="kt">Dispatchable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">dispatch</span><span class="p">(</span><span class="n">_</span> <span class="nv">dispatchable</span><span class="p">:</span> <span class="kt">Dispatchable</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L237-L239">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L234-L236">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCyytGqd__6Katana12StateUpdaterRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/__unsafeDispatch(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCyytGqd__6Katana12StateUpdaterRd__lF">__unsafeDispatch(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shortcut to the dispatch function. This will return a Promise<Void> when called with a Dispatchable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">open</span> <span class="kd">func</span> <span class="n">__unsafeDispatch</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">dispatchable</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">StateUpdater</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L242-L244">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCyytGqd__6Katana10SideEffectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/__unsafeDispatch(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCyytGqd__6Katana10SideEffectRd__lF">__unsafeDispatch(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shortcut to the dispatch function. This will return a Promise<Void> when called on a non returning SideEffect <code>T</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">open</span> <span class="kd">func</span> <span class="n">__unsafeDispatch</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">dispatchable</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">SideEffect</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L248-L250">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCy11ReturnValueQyd__Gqd__6Katana19ReturningSideEffectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/__unsafeDispatch(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC16__unsafeDispatchy5Hydra7PromiseCy11ReturnValueQyd__Gqd__6Katana19ReturningSideEffectRd__lF">__unsafeDispatch(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shortcut to the dispatch function. This will return a Promise<T.ReturnValue> when called on a SideEffect <code>T</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">open</span> <span class="kd">func</span> <span class="n">__unsafeDispatch</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">dispatchable</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">.</span><span class="kt">ReturnValue</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">ReturningSideEffect</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L254-L256">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -662,7 +753,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC5coderACyxGSgSo7NSCoderC_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC5coderACyxGSgSo7NSCoderC_tcfc">init(coder:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC5coderACyxGSgSo7NSCoderC_tcfc">init(coder:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -677,12 +768,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">_</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L242-L244">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L261-L263">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -692,7 +783,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC14viewWillAppearyySbF"></a>
                     <a name="//apple_ref/swift/Method/viewWillAppear(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC14viewWillAppearyySbF">viewWillAppear(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC14viewWillAppearyySbF">viewWillAppear(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -707,12 +798,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L293-L296">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L312-L315">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -722,7 +813,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC17viewWillDisappearyySbF"></a>
                     <a name="//apple_ref/swift/Method/viewWillDisappear(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC17viewWillDisappearyySbF">viewWillDisappear(_:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC17viewWillDisappearyySbF">viewWillDisappear(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -737,12 +828,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L313-L316">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L332-L335">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -767,12 +858,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L319-L326">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L338-L345">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -782,7 +873,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC10willUpdate3newy2VMQzSg_tF"></a>
                     <a name="//apple_ref/swift/Method/willUpdate(new:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC10willUpdate3newy2VMQzSg_tF">willUpdate(new:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC10willUpdate3newy2VMQzSg_tF">willUpdate(new:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -797,12 +888,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">willUpdate</span><span class="p">(</span><span class="nv">new</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">willUpdate</span><span class="p">(</span><span class="k">new</span> <span class="nv">_</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L329">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L348">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -812,7 +903,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                     <code>
                     <a name="/s:7Tempura14ViewControllerC9didUpdate3oldy2VMQzSg_tF"></a>
                     <a name="//apple_ref/swift/Method/didUpdate(old:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC9didUpdate3oldy2VMQzSg_tF">didUpdate(old:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC9didUpdate3oldy2VMQzSg_tF">didUpdate(old:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -827,12 +918,12 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">didUpdate</span><span class="p">(</span><span class="nv">old</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">didUpdate</span><span class="p">(</span><span class="n">old</span> <span class="nv">_</span><span class="p">:</span> <span class="kt">V</span><span class="o">.</span><span class="kt">VM</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L332">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L351">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -862,7 +953,7 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L335">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L354">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -892,51 +983,17 @@ if you want to change this behaviour look at the <code>shouldDisconnectWhenVisib
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L338">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController.swift#L357">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Tempura14ViewControllerCfd"></a>
-                    <a name="//apple_ref/swift/Method/deinit" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerCfd">deinit</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">deinit</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController.swift#L341-L343">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:7Tempura14ViewControllerC3add_2inyACyqd__G_AA09ContainerB0CtSo6UIViewCRbd__AA0bc10ModellableB0Rd__lF"></a>
                     <a name="//apple_ref/swift/Method/add(_:in:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Tempura14ViewControllerC3add_2inyACyqd__G_AA09ContainerB0CtSo6UIViewCRbd__AA0bc10ModellableB0Rd__lF">add(_:in:)</a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC3add_2inyACyqd__G_AA09ContainerB0CtSo6UIViewCRbd__AA0bc10ModellableB0Rd__lF">add(_:<wbr>in:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -953,12 +1010,50 @@ will automatically receive the rootView of the child ViewController as child</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="k">in</span> <span class="nv">view</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContainerView.html">ContainerView</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="k">in</span> <span class="nv">view</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContainerView.html">ContainerView</a></span><span class="p">)</span> <span class="k">where</span> <span class="kt"><a href="../Protocols/View.html">View</a></span> <span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt"><a href="../Protocols/View.html">View</a></span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController+Containment.swift#L14-L18">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController+Containment.swift#L16-L20">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Tempura14ViewControllerC10transition2to2in8duration7options10completionyACyqd__G_AA09ContainerB0CSdSo22UIViewAnimationOptionsVyycSgtSo0K0CRbd__AA0bc10ModellableB0Rd__lF"></a>
+                    <a name="//apple_ref/swift/Method/transition(to:in:duration:options:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Tempura14ViewControllerC10transition2to2in8duration7options10completionyACyqd__G_AA09ContainerB0CSdSo22UIViewAnimationOptionsVyycSgtSo0K0CRbd__AA0bc10ModellableB0Rd__lF">transition(to:<wbr>in:<wbr>duration:<wbr>options:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replace a ViewController (and its rootView) to the last child of self.
+You must provide a ContainerView inside self.rootView, the latest view of that container view
+is replaced with the rootView of the child ViewController with a cross-dissolve transition</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">transition</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="p">:</span> <span class="kt"><a href="../Protocols/ViewControllerModellableView.html">ViewControllerModellableView</a></span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="n">to</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">ViewController</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/View.html">View</a></span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="k">in</span> <span class="nv">view</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContainerView.html">ContainerView</a></span><span class="p">,</span>
+  <span class="nv">duration</span><span class="p">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+  <span class="nv">options</span><span class="p">:</span> <span class="kt">UIView</span><span class="o">.</span><span class="kt">AnimationOptions</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">transitionCrossDissolve</span><span class="p">],</span>
+  <span class="nv">completion</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController+Containment.swift#L25-L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -988,7 +1083,7 @@ will automatically receive the rootView of the child ViewController as child</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Core/ViewController+Containment.swift#L21-L28">Show on GitHub</a>
+                        <a href="https://github.com/BendingSpoons/tempura-lib-swift/blob/master//Tempura/Sources/Core/ViewController+Containment.swift#L58-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -999,7 +1094,7 @@ will automatically receive the rootView of the child ViewController as child</p>
         </section>
         <section id="footer">
           <p>2017 <a class="link" href="https://bendingspoons.com" target="_blank" rel="external">Bending Spoons</a></p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
