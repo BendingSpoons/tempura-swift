@@ -1,6 +1,6 @@
 # Changelog
 
-## TempuraTesting unreleased
+## TempuraTesting 8.0.0
 
 - Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 - [BREAKING] Remove deprecated global `test` functions. The `ViewTestCase` API should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
@@ -10,7 +10,7 @@
 - [BREAKING] Use correct screen size on orientation change. This is a breaking change that makes screenSize of Context and VCContext optional. [#110](https://github.com/BendingSpoons/tempura-swift/pull/110)
 - Replace `UIGraphicsBeginImageContextWithOptions` with `UIGraphicsImageRenderer`. [#108](https://github.com/BendingSpoons/tempura-swift/pull/108)
 
-## Tempura unreleased
+## Tempura 7.0.0
 
 - [BREAKING] Remove `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
 - Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
