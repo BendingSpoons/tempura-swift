@@ -8,7 +8,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Tuist
+      run: tuist generate
+    - name: Cocoapods
+      run: pod install
     - name: Build
-      run: swift build
+      run: xcodebuild build-for-testing
     - name: Test
-      run: swift test
+      run: xcodebuild test-without-building
