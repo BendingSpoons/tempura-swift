@@ -1,22 +1,26 @@
 # Changelog
 
+## TempuraTesting 8.0.1
+
+- Support for Tempura 7. [#122](https://github.com/BendingSpoons/tempura-swift/pull/122)
+
 ## TempuraTesting 8.0.0
 
-- Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 - [BREAKING] Remove deprecated global `test` functions. The `ViewTestCase` API should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
 - [BREAKING] Remove `UITestCase` typealias. `ViewTestCase` should be used instead. No other changes should be necessary. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
-- [BREAKING] Bump to Katana 6. [#112](https://github.com/BendingSpoons/tempura-swift/pull/112)
-- Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
 - [BREAKING] Use correct screen size on orientation change. This is a breaking change that makes screenSize of Context and VCContext optional. [#110](https://github.com/BendingSpoons/tempura-swift/pull/110)
+- Make TempuraTesting build on Xcode 12.5 [#111](https://github.com/BendingSpoons/tempura-swift/pull/111)
+- Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 - Replace `UIGraphicsBeginImageContextWithOptions` with `UIGraphicsImageRenderer`. [#108](https://github.com/BendingSpoons/tempura-swift/pull/108)
 
 ## Tempura 7.0.0
 
-- [BREAKING] Remove `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
-- Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
-- [BREAKING] Remove deprecated `dispatch` and `unsafeDispatch` for `NavigationSideEffect` on `AnyStore` and `AnySideEffectContext`. Katana's normal dispatch accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
-- [BREAKING] Remove deprecated `__unsafeDispatch` and `__unsafeAwaitDispatch` for `NavigationSideEffect` on `ViewController`. The base methods accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- [BREAKING] Bump to Katana 6. [#112](https://github.com/BendingSpoons/tempura-swift/pull/112)
 - [BREAKING] Add Hydra (`>= 2.0.6`) as an explicit dependency. [#113](https://github.com/BendingSpoons/tempura-swift/pull/113)
+- [BREAKING] Remove deprecated `dispatch` and `unsafeDispatch` for `NavigationSideEffect` on `AnyStore` and `AnySideEffectContext`. Katana's normal dispatch accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- [BREAKING] Remove `UIView.universalSafeAreaInsets` in favor of `UIView.safeAreaInsets`. [#118](https://github.com/BendingSpoons/tempura-swift/pull/118)
+- [BREAKING] Remove deprecated `__unsafeDispatch` and `__unsafeAwaitDispatch` for `NavigationSideEffect` on `ViewController`. The base methods accepting `Dispatchable`s should be used instead. [#114](https://github.com/BendingSpoons/tempura-swift/pull/114)
+- Migrate from Xcake to Tuist. [#117](https://github.com/BendingSpoons/tempura-swift/pull/117)
 
 ## Tempura 6.2.0
 
