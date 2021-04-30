@@ -15,6 +15,6 @@ jobs:
     - name: Cocoapods
       run: pod install
     - name: Build
-      run: xcodebuild build-for-testing
+      run: xcodebuild build-for-testing -workspace Tempura.xcworkspace -scheme Tempura -destination "platform=iOS Simulator,name=iPhone 12"
     - name: Test
-      run: xcodebuild test-without-building
+      run: xcodebuild test-without-building -workspace Tempura.xcworkspace -scheme Tempura -destination "platform=iOS Simulator,name=iPhone 12"
