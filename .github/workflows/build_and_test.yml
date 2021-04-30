@@ -8,7 +8,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Tuist
+    - name: Install Tuist
+      run: bash <(curl -Ls https://install.tuist.io)
+    - name: Tuist Generate
       run: tuist generate
     - name: Cocoapods
       run: pod install
