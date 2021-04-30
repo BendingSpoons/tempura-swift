@@ -1,0 +1,20 @@
+name: Build and Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Tuist
+      run: bash <(curl -Ls https://install.tuist.io)
+    - name: Tuist Generate
+      run: tuist generate
+    - name: Cocoapods
+      run: pod install
+    - name: Build
+      run: xcodebuild build-for-testing -workspace Tempura.xcworkspace -scheme Tempura -destination "platform=iOS Simulator,name=iPhone 12"
+    - name: Test
+      run: xcodebuild test-without-building -workspace Tempura.xcworkspace -scheme Tempura -destination "platform=iOS Simulator,name=iPhone 12"
