@@ -286,10 +286,10 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
       // Given that the `ViewControllerWithLocalState.updateLocalState(with:)` uses self.state to generate the ViewModel, the same
       // must be used also here instead of using the `newState` parameter coming from the listener closure.
       // This is required because the `LocalState` logic is executed on the main thread and the state updaters are executed on
-      // their own queue. If the `LocalState` logic dispatches a both state updater and other cycles of `LocalState` logic, the
-      // next`LocalState` cycle keep executing on the main thread and can get the updated state while the listener is still
-      // enqueued, and hence the `ViewModel` init could be called first with the updated state from the `LocalState` logic and
-      // later with the older state from the listener callback which is executed only once the `LocalState` logic is completed.
+      // their own queue. If the `LocalState` logic dispatches both a state updater and other cycles of `LocalState` logic, the
+      // next `LocalState` cycle keeps executing on the main thread and can get the updated state while the listener is still
+      // enqueued. Hence, the `ViewModel` init could be called first with the updated state from the `LocalState` logic and
+      // later with the older state from the listener callback, which is executed only once the `LocalState` logic is completed.
       self.storeDidChange(newState: self.state)
     }
     // save the unsubscribe closure
