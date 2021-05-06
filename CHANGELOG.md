@@ -1,5 +1,9 @@
 # Changelog
 
+## Tempura 7.0.1
+
+- Fix possible initialization of the ViewModel with an older state. [#125](https://github.com/BendingSpoons/tempura-swift/pull/125)
+
 ## TempuraTesting 8.0.1
 
 - Support for Tempura 7. [#122](https://github.com/BendingSpoons/tempura-swift/pull/122)

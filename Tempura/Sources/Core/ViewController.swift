@@ -262,7 +262,7 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     fatalError("init(coder:) has not been implemented")
   }
 
-  /// Subscribe/unsubsribe to the state updates, the method storeDidChange will be called on every state change.
+  /// Subscribe/unsubscribe to the state updates, the method storeDidChange will be called on every state change.
   /// Specify `silent` = `true` if you don't want to trigger a state update after connecting to the store.
   func updateConnect(to connected: Bool, silent: Bool = false) {
     if connected {
@@ -282,8 +282,15 @@ open class ViewController<V: ViewControllerModellableView & UIView>: UIViewContr
     guard self.unsubscribe == nil else { return }
 
     // subscribe
-    let unsubscribe = self.store.addListener { [unowned self] _, newState in
-      self.storeDidChange(newState: newState)
+    let unsubscribe = self.store.addListener { [unowned self] _, _ in
+      // Given that the `ViewControllerWithLocalState.updateLocalState(with:)` uses self.state to generate the ViewModel, the same
+      // must be used also here instead of using the `newState` parameter coming from the listener closure.
+      // This is required because the `LocalState` logic is executed on the main thread and the state updaters are executed on
+      // their own queue. If the `LocalState` logic dispatches a both state updater and other cycles of `LocalState` logic, the
+      // next`LocalState` cycle keep executing on the main thread and can get the updated state while the listener is still
+      // enqueued, and hence the `ViewModel` init could be called first with the updated state from the `LocalState` logic and
+      // later with the older state from the listener callback which is executed only once the `LocalState` logic is completed.
+      self.storeDidChange(newState: self.state)
     }
     // save the unsubscribe closure
     self.unsubscribe = unsubscribe
