@@ -1,5 +1,9 @@
 # Changelog
 
+## Tempura 7.1.0
+
+- Allow to init Navigation with custom `RoutableProvider`. [#125](https://github.com/BendingSpoons/tempura-swift/pull/125)
+
 ## Tempura 7.0.1
 
 - Fix possible initialization of the ViewModel with an older state.
