@@ -178,7 +178,7 @@ public class Navigator {
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller! // swiftlint:disable:this implicitly_unwrapped_optional
   private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
-  private let routableProvider: RoutableProvider // swiftlint:disable:this implicitly_unwrapped_optional
+  private let routableProvider: RoutableProvider
 
   /// Initializes and return a Navigator.
   ///
