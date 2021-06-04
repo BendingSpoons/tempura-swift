@@ -178,10 +178,16 @@ public class Navigator {
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller! // swiftlint:disable:this implicitly_unwrapped_optional
   private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
-  private var routableProvider: RoutableProvider! // swiftlint:disable:this implicitly_unwrapped_optional
+  private let routableProvider: RoutableProvider // swiftlint:disable:this implicitly_unwrapped_optional
 
   /// Initializes and return a Navigator.
-  public init() {}
+  ///
+  /// - parameter routableProvider: The provider of the routables in the navigation hierarchy. The  default value uses the
+  ///                               UIApplication to check the visible view controllers that conform to the RouteInspectable
+  ///                               protocol. Check also `currentViewControllers` helper documentation.
+  public init(routableProvider: RoutableProvider = .live(using: .shared)) {
+    self.routableProvider = routableProvider
+  }
   /// Start the navigator.
   ///
   /// In order to use the navigation system, you need to start the navigator
@@ -212,13 +218,11 @@ public class Navigator {
   public func start(
     using rootInstaller: RootInstaller,
     in window: UIWindow,
-    at rootElementIdentifier: RouteElementIdentifier,
-    routableProvider: RoutableProvider = .live(using: .shared)
+    at rootElementIdentifier: RouteElementIdentifier
   ) {
     self.rootInstaller = rootInstaller
     self.window = window
     self.install(identifier: rootElementIdentifier, context: nil)
-    self.routableProvider = routableProvider
   }
 
   /// Generic version of the same method.
