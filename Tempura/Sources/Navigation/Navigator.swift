@@ -178,7 +178,7 @@ public class Navigator {
   private let routingQueue = DispatchQueue(label: "routing queue")
   private var rootInstaller: RootInstaller! // swiftlint:disable:this implicitly_unwrapped_optional
   private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
-  private var RoutableProvider: RoutableProvider! // swiftlint:disable:this implicitly_unwrapped_optional
+  private var routableProvider: RoutableProvider! // swiftlint:disable:this implicitly_unwrapped_optional
 
   /// Initializes and return a Navigator.
   public init() {}
@@ -213,12 +213,12 @@ public class Navigator {
     using rootInstaller: RootInstaller,
     in window: UIWindow,
     at rootElementIdentifier: RouteElementIdentifier,
-    applicationWitness: RoutableProvider = .live(using: .shared)
+    routableProvider: RoutableProvider = .live(using: .shared)
   ) {
     self.rootInstaller = rootInstaller
     self.window = window
     self.install(identifier: rootElementIdentifier, context: nil)
-    self.RoutableProvider = applicationWitness
+    self.routableProvider = routableProvider
   }
 
   /// Generic version of the same method.
@@ -238,7 +238,7 @@ public class Navigator {
 
   func changeRoute(newRoute: Route, animated: Bool, context: Any?) -> Promise<Void> {
     let promise = Promise<Void>(in: .background) { resolve, _, _ in
-      let oldRoutables = self.RoutableProvider.currentRoutable()
+      let oldRoutables = self.routableProvider.currentRoutable()
       let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
 
       self.routeDidChange(changes: routeChanges, isAnimated: animated, context: context) {
@@ -251,7 +251,7 @@ public class Navigator {
   @discardableResult
   func show(_ elementsToShow: [RouteElementIdentifier], animated: Bool, context: Any?) -> Promise<Void> {
     let promise = Promise<Void>(in: .background) { resolve, _, _ in
-      let oldRoutables = self.RoutableProvider.currentRoutable()
+      let oldRoutables = self.routableProvider.currentRoutable()
       let oldRoute = oldRoutables.map { $0.routeIdentifier }
       let newRoute: Route = oldRoute + elementsToShow
       let routeChanges = Navigator.routingChanges(from: oldRoutables, new: newRoute)
@@ -266,7 +266,7 @@ public class Navigator {
   @discardableResult
   func hide(_ elementToHide: RouteElementIdentifier, animated: Bool, context: Any?, atomic: Bool = false) -> Promise<Void> {
     let promise = Promise<Void>(in: .background) { resolve, _, _ in
-      let oldRoutables = self.RoutableProvider.currentRoutable()
+      let oldRoutables = self.routableProvider.currentRoutable()
       let oldRoute = oldRoutables.map { $0.routeIdentifier }
 
       guard let start = oldRoute.indices.reversed().first(where: { oldRoute[$0] == elementToHide }) else {
@@ -364,7 +364,7 @@ public class Navigator {
         switch routeChange {
         case .hide(let toHide):
           DispatchQueue.main.async {
-            let routables = self.RoutableProvider.currentRoutable()
+            let routables = self.routableProvider.currentRoutable()
 
             guard let indexToHide = routables.firstIndex(where: {
               $0 === toHide
@@ -398,7 +398,7 @@ public class Navigator {
 
         case .show(let toShow):
           DispatchQueue.main.async {
-            let routables = self.RoutableProvider.currentRoutable()
+            let routables = self.routableProvider.currentRoutable()
             let askTo = routables.reversed()
 
             let from = routables.last!.routeIdentifier // swiftlint:disable:this force_unwrapping
@@ -601,10 +601,12 @@ extension UIViewController: RouteInspectable {
   }
 }
 
+/// The witness to provide the routables in the navigation hierarchy.
 public struct RoutableProvider {
+  /// Returns the routables in the hierarchy.
   public let currentRoutable: () -> [Routable]
 
-  /// Memberwise
+  /// Memberwise initializer.
   public init(
     currentRoutable: @escaping () -> [Routable]
   ) {
@@ -613,7 +615,7 @@ public struct RoutableProvider {
 }
 
 extension RoutableProvider {
-  /// The live version of the witness
+  /// The live version of the witness.
   public static func live(using application: UIApplication) -> Self {
     return .init(
       currentRoutable: { application.currentRoutables }
