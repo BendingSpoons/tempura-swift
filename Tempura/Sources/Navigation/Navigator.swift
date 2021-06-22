@@ -180,6 +180,11 @@ public class Navigator {
   private var window: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional
   private let routableProvider: RoutableProvider
 
+  /// The indentifiers of the routables in the visible hierarchy.
+  public var currentRoutableIdentifiers: Route {
+    self.routableProvider.currentRoutable().map(\.routeIdentifier)
+  }
+
   /// Initializes and return a Navigator.
   ///
   /// - parameter routableProvider: The provider of the routables in the navigation hierarchy. The  default value uses the
