@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.0.0
+- Support for `Swift Package Manager`
+- Align `Tempura` and `TempuraTesting` versions
+
 ## Tempura 7.1.0
 
 - Allow to init Navigation with custom `RoutableProvider`. [#125](https://github.com/BendingSpoons/tempura-swift/pull/125)

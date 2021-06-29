@@ -9,6 +9,7 @@
 import Foundation
 import Hydra
 import Katana
+import UIKit
 
 /// Protocol for all the navigation-related SideEffect exposed by Tempura
 public protocol NavigationSideEffect: AnySideEffect {}
