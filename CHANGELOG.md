@@ -1,8 +1,8 @@
 # Changelog
 
 ## 9.0.0
-- Support for `Swift Package Manager`
-- Align `Tempura` and `TempuraTesting` versions
+- Add support for `Swift Package Manager`. [#127](https://github.com/BendingSpoons/tempura-swift/pull/127)
+- Align `Tempura` and `TempuraTesting` versions. [#127](https://github.com/BendingSpoons/tempura-swift/pull/127)
 
 ## Tempura 7.1.0
 
