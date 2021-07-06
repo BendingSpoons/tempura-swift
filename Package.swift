@@ -13,17 +13,24 @@ let package = Package(
     .library(name: "TempuraTesting", targets: ["TempuraTesting"])
   ],
   dependencies: [
+    .package(url: "https://github.com/malcommac/Hydra.git", .upToNextMinor(from: "2.0.6")),
     .package(name: "Katana", url: "https://github.com/BendingSpoons/katana-swift.git", from: "6.0.2"),
   ],
   targets: [
     .target(
       name: "Tempura",
-      dependencies: ["Katana"],
+      dependencies: [
+        "Hydra",
+        "Katana",
+      ],
       path: "Tempura/Sources"
     ),
     .target(
       name: "TempuraTesting",
-      dependencies: ["Katana", "Tempura"],
+      dependencies: [
+        "Katana",
+        "Tempura",
+      ],
       path: "TempuraTesting/Sources"
     ),
     .testTarget(
