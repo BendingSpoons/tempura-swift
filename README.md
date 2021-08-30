@@ -12,6 +12,7 @@ Tempura is a holistic approach to iOS development, it borrows concepts from [Red
 - [🎯 Installation](#-installation)
   - [Requirements](#requirements)
   - [CocoaPods](#cocoapods)
+  - [Swift Package Manager](#swift-package-manager)
 - [🤔 Why should I use this?](#-why-should-i-use-this)
 - [👩‍💻 Show me the code](#-show-me-the-code)
   - [Navigation](#navigation)
@@ -66,6 +67,10 @@ Now you just need to run:
 ```shell
 $ pod install
 ```
+
+### Swift Package Manager
+
+Since version `9.0.0`, `Tempura` also supports [Swift Package Manager (SPM)](https://swift.org/package-manager/).
 
 ## 🤔 Why should I use this?
 
