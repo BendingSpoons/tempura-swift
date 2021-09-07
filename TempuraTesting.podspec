@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
 
-  s.dependency 'Tempura', '>= 6.0', '< 8'
+  s.dependency 'Tempura', '>= 6.0', '< 10'
 
   s.frameworks = "XCTest"
   
