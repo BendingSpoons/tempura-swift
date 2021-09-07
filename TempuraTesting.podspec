@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://bendingspoons.com'
   s.license          = { :type => 'No License', :text => "Copyright 2018 BendingSpoons" }
   s.author           = { 'Bending Spoons' => 'team@bendingspoons.com' }
-  s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => 'tempura-testing-v' + s.version.to_s }
+  s.source           = { :git => 'https://github.com/BendingSpoons/tempura-swift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
 
