@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.0.2
+
+- TempuraTesting: Fix orientation for XCode 13.0. [#129](https://github.com/BendingSpoons/tempura-swift/pull/129)
+
 ## 9.0.0
 - Add support for `Swift Package Manager`. [#127](https://github.com/BendingSpoons/tempura-swift/pull/127)
 - Align `Tempura` and `TempuraTesting` versions. [#127](https://github.com/BendingSpoons/tempura-swift/pull/127)
