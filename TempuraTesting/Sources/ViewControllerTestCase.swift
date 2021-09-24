@@ -89,7 +89,7 @@ extension ViewControllerTestCase where Self: XCTestCase {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
     // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
-    XCUIDevice.shared.orientation = context.orientation
+    UIDevice.current.setValue(NSNumber(integerLiteral: context.orientation.rawValue), forKey: "orientation")
 
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.keys.map { identifier in
