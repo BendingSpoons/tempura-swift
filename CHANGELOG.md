@@ -2,11 +2,11 @@
 
 ## 9.0.3
 
-- TempuraTesting: Fix device orientation for XCode 13.0 also for ViewTestCase and UIViewControllerTestCase. [#130](https://github.com/BendingSpoons/tempura-swift/pull/130)
+- TempuraTesting: Fix device orientation for Xcode 13.0 also for ViewTestCase and UIViewControllerTestCase. [#130](https://github.com/BendingSpoons/tempura-swift/pull/130)
 
 ## 9.0.2
 
-- TempuraTesting: Fix orientation for XCode 13.0. [#129](https://github.com/BendingSpoons/tempura-swift/pull/129)
+- TempuraTesting: Fix orientation for Xcode 13.0. [#129](https://github.com/BendingSpoons/tempura-swift/pull/129)
 
 ## 9.0.0
 - Add support for `Swift Package Manager`. [#127](https://github.com/BendingSpoons/tempura-swift/pull/127)

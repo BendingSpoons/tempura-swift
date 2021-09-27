@@ -2,8 +2,9 @@
 //  UIDevice+helpers.swift
 //  TempuraTesting
 //
-//  Created by Alexandru Loghin on 27/09/21.
-//
+//  Copyright © 2021 Bending Spoons.
+//  Distributed under the MIT License.
+//  See the LICENSE file for more information.
 
 import Foundation
 import UIKit
