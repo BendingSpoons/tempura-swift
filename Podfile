@@ -21,7 +21,6 @@ target 'Demo' do
   platform :ios, '11.0'
 
   pod 'Katana', '>= 6.0', '< 7'
-  
   pod 'DeepDiff', '= 2.3.1'
   pod 'PinLayout', '= 1.9.2'
 

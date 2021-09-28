@@ -68,7 +68,7 @@ extension UIViewControllerTestCase where Self: XCTestCase {
   /// Runs the given test cases in the given context
   public func uiTest(testCases: [String], context: UITests.VCContext<VC>) {
     // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
-    XCUIDevice.shared.orientation = context.orientation
+    UIDevice.current.setOrientation(context.orientation)
 
     let screenSizeDescription: String = "\(UIScreen.main.bounds.size)"
     let descriptions: [String: String] = Dictionary(uniqueKeysWithValues: testCases.map { identifier in

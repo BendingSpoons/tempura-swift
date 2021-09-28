@@ -61,7 +61,7 @@ extension ViewTestCase where Self: XCTestCase {
     UITestCaseKeyValidator.singletonInstance.validate(keys: Set(testCases.keys), ofTestCaseWithName: "\(Self.self)")
 
     // Set the orientation right away to retrieve the correct `UIScreen.main.bounds.size` later.
-    XCUIDevice.shared.orientation = context.orientation
+    UIDevice.current.setOrientation(context.orientation)
 
     let snapshotConfiguration = UITests.ScreenSnapshot<V>(
       type: V.self,
