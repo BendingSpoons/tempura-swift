@@ -32,6 +32,10 @@ Tempura is a holistic approach to iOS development, it borrows concepts from [Red
 - [👩‍⚖️ License](#️-license)
 - [❓ About](#-about)
 
+## State of the project
+
+We wrote several successful applications using the layer that `Katana` and `Tempura` provide. We still think that their approach is really a good one for medium-sized applications but, as our app grows, it becomes increasingly important to have a more modular architecture. For this reason, we have migrated our applications to use [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture).
+
 ## 🎯 Installation
 
 Tempura is available through [CocoaPods](https://cocoapods.org).
