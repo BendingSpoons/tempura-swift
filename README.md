@@ -408,7 +408,7 @@ Note that if you are using [Alamofire](https://github.com/Alamofire/Alamofire/) 
 
 ### UI Testing with ViewController containment
 
-`ViewTestCase` is centred about the use case of testing `ViewControllerModellableView`s with the automatic injection of `ViewModel`s representing testing conditions for that View.
+`ViewTestCase` is centered about the use case of testing `ViewControllerModellableView`s with the automatic injection of `ViewModel`s representing testing conditions for that View.
 
 In case you are using ViewController containment (like in our `ParentView` example above) there is part of the View that will not be updated when injecting the ViewModel, as there is another ViewController responsible for that.
 
